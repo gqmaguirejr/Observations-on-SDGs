@@ -512,7 +512,7 @@ print(f"{total_docs=}")
 \end{lstlisting}
 
 \begin{takeaway}
-total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. Note that some of these were duplicate documents (mainly due to having authors from multiple schools --- as the outer loop iterated over schools). Thus, only a very small fraction of the publications had identified \glspl{SDG} in the \gls{DiVA} field for \glspl{SDG}. Some publications may list relevant \glspl{SDG} in the abstract, but unless the \glspl{SDG} appear in the \gls{DiVA} field for \glspl{SDG}, they were not extracted. A number of the extracted publications did have a list of relevant \glspl{SDG} in the abstract and these were considered the author's explicit in-text declarations of \glspl{SDG}.
+total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. Note that some of these were duplicate documents (mainly due to having multiple authors from different schools (or other affiliations) --- as the outer loop iterated over schools). Thus, only a very small fraction of the publications had identified \glspl{SDG} in the \gls{DiVA} field for \glspl{SDG}. Some publications may list relevant \glspl{SDG} in the abstract, but unless the \glspl{SDG} appear in the \gls{DiVA} field for \glspl{SDG}, they were not extracted. Some extracted publications listed relevant \glspl{SDG} in the abstract, and these were considered the authors' explicit in-text declarations of \glspl{SDG}.
 \end{takeaway}
 
 
@@ -895,6 +895,76 @@ Because long-term railway network investment (\gls{SDG}~9) and passenger transit
 Adding \gls{SDG}~11 to \gls{SDG}~9 would improve this entry's discoverability for both \glspl{SDG}. Moreover, this case illustrates that the dominant \gls{SDG} was \textbf{not} the one identified by OSDG.
 \end{takeaway}
 
+\begin{casestudySection}[A dominant SDG that OSDG did not find, along with two secondary SDGs]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_143470.json (manually reformatted to keep only one copy of each abstract and to insert newlines at the end of paragraphs)}, label=lst:t_143470.json]
+{
+  "divaID": "diva2:1917516",
+  "Title": {
+    "Main title": "Experimental Acoustic Characterisation of Perforates",
+    "Language": "eng",
+    "Subtitle": "Application of multi-port techniques"
+  },
+  "keywords": {
+    "eng": "Duct acoustics, Acoustical multi-port, Perforated plates, Transfer impedance, Scattering matrix, Grazing flow, Non-linear effects, error analysis",
+    "swe": "Kanalakustik, akustisk muti-port, perforerad platta, trasnferimpedans, spridningsmatris, icke-lineära effekter, strykande strömning, felanalys"
+  },
+  "abstracts": {
+    "eng": "<p>Perforated plates are widely used in noise reduction systems with applications ranging from mufflers and aircraft liners, to burners. A shift from propeller to jet engines has accelerated the usage of aircraft liners over the past decades. To optimally design the liner, the acoustic characterisation of perforated plates under standard operating conditions has garnered a lot of interest in the scientific community.</p>
+    <p>This thesis aims to contribute to the research by providing novel multi-port techniques and experimental results of the acoustic behaviour of a perforated plate. These multi-port techniques allow for the acoustic characterisation of perforates in the presence of grazing flow, bias flow, andhigh-amplitude acoustic incidence. The transfer impedance of the perforate is determined underplane wave acoustic incidence from different directions with respect to the air flow. The multi-port techniques used here, namely the three-port and the four-port technique, are direct methods of impedance determination, i.e., the transfer impedance is calculated by measuring the acoustic far-field in the ducts. Correlation between the transfer impedance and the coefficients of the multi-port scattering matrix is explored to minimise the experimental errors due to strong termination reflections. Based on the results the behavioural dependence of the transfer impedance on the operating conditions is studied. To study the individual, as well as the combined effects of the operating conditions, dimensionless numbers such as Strouhal-, Shear-, and Mach number are used to normalise the transfer impedance. A comparison of the results against previously proposed models,and their respective hypotheses is also shown. Lastly, using global sensitivity analysis, the relative contribution of the uncertainty in determining each operating condition, on the overall uncertainty of the experimentally determined transfer impedance is presented.</p>
+    <p>One of the major findings of the thesis suggests a flow speed based Strouhal number defining the resistive as well as the inertial behaviour of the perforate. Moreover, a particle velocity based Strouhal number governs the transfer impedance in the transition state from linear to highly non-linear regimes. However, based on the comparison between perforated plates of differing geometries, observations suggest that the Strouhal number determined with respect to thickness of the plate, rather than the perforation diameter shows a better agreement in the characterisation. The error analysis shows the transfer impedance to be more sensitive to errors in the determination of the acoustic field parameters, than the flow field parameters.</p>
+    <p>Lastly, upon a simultaneous exposure, the results suggest a non-linear coupling between the individual effects of the operating conditions, where the transfer impedance is characterised with respect to the dimensionless numbers, and an additional dependence on the incident wavelength of the acoustic waves is observed.</p>",
+    "swe": "<p>Perforerade plåtar används ofta i ljuddämpningssystem för applikationer som förbränningsmotorer, flygplansmotorer och brännkammare. Utvecklingen inom flygområdet från propeller- till jetmotorer och turbofläktmotorer har accelererat användningen av s.k. liners i flygplan under de senaste åren. För att optimera designen av liners har den akustiska karakteriseringen av perforerade plattor under realistiska användningsförhållanden rönt stort intresse inom forskningen.</p>
+    <p>Denna avhandling bidrar till forskningen genom att presentera nya multiport-tekniker och experimentella resultat för akustiska egenskaper hos perforerade plattor. De nyutvecklade multiportteknikerna ger möjlighet till passiv akustisk karakterisering av perforerade plattor sompåverkas av strömning, och akustiskt infall med höga amplituder. Transferimpedansen hos den perforerade plåten beräknas under infall av akustiska planvågor från olika riktningar i förhållandetill strömningskriktningen. De multiporttekniker som används här, dvs. tre-port- och fyr-port tekniker, är s.k. direkta metoder för impedansberäkning, dvs. transferimpedansen är beräknadgenom mätning av det akustiska fjärrfältet i kanalerna. Korrelationen mellan transferimpedansen och koefficienterna i spridningsmatrisen används för att minimera de experimentella felen somuppstår på grund av reflexer i kanalsystemet.</p>
+    <p>Baserat på resultaten studeras hur transferimpedansens påverkas av strömning och höga ljudnivåer.För undersökning av de individuella och kombinerade effekterna av strömning och excitation medhöga ljudnivåer har dimensionslösa tal som Strouhal-, Skjuv- och Mach-tal använts som parameterför att karakterisera trasnferimpedansen. En jämförelse av resultaten med tidigare utvecklademodeller och de hypoteser de baseras på presenteras också. Avslutningsvis, analyseras det relativabidrag som felet i mätningen av olika indata ger till det totala felet i den experimentellt beräknade transferimpedansen. Detta görs med användning av s.k. global känslighetsanalys.</p>
+    <p>En viktig del av resultatet i avhandlingen är att ett strömningsbaserat Strouhal-tal definierar deperforerade plattornas resistiva och reaktiva beteenden. Dessutom styr ett partikelhastighets baserat Strouhal-tal transferimpedansen i övergångsområdet från linjära till olinjära regimer. Baserat på jämförelsen mellan perforerade plattor med olika geometrier indikerar observationer att Strouhaltalet som bestäms med användning av plattans tjocklek, snarare än perforeringsdiametern, ger enbättre överensstämmelse i karakteriseringen. Felanalysen visar att transferimpedansen är mer känsligför fel i bestämningen av de akustiska parametrarna i jämförelse med strömnings-parametrarna.</p>
+    <p>Avslutningsvis, vid en samtidig exponering av t.ex. strykande strömning och strömning genom den perforerade plattan, visar resultaten på en icke-linjär koppling mellan de individuella effekterna ochett ytterligare beroende av frekvensen kan observeras.</p>"
+  },
+  "SDGs": "9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_143470Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_143470 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_143470
+Match Vector (SDG 1 - 17):
+[0, 0, 4, 0, 0, 0, 0, 0, 79, 0, 4, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   79 hit(s)
+       * "transfer impedance": 19
+       * "transferimpedans": 14
+       * "perforerade plattor": 8
+       * "perforated plates": 7
+       * "aircraft liners": 4
+  [ 2] SDG  3 :    4 hit(s)
+       * "noise reduction systems": 2
+       * "ljuddämpningssystem": 2
+  [ 3] SDG 11 :    4 hit(s)
+       * "noise reduction systems": 2
+       * "ljuddämpningssystem": 2
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9"
+=================================================================
+\end{lstlisting}
+
+In this case, OSDG could not handle the abstract, while the program found a clear dominant \gls{SDG} along with two secondary \glspl{SDG}.
+
+\begin{itemize}
+    \item \gls{SDG}~9 (79 hits): Driven by specialized aeroacoustic and manufacturing characterization terms (\enquote{transfer impedance}, \enquote{transferimpedans}, \enquote{perforated plates}, \enquote{perforerade plattor}, \enquote{aircraft liners}), validating the author's "9" assignment under Target 9.4 / 9.5 (upgrading industrial/aviation technology and applied engineering R\&D).
+
+    \item OSDG's Failure: Just as in the case study of \texttt{diva2:2007234}, general-purpose \gls{ML} classifiers fail when an abstract is written in dense physical-acoustics nomenclature (\enquote{multi-port scattering matrix}, \enquote{Strouhal number}, \enquote{grazing flow}) without high-level sustainability phrasing.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+While \gls{SDG}~9 is the clear primary classification for this acoustic-characterization study, optionally adding \gls{SDG}~3 and \gls{SDG}~11 would improve discoverability for researchers focused on noise pollution abatement, highlighting the interconnected health and urban-environment dimensions of noise-reduction engineering.
+\end{takeaway}
 
 \Needspace*{6\baselineskip}
 \section{Conclusions}
