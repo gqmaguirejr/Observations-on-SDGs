@@ -1,0 +1,960 @@
+% There are two versions of this document that one can select:
+\newif\iflongversion
+% \longversiontrue  % Uncomment this for the LONG version
+\longversionfalse % Uncomment this for the SHORT version
+
+% Input file generators before \documentclass
+\input{lib/ext-eprint-dbx}
+% Emit local LDF shims before packages load
+\input{lib/datatool-ldf}
+
+\RequirePackage{comment}
+%\begin{comment}
+%Added the following to support accessibility as per European Accessibility Act (EAA) and European Standard for Accessibility (EN 301 549)
+% Unfortunately, tagging is not compatible with lstlisting
+\DocumentMetadata{%tagging=on,
+    %tagging-setup={math/setup=mathml-SE},
+    pdfstandard=ua-2,
+    lang=en-US
+    }
+%\end{comment}
+
+\documentclass{article}
+% Load datatool and babel/polyglossia
+\usepackage{datatool}
+
+% include a variety of packages that are useful
+\input{lib/includes}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[swedish, main=english, provide+=*]{babel}
+\input{lib/defines}  % load some additional definitions to make writing more consistent
+
+% Set page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+    \babelfont{rm}{TeX Gyre Termes}
+    \DeclareFontShape{TU}{TeXGyreTermes(0)}{md}{n}{<->sub * TeXGyreTermes(0)/m/n}{}
+    \DeclareFontShape{TU}{TeXGyreTermes(0)}{sb}{n}{<->ssub * TeXGyreTermes(0)/b/n}{}
+    \DeclareFontShape{TU}{TeXGyreTermes(0)}{sb}{it}{<->ssub * TeXGyreTermes(0)/b/it}{}
+  
+    %\setsansfont{TeX Gyre Heros}   %% Helvetica like font
+    \babelfont{sf}{TeX Gyre Heros}
+    %\setmonofont[Ligatures={NoCommon}, Numbers={Lining,Monospaced}]{TeX Gyre Cursor}  %% Courier like font
+    \babelfont{tt}{TeX Gyre Cursor}
+
+
+
+\usepackage{mathtools}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+% The [version=bold, FakeBold=1.2] is to avoid a warning about the lack of a bold font
+%\setmathfont{TeX Gyre Pagella Math}[version=bold, FakeBold=1.2] %% a font for math
+\setmathfont{STIX Two Math}[version=normal]
+
+\newfontfamily{\NotoSansFont}[Ligatures=TeX,
+Extension = .ttf,
+    UprightFont = NotoSans-Regular,
+    BoldFont = NotoSans-Bold,
+    ItalicFont = NotoSans-Italic,
+    BoldItalicFont = NotoSans-BoldItalic
+    ]{NotoSansCustomA}
+    
+\newfontfamily{\NotoSerifFont}[Ligatures=TeX,
+Extension = .ttf,
+    UprightFont = NotoSerif-Regular,
+    BoldFont = NotoSerif-Bold,
+    ItalicFont = NotoSerif-Italic,
+    BoldItalicFont = NotoSerif-BoldItalic
+    ]{NotoSerifCustomA}
+
+\newfontfamily{\DejaVuSansFont}[Ligatures=TeX,]{DejaVu Sans}
+
+% A font to be used in minted listings
+\newfontfamily{\ListingMono}{Noto Sans Mono}[Ligatures=ResetAll]
+
+% fonts for various symbols
+\newfontfamily{\NotoSansSymbolsFont}{Noto Sans Symbols}[Ligatures=ResetAll]
+\newfontfamily{\NotoSansSymbolsTwoFont}{Noto Sans Symbols 2}[Ligatures=ResetAll]
+
+\usepackage{newunicodechar}
+
+\newunicodechar{^^^^fffd}{\iffontchar\font`^^^^fffd ^^^^fffd\else{{\NotoSansFont ^^^^fffd}}\fi} % REPLACEMENT CHARACTER - �
+\newunicodechar{^^^^25a1}{\iffontchar\font`^^^^25a1 ^^^^25a1\else{{\NotoSansFont ^^^^25a1}}\fi} % WHITE SQUARE - □
+
+\newfontfamily\mystixmathfont{STIX Two Math}
+\newsavebox{\lstbreakbox}
+\sbox{\lstbreakbox}{\textcolor{red}{\ensuremath{\mystixmathfont ↪}}\space}
+
+% Define the takeaway environment
+\newtcolorbox{takeaway}[1][]{
+  colback=orange!5!white,    % Background color (light orange)
+  colframe=orange!75!black,  % Border color
+  coltitle=white,            % Title text color
+  fonttitle=\bfseries,
+  sharp corners,
+  boxrule=0.5pt,
+  left=10pt,
+  right=10pt,
+  top=5pt,
+  bottom=5pt,
+  enhanced,
+  breakable,                 % Allows the box to span across pages
+  title={Key Observation\ifstrempty{#1}{}{: #1}}
+}
+
+\newtcolorbox{subtakeaway}[1][]{
+  colback=orange!5!white,    % Background color (light orange)
+  colframe=orange!75!black,  % Border color
+  coltitle=white,            % Title text color
+  fonttitle=\bfseries,
+  sharp corners,
+  boxrule=0.5pt,
+  left=10pt,
+  right=10pt,
+  top=5pt,
+  bottom=5pt,
+  enhanced,
+  breakable,                 % Allows the box to span across pages
+  title={Key Observation\ifstrempty{#1}{}{: #1}}
+}
+
+\newtcolorbox{casestudy}[1][]{
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  title={\S\thesubsubsection\,Case Study\ifstrempty{#1}{}{: #1}},
+  fonttitle=\bfseries,
+  enhanced,
+  drop shadow
+}
+
+% Define the counter and format its printed representation (e.g., Section.Number) and ensure it resets at every \section
+\newcounter{casestudyCounter}[section]
+\renewcommand{\thecasestudyCounter}{\thesection.\arabic{casestudyCounter}}
+
+% 2. Update the tcolorbox definition using 'code={\refstepcounter{...}}' to step and print the counter safely
+\newtcolorbox{casestudySection}[1][]{
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  code={\refstepcounter{casestudyCounter}},
+  title={\S\thesection\,Case Study \arabic{casestudyCounter}\ifstrempty{#1}{}{: #1}},
+  fonttitle=\bfseries,
+  enhanced,
+  drop shadow,
+  breakable=true,
+  before upper={%
+    \hyphenpenalty=100
+    \exhyphenpenalty=100
+    \tolerance=9999
+    \emergencystretch=3em
+  }
+}
+
+
+
+
+% 1. Define the counter
+\newcounter{reccount}
+% 2. Define the recommendation box
+\newtcolorbox{recommendation}[1][]{
+  colback=kth-lightblue!5!white,
+  colframe=kth-lightblue!75!black,
+  % The 'code' key increments the counter before the box is drawn
+  code={\refstepcounter{reccount}},
+  % The title now includes the counter value
+  title={Recommendation \thereccount\ifstrempty{#1}{}{: #1}}, % add optional argument
+  fonttitle=\bfseries,
+  enhanced,
+  drop shadow
+}
+
+\usepackage{fancyvrb,fvextra}
+\usepackage{csquotes}               %% Recommended by biblatex
+
+% Input centralized biblatex configuration
+\input{lib/biblatex-and-friends}
+
+\addbibresource{references.bib}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+allcolors=blue,
+ plainpages=false,
+                        % PDF related options
+ unicode=true,          % Unicode encoded PDF strings
+ pdfencoding=auto,      % for unicode in 
+}
+
+\usepackage[all]{hypcap}	%% prevents an issue related to hyperref and caption linking
+
+
+\usepackage[acronym, style=super, section=section, toc=false, nonumberlist, nomain, nopostdot=true, notranslate]{glossaries-extra}
+
+% Libraries that should be included after hyperref
+\usepackage{doi}
+\usepackage{cleveref}
+% Define cleveref formatting
+\crefname{casestudyCounter}{Case Study}{Case Studies}
+\Crefname{casestudyCounter}{Case Study}{Case Studies}
+\crefformat{reccount}{Recommendation~#2#1#3}
+
+\usepackage{metalogo}   % for \XeLaTeX and \LuaLaTeX logos
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+\lstdefinelanguage{BibTeX}{
+ basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\color{blue}\bfseries,      % @InProceedings in Blue
+  keywordstyle=[2]\color{darkgray},       % author, title, etc. in Gray
+  stringstyle=\color{red},                 % "Values" in Red
+  commentstyle=\color{green!50!black},
+  showstringspaces=false,
+  breaklines=true,
+  postbreak=\usebox{\lstbreakbox},
+  keywords={%
+    @article,@book,@collectedbook,@conference,@electronic,@ieeetranbstctl,%
+    @inbook,@incollectedbook,@incollection,@injournal,@inproceedings,%
+    @manual,@mastersthesis,@misc,@patent,@periodical,@phdthesis,@preamble,%
+    @proceedings,@standard,@string,@techreport,@unpublished%
+  },
+  % Entry fields/keys (e.g., author, title)
+  keywords=[2]{%
+    address,author,booktitle,chapter,edition,editor,howpublished,institution,%
+    journal,key,month,note,number,organization,pages,publisher,school,%
+    series,title,type,volume,year%
+  },
+  comment=[l][\itshape]{@comment},
+  sensitive=false,
+  % String handling
+  morestring=[b]",      % Matches "double quotes"
+  % morestring=[s]{\{}{\}}  % The correct way to handle {balanced braces}
+  % FIX: use moredelim with a style argument and escaped braces
+  % moredelim=[s][\color{red}]{\{}{\}}
+}
+
+%
+% The commands below are to configure JSON listings
+% 
+% format for JSON listings
+\colorlet{punct}{red!60!black}
+\definecolor{delim}{RGB}{20,105,176}
+\definecolor{numb}{RGB}{106, 109, 32}
+\definecolor{string}{RGB}{0, 0, 0}
+
+\lstdefinelanguage{json}{
+    numbers=none,
+    numberstyle=\small,
+    frame=none,
+    rulecolor=\color{black},
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    postbreak=\usebox{\lstbreakbox},
+    breakatwhitespace=true,
+    basicstyle=\ListingMono\small,
+    extendedchars=false,
+    upquote=true,
+    morestring=[b]",
+    stringstyle=\color{string},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {\[}{{{\color{delim}{\[}}}}{1}
+      {\]}{{{\color{delim}{\]}}}}{1}
+      {’}{{\char13}}1,
+}
+
+\makeglossaries
+\input{lib/acronyms} 
+
+\newcommand{\dname}[1]{\textbf{#1}}
+\newcommand{\fname}[1]{\texttt{#1}}
+% for help in formatting ISBN by keeping the ISBN string together unless it would result in an Overfull box and to set the text using \urlstyle{tt}
+\newcommand{\formatISBN}[1]{\nolinkurl{#1}}
+
+
+% Check for placeholder references
+% Emit a prominent compiler warning and visual marker during the build if a placeholder survives
+% Preamble configuration for placeholder detection
+% 1. Intercept standard bibliography lists
+\AtEveryBibitem{%
+  \iffieldundef{placeholder}{}{%
+    \PackageWarning{biblatex}{Placeholder reference '\thefield{entrykey}' detected: \thefield{placeholder}}%
+    \textcolor{red}{\textbf{[\textsc{Unresolved Placeholder:} \thefield{placeholder}]}}\addperiod\space
+  }%
+}
+
+% 2. Intercept inline citations (including \fullcite and \footfullcite)
+\AtEveryCitekey{%
+  \iffieldundef{placeholder}{}{%
+    \textcolor{red}{\textbf{[\textsc{Unresolved Placeholder:} \thefield{placeholder}]}}\addperiod\space
+  }%
+}
+
+\title{Observations on SDGs\\[0.2em]\smaller{}Some good and bad features}
+\author{Gerald Q. Maguire Jr.}
+
+\begin{document}
+
+
+\maketitle
+\pagenumbering{roman}
+\setcounter{page}{1}
+\begin{abstract}
+This report concerns the assignment of U.N. \glspl{SDG} for papers from \gls{KTH} that were available via \gls{DiVA} in November 2026. A review of these \gls{SDG} assignments revealed some problems. It seems that many authors do not understand that a key purpose of identifying \glspl{SDG} is to help readers find relevant work for specific \glspl{SDG}.
+
+To address these shortcomings, this document describes a program that was developed to help authors select relevant \glspl{SDG} for their publications.
+\end{abstract}
+\clearpage
+\tableofcontents
+
+\glsresetall  % Any use of an acronym will be spelled out on first use
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\section{Introduction}
+\label{sec:intro}
+
+This report concerns the assignment of U.N. \glspl{SDG} for papers from \gls{KTH} that were available via \gls{DiVA} on 7 November 2026. A review of these \gls{SDG} assignments revealed some problems. It seems that many authors do not understand the details of the different \glspl{SDG} and hence do not necessarily make good selections. 
+
+Since 2022, \gls{DiVA} has offered support for authors to indicate relevant \glspl{SDG} for their publication when entering metadata into \gls{DiVA}. A key purpose of identifying \glspl{SDG} is to help readers find relevant work for specific \glspl{SDG}. A secondary purpose is to support rankings and other external evaluations that track institutional efforts regarding \glspl{SDG}.
+
+\subsection{Document Objectives}
+\label{sec:intro_structure}
+
+This report describes what the \glspl{SDG} are and gives some examples of good and bad assignments. It points to tools used to identify \glspl{SDG} and describes their strengths and weaknesses. It also describes the development of a Python program to help authors select relevant \glspl{SDG} for their publication.
+
+\subsection{Terminology}
+\label{sec:Terminology}
+The United Nations \glspl{SDG} are defined in a resolution and their purpose is summarized below:
+\begin{quote}
+The 2030 Agenda for Sustainable Development, adopted by all United Nations Member States in 2015, provides a shared blueprint for peace and prosperity for people and the planet, now and into the future. At its heart are the 17 Sustainable Development Goals (SDGs), which are an urgent call for action by all countries - developed and developing - in a global partnership. They recognize that ending poverty and other deprivations must go hand-in-hand with strategies that improve health and education, reduce inequality, and spur economic growth – all while tackling climate change and working to preserve our oceans and forests.
+\end{quote}
+\begin{flushright}
+-- \href{https://sdgs.un.org/goals}{https://sdgs.un.org/goals}
+\end{flushright}
+
+The \glspl{SDG} are designed as \textit{universal policy objectives and outcomes}. They are \textbf{not} prescriptive about tools or technologies.
+
+When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
+Lukas Pukelis, Nuria Bautista-Puig, Gustė Statulevičiūtė, Vilius Stančiauskas, Gokhan Dikmener, and Dina Akylbekova~\cite{pukelis2022osdg20multilingualtool}.
+
+The Python program I developed is called \texttt{sdg\_classifier\_dual\_language.py} and is available in the \dname{scripts} directory of the GitHub project \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing}. It uses a combination of acronyms and terms together with \mbox{co-occurrence} information. It builds on:
+\begin{itemize}
+    \item Elsevier Data Repository, V4~\cite{Rivest2021_SDG} as extracted from files at \url{https://elsevier.digitalcommonsdata.com/datasets/9sxdykm8s4/4} on 2026.10.05. It is available under a CC BY 4.0 license. 
+
+    \item  UoA-SDG-Keyword-List-Ver.-1.1.xlsx \url{https://www.sdgmapping.auckland.ac.nz/files/2020/10/UoA-SDG-Keyword-List-Ver.-1.1.xlsx} from the University of Auckland SDG Keywords Dictionary Project~\cite{Wang2023_UoA_SDG_Mapping}.
+
+    \item The STRINGS project (Science, Technology, Research and Innovations for the Global Goals) is a global research initiative led by the Science Policy Research Unit (SPRU) at the University of Sussex, UCL STEaPP, and the UNDP to map and align science and innovation with the \gls{UN} Sustainable Development Goals (SDGs)~\cite{Confraria2024_STRINGS_SDG}. It is available under the Creative Commons Attribution 4.0 International license.
+
+\end{itemize}
+
+\section{Methodology}
+\label{sec:Methodology}
+This project extracted the \gls{SDG} notes available via \gls{DiVA} on 7 November 2026 using a Jupyter notebook. The data was collected by exporting \gls{MODS} files for the following types of publications: "bookReview", "comprehensiveDoctoralThesis", "review", "monographDoctoralThesis", "article", "comprehensiveLicentiateThesis", "artisticOutput", "monographLicentiateThesis", "book", "manuscript", "chapter", "other", "collection", "patent", "conferencePaper", "report", "conferenceProceedings", "studentThesis", "dissertation". The \gls{MODS} \gls{XML} was parsed and the publications inserted into a Python Pandas DataFrame. Metadata for publications with \glspl{SDG} was exported in \gls{JSON} format with the code shown in \Cref{lst:checkSDGs}.
+
+\begin{lstlisting}[language=Python, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Python code for check\_SDGs() to extract \gls{SDG} data and output it as \gls{JSON}}, label=lst:checkSDGs]
+def write_JSON(fordiva_data, document_number):
+    os.makedirs("/tmp/SDGs", exist_ok=True)
+    output_file = f"/tmp/SDGs/t_{document_number}.json"
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(fordiva_data, f, indent=2, ensure_ascii=False)
+
+
+def check_SDGs():
+    global Verbose_Flag
+    document_number = 0
+
+    for school in sorted(schools_info):
+        df_school = gdf[gdf.school == school]
+        if df_school is None or df_school.empty:
+            continue
+
+        for idx, row in df_school.iterrows():
+            fordiva_data = dict()
+
+            diva_id = row.get('recordInfo.recordIdentifier')
+            fordiva_data['divaID'] = diva_id
+
+            sdgs_codes = row.get('sustainableDevelopment')
+            if Verbose_Flag:
+                print(f"{diva_id=}\t{sdgs_codes=}")
+
+            # -------------------------------------------------------------
+            # 1. Determine Primary vs Alternative Language
+            # -------------------------------------------------------------
+            # Check row's declared language, or infer from title presence
+            doc_lang = str(row.get('languageTerm_1', '')).lower()
+            if not doc_lang:
+                doc_lang = str(row.get('language', '')).lower()
+
+            # Identify if the primary language is Swedish
+            title_swe = (
+                row.get('title.swe')
+                if isinstance(row.get('title.swe'), str)
+                else ""
+            )
+            title_eng = (
+                row.get('title.eng')
+                if isinstance(row.get('title.eng'), str)
+                else ""
+            )
+
+            is_primary_swe = (
+                doc_lang in ['swe', 'sv', 'swedish']
+                or (title_swe and not title_eng)
+            )
+
+            primary_lang = "swe" if is_primary_swe else "eng"
+            alt_lang = "eng" if is_primary_swe else "swe"
+
+            # -------------------------------------------------------------
+            # 2. Extract Titles and Subtitles (Primary & Alternative)
+            # -------------------------------------------------------------
+            # Primary Title & Subtitle
+            primary_main = row.get(f'title.{primary_lang}')
+            primary_sub = row.get(f'subtitle.{primary_lang}')
+
+            if primary_main and isinstance(primary_main, str) and primary_main.strip():
+                fordiva_data['Title'] = {
+                    'Main title': primary_main.strip(),
+                    'Language': primary_lang,
+                }
+                if primary_sub and isinstance(primary_sub, str) and primary_sub.strip():
+                    fordiva_data['Title']['Subtitle'] = primary_sub.strip()
+
+            # Alternative Title & Subtitle
+            alt_main = row.get(f'title.{alt_lang}')
+            alt_sub = row.get(f'subtitle.{alt_lang}')
+
+            if alt_main and isinstance(alt_main, str) and alt_main.strip():
+                fordiva_data['Alternative title'] = {
+                    'Main title': alt_main.strip(),
+                    'Language': alt_lang,
+                }
+                if alt_sub and isinstance(alt_sub, str) and alt_sub.strip():
+                    fordiva_data['Alternative title']['Subtitle'] = alt_sub.strip()
+
+            # -------------------------------------------------------------
+            # 3. Extract Keywords (Dual-Language)
+            # -------------------------------------------------------------
+            keywords_dict = dict()
+            for lang_code in ['eng', 'swe']:
+                kw_val = row.get(f'keywords.{lang_code}')
+                if kw_val:
+                    if isinstance(kw_val, list):
+                        keywords_dict[lang_code] = ", ".join(kw_val)
+                    elif isinstance(kw_val, str) and kw_val.strip():
+                        keywords_dict[lang_code] = kw_val.strip()
+
+            if keywords_dict:
+                fordiva_data['keywords'] = keywords_dict
+
+            # -------------------------------------------------------------
+            # 4. Extract Abstracts (Dual-Language)
+            # -------------------------------------------------------------
+            abstracts_dict = dict()
+            for lang_code in ['eng', 'swe']:
+                abs_val = row.get(f'abstract.{lang_code}')
+                if abs_val and isinstance(abs_val, str) and abs_val.strip():
+                    abstracts_dict[lang_code] = abs_val.strip()
+                    # Keep convenience top-level field for backwards compatibility
+                    fordiva_data[lang_code] = abs_val.strip()
+
+            if abstracts_dict:
+                fordiva_data['abstracts'] = abstracts_dict
+
+            # -------------------------------------------------------------
+            # 5. Extract and Normalize SDGs
+            # -------------------------------------------------------------
+            sdg_numbers = set()
+            if (
+                sdgs_codes
+                and isinstance(sdgs_codes, str)
+                and len(sdgs_codes) > 0
+            ):
+                for sc in sdgs_codes.split(';'):
+                    sc = sc.strip()
+                    if sc.startswith('SDG'):
+                        num_part = (
+                            sc.split(':')[0].replace('SDG', '').strip()
+                        )
+                        if num_part.isdigit():
+                            sdg_numbers.add(int(num_part))
+
+            if sdg_numbers:
+                sdg_string = ", ".join(str(n) for n in sorted(sdg_numbers))
+                fordiva_data['SDGs'] = sdg_string
+
+            # -------------------------------------------------------------
+            # 6. Write to JSON
+            # -------------------------------------------------------------
+            document_number += 1
+            write_JSON(fordiva_data, document_number)
+
+    return document_number
+
+
+total_docs = check_SDGs()
+print(f"{total_docs=}")
+\end{lstlisting}
+
+\begin{takeaway}
+total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. Note that some of these were duplicate documents (mainly due to having authors from multiple schools --- as the outer loop iterated over schools). Thus, only a very small fraction of the publications had identified \glspl{SDG} in the \gls{DiVA} field for \glspl{SDG}. Some publications may list relevant \glspl{SDG} in the abstract, but unless the \glspl{SDG} appear in the \gls{DiVA} field for \glspl{SDG}, they were not extracted. A number of the extracted publications did have a list of relevant \glspl{SDG} in the abstract and these were considered the author's explicit in-text declarations of \glspl{SDG}.
+\end{takeaway}
+
+
+\subsection{Focus}
+\label{sec:focus}
+
+The primary focus of this study was to identify acronyms and terms associated with specific \glspl{SDG} using titles, subtitles, keywords, abstracts, and identified \glspl{SDG} from the \gls{DiVA} data, to provide a tool to help authors. 
+
+\subsection{Scope Boundaries}
+\label{sec:scope_boundaries}
+
+Verifying the validity of a \gls{SDG} --- confirming whether the identified \gls{SDG} was actually relevant to the \textit{body} of the publication was considered outside the scope of this study.
+
+Furthermore, this study does not identify individual authors; rather, it aims to \first provide an improved tool to help authors and \Second provide case studies that authors can potentially learn from.
+
+
+\section{Case studies}
+The exact counts of the number of instances of given terms can vary as the program continues to evolve; therefore, these numbers should be taken as indicative and not absolute.
+
+\begin{casestudySection}[Forced compliance or satisficing SDG?]
+Consider the following:
+\begin{lstlisting}[language={json}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={t\_141736.json (manually reformatted to keep only one English abstract)}, label=lst:t_141736.json]
+{
+  "divaID": "diva2:1963011",
+  "Title": {
+    "Main title": "Divide and Conquer",
+    "Language": "eng",
+    "Subtitle": "A Fine-Grained Look at the Higgs Boson Cross Section in WW Decays Using the ATLAS Experiment"
+  },
+  "keywords": {
+    "eng": "Higgs boson"
+  },
+  "abstracts": {
+    "eng": "<p>This thesis presents my contributions to measurements of the Higgs boson production cross-sections at the Large Hadron Collider, and a measurement of the luminosity. The data were recorded by the ATLAS experiment during the Run 2 of the LHC (2015-2018) at a center-of-mass energy of 13 TeV. Only the 2018 data is used for the luminosity measurement. The measurement of Higgs boson cross-sections considers two production modes: gluon-gluon fusion and vector-boson fusion. In both production modes, the analysis focuses on the decay channel in which the Higgs boson decays into a pair of W bosons, which both decay into a lepton and the corresponding neutrinos: H→WW*→ lνlν. The data selection requires events containing exactly one electron (or positron), one muon (or anti-muon), and significant missing transverse energy. The events are then divided into several categories using the simplified template cross section (STXS) framework. The cross-sections are measured across seven categories for gluon-gluon fusion production and eight categories for vector boson fusion production.</p><p>Furthermore, measurements are performed with an alternative event categorisation that offers sensitivity to the properties of Higgs boson couplings under charge-conjugation and parity inversion (CP). For this, events featuring multiple jets are categorised by the signed difference of the azimuthal angles of the two jets with the largest transverse momentum. </p><p>The overall cross-section times branching ratio is measured to be 12.4+1.3(-1.2) pb for Higgs boson production via gluon-gluon fusion and 0.79+0.18(-0.16) pb for the vector boson fusion channel. These results align well with the Standard Model predictions of 10.4 ± 0.6 pb and 0.81 ± 0.02 pb, respectively, for a Higgs boson with a mass of 125 GeV. The results for each of the STXS framework categories, as well as for the CP-sensitive measurements, are all also consistent with the Standard Model predictions, albeit sometimes with large uncertainties.</p><p>A smaller part of this thesis describes my contribution to the luminosity measurement. Accurate luminosity measurements rely on various detectors and algorithms and are essential for the ATLAS physics program. The track counting algorithm is a key element for the offline luminosity measurements. It determines the luminosity by counting the average number of charged particle tracks produced at the interaction point during collisions. In 2018, the LHC began performing a new type of beam scans called emittance scans. These scans can be used as a tool to monitor the stability of the track-counting algorithm over time and ensure that the calibration does not drift.</p>"
+  },
+  "SDGs": "7"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_141736Output]
+ ./sdg_classifier_dual_language.py /tmp/SDGs/t_141736 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_141736
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "7"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :    8 hit(s)
+       * "LHC": 4
+       * "charged particle tracks": 2
+       * "large hadron collider": 2
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 7"
+=================================================================
+\end{lstlisting}
+
+Doctoral candidates perceive that they are required or strongly encouraged to select at least one \gls{SDG} when submitting their thesis metadata. In this case, the author assigned \glspl{SDG}: "7", perhaps thinking that \enquote{Affordable and Clean Energy} was an appropriate \gls{SDG}. High-energy physics frequently triggers false positives for \gls{SDG} 7 in both human annotators and naive keyword classifiers because the word \enquote{energy} appears repeatedly in particle physics contexts (\eg \enquote{center-of-mass energy of 13 TeV}, \enquote{missing transverse energy}).
+
+In this case, OSDG failed to report any \glspl{SDG} when given the English abstract, and the program's Match Vector is nearly all zeros, with the only match being \gls{SDG} 9. \Cref{lst:t_141736Output}, in \texttt{verbose} mode, shows the list of matches for \gls{SDG} 9. Hence, the actual assignment might have been \enquote{SDG 9 (Industry, Innovation and Infrastructure)}: \enquote{Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation} --- with CERN's LHC being a clear example of a large-scale scientific research infrastructure.
+
+The thesis is purely experimental high-energy particle physics and concerns \textit{data analysis} from an LHC run, rather than building a large-scale scientific research infrastructure. But according to the \gls{SDG}~9.5 indicator description on the webpage \url{https://www.uis.unesco.org/en/methods-and-tools/sdg95-indicators}: \enquote{In particular, Target 9.5 calls upon them to encourage innovation and substantially increase the number of researchers, as well as public and private spending on research and experimental development (R\&D).} One can view this as a taxonomic boundary problem: fundamental science relies on mega-infrastructures (CERN/LHC) that sit under \gls{SDG}~9, creating ambiguity over whether downstream data analysis inherits the \gls{SDG} of the facility. I would argue that assuming producing another doctoral thesis in basic science automatically satisfies Target 9.5 simply because it adds to researcher output would mean that 100\% of all doctoral theses across every discipline would qualify for \gls{SDG}~9, rendering the classification meaningless. Therefore, this publication should not list any \gls{SDG} as being relevant.
+\medskip
+
+\textbf{NB:} The program's output is scoped to use the author's pre-assigned \glspl{SDG} rather than recommend new \glspl{SDG}.
+\end{casestudySection}
+
+
+
+\begin{takeaway}
+This case illustrates how mandatory or strongly nudged \gls{SDG} fields can produce false positives in fundamental science: lexical false friends (\enquote{energy}) lead authors to assign aspirational or tangentially related goals to purely theoretical or experimental work.
+\end{takeaway}
+
+\begin{casestudySection}[Correct identification of SDG 9]
+Consider the following:
+\begin{lstlisting}[language={json}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={t\_141404.json (manually reformatted to keep only one English abstract)}, label=lst:t_141404.json]
+{
+  "divaID": "diva2:2007234",
+  "Title": {
+    "Main title": "Differentiated track access charges based on vehicle properties",
+    "Language": "eng",
+    "Subtitle": "Engineering and Simplified models for its application in Sweden"
+  },
+  "keywords": {
+    "eng": "track access charges, TAC, railway, rail vehicles"
+  },
+  "abstracts": {
+    "eng": "<p>This report contextualises Engineering models for the calculation of Differentiated Track Access Charges (D-TAC) with existing D-TAC schemes in UK and Switzwerland, and the Swedish proposed D-TAC model by Öberg. The focus is to review and critically assess Andersson’s proposed updates and simplifications to Öberg’s model. Two major focus areas are addressed:Marginal Cost Recalibration, where previous econometric model values are challenged, highlighting issues such as overestimated costs, improper inclusion of snowplough expenses, and maintenance inefficiencies. A revised cost structure is proposed: 0.0130 kr/ton-km + 2.35 kr/train-km, shifting some vehicle-dependent costs to train-dependent costs. Vehicle Classification Simplification, where the proposal is to simplify marginal costs dependent only on i) average axle load and ii) the vehicle’s steering ability, aiming for a system easier for Trafikverket (TRV) to use. The price would be first proportional to the average axle load of the train to the power of 2,5, plus a value from the steering-induced rail damage costs, where the vehicles would be categorized into classes (R1, R2, S) based on their steering performance. This second cost component directly introduces incentives for the adoption of track-friendly vehicles. The different models provide different levels of Precision, Simplicity and Incentives, with Andersson’s being the most promising option. An important conclusion is that, even if no single model is inherently superior from a daily operations standpoint, understanding how vehicle upgrades affect access charges (which depends on the Precision, Simplicity and Incentives of the model) is crucial for motivating fleet improvements and reducing track maintenance costs. A lack of clarity or visible link between vehicle features and charges undermines D-TAC’s purpose. The primary recommendation is to clearly define and implement Andersson’s Simplified model, including sensitivity analyses and simulation of fleet changes and their impact in the costing scheme, in order to demonstrate its capabilities as a simple yet incentivising model.</p>"
+  },
+  "SDGs": "9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_141404Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_141404 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_141404
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   44 hit(s)
+       * "TAC": 9
+       * "D-TAC": 8
+       * "TRV": 2
+       * "track access charges": 4
+       * "average axle load": 4
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9"
+=================================================================
+\end{lstlisting}
+
+Once again, OSDG returned no matches, as policy-trained \gls{ML} classifiers often fail to recognize rail infrastructure pricing and rolling-stock maintenance mechanics when broad sustainability buzzwords are absent. The abstract never uses high-level \gls{UN} vocabulary such as \enquote{sustainable transport}, \enquote{resilient infrastructure}, or \enquote{climate}, relying instead on domain-specific railway economics (\eg axle load, steering-induced rail damage, Trafikverket).
+
+However, the program's output shows the results of \gls{SDG}~9 terms:
+\begin{itemize}
+\item Target 9.1 (reliable, sustainable and resilient infrastructure): Differentiated Track Access Charges (D-TAC) internalize marginal track wear, directly funding and preserving railway infrastructure longevity.
+
+\item Target 9.4 (upgrade infrastructure and retrofit industries): Pricing models tied to steering performance (classes R1, R2, S) and axle load create direct financial incentives for operators to retrofit or upgrade rolling stock to \enquote{track-friendly} vehicles.
+\end{itemize}
+
+\textbf{NB:} Acronym substring overlap inflates the raw hit count (\eg \texttt{TAC} matching inside \texttt{D-TAC}) inflates the raw hit count.
+
+\end{casestudySection}
+
+\begin{takeaway}
+Unlike the previous case, this report represents a true positive for \gls{SDG}~9. It demonstrates that technical engineering abstracts often express sustainability goals through domain-specific operational metrics (\eg axle load and track wear pricing) rather than high-level policy vocabulary --- causing general-purpose \gls{ML} classifiers to miss valid \gls{SDG} alignments that domain-enriched keyword dictionaries successfully capture.
+\end{takeaway}
+
+\begin{casestudySection}[Implicit versus Explicit SDGs]
+Consider the following:
+\begin{lstlisting}[language={json}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={t\_123456.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_123456.json]
+{
+  "divaID": "diva2:2014840",
+  "Title": {
+    "Main title": "Modular Function Deployment, Expanded",
+    "Language": "eng",
+    "Subtitle": "Integrating Design for Assembly into the modularisation process for effective product architecture development"
+  },
+  "keywords": {
+    "eng": "Modular product architecture, Modular Function Deployment, Design for Assembly, Assembly-oriented design, Product modularisation, Design methods",
+    "swe": "Modulär produktarkitektur, Modular Function Deployment, Design for Assembly, Monteringsanpassad konstruktion, Modulindelning av produkter, Designmetoder"
+  },
+  "abstracts": {
+    "eng": "<p><em>How early should assembly considerations shape modular product architecture?</em></p><p>This thesis addresses the question by reframing Design for Assembly (DfA) from a downstream optimisation task into a design logic embedded at the start of modular product development. In many industrial settings, modularisation is shaped by customer values and market variety, while production and assembly remain implicit or postponed. When these factors are left until later, the chance to create automation-ready, lifecycle-resilient architectures and to enable reconfigurable manufacturing systems (RMS) creation is often lost.</p><p>The research develops an expanded Modular Function Deployment (MFD) method that integrates DfA into the earliest stages of decision-making. MFD is well established as a way to structure architectures around customer needs, but it has usually treated assembly as a concern for later. This has led to DfA being applied reactively, once architectural choices are already locked, which limits its ability to influence strategic or system-level design.</p><p>To change this, the thesis introduces a new dual framing: module-level DfA (mDfA) for guiding the early selection and grouping of technical solutions, and architecture-level DfA (aDfA) for evaluating spatial layout, sequencing logic, and assembly complexity once a candidate architecture exists.</p><p>This framing is made practical through a set of lightweight, prescriptive tools designed to fit within the standard MFD process.</p><ol><li>DfA-based internal evaluation criteria for concept selection.</li><li>Assembly-oriented module drivers within the Module Indication Matrix.</li><li>A coded interface taxonomy to structure and retain assembly knowledge.</li><li>The Assembly Directions and Connections Draft (ADCD) for improving the planning of spatial logic and insertion directions.</li><li>The Module Set Assembly Strategy Matrix (MSASM) for the evaluation of module-set complexity and automation potential.</li></ol><p>These supports allow teams to analyse assembly implications before geometries are fixed, making it easier to align modularity with production realities.</p><p>The research follows a design research methodology (DRM), combining literature synthesis, industrial case studies, expert workshops, and applications in graduate-level engineering education. The tools were tested in both greenfield and brownfield contexts, in sectors ranging from professional equipment to consumer products. Results show that they help bring assembly consequences into view earlier, improve interface considerations, and strengthen cross-functional alignment.</p><p>The contribution is twofold. Theoretically, it introduces the dual framing of module-level and architecture-level DfA, extending assembly reasoning from part-level simplification to architectural planning. Practically, it delivers a workflow that supports production-aware modularisation without requiring high digital maturity or large resource investments. By enabling adaptable, automation-ready architectures that align with lifecycle goals, the work contributes to long term manufacturing resilience and as a consequence connects to United Nations’ Sustainable Development Goals (SDGs) 7, 9, and 12.</p>",
+    "swe": "<p><em>Hur tidigt bör monteringsaspekter forma modulära produktarkitekturer?</em></p><p>Denna avhandling adresserar den frågan genom att omformulera Design for Assembly (DfA) från en nedströms optimeringsuppgift till en konstruktionslogik inbäddad redan från början av utvecklingen av modulära produkter. I flera industriella sammanhang formas modularisering av kundvärden och marknads variation, medan produktion och montering förblir underförstådda eller skjuts upp. När dessa faktorer lämnas till senare skeden går ofta möjligheten förlorad att skapa arkitekturer som är redo för automatisering, livscykelresistenta och möjliggör skapandet av omkonfigurerbara tillverkningssystem (Reconfigurable Manufacturing Systems, (RMS)).</p><p>Forskningen utvecklar en utökad version av Modular Function Deployment (MFD) som integrerar DfA i de tidigaste beslutsfaserna. MFD är väl etablerad som metod för att strukturera arkitekturer utifrån kundbehov, men har traditionellt sett behandlat montering som en senare fråga. Detta har lett till att DfA ofta tillämpas reaktivt, när arkitektoniska val redan är låsta, vilket begränsar dess möjlighet att påverka strategisk eller systemnivådesign.</p><p>För att ändra detta introducerar avhandlingen en ny dubbel inramning: modulnivå-DfA (mDfA) för att styra det tidiga urvalet och grupperingen av tekniska lösningar, samt arkitekturnivå-DfA (aDfA) för att utvärdera rumslig layout, sekvenslogik och monteringskomplexitet när en kandidatarkitektur finns.</p><p>Denna inramning operationaliseras genom en uppsättning lättviktiga, föreskrivande verktyg utformade för att passa in i den standardiserade MFD-processen.</p><ol><li>DfA-baserade interna utvärderingskriterier för konceptval.</li><li>Monteringsorienterade moduldirektiv i Module Indication Matrix.</li><li>En kodad gränssnittstaxonomi för att strukturera och bevara monteringskunskap.</li><li>Assembly Directions and Connections Draft (ADCD) för planering av rumslig logik och insättningsriktningar.</li><li>Module Set Assembly Strategy Matrix (MSASM) för att kvantifiera modulset-komplexitet och automatiseringspotential.</li></ol><p>Dessa stöd möjliggör analys av monteringskonsekvenser före fastställda geometrier och underlättar anpassning av modularitet till produktionsrealiteter.</p><p>Forskningen följer Design Research Methodology (DRM) och kombinerar litteratur syntes, industriella fallstudier, expertworkshops och tillämpningar i högre ingenjörsutbildning. Verktygen testades både i greenfield- och brownfield-sammanhang,i sektorer som spänner från professionell utrustning till konsumentprodukter. Resultaten visar att verktygen bidrar till att synliggöra monteringskonsekvenser tidigare, förbättra resonemang kring gränssnitt och stärka tvärfunktionell samordning.</p><p>Bidraget är tvådelat. Teoretiskt introducerar arbetet den dubbla inramningen av modulnivå- och arkitekturnivå-DfA, vilket utökar monteringsresonemanget från komponentnivåförenkling till arkitektonisk planering. Praktiskt levereras ett arbetsflöde som stödjer produktionsmedveten modularisering utan krav på hög digital mognad eller stora resursinvesteringar. Genom att möjliggöra anpassningsbara, automatiseringsredo arkitekturer som är i linje med livscykelmål bidrar arbetet till långsiktig tillverkningsresiliens och knyter an till Förenta Nationernas globala mål 7, 9 och 12.</p>"
+  },
+  "SDGs": "9, 12"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:123456Output]
+ ./sdg_classifier_dual_language.py /tmp/SDGs/t_123456 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_123456
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 4, 0, 0, 0, 0, 26, 0, 0, 24, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9, 12"
+
+Explicit In-Text Goal Declarations:
+  [*] SDG  7 (keyword occurrences: 0)
+  [*] SDG  9 (keyword occurrences: 26)
+  [*] SDG 12 (keyword occurrences: 24)
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   26 hit(s) [Explicitly cited]
+       * "design for assembly": 7
+       * "reconfigurable manufacturing systems": 4
+       * "manufacturing systems": 4
+       * "modular product architecture": 3
+       * "omkonfigurerbara tillverkningssystem": 2
+  [ 2] SDG 12 :   24 hit(s) [Explicitly cited]
+       * "lifecycle": 4
+       * "livscykel": 4
+       * "resource investments": 2
+       * "lifecycle-resilient": 2
+       * "livscykelresistenta": 2
+  [ 3] SDG  4 :    4 hit(s)
+       * "engineering education": 2
+       * "ingenjörsutbildning": 2
+-----------------------------------------------------------------
+Note: Scoped to author's explicit in-text declarations.
+Suggested 'SDGs' value: "SDG 7, SDG 9, SDG 12"
+=================================================================
+\end{lstlisting}
+
+In this case, OSDG identified only \gls{SDG}~9. By contrast, the author explicitly cited \enquote{SDG 7, SDG 9, SDG 12} in the abstract text, \gls{DiVA} metadata recorded \enquote{SDG 9, SDG 12}, and \Cref{lst:123456Output} shows that the program detected keyword matches for \gls{SDG}~9 (26 hits), \gls{SDG}~12 (24 hits), and \gls{SDG}~4 (4 hits), alongside explicit in-text declarations for \glspl{SDG}~7, 9, and 12:
+
+\begin{itemize}
+    \item \textbf{\gls{SDG}~9 (26 hits) \& \gls{SDG}~12 (24 hits):} Both goals recorded in \gls{DiVA} (\enquote{9, 12}) are strongly substantiated by dual-language keyword evidence:
+    \begin{itemize}
+        \item \emph{\gls{SDG}~9:} Driven by \texttt{design for assembly} (7), \texttt{reconfigurable manufacturing systems} (4), \texttt{manufacturing systems} (4), \texttt{modular product architecture} (3), and \texttt{omkonfigurerbara tillverkningssystem} (2), aligning with Targets~9.2 and 9.4 (sustainable industrialization and manufacturing resilience).
+        \item \emph{\gls{SDG}~12:} Driven by \texttt{lifecycle} (4), \texttt{livscykel} (4), \texttt{resource investments} (2), \texttt{lifecycle-resilient} (2), and \texttt{livscykelresistenta} (2), aligning with Target~12.2 (efficient resource use across the product lifecycle).
+    \end{itemize}
+
+    \item \textbf{Explicit In-Text Declarations Override \gls{DiVA} Metadata (\enquote{SDG 7, SDG 9, SDG 12}):} In the closing sentence of both abstracts, the author explicitly states: \enquote{connects to United Nations’ Sustainable Development Goals (SDGs) 7, 9, and 12} / \enquote{knyter an till Förenta Nationernas globala mål 7, 9 och 12}. Because the classifier parses explicit goal declarations, it surfaces \gls{SDG}~7 despite zero keyword hits.
+
+    \item \textbf{\gls{SDG}~4 (4 hits):} Accurately picked up \texttt{engineering education} (2) and \texttt{ingenjörsutbildning} (2) from the methodology section (\enquote{applications in graduate-level engineering education} / \enquote{tillämpningar i högre ingenjörsutbildning}), representing secondary pedagogical context rather than a core sustainability claim.
+\end{itemize}
+
+Why did the author claim \gls{SDG}~7 despite zero energy-related keywords in the abstract? This illustrates the gap between domain-specific engineering reasoning and surface text. Within \gls{KTH}'s production engineering research environment, Reconfigurable Manufacturing Systems (RMS) and automation-ready modular architectures are routinely justified as enablers of energy-efficient manufacturing (Target~7.3) and industrial electrification (Target~7.b):
+\begin{itemize}
+    \item Reconfigurable production lines avoid full factory tear-downs and idle energy overhead by scaling capacity dynamically to match demand.
+    \item Modular product architectures facilitate disassembly, component upgrades (\eg swapping powertrains or battery modules), and retrofitting legacy brownfield equipment rather than scrapping entire systems.
+\end{itemize}
+However, the author never used terms such as \enquote{energy}, \enquote{power}, \enquote{electricity}, or \enquote{emissions} anywhere in either abstract. The energy benefit is an implicit second-order consequence of \enquote{long term manufacturing resilience} that resides in the author's disciplinary framing (and likely the thesis \textit{kappa}), rather than in the abstract's explicit vocabulary.
+
+\end{casestudySection}
+
+\begin{takeaway}
+OSDG identified \gls{SDG}~9, but missed both the co-primary \gls{SDG}~12 and the secondary pedagogical \gls{SDG}~4. Neither OSDG nor keyword matching detected \gls{SDG}~7, because its justification relies on implicit domain knowledge within \gls{KTH}'s production engineering environment rather than surface vocabulary --- demonstrating why parsing explicit in-text \gls{SDG} declarations is essential for complete metadata recovery.
+\end{takeaway}
+
+\begin{casestudySection}[A dominant SDG, with a strong secondary SDG]
+Consider the following:
+\begin{lstlisting}[language={json}, extendedchars=false, caption={t\_141830.json (manually reformatted to keep only one abstract in each language and to insert newlines at the end of paragraphs)}, label=lst:t_141830.json]
+{
+  "divaID": "diva2:2063116",
+  "Title": {
+    "Main title": "Driverless Multipurpose Vehicles for Sustainable Urban Road Transportation",
+    "Language": "eng",
+    "Subtitle": "Integrated Vehicle Fleet Optimization and Routing"
+  },
+  "keywords": {
+    "eng": "Optimization, Energy consumption, Electric vehicles, Autonomous vehicles, Vehicle routing, Heterogeneous fleet, Sustainable urban transportation, Emerging technologies",
+    "swe": "Optimering, Energiförbrukning, Elfordon, Självkörande fordon, Ruttplanering, Heterogen fordonsflotta, Hållbara stadstransporter, Framväxande teknologier"
+  },
+  "abstracts": {
+    "eng": "<p>A driverless multipurpose vehicle (DMV) is an autonomous road vehicle designed to execute multiple transportation functions, such as freight distribution and passenger transportation, within daily operations. They may reduce fleet size, energy consumption, and operating costs in urban transportation, yet their system-level implications remain poorly understood. Existing fleet optimization models rarely integrate realistic energy estimation based on key vehicle-level and transportation system-level factors on real urban road networks, limiting the evidence base for evaluating DMV deployment.</p>
+    <p>This thesis assesses the energy and operational implications of DMV deployment in urban road transportation from a system-level, operational perspective. It addresses three research questions. First, how the energy consumption of DMV fleets can be estimated and compared against human-driven battery-electric vehicle (BEV) and combustion vehicle (CV) fleets under realistic urban operating conditions. Second, how key vehicle-level and transportation system-level factors can be integrated into fleet-level optimization on realistic urban road networks. Third, what energy and operational implications emerge from DMVs with an interior-reconfigurable architecture (IRA) type compared with human-driven BEV and CV fleets across multiple cities and operational scenarios. The thesis also proposes a practice-based taxonomy of eight architectural strategies of DMVs grounded in design for changeability theory.</p>
+    <p>The methodological contribution is a two-stage optimization framework coupling fleet sizing, mix, and routing with a deterministic microscopic energy consumption model on real urban road networks. The first stage solves energy-minimal shortest path problems incorporating edge-specific driving profiles and key vehicle-level and transportation-system-level factors, producing a reduced graph. The second stage solves the novel Fleet Size and Mix Electric Vehicle Routing Problem with Simultaneous Pickup and Delivery on this reduced graph. The energy consumption model is evaluated against measured energy data from 18 trips of a battery-electric truck operating on a fixed urban route in Östersund, Sweden: it overestimates absolute energy use but reproduces subroute energy rankings, supporting its use for comparative fleet assessment.</p>
+    <p>The framework is applied across Stockholm, Paris, and Lisbon with 50 transportation operations per city and per fleet type, and four objectives. CV fleets consistently have the highest energy consumption, while BEV and DMV fleets show comparable energy use across all cities and objectives. Under cost minimization, DMV fleets achieve the lowest total cost (median approximately €430 per day) compared to CV (€450) and BEV (€730) fleets, driven primarily by the elimination of driver labor. Separate analyses show that business-as-usual operations with dedicated freight and waste fleets consume approximately 50–80\% more energy than corresponding simultaneous operations, indicating substantial multipurpose capability benefits. However, because all fleet types perform the same combined service in the main comparative study in the thesis, the results primarily reflect the effect of automation rather than the full multipurpose capability of DMV fleets.</p>
+    <p>The modeling framework supports energy-informed decisions from strategic fleet procurement and technology adoption, through tactical fleet sizing and deployment, to operational routing. It provides a foundation for future research on larger problem instances requiring approximate solution methods, co-modal freight and passenger operations, additional DMV architectural strategies, and formulations that account for resilience and accessibility.</p>",
+    "swe": "<p>Ett självkörande multifunktionsfordon (eng. Driverless Multipurpose Vehicle, DMV) är ett autonomt vägfordon utformat för att utföra flera transportfunktioner, såsom gods- och persontransporter, under daglig drift. Dessa fordon kan potentiellt minska fordonsflottans storlek, energiförbrukning och driftskostnader i stadstransporter, men förståelsen av deras systemövergripande konsekvenser är fortfarande begränsad. Befintliga modeller för optimering av fordonsflottor integrerar sällan realistisk energiuppskattning baserad på centrala fordonsspecifika och transportsystemrelaterade faktorer på verkliga urbana vägnät, vilket begränsar evidensbasen för att utvärdera införandet av DMV-flottor.</p>
+    <p>Denna avhandling bedömer energi- och driftsmässiga konsekvenser av DMV-införande i stadstransporter ur ett systemnivå- och operativt perspektiv. Avhandlingen behandlar tre forskningsfrågor. För det första, hur energiförbrukningen hos DMV-flottor kan uppskattas och jämföras med manuellt styrda batterielektriska fordonsflottor (eng. Battery-Electric Vehicle, BEV) och förbränningsmotorfordonsflottor (eng. Combustion Vehicle, CV) under realistiska urbana driftsförhållanden. För det andra, hur centrala fordonsspecifika och transportsystemrelaterade faktorer kan integreras i optimeringen av fordonsflottor på realistiska urbana vägnät. För det tredje, vilka energi- och driftsmässiga konsekvenser som uppstår vid jämförelse av DMV-flottor med interiört rekonfigurerbar arkitektur (eng. Interior-Reconfigurable Architecture, IRA) med manuellt styrda BEV- och CV-flottor i flera städer och operativa scenarier. Avhandlingen presenterar även en praxisbaserad taxonomi av åtta arkitekturstrategier av DMV koncept grundade i förändringsteori inom design.</p>
+    <p>Det metodologiska bidraget är ett tvåstegsoptimeringsramverk som kopplar samman fordonsflottans storlek, -komposition och ruttplanering med en deterministisk mikroskopisk energiförbrukningsmodell på verkliga urbana vägnät. Det första steget löser energiminimerande kortaste-väg-problem som inkluderar nätverkslänkspecifika körprofiler, fordonstypsspecifika och transportsystemrelaterade faktorer, och resulterar i en reducerad graf. Det andra steget löser fordonsruttsproblemet Fleet Size and Mix Electric Vehicle Routing Problem with Simultaneous Pickup and Delivery på den reducerade grafen från första steget. Energiförbrukningsmodellen utvärderades mot uppmätt energidata från 18 resor med en batterielektrisk lastbil på en specifik urban rutt i Östersund, Sverige: modellen överskattar den absoluta energiförbrukningen men reproducerar energirankningen mellan delsträckor, vilket stödjer dess användning för jämförande utvärdering av fordonsflottor.</p>
+    <p>Tvåstegsoptimeringsramverket tillämpas på Stockholm, Paris och Lissabon med 50 transportoperationer per stad och per fordonstyp, med fyra olika målfunktioner. CV-flottor har konsekvent den högsta energiförbrukningen, medan BEV och DMV-flottor uppvisar jämförbar energianvändning i alla städer och för alla målfunktioner. Vid kostnadsminimering uppnår DMV-flottor den lägsta totalkostnaden (median cirka 430 euro per dag) jämfört med CV-flottor (450 euro) och BEV-flottor (730 euro), detta var främst drivet av eliminering av förarkostnader. Separata analyser visar att konventionella transporter med separata gods- och avfallstransporter förbrukar cirka 50–80\% mer energi än motsvarande transporter med samlastning, vilket indikerar betydande fördelar med multifunktionskapacitet. Eftersom samtliga fordonstyper utför samma kombinerade tjänst i den huvudsakliga jämförande studien i avhandlingen speglar resultaten dock främst effekten av automation snarare än DMV fulla multifunktionskapacitet.</p>
+    <p>Modelleringsramverket stödjer energiinformerade beslut på strategisk nivå (anskaffning av fordonsflottor och teknikval), taktisk nivå (storlek av fordonsflottan och dess sammansättning) och operativ nivå (ruttplanering). Det utgör en grund för framtida forskning om större problemstorlekar som kräver approximativa lösningsmetoder, kombinerad gods- och persontransporter, alternativa arkitekturstrategier för DMV-flottor, samt formuleringar som tar hänsyn till resiliens och tillgänglighet.</p>"
+  },
+  "SDGs": "11"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_141830Output]
+    ./sdg_classifier_dual_language.py /tmp/SDGs/t_141830 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_141830
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 82, 0, 17, 2, 121, 0, 2, 0, 0, 0, 0]
+
+Assigned value in JSON: "11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :  121 hit(s)
+       * "BEV": 16
+       * "transportation": 18
+       * "urban road": 9
+       * "electric vehicle": 8
+       * "urban road networks": 6
+  [ 2] SDG  7 :   82 hit(s)
+       * "BEV": 16
+       * "energiförbrukning": 13
+       * "energy consumption": 11
+       * "electric vehicle": 8
+       * "battery-electric": 6
+  [ 3] SDG  9 :   17 hit(s)
+       * "BEV": 16
+       * "autonomous vehicles": 1
+  [ 4] SDG 10 :    2 hit(s)
+       * "tillgänglighet": 2
+  [ 5] SDG 13 :    2 hit(s)
+       * "business-as-usual": 2
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 11"
+=================================================================
+\end{lstlisting}
+
+OSDG says \glspl{SDG} 7 \& 11, the \gls{DiVA} record said 11, and the program found terms in \glspl{SDG} 11, 7, 9, 10, and 13.
+
+\begin{itemize}
+    \item \gls{SDG}~11 (121 hits): Dominates as the primary urban mobility and transit infrastructure goal, validating the JSON assignment (\enquote{11}).
+    
+    \item \gls{SDG}~7 (82 hits): Captures the fleet electrification and energy estimation components.
+    
+    \item \gls{SDG}~9 (17 hits): Captures the electric vehicle and autonomous systems engineering. However, almost all of this is from the acronym \enquote{BEV}.
+    
+    \item Minimal Background Noise: Only 2 trace hits each on \gls{SDG}~10 (\enquote{tillgänglighet}) and \gls{SDG}~13 (\enquote{business-as-usual}), with 0 hits across the remaining 12 goals.  
+\end{itemize}
+
+\end{casestudySection}
+
+\begin{takeaway}
+While the author's assignment of \gls{SDG}~11 accurately reflects the thesis's primary urban-transport framing, both OSDG and the dual-language classifier demonstrate that \gls{SDG}~7 is an equally strong co-primary match. Adding \gls{SDG}~7 to the \gls{DiVA} metadata would improve discoverability for researchers searching for urban fleet electrification and energy-optimization studies.
+\end{takeaway}
+
+\begin{casestudySection}[Divergence Between Author Assignment and OSDG]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_142021.json (manually reformatted to keep only one English abstract)}, label=lst:t_142021.json]
+{
+  "divaID": "diva2:1941967",
+  "Title": {
+    "Main title": "Dynamics of demand in passenger services on railways",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "Railroad, Passenger, Travel, Long-term, Equilibrium"
+  },
+  "abstracts": {
+    "eng": "<p>The dynamic effects are a long-term process concerning equilibrium between demand and supply that is usually not achieved in a few years, but after a significantly longer period that can be counted in decades. The consequences of the dynamics may be that society makes incorrect or undersized investments in the railway network based on non-dynamic models. This report examines what research has been conducted on when and to what extent dynamic development occurs in rail passenger demand, and whether any research has been conducted on modelling this dynamic development.</p><p>Results showed that hard measures such as for example frequency of service, travel time and number of necessary interchanges have been studied to a large extent and it is well understood how such measures affect demand, especially in urban transport. However, literature has found that softer measures, which take longer time to have an effect on demand, could be responsible for some of the dynamic development and forecast inaccuracies found in the literature. Also, external factors that are often considered less or even excluded from models, were found to sometimes affect demand significantly.</p><p>Another aspect is the rail factor, i.e. some mode specific attraction assigned to guided transport. The effect of the rail factor has been studied with very mixed results. It would however only be relevant to include the rail factor if there has been a change in modes or if there is competition between rail and road-bound modes such as a bus service.</p><p>It has been clear during this work that not that much literature exists on this topic. The main conclusion of this report would therefore be that more work could be done to examine how dynamic effects affect passenger demand. This is especially true for the very long timespans of a couple of decades or more.</p>"
+  },
+  "SDGs": "9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_142021Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_142021 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_142021
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 12, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   17 hit(s)
+       * "passenger demand": 4
+       * "railway": 3
+       * "investments in the railway network": 2
+       * "rail passenger demand": 2
+       * "guided transport": 2
+  [ 2] SDG 11 :   12 hit(s)
+       * "passenger demand": 4
+       * "frequency of service": 2
+       * "guided transport": 2
+       * "urban transport": 2
+       * "bus service": 2
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9"
+=================================================================
+\end{lstlisting}
+
+OSDG says \gls{SDG}~11. In contrast, the dual-language classifier evaluates the full set of domain terms, finding:
+\begin{itemize}
+    \item \gls{SDG}~9 (17 hits): Takes a clear lead driven by railway infrastructure investment and network demand modeling (\enquote{passenger demand}, \enquote{railway}, \enquote{investments in the railway network}, \enquote{rail passenger demand}), confirming the assigned \enquote{9} in the metadata.
+
+    \item \gls{SDG}~11 (12 hits): Captures the secondary public-transit service and urban modal-competition context (\enquote{frequency of service}, \enquote{guided transport}, \enquote{urban transport}, \enquote{bus service}).
+
+    \item Zero Bleed: All remaining 15 goals sit cleanly at 0.
+\end{itemize}
+
+Why did OSDG and the author diverge in their assignment of \glspl{SDG}?
+\begin{itemize}
+    \item Author's perspective (\gls{SDG}~9): The report focuses on preventing \enquote{incorrect or undersized investments in the railway network} over multi-decade horizons—which maps directly to Target 9.1 (develop quality, reliable, sustainable and resilient infrastructure).
+
+    \item OSDG's perspective (\gls{SDG}~11): OSDG latched onto public-transit and modal-shift terminology (\enquote{urban transport}, \enquote{bus service}, \enquote{frequency of service}, \enquote{passenger demand}), which maps to Target 11.2 (sustainable transport systems).
+\end{itemize}
+
+Because long-term railway network investment (\gls{SDG}~9) and passenger transit service modeling (\gls{SDG}~11) are two sides of the same coin, both goals are genuinely warranted.
+
+\textbf{NB:} As in the earlier cases, there is overlap: \enquote{passenger demand} (4 hits) and \enquote{guided transport} (2 hits) are shared across both \gls{SDG}~9 and \gls{SDG}~11, while \enquote{rail passenger demand} (2) is a superstring of \enquote{passenger demand} (4). Even accounting for that overlap, \gls{SDG}~9 retains distinct infrastructure-investment terms (\enquote{investments in the railway network}: 2, \enquote{railway}: 3) and \gls{SDG}~11 retains distinct transit-service terms (\enquote{frequency of service}: 2, \enquote{urban transport}: 2, \enquote{bus service}: 2)
+\end{casestudySection}
+
+\begin{takeaway}
+Adding \gls{SDG}~11 to \gls{SDG}~9 would improve this entry's discoverability for both \glspl{SDG}. Moreover, this case illustrates that the dominant \gls{SDG} was \textbf{not} the one identified by OSDG.
+\end{takeaway}
+
+
+\Needspace*{6\baselineskip}
+\section{Conclusions}
+\label{sec:Conclusions}
+
+
+
+
+There is evidence of \enquote{performative \glspl{SDG}} where students 
+
+
+
+\begin{takeaway}
+
+\end{takeaway}
+
+
+\clearpage
+\section{Recommendations}
+\label{sec:recommendations}
+This section presents recommendations based on observations from this study to improve the quality of \glspl{SDG}.
+
+\subsection{For Authors}
+
+\begin{recommendation}[]
+\label{rec:digitalFirst}
+
+\end{recommendation}
+\begin{takeaway}
+
+\end{takeaway}
+
+
+
+
+\clearpage
+\phantomsection % Directs hyperref to anchor exactly here
+% Align the text expansion of the glossary entries
+\newglossarystyle{mylong}{%
+  \setglossarystyle{long}%
+  \renewenvironment{theglossary}%
+     {\begin{longtable}[l]{@{}p{\dimexpr 2cm-\tabcolsep}p{0.8\hsize}}}% <-- change the value here
+     {\end{longtable}}%
+ }
+
+\addcontentsline{toc}{section}{List of Acronyms and Abbreviations}
+
+\printglossary[style=mylong, type=\acronymtype, title={List of Acronyms and Abbreviations}]
+\clearpage
+\renewcommand{\bibname}{References}
+
+\printbibliography[heading=bibintoc, title={References}]      
+
+\clearpage
+\appendix
+\begin{comment}
+\section{}
+\label{appendix:xxx}
+\end{comment}
+
+\clearpage
+
+\end{document}
