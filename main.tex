@@ -881,7 +881,7 @@ OSDG says \gls{SDG}~11. In contrast, the dual-language classifier evaluates the 
 
 Why did OSDG and the author diverge in their assignment of \glspl{SDG}?
 \begin{itemize}
-    \item Author's perspective (\gls{SDG}~9): The report focuses on preventing \enquote{incorrect or undersized investments in the railway network} over multi-decade horizons—which maps directly to Target 9.1 (develop quality, reliable, sustainable and resilient infrastructure).
+    \item Author's perspective (\gls{SDG}~9): The report focuses on preventing \enquote{incorrect or undersized investments in the railway network} over multi-decade horizons --- which maps directly to Target 9.1 (develop quality, reliable, sustainable and resilient infrastructure).
 
     \item OSDG's perspective (\gls{SDG}~11): OSDG latched onto public-transit and modal-shift terminology (\enquote{urban transport}, \enquote{bus service}, \enquote{frequency of service}, \enquote{passenger demand}), which maps to Target 11.2 (sustainable transport systems).
 \end{itemize}
@@ -1235,7 +1235,7 @@ Suggested 'SDGs' value: "SDG 9"
 
 OSDG failed to handle this abstract, which is an exceptionally long, policy-and-operations-heavy dual-language text (over 800 words per language) analyzing railway deregulation, axle/train lengths, and rolling resistance, without relying on high-level UN agenda slogans. The program output is shown in \Cref{lst:t_145010Output} and it shows:
 \begin{itemize}
-    \item \gls{SDG}~9 (96 hits — Overwhelming Primary Signal): The program cleanly isolated \gls{SDG}~9 with 96 hits—more than triple the second-ranked goal—directly confirming the \gls{DiVA} \gls{JSON} metadata (\enquote{SDGs}: \enquote{9}).   The score was driven by the dual-language railway infrastructure and freight terminology.  
+    \item \gls{SDG}~9 (96 hits --- Overwhelming Primary Signal): The program cleanly isolated \gls{SDG}~9 with 96 hits --- more than triple the second-ranked goal --- directly confirming the \gls{DiVA} \gls{JSON} metadata (\enquote{SDGs}: \enquote{9}).   The score was driven by the dual-language railway infrastructure and freight terminology.  
     
     \item Secondary Contextual Signals (\gls{SDG}~11, \gls{SDG}~7, \gls{SDG}~3, \gls{SDG}~13):
     \begin{itemize}
@@ -1560,7 +1560,7 @@ The program correctly identified the 5 \gls{DiVA} goals \enquote{1, 2, 7, 11, 12
     \item \gls{SDG}~12 (6 hits): Driven by \enquote{food waste} (2), \enquote{environmental policy} (2), \enquote{energy subsidies} (1), and STRINGS co-occurrence (\enquote{sustainability} + \enquote{consumption}), directly aligning with Target 12.3 (halving retail/consumer food waste) and Target 12.c (rationalizing inefficient fossil-fuel/energy subsidies).
 
 
-    \item \gls{SDG}~10 (6 hits — Substantiated Secondary Signal): Driven by \enquote{poverty} (5) and the STRINGS rule \enquote{poverty} AND (\enquote{inequality} OR \enquote{unequal} OR \enquote{social mobility}) (1), directly reflecting the abstract's analysis of \enquote{a wide distribution of unintended, unjust and unequal effects} across \enquote{high income to low-income homes} (\enquote{ojämlika effekter}, \enquote{hög- till låginkomsthushåll}).
+    \item \gls{SDG}~10 (6 hits --- Substantiated Secondary Signal): Driven by \enquote{poverty} (5) and the STRINGS rule \enquote{poverty} AND (\enquote{inequality} OR \enquote{unequal} OR \enquote{social mobility}) (1), directly reflecting the abstract's analysis of \enquote{a wide distribution of unintended, unjust and unequal effects} across \enquote{high income to low-income homes} (\enquote{ojämlika effekter}, \enquote{hög- till låginkomsthushåll}).
 \end{itemize}
 
 
@@ -1572,6 +1572,274 @@ Note that there was zero \textit{False-Positive Bleed}:  All remaining 11 goals 
 \begin{takeaway}
 Compilation theses are likely to span multiple domains across their constituent publications and therefore legitimately contribute toward several \glspl{SDG}---requiring multi-track lexical and co-occurrence classification rather than top-2 \gls{ML} truncation to capture their full scope.
 \end{takeaway}
+
+\begin{casestudySection}[Importance of domain-specific terms]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_149108.json (manually reformatted to keep only one English abstract)}, label=lst:t_149108.json]
+{
+  "divaID": "diva2:2001096",
+  "Title": {
+    "Main title": "Machine learning methods in reactor lattice and nodal calculations",
+    "Language": "eng"
+  },
+  "abstracts": {
+    "eng": "<p> This thesis investigates the application of advanced machine learning (ML) techniques for reactor physics applications, specifically in the area of lattice and nodal calculations. The research is divided into two main areas. The first focuses on accelerating the generation of few-group cross section (FGXS) data and the second area focuses on the use of ML for accurate predictions of nodal parameters and their uncertainty estimates.   In the first area, ML-based surrogate models were developed to predict multi-group cross section (MGXS) libraries for nuclides commonly found in pressurized water reactors (PWRs), serving as efficient alternatives to conventional tools such as XSPROC. Additionally, a hybrid model incorporating two deep neural networks (DNNs) with a linear blending scheme was proposed to simulate the depletion-driven evolution of nuclide compositions within fuel pellets. To manage the high dimensionality of MGXS data, Principal Component Analysis (PCA) was employed to construct a reduced latent space, which was then mapped using DNNs conditioned on reactor state parameters. Recurrent neural networks (RNNs) were also evaluated for modeling fuel depletion behavior. Two RNN variants—the “Direct NN” and the “Difference NN”—were developed and compared, and a nuclide-specific blending parameter optimized during training was introduced to enhance predictive performance without requiring additional training data.  The second area examines ML-based approaches for nodal data representation. Statistically rigorous model comparisons were performed using the non-parametric Wilcoxon, Nemenyi, McDonald-Thompson (WNMT) test. The study demonstrated that ML models can predict not only mean FGXS parameters but also their associated covariance matrices, capturing aleatoric uncertainty and enabling their integration into full-core uncertainty quantification frameworks. Both polynomial regression and DNN-based models were assessed, alongside the effects of descriptive statistical preprocessing. Results showed a strong dependence of model accuracy on training dataset size, with polynomial regression combined with descriptive statistics yielding the most accurate predictions on the largest dataset.</p>"
+  },
+  "SDGs": "7"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_149108Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_149108 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_149108
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 7, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "7"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   13 hit(s)
+       * "ML": 5
+       * "machine learning": 2
+       * "neural networks": 2
+       * "uncertainty quantification": 1
+       * "recurrent neural networks": 1
+  [ 2] SDG  7 :    7 hit(s)
+       * "PWRs": 1
+       * "nodal calculations": 2
+       * "pressurized water reactors": 1
+       * "reactor physics": 1
+       * "fuel depletion": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 7"
+=================================================================
+\end{lstlisting}
+
+This case study provides an excellent example of cross-disciplinary intersection --- specifically where computational methods (Machine Learning) meet a clean-energy application domain (nuclear reactor physics).
+
+OSDG could not handle the abstract. In contrast, \Cref{lst:t_149108Output} shows that the program could find both the \gls{SDG}~7 and \gls{SDG}~9 terms.
+
+This case study illustrates the split between method (\gls{SDG}~9) vs. application domain (\gls{SDG}~7):
+\begin{itemize}
+    \item Methodological layer (\gls{SDG}~9): Terms like \enquote{ML} (5), \enquote{machine learning} (2), \enquote{neural networks} (2), and \enquote{recurrent neural networks} (1) capture the computational/AI methodology (Target 9.5: fostering innovation and technological capabilities).
+
+    \item Application domain layer (\gls{SDG}~7): Because the abstract never uses generic phrases like \enquote{clean energy} or \enquote{electricity generation}, a standard classifier would completely miss the energy connection. Instead, the domain-enriched lexicon captures nuclear reactor physics nomenclature --- \enquote{PWRs} (1), \enquote{pressurized water reactors} (1), \enquote{nodal calculations} (2), \enquote{reactor physics} (1), and \enquote{fuel depletion} (1) --- which directly substantiates the author's \gls{SDG}~7 assignment under Target 7.2 / 7.a (clean-energy technology research).
+\end{itemize}
+
+Although \gls{SDG}~9 has a higher raw count simply because general AI/ML acronyms (\enquote{ML}: 5) repeat throughout the methodology description --- whereas \gls{SDG}~7 captures the core physical domain, this explains both why \gls{SDG}~7 is well-founded and why adding \gls{SDG}~9 would also be reasonable if the author wished to highlight the AI/surrogate-modeling contribution.
+
+Note that there is zero bleed, \ie the remaining 15 \glspl{SDG} sit cleanly at 0, which reinforces the precision of the nuclear-engineering dictionary entries.
+\end{casestudySection}
+
+\begin{takeaway}
+This case study illustrates the critical importance of domain-specific technical terms: without specialized reactor-physics vocabulary (such as \enquote{PWRs}, \enquote{nodal calculations}, and \enquote{fuel depletion}), an automated classifier would either miss \gls{SDG}~7 entirely or classify a nuclear engineering thesis solely as a generic machine-learning paper (\gls{SDG}~9). 
+\end{takeaway}
+
+\begin{casestudySection}[A clear single SDG]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_150476.json (manually reformatted to keep only one abstract per language)}, label=lst:t_150476.json]
+{
+  "divaID": "diva2:1955069",
+  "Title": {
+    "Main title": "Mitigating uncertainties in adaptive radiation therapy by robust optimization",
+    "Language": "eng"
+  },
+  "abstracts": {
+    "eng": "<p>The fractionated delivery of radiation therapy leads to discrepancies between the planning image and the patient geometry throughout the treatment course. Adaptive radiation therapy (ART) addresses this issue by modifying the plan based on additional image information acquired closer to the time of delivery. However, technologies used in ART introduce new uncertainties in the treatment modeling. This thesis deals with the mitigation of uncertainties that are introduced in the context of ART workflows.</p><p>The first two appended papers address mitigating uncertainty related to localizing the tumor and the relevant organs-at-risk (OARs). In Paper A, we consider phantom cases with isotropic, microscopic tumor infiltration around a visible tumor. We compare minimization of the expected value of the objective function to the conventional minimization of an objective function applied to a margin designed to contain the tumor with sufficient probability. The results show that the approach can improve the sparing of a nearby OAR, at the expense of increasing the total dose. In Paper B, we compare multiple formulations of the objective function under contour uncertainty, given a non-isotropic uncertainty model represented by a set of contour scenarios. At comparable tumor dose, margins derived from the scenarios outperform methods from clinical practice in terms of sparing OARs and limiting the total dose. In comparison, considering the scenarios explicitly, including minimizing the expected value of the objective function over the scenarios, spares the OARs further at the expense of total dose.</p><p>The three subsequent papers address motion-related uncertainty, which is particularly relevant in particle treatments. In Paper C, we investigate a robust optimization method that explicitly considers the radiation delivery’s time structure. It is applied to lung cancer cases with synthesized, irregular breathing motion, and the results indicate that it outperforms the conventional method that does not consider the time structure. In Paper D, we simulate the use of a real-time adaptive framework that re-optimizes the plan during delivery, based on the observed and anticipated patient motion. It is shown to have substantial dosimetric benefits, even under simplifying approximations that would facilitate an actual real-time implementation. In PaperE, we estimate the error associated with performing dose calculations that consider motion when the temporal resolution of the time-varying patient image is low. We apply a method to synthesize intermediate images and propose a temporal resolution required to mitigate the error. Finally, in Paper F, we address some of the computational issues introduced by the robust optimization methods from the other papers. We propose methods that reduce the number of scenarios considered during robust optimization to reduce the associated computation times.</p>",
+    "swe": "<p>Vid fraktionerad strålbehandling administreras strålningen i mindre doser över flera behandlingstillfällen. Detta medför avvikelser mellan patientens faktiska anatomiska tillstånd vid varje enskild fraktion och den bild som använts för dosplanering. Adaptivstrålbehandling (ART) adresserar denna utmaning genom modifiering av behandlingsplanen utifrån ytterligare bildinformation som erhålls närmre inpå leverans av en enskild fraktion. Teknologier som används i ART introducerar dock nya osäkerheter i behandlingsmodelleringen. Denna avhandling undersöker hantering av de osäkerheter som uppstår i samband med arbetsflöden för ART.</p><p>Avhandlingens första två bifogade artiklar behandlar metoder som hanterar osäkerhet i lokaliseringen av tumören och berörda riskorgan. I Artikel A använder vi oss av fantomfallmed isotrop, mikroskopisk tumörinfiltration runt en synlig tumör. Vi jämförminimering av målfunktionens väntevärde med konventionell minimering av en målfunktiontillämpad på en marginal som är utformad för att innefatta tumören med högsannolikhet. Resultaten visar att metoden kan förbättra skyddet av ett närliggande riskorgan, på bekostnad av en ökad totaldos. I Artikel B jämför vi flera formuleringar av målfunktionen vid kontureringsosäkerhet, givet en icke-isotrop osäkerhetsmodellrepresenterad av en uppsättning konturscenarier. Vid jämförbar tumördos överträffar scenariobaserade marginaler metoder från klinisk praxis när det gäller att skonariskorgan och att begränsa totaldosen. Vidare visar sig metoder som explicit beaktarscenarierna var för sig, inklusive minimering av målfunktionens väntevärde övermängden scenarier, kunna skona riskorgan ytterligare på bekostnad av högre totaldos.</p><p>Därefter följer tre artiklar som behandlar rörelserelaterad osäkerhet, vilket är särskilt relevant vid partikelstrålning. I Artikel C undersöker vi en optimeringsmetod som uttryckligen tar hänsyn till tidsstrukturen i leveransen av strålning. Metoden tillämpas på lungcancerfall med syntetiserad, oregelbunden andningsrörelse, och resultaten indikeraratt den överträffar en konventionell metod som inte tar hänsyn till tidsstrukturen. I Artikel D simulerar vi användningen av en realtidsadaptiv metod som optimerar behandlingsplanen under leveransen baserat på observerad och förväntad patientrörelse. Metoden visar betydande dosimetriska fördelar, även under förenklande antaganden som skulle underlätta en faktisk realtidsimplementering. I Artikel E uppskattar vi feletvid dosberäkningar som beaktar rörelse, när tidsupplösningen i den tidsberoende patientbilden är låg. Vi tillämpar en metod för att syntetisera mellanliggande bilder och föreslår en tillräcklig tidsupplösning för att minska felet. Slutligen behandlar vi i Artikel F vissa beräkningsmässiga utmaningar som introducerasav optimeringsmetoderna i övriga artiklar. Vi föreslår metoder som minskar antalet scenarier som beaktas vid robust optimering, för att också minska mängden beräkningar.</p>"
+  },
+  "SDGs": "3"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_150476Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_150476 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_150476
+Match Vector (SDG 1 - 17):
+[0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "3"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  3 :   38 hit(s)
+       * "patient": 6
+       * "tumor": 5
+       * "radiation therapy": 3
+       * "treatment": 3
+       * "riskorgan": 3
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 3"
+=================================================================
+\end{lstlisting}
+
+OSDG could not handle the abstract. In contrast, \Cref{lst:t_150476Output} shows that the program could readily identify \gls{SDG}~3 via
+the hits anchored by clinical oncology and radiotherapy vocabulary across both English and Swedish (\enquote{patient}: 6, \enquote{tumor}: 5, \enquote{radiation therapy}: 3, \enquote{treatment}: 3, \enquote{riskorgan}: 3), mapping squarely to Target 3.4 (reduce premature mortality from non-communicable diseases, including cancer).
+
+Although the medical context is clear to a human reader, the abstract is heavily mathematical and optimization-driven (objective function, contour scenarios, non-isotropic uncertainty model, dosimetric benefits, temporal resolution, scenario reduction), which caused OSDG's pipeline to fail on the text.
+
+Note that there is zero false-positive bleed, \ie all other 16 \glspl{SDG} registered 0 hits --- even generic optimization terms did not trigger false positives under \gls{SDG}~9 or \gls{SDG}~11.
+
+\end{casestudySection}
+
+\begin{takeaway}
+In the UN \gls{SDG} framework, pure mathematical and optimization terms do \textbf{not} have a standalone \gls{SDG} of their own; instead, they are domain-scoped by their physical or societal application.
+\end{takeaway}
+
+\begin{casestudySection}[Single SDG: Full Agreement Across Author, OSDG, and Classifier program]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_150695.json (manually reformatted to keep only one abstract per language and added newlines between paragraphs)}, label=lst:t_150695.json]
+{
+  "divaID": "diva2:1946183",
+  "Title": {
+    "Main title": "Modeling of Shoulder Loading and Stability",
+    "Language": "eng"
+  },
+  "Alternative title": {
+    "Main title": "Biomekaniska modeller av belastning och stabilitet i axeln",
+    "Language": "swe"
+  },
+  "abstracts": {
+    "eng": "<p>Analysis of shoulder loading can shed light on injury mechanisms, but direct measurement of loading remains challenging. Musculoskeletal simulations offer alternative estimation methods, provided they are validated. A recent open-source thoracoscapular shoulder model can reproduce scapulothoracic kinematics accurately, but its validity in estimating joint loading has been unknown. Previous attempts to use this model with  muscle redundancy solvers to estimate shoulder joint loading have been made, but whether the solutions fulfilled conditions for glenohumeral stability has been relatively little explored. The existing thoracoscapular model, moreover, does not allow any articulation in the spine, whereas muscles that span the shoulder are influenced by spinal movement.</p>
+    <p>The first aim of the thesis was to explore what degree of glenohumeral stability is adequate in a musculoskeletal model to accurately estimate shoulder joint forces. We used available kinematics and <em>in vivo</em> glenohumeral joint contact forces from the <em>Orthoload</em> dataset to evaluate the criterion validity of the proposed stability formulations. Different formulations for shoulder joint stability were introduced based on the computed direction of the joint contact force. This force was constrained to be directed into or close to the glenoid cavity, described with different geometric shapes or penalties in the muscle redundancy solver. We found that restricting the force direction towards a specified shape resulted in unrealistic force vectors that were directed along the shape borders. A less strict approach that encouraged joint contact forces to be directed centrally in the glenoid cavity estimated relatively more accurate force magnitudes and contact force directions, though some differences with the <em>in vivo</em> measurements still exist. </p>
+    <p>The second aim of the thesis was to validate the use of a spine-integrated thoracoscapular shoulder (SITS) model, which includes cervical and lumbar spine articulation, to estimate shoulder biomechanics in seated activities. Specifically, aims of the second study were to evaluate the model's content validity, then to study how sitting posture can affect shoulder muscle activation and joint loading. We estimated shoulder loading during captured movements of subjects performing simple dumbbell lifting tasks in two different sitting postures—slouched and upright. We compared estimated muscle and joint loading with the rigid (locked) spine and with vertebral articulation (unlocked), and found that the customized model with an unlocked spine reproduced the actual movement more accurately. We then found that sitting postures influenced muscle activation and joint loading; compared to an upright posture, the dumbbell lateral and anterior lifting in a slouched posture involved greater glenohumeral joint movement, increased ligament lengthening, more muscle activation, and higher joint contact forces. These findings suggest that performing dumbbell lifts in a slouched posture places more load on the glenohumeral joint and increases strain on soft tissues, specifically glenohumeral ligaments.</p>
+    <p>These findings support the proposed enhanced shoulder model and stability formulations as benchmark methods for comprehensive shoulder biomechanical analysis. </p>",
+    "swe": "<p>Analys av axelbelastning kan ge insikt i skadeorsaker. Direkt mätning av belastning är dock fortfarande en utmaning. Som ett alternativ kan muskel- och ledbelastningar uppskattas med muskuloskeletala simuleringar, men modellerna måste valideras. Modeller har utvecklats för att uppskatta rörelse och belastning i axelns olika leder och muskler. Validitet vid skattning av belastning har dock inte rapporterats. Tidigare modeller tillåter inte heller rörelse i ryggraden, trots att hållningen påverkar muskler som spänner över axeln. Det första syftet med avhandlingen var att undersöka vilken grad av stabilitet runt axelleden som är tillräcklig i en muskuloskeletal modell för att uppskatta axelledens krafter. Utifrån tillgängliga in vivo-data gällande rörelse-och ledbelastning modellerades axelledens stabilitet på olika sätt genom att begränsa ledkontaktkraften så att den riktas in i eller nära glenoidkaviteten. Vi fann att en mindre strikt stabilitetsbeskrivning som uppmuntrade axelledskontaktkrafter att riktas centralt i glenoidkaviteten uppskattade kraftstorlekar och kontaktkraftriktningar relativt väl, även om vissa avvikelser med in vivo-mätningarna fortfarande fanns.</p><p>Det andra syftet med avhandlingen var att validera en biomekanisk modell av axelleden med rörelse i ryggraden (SITS), för att uppskatta axelledens biomekanik vid sittande aktiviteter. Axelbelastningen beräknades  från insamlad rörelsedata av forskningspersoner som utförde enkla hantellyftaktiviteter, i både hopsjunkna och upprätta sittställningar. Vi fann att sittställningar påverkade modellernas estimerade  muskelaktivering och ledbelastning. Jämfört med en upprätt hållning innebar hantellyftet i ett hopsjunken hållning större glenohumerala ledrörelser, mer ligamentsträckning, mer muskelaktivering samt högre ledkontaktkrafter. </p>
+    <p>Dessa resultat stöder den föreslagna modellen av axelleden och beskrivning av ledstabilitet som benchmarkmetoder för omfattande biomekanisk analys av axelleden.</p>"
+  },
+  "SDGs": "3"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_150695Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_150695 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_150695
+Match Vector (SDG 1 - 17):
+[0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "3"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  3 :   20 hit(s)
+       * "joint loading": 5
+       * "ledbelastning": 3
+       * "biomekanisk": 3
+       * "musculoskeletal": 2
+       * "injury mechanisms": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 3"
+=================================================================
+\end{lstlisting}
+
+Both OSDG and the program's sole match vector peak converged exclusively on \gls{SDG}~3, corroborating the \gls{DiVA} metadata (\enquote{SDGs}: \enquote{3}).
+Unlike the previous case study, the abstract uses recognizable clinical, ergonomic, and injury-prevention terminology (injury mechanisms, musculoskeletal, sitting posture, ligament lengthening) --- rather than dense mathematical optimization formulations. The bilingual terms hits  (\enquote{joint loading}: 5, \enquote{ledbelastning}: 3, \enquote{biomekanisk}: 3, \enquote{musculoskeletal}: 2, \enquote{injury mechanisms}: 1) directly link to Target 3.4 / 3.d (prevention and management of musculoskeletal injury and non-communicable health conditions).
+
+Again, there were zero false-positive bleeds, \ie all other 16 \glspl{SDG} registered 0 hits --- confirming that anatomical and kinematic terms do not trigger false positives in engineering or transport categories.
+\end{casestudySection}
+
+\begin{takeaway}
+When a biomedical or biomechanical abstract articulates injury mechanisms and clinical health outcomes in accessible terminology rather than purely mathematical optimization formulas, general-purpose \gls{ML} classifiers (OSDG) and domain-specific dual-language lexicons converge cleanly on the exact single \gls{SDG} assigned by the author.
+\end{takeaway}
+
+\begin{casestudySection}[Validating Multi-Goal Urban Health and Equity (\glspl{SDG}~3, 10, and 11)]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_150949.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_150949.json]
+{
+  "divaID": "diva2:1991886",
+  "Title": {
+    "Main title": "Modelling road traffic noise and human exposure: from simulation to application",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "road traffic noise, environmental acoustics, dynamic noise mapping, microscopic traffic simulation, CNOSSOS-EU, noise emission modelling, acceleration noise, electric vehicles, event-based indicators, noise events, population exposure, Smart City, digital twins",
+    "swe": "Vägtrafikbuller, dynamisk bullerkartläggning, mikroskopisk trafiksimulering, CNOSSOS-EU, modellering av bulleremissioner, accelerationsbuller, elfordon, händelsebaserade indikatorer, bullerhändelser, befolkningens bullerexponering, smarta städer, digitala tvillingar"
+  },
+  "abstracts": {
+    "eng": "<p>Noise pollution is a leading environmental risk, causing widespread annoyance, sleep disturbance and an increased burden of disease. In Europe alone, more than 100 million people are affected by noise pollution, especially in urban areas. Road traffic is, by far, the largest contributor to this urban noise exposure. Despite extensive regulatory efforts, including the EU's Environmental Noise Directive, current approaches to environmental noise assessment remain limited in their capacity to capture the true complexity of road traffic noise pollution and its impacts on exposed populations. In particular, prevailing methodologies often rely on static assessments, using time-averaged indicators which ignore the highly dynamic nature of road traffic noise exposure in cities, and adopt a source-centric approach, focussing more on where the noise is emitted rather than who is exposed to it.</p>
+    <p>The present thesis aims to address these limitations by advancing the methodological chain for road traffic noise exposure assessment. It introduces and validates a suite of new tools and approaches for near-real-time, dynamic, and population-centric noise modelling, based on both advanced simulation and empirical data. Central to this work is the use of microscopic traffic simulations, calibrated using real-time sensor data, to generate temporally and spatially resolved representations of urban traffic. These simulations form the basis for more realistic modelling of noise emissions, enabling the assessment of exposure at both individual and population scales.</p>
+    <p>A significant contribution of this thesis is the improvement of noise emission models to explicitly account for the unique characteristics of electric vehicles during acceleration. These advancements address a key limitation in existing models, which tend to underestimate the noise emissions of electric cars and fail to properly reflect the shifting acoustic landscape resulting from vehicle electrification. The thesis also proposes and validates dynamic and event-based noise indicators, such as the number of noise events, which have demonstrated strong associations with health-relevant outcomes like sleep disturbance. These indicators are complemented by innovative visualisation techniques, including animated dynamic noise maps and receiver-centric sensitivity maps, that place the population at the centre of exposure assessment and facilitate more effective communication with stakeholders.</p>
+    <p>The proposed methodologies have been validated through case studies in several European cities, including Tartu (Estonia), Munich (Germany), and Stockholm (Sweden), demonstrating their applicability to real scenarios. Furthermore, the integration of dynamic simulations with real-world measurements and the demonstration of near-real-time noise mapping lay the groundwork for next-generation digital twins and dynamic noise management strategies in urban environments.</p>
+    <p>In conclusion, this thesis advances the field of environmental acoustics by delivering a comprehensive and flexible framework for dynamic noise exposure assessment, supporting healthier, fairer, and more sustainable cities.</p>",
+    "swe": "<p>Buller är ett stort miljöproblem och har en betydande påverkan på folkhälsan genom att bland annat orsaka störning och sömnproblem. Enbart i Europa utsätts mer än 100 miljoner människor för ohälsosamma bullernivåer, särskilt i stadsområden. Vägtrafiken är den absolut största bidragande faktorn till bullerexponering.</p>
+    <p>Trots omfattande regelverk, däribland Europeiska unionens direktiv om omgivningsbuller (END), tar inte de nuvarande metoderna hänsyn till komplexiteten i urbana ljudmiljöer och dess påverkan på invånarna. Framför allt bygger gängse metoder på statiska och genomsnittsbaserade indikatorer, t.ex. förenklade och källcentrerade modeller som inte beaktar den tidsvarierande och heterogena karakteristiken för bullerexponeringen i städer.</p><p>I denna avhandling studeras dessa begränsningar genom att utveckla nya modeller för bedömning av exponering för vägtrafikbuller. Nya metoder för dynamisk, befolkningscentrerad bullermodellering i nära realtid, baserade på både avancerad simulering och empiriska data introduceras och valideras. En central del av avhandlingen är användningen av högupplösta trafiksimuleringar som är kalibrerade med realtidsdata från sensorer för att generera tids- och rumsupplösta representationer av urbana trafikflöden. Dessa simuleringar utgör grunden för mer realistisk modellering av buller och möjliggör bedömning av exponering på såväl individ- som befolkningsnivå.</p>
+    <p>Ett viktigt bidrag är förbättrade källmodeller som beaktar elfordons accelerationsfas. Dessa förbättringar hanterar en central brist i befintliga modeller, som tenderar att underskatta bullernivåerna från elfordon och därmed inte fångar det skiftande ljudlandskap som följer av fordonsflottans elektrifiering. I avhandlingen presenteras och valideras vidare dynamiska och händelsebaserade bullerindikatorer, såsom antalet bullerhändelser, som uppvisar starka samband med hälsorelaterade utfall som sömnstörning. Indikatorerna kompletteras av innovativa visualiseringar, däribland animerade, dynamiska bullerkartor och mottagarcentrerade känslighetskartor,  som  sätter invånarna i centrum för exponeringsbedömningen och som underlättar kommunikationen med intressenter.</p>
+    <p>De föreslagna metoderna har validerats genom fallstudier i flera europeiska städer, inklusive Tartu (Estland), München (Tyskland) och Stockholm (Sverige), vilket visar deras användbarhet i verkliga scenarier. Vidare visar valideringen av dynamiska simuleringar mot verkliga mätningar och demonstrationen av bullerkartläggning i nästintill realtid möjligheter för nästa generations digitala tvillingar och dynamiska bullerhanteringsstrategier i städer.</p>
+    <p>Sammanfattningsvis bidrar denna avhandling till utvecklingen inom akus- tik genom att presentera ett omfattande och flexibelt ramverk för dynamisk trafikbullerexponering, som kan leda till hälsosammare, rättvisare och mer hållbara städer. </p>"
+  },
+  "SDGs": "3, 10, 11"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_150949Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_150949 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_150949
+Match Vector (SDG 1 - 17):
+[0, 0, 39, 0, 0, 0, 5, 0, 6, 3, 43, 0, 0, 0, 0, 1, 0]
+
+Assigned value in JSON: "3, 10, 11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :   43 hit(s)
+       * "CNOSSOS-EU": 2
+       * "CNOSSOS": 2
+       * "road traffic noise": 5
+       * "traffic noise": 5
+       * "noise pollution": 3
+  [ 2] SDG  3 :   39 hit(s)
+       * "road traffic noise": 5
+       * "traffic noise": 5
+       * "noise exposure": 4
+       * "bullerexponering": 3
+       * "environmental acoustics": 2
+  [ 3] SDG  9 :    6 hit(s)
+       * "CNOSSOS-EU": 2
+       * "CNOSSOS": 2
+       * "environmental acoustics": 2
+  [ 4] SDG  7 :    5 hit(s)
+       * "electric vehicles": 2
+       * "electrification": 1
+       * "elektrifiering": 1
+       * "electric cars": 1
+  [ 5] SDG 10 :    3 hit(s)
+       * "befolkningscentrerad": 1
+       * "population-centric": 1
+       * "rättvisare": 1
+  [ 6] SDG 16 :    1 hit(s)
+       * "rättvisa": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 3, SDG 10, SDG 11"
+=================================================================
+\end{lstlisting}
+
+OSDG identified \gls{SDG}~11 and \gls{SDG}~13. In contrast, \Cref{lst:t_150949Output} shows matching terms for \gls{SDG}~11, \gls{SDG}~3, \gls{SDG}~9, \gls{SDG}~7, \gls{SDG}~10, and a trace hit for \gls{SDG}~16.
+
+While OSDG classified the abstract as \gls{SDG}~11 and misclassified it as \gls{SDG}~13, it missed both public health and environmental equity. In contrast, the program's match vector substantiates \gls{SDG}~11 (43), \gls{SDG}~3 (39), and \gls{SDG}~10 (3), while keeping \gls{SDG}~13 cleanly at 0. Note that \gls{SDG}~10 is substantiated by \enquote{population-centric} (1), \enquote{befolkningscentrerad} (1), and \enquote{rättvisare} [\emph{fairer}] (1).
+\begin{itemize}
+    \item \gls{SDG}~3 (39 hits) and \gls{SDG}~11 (43 hits) are co-primary, since road traffic noise sits squarely at the intersection of urban environmental quality (Target 11.6: reducing adverse per capita environmental impact of cities) and public health (Target 3.9 / 3.4: reducing illness from environmental pollution, sleep disturbance, and burden of disease).
+
+    \item OSDG triggered \gls{SDG}~13 likely by conflating general environmental/emissions vocabulary (environmental, noise pollution, electric vehicles, EU's Environmental Noise Directive) with climate change (\gls{SDG}~13), even though the thesis never mentions greenhouse gases or climate targets.
+\end{itemize}
+
+The trace hit for \gls{SDG}~16 is a problem of the isolated use of \enquote{rättvisa} matching as a prefix inside \enquote{rättvisare} --- as described in earlier case studies.
+
+\textbf{NB:} In the final sentence of the Swedish abstract, \enquote{akus- tik} has an artifact hyphen/space that occurs in the source \gls{DiVA} record.
+\end{casestudySection}
+
+\begin{takeaway}
+Whereas general-purpose \gls{ML} classifiers can misread environmental acoustics as climate action (\gls{SDG}~13) while overlooking health and equity, a dual-language domain lexicon validates the author's multi-goal framing across urban sustainability (\gls{SDG}~11), public health (\gls{SDG}~3), and population-centric environmental justice (\gls{SDG}~10).
+\end{takeaway}
+
 
 
 
