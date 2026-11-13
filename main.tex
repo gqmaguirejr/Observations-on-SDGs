@@ -966,6 +966,615 @@ In this case, OSDG could not handle the abstract, while the program found a clea
 While \gls{SDG}~9 is the clear primary classification for this acoustic-characterization study, optionally adding \gls{SDG}~3 and \gls{SDG}~11 would improve discoverability for researchers focused on noise pollution abatement, highlighting the interconnected health and urban-environment dimensions of noise-reduction engineering.
 \end{takeaway}
 
+
+\begin{casestudySection}[Dual-Language Synergy Across Technical \& Institutional Vocabulary]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_144856.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_144856.json]
+{
+  "divaID": "diva2:2018544",
+  "Title": {
+    "Main title": "Forecast timetables",
+    "Language": "eng",
+    "Subtitle": "A novel method to estimate future passenger rail supply"
+  },
+  "Alternative title": {
+    "Main title": "Prognostidtabeller",
+    "Language": "swe",
+    "Subtitle": "En ny metod att beräkna framtida tågtrafikutbud"
+  },
+  "keywords": {
+    "eng": "passenger demand, railroad, supply forecast, neural network"
+  },
+  "abstracts": {
+    "eng": "<p>In railway project appraisal, the train traffic and complementing and competing modes’ supplies are one of the most important factors for estimation of travel demand and hence project benefits. Today, the forecast timetables that the Swedish Transport Administration (Trafikverket) uses for passenger forecasts are based on past developments, supplemented by an expert assessment of expected future supply developments. There are some doubts as to whether the method is sufficiently objective and consistent between different objects to provide a fair planning basis. The aim of this study is to develop a data-driven method for the supply that can be used as a starting point for travel forecast generation.</p><p>In this study, a model, Multi-Task Heterogeneous Graph Attention Neural Network (MT-HGATNN), was developed and applied to forecast train supply across multiple train categories and line sections, or station pairs. By leveraging structured timetable data, socioeconomic inputs, and scenario-based forecasts, the model provides accurate and interpretable insights into both current and future rail demand.</p><p>The model performs well in both retrospective validation (2023 data) and prospective forecasting (base year 2045), with model training on and a case study of East Coast line (Ostkustbanan). It is offering a framework for strategic transport planning under uncertainty. The multi-task learning approach enables joint modelling of multiple train categories, improving parameter efficiency and allowing the model to exploit latent interdependencies between tasks. The ability to integrate temporal granularity (hourly slots), spatial structure (station pair-level analysis), and diverse exogenous variables (e.g., GDP, car ownership, fares) further strengthens its applicability in complex real-world settings.</p><p>There are several promising directions for extending and deepening the work presented in this study. One important step would be to evaluate the generalisability of the developed MT-HGATNN model by applying it to other rail corridors or potentially at the national network level. This would help assess the model’s robustness across different geographical contexts and service supplies.</p>",
+    "swe": "<p>Vid utvärdering av järnvägsprojekt är tågtrafiken och kompletterande och konkurrerande färdmedelsutbud en av de viktigaste faktorerna för att förutse resefterfrågan och därmed projektnyttor. Idag baseras de prognostidtabeller som Trafikverket använder för resandeprognoser på hittillsvarande utveckling, kompletterat med en expertbedömning av förväntad framtida utbudsutveckling. Det finns vissa tvivel om huruvida metoden är tillräckligt objektiv och konsistent mellan olika objekt för att ge ett rättvisande planeringsunderlag. Syftet med denna studie är att utveckla en datadriven metod för utbudet som kan användas som utgångspunkt för generering av resandeprognoser.</p><p>I denna studie utvecklades och tillämpades en modell, Multi-Task Heterogeneous Graph Attention Neural Network (MT-HGATNN), för att prognostisera tågutbud över flera tågkategorier och linjedelar, eller stationspar. Genom att utnyttja strukturerad tidtabellsdata, socioekonomiska indata och scenariobaserade prognoser ger modellen korrekta och tolkningsbara insikter i både nuvarande och framtida järnvägsefterfrågan.</p><p>Modellen presterar väl i både retrospektiv validering (data från 2023) och prospektiv prognos (basår 2045), med modellinlärning på och en fallstudie av Ostkustbanan. Den erbjuder ett ramverk för strategisk transportplanering under osäkerhet. Metoden för fleruppgiftsinlärning möjliggör gemensam modellering av flera tågkategorier, vilket förbättrar parametereffektiviteten och gör det möjligt för modellen att utnyttja latenta beroenden mellan uppgifter. Möjligheten att integrera tidsmässig segmentering (timme för timme), rumslig struktur (analys på stationsparnivå) och olika exogena variabler (t.ex. BNP, bilägande, biljettpriser) stärker ytterligare dess tillämpbarhet i en komplex verklighet.</p><p>Det finns flera lovande riktningar för att utöka och fördjupa arbetet som presenteras i denna studie. Ett viktigt steg skulle vara att utvärdera generaliserbarheten hos den utvecklade MT-HGATNN-modellen genom att tillämpa den på andra järnvägskorridorer eller potentiellt på nationell nätverksnivå. Detta skulle bidra till att bedöma modellens robusthet över olika geografiska sammanhang och utbud.</p>"
+  },
+  "SDGs": "9, 11"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_144856Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_144856 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_144856
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 11, 0, 0, 0, 0, 1, 0]
+
+Assigned value in JSON: "9, 11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   13 hit(s)
+       * "neural network": 3
+       * "järnväg": 3
+       * "trafikverket": 2
+       * "tågtrafik": 2
+       * "passenger demand": 1
+  [ 2] SDG 11 :   11 hit(s)
+       * "resandeprognoser": 2
+       * "tågtrafik": 2
+       * "transport planning": 1
+       * "passenger demand": 1
+       * "passenger rail": 1
+  [ 3] SDG 16 :    1 hit(s)
+       * "rättvisa": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 11"
+=================================================================
+\end{lstlisting}
+
+OSDG failed to handle the abstract. In contrast, \Cref{lst:t_144856Output} shows that the program not only processed the text cleanly, but its top two match vector peaks (\gls{SDG}~9: 13 hits and \gls{SDG}~11: 11 hits) matched the exact two goals declared in DiVA (\enquote{9, 11}), with near-zero noise across the remaining 15 goals.
+
+This case study demonstrates dual-language synergy across technical \& institutional vocabulary:
+\begin{itemize}
+    \item Unlike purely English abstracts, this case relies heavily on Swedish national transport agency and forecasting terminology (\enquote{järnväg}, \enquote{trafikverket}, \enquote{tågtrafik}, \enquote{resandeprognoser}) interleaved with English modeling terms (\enquote{neural network},  \enquote{transport planning}).
+
+    \item It shows why single-language or generic policy-trained classifiers break down on Nordic technical reports, whereas a pooled English/Swedish domain lexicon succeeds without per-document hacks.
+\end{itemize}
+
+
+This case also illustrates lexical polysemy across domains via the single 1-hit trace on \gls{SDG}~16 (\enquote{rättvisa}). Here, the stem \enquote{rättvisa} matched inside \enquote{ett rättvisande planeringsunderlag} (\enquote{rättvisande} meaning fair, accurate, or representative in appraisal methodology, \ie an objective and impartial planning basis across competing rail projects) --- showing why \enquote{rättvisa} in transport demand modeling reflects \textit{methodological impartiality and distributional/transport equity} (\gls{SDG}~10 / Target~11.2) rather than judicial institutions (\gls{SDG}~16).
+\end{casestudySection}
+
+\begin{takeaway}
+Leveraging dual-language content simultaneously is advantageous compared to relying on an \gls{ML} tool that processes only one language at a time.
+\end{takeaway}
+
+\begin{casestudySection}[Confirmation of two SDGs and evidence for another SDG]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_144936.json (manually reformatted to keep only one English abstract and to add a space after punctuation and add newlines)}, label=lst:t_144936.json]
+{
+  "divaID": "diva2:1905279",
+  "Title": {
+    "Main title": "Fossilfri kollektivtrafik på vatten",
+    "Language": "swe",
+    "Subtitle": "Förstudie kring hinder och möjligheter för färjor med högmiljöprestanda"
+  },
+  "abstracts": {
+    "eng": "<p>Through literature studies, interviews and active collaboration with an initiated and committed reference group as well as by studying two cases of traffic where fossil-free alternatives have been chosen, this feasibility study has been conducted to assess how a transition to fossil-free public transport on water can be accelerated. The results of the feasibility study can be summarized as follows:
+    1. With existing budgetary frameworks, it appears possible to carry out a large part of the current public transport on water without today's high greenhouse gas emissions through electrification.
+    2. There are several obstacles that need to be overcome in order to accelerate the transition from fossil fuels so that set climate targets are also reached for the ferry traffic.
+    3. All the parties we have been in contact with have emphasized cooperation as a key factor, since the issues that need to be solved are complex and one part alone cannot solve them.
+    Fossil-free public transport on water seems, for the shorter distances, to be best solved by electrification. However, today there are no obvious solutions in place for the longer routes. Also, shorter distance-routes can have challenges such as lack of electrical power at the places where charging is needed or that the operator who owns the quays might not give enough priority to enable charging stations being built.
+    To manage costs while introducing electrification, the total battery capacity installed in the vessels must be limited. This, in turn, will also require that the ferries can be recharged quickly during the part of the day that the ship is in operation. Here, technical solutions are being introduced, but much work remains. Land issues including building permits are considered to be a bigger problem than the charging technology itself. The calculations carried out, for example, on the case study of the electric hybrid ferry Elvy, which was recently put into operation in short-distance river traffic in Gothenburg, have given several interesting observations:
+    • It does not appear to be the choice of propulsion / fuel in the form of fossil-free alternatives that significantly affect the costs for traffic for short distance operations. Instead, the cost of capital for the vessel itself and its operations in the form of personnel etc. are the major cost items. Therefore, if the total cost of passenger transport is to decrease, it is more efficient to work with crewing, cost-effective design of the vessel and procurement of the vessels than to save on environmental measures such as transition to fossil-free operations.
+    • A clean electric propulsion gives clear societal benefits in the form of reduced damage costs for greenhouse-gases and air pollutants when switching to operation where green electricity from land is used as fuel.
+    Other benefits such as reduced noise levels also have positive effects, but these have not been quantified in the study. Lighthouse 2020 4 (44) 
+    Examples of difficulties that are often mentioned when discussing with shipping companies and industry organizations have been access to quays and infrastructure, access to biofuels for maritime use when demand on the land side has increased, and the difficulty for smaller players to enter the market as the procurement often includes larger geographical areas instead of individual lines.</p>"
+  },
+  "SDGs": "11"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_144936Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_144936 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_144936
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 1, 14, 0, 0, 0, 16, 0, 13, 0, 0, 0, 0]
+
+Assigned value in JSON: "11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :   16 hit(s)
+       * "public transport on water": 3
+       * "public transport": 3
+       * "kollektivtrafik på vatten": 1
+       * "greenhouse gas emissions": 1
+       * "electric hybrid ferry": 1
+  [ 2] SDG  7 :   14 hit(s)
+       * "electrification": 3
+       * "fossil-free alternatives": 2
+       * "fossil-free operations": 1
+       * "electric propulsion": 1
+       * "högmiljöprestanda": 1
+  [ 3] SDG 13 :   13 hit(s)
+       * "fossil-free": 5
+       * "transition from fossil fuels": 1
+       * "greenhouse gas emissions": 1
+       * "climate targets": 1
+       * "greenhouse-gas": 1
+  [ 4] SDG  6 :    1 hit(s)
+       * "vatten": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 11"
+=================================================================
+\end{lstlisting}
+
+OSDG said \gls{SDG}~11 and \gls{SDG}~7. The program also included \gls{SDG}~13.
+
+With \gls{SDG}~7 \& \gls{SDG}~11  --- there is exact alignment with OSDG and the program's top two goals --- as they converged on the feasibility study's core theme: electrifying maritime public transport.
+\begin{itemize}
+    \item \gls{SDG}~7 (Target 7.2 \& 7.3): Driven by propulsion electrification, charging infrastructure, and alternative maritime fuels.
+
+    \item \gls{SDG}~11 (Target 11.2 \& 11.6): Driven by urban/waterborne public transit and local air pollutant reduction, directly corroborating \gls{DiVA}'s assigned \enquote{SDGs}: \enquote{11}.
+\end{itemize}
+\textbf{NB:} In the \gls{DiVA} metadata record, the Swedish subtitle omits the space in \enquote{hög miljöprestanda} (as printed on the report cover), recording it as the single compound \texttt{högmiljöprestanda} --- which directly matched an \gls{SDG}~7 dictionary entry.
+
+Additionally, \gls{SDG}~13 registered 13 hits and should be included in the \glspl{SDG}. The study explicitly frames its objective around achieving national climate goals and eliminating fossil fuels in ferry traffic (\enquote{transition to fossil-free public transport on water}, \enquote{accelerate the transition from fossil fuels so that set climate targets are also reached for the ferry traffic}, \enquote{Fossilfri kollektivtrafik på vatten}).   Under Target 13.2 (integrate climate change measures into national policies, strategies and planning), \enquote{climate targets} and \enquote{greenhouse gas emissions} are genuine climate-policy signals rather than false-positive bleed.
+
+There is a trace hit on \gls{SDG}~6 (\enquote{vatten}: 1), which is triggered by the Swedish title \enquote{Fossilfri kollektivtrafik på vatten} (Fossil-free public transport on water), where \enquote{vatten} denotes a maritime/waterway transit route rather than water sanitation or resource management. Therefore, \gls{SDG}~6 should not be included in the \glspl{SDG} for this publication.
+\end{casestudySection}
+
+\begin{takeaway}
+There is clear confirmation of the two \glspl{SDG} that both OSDG and the program agree on, but also solid evidence for including \gls{SDG}~13.
+\end{takeaway}
+
+\begin{casestudySection}[Confirmation of the primary SDG, but evidence for 4 secondary contextual signals]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_145010.json (manually reformatted to keep only one abstract in each language and adding newlines after paragraphs)}, label=lst:t_145010.json]
+{
+  "divaID": "diva2:2049355",
+  "Title": {
+    "Main title": "The future market for rail freight transport",
+    "Language": "eng",
+    "Subtitle": "Market, competition and technological development as well as future potential in Sweden and Europe - with summary in English"
+  },
+  "Alternative title": {
+    "Main title": "Framtidens marknad för godstrafik med järnväg",
+    "Language": "swe",
+    "Subtitle": "Marknad, konkurrens och teknisk utveckling samt framtida potential i Sverige och Europa"
+  },
+  "keywords": {
+    "eng": "Transports railway freight market competition technique future portential",
+    "swe": "Transporter järnväg godståg marknad teknik konkurrens framtida potential"
+  },
+  "abstracts": {
+    "eng": "<p>Trucks have accounted for most of the increase in the freight transport market since 1985. This means that rail and shipping have reduced their share, which is contrary to the objectives that exist in the EU and also nationally in many countries. However, developments are different in different countries.</p>
+    <p>Switzerland and Austria have the most positive development for freight rail with a high and stable market share. This is due both to the fact that they have invested in the railways and to have a conscious transport policy with instruments for trucks. Switzerland is the only country that has implemented the EU's transport policy even though it is not part of the EU. Austria and Switzerland also have the highest market share for passenger transport, which shows that there need be no contradiction between passenger and freight transport. Sweden and Germany are also quite well placed with a relatively high market share.</p>
+    <p>The liberalisation of the railways is an important part of the EU's railway policy. The aim of liberalisation is not only to create new railway undertakings, but also, above all, to put pressure on the old railway undertakings to become more efficient and customer-oriented. This will make the railway more attractive and more people will choose to travel or transport by train. Rail is the most energy-efficient and environmentally friendly means of transport, so if rail had a larger share of the market, energy consumption and emissions would also decrease.</p>
+    <p>There are still major obstacles to freight traffic by rail. Deregulation has meant that new authorities have been created so that a neutral party can handle what the old national railways did themselves before. However, this has meant extensive bureaucracy that entails both increased costs and difficulties in establishing new traffic. New vehicles can take several years to get approved at high costs. In the end, it affects rail customers. The difference in bureaucracy between driving freight trains and trucks is sometimes almost insurmountable today.</p>
+    <p>One way to increase the capacity for freight traffic on the existing network is to run faster freight trains. If freight trains could run at 140 km/h instead of 100 km/h as today, the number of freight trains on the main lines during the day could be doubled. For this, new wagons are required while existing locomotives can be used.</p>
+    <p>The other measure that both increases capacity and reduces costs is longer trains. In Sweden, we have shorter freight trains than in Germany and Denmark, 630 m instead of 750 m, while we have longer trucks. To run longer trains, longer meeting and passing tracks are sometimes required, but it should be possible to run longer trains at night on double tracks when passenger trains do not need to overtake the freight trains. Between Denmark and Germany, even 835 m long trains are running, which would be efficient to also run from Hallsberg in connection with the opening of the fixed link across the Fehmarn Belt.</p>
+    <p>The industry has pointed out that there is a need for better redundancy in the railway network through more triangular tracks and better lines for diversion. It is also something that is needed for our new defense and that can be used in the event of major maintenance operations and traffic interruptions.</p>
+    <p>What is the potential of the railways in the future market? The railway is a high-capacity and efficient means of transport that also requires little energy and has minimal emissions. The electric railway has been around for 100 years and is constantly evolving. The rolling resistance with steel wheels against steel rails is extremely low and it is possible to drive trains fast in a safe way. We do not need high-speed trains for freight, but freight trains of up to 160 km/h already exist today and, if developed, could speed up transport and expand the industrial market in the future.</p>
+    <p>Electric trucks will gradually replace fossil-fuelled vehicles, but energy consumption will always be higher. Rubber wheels against asphalt have about 15 times higher rolling resistance than railway steel wheels against steel rails. Road traffic also causes a lot of particulate emissions, which are a health problem. And heavy trucks wear down the roads and contribute to the road network also having a maintenance debt.</p>
+    <p>What measures are needed for the freight railway to have a greater role in the future? We are proposing here in the first place measures that do not cost a lot of money. We know that new railways need to be built to increase capacity, and we know that we need increased maintenance to achieve better quality in rail traffic. These problems are well known and discussed a lot in the industry and politics, but we do not believe that we can come up with any new solutions to this. In this analysis, we therefore concentrate on other measures that may not have received as much attention before. Behind many of these proposals are also views that we have received from interviews with 25 representatives of the industry.</p>
+    <p>1.       Create a cohesive force for rail freight traffic in Sweden</p>
+    <p>2.       Deregulate liberalisation</p>
+    <p>3.       Fully implement deregulation in all countries</p>
+    <p>4.       Create more capacity by better operation planning</p>
+    <p>5.       Develop new maintenance methods and organize maintenance better</p>
+    <p>6.       Creation of a common information system and database for rail freight transport</p>
+    <p>7.       Facilitating intermodal transport through incentives</p>
+    <p>8.       Develop new technologies for more efficient transport</p>
+    <p>9.       Let Traffic Management take into account the customers' needs</p>
+    <p>10.   Forming a Railway Administration</p>
+    <p>Our interviews show strong criticism of how the Swedish Transport Administration works both from transport companies and from customers. One could summarize it as the Swedish Transport Administration not being customer-oriented enough. The Swedish Transport Administration is there for the customers and the Swedish Transport Administration's customer is the train companies and the end customer is the industry. The expertise needed for the railways would be better utilised if the railway-specific functions were to be located in a separate authority. Then a sector responsibility for railways can also be created. </p>
+    <p> </p>",
+    "swe": "<p>Lastbilen har svarat för större delen av ökningen på godstransportmarknaden sedan 1985. Det innebär att järnvägen och sjöfarten minskat sin andel vilket är tvärtemot de målsättningar som finns inom EU och även nationellt i många länder. Utvecklingen är emellertid olika i olika länder.</p>
+    <p>Schweiz och Österrike har den mest positiva utvecklingen för godsjärnvägen med en hög och stabil marknadsandel. Det beror både på att man investerat i järnvägarna och att man har en medveten transportpolitik med styrmedel för lastbilar. Schweiz är det enda landet som genomfört EUs transportpolitik trots att det inte är med i EU. Österrike och Schweiz har också högst marknadsandel för persontransporter vilket visar att det inte behöver finnas någon motsättning mellan person- och godstrafik. Sverige och Tyskland ligger också ganska bra till med en relativt hög marknadsandel.</p>
+    <p>Avregleringen av järnvägen är en viktig del i EU:s järnvägspolitik. Syftet med avregleringen är inte bara att skapa nya järnvägsföretag utan inte minst att sätta press på de gamla järnvägsföretagen så att de blir effektivare och mer kundorienterade. Därigenom ska järnvägen bli attraktivare och fler ska välja att resa eller transportera med tåg. Järnvägen är det mest energisnåla och miljövänligaste transportmedlet så om järnvägen fick en större del av marknaden skulle också energiförbrukningen och utsläppen minska.</p>
+    <p>Fortfarande finns stora hinder för godstrafik på järnväg. Avregleringen har inneburit att nya myndigheter skapats för att en neutral part ska sköta det som de gamla nationella järnvägarna gjorde själva förut. Det har dock inneburit en omfattande byråkrati som innebär både ökade kostnader och svårigheter att etablera ny trafik. Nya fordon kan ta flera år att få godkända till höga kostnader. I slutändan drabbar det järnvägskunderna. Skillnaden i byråkrati mellan att köra godståg och lastbil är ibland nästan oöverstigliga i dag.</p>
+    <p>Ett sätt att öka kapaciteten för godstrafik på det befintliga nätet är att köra snabbare godståg. Om godstågen kunde köra i 140 km/h i stället för 100 km/h som i dag skulle man kunna fördubbla antalet godståg på stambanorna under dagtid. För detta krävs nya vagnar medan befintliga lok kan användas.</p>
+    <p>Den andra åtgärden som både ökar kapaciteten och minskar kostnaden är längre tåg. I Sverige har vi kortare godståg än i Tyskland och Danmark, 630 m i stället för 750 m, samtidigt som vi har längre lastbilar. För att köra längre tåg krävs ibland längre mötes- och förbigångsspår men det borde gå att köra längre tåg på natten på dubbelspår när persontågen inte behöver köra förbi godstågen. Mellan Danmark och Tyskland körs till och med 835 m långa tåg vilket skulle vara effektivt att också köra från Hallsberg i samband med att den fasta förbindelsen över Fehmarn Bält öppnar.</p>
+    <p>Industrin har pekat på att det behövs bättre redundans i järnvägsnätet genom fler triangelspår och bättre banor för omledning. Det är också något som behövs för vårt nya försvars och som kan utnyttjas vid större underhållsinsatser och trafikavbrott.</p>
+    <p>Vilken är då järnvägens potential på den framtida marknaden? Järnvägen är ett kapacitetsstarkt och effektivt transportmedel som dessutom kräver lite energi och har minimala utsläpp. Den elektriska järnvägen har funnits i 100 år och utvecklas hela tiden. Rullmotståndet med stålhjul mot stålräls är extremt lågt och det går att köra tåg fort på ett säkert sätt. Vi behöver inga höghastighetståg för gods men godståg i upp till 160 km/h finns redan i dag och skulle om de utvecklas kunna snabba upp transporterna och vidga industrins marknad i framtiden.</p>
+    <p>Elektriska lastbilar kommer succesivt att ersätta fossildrivna bilar men energiförbrukningen kommer alltid att vara högre. Gummihjul mot asfalt har ungefär 15 gånger högre rullmotstånd än järnvägens stålhjul mot stålräls. Vägtrafiken orsakar också mycket partikelutsläpp som är ett hälsoproblem. Och tunga lastbilar sliter på vägarna och bidrar till att vägnätet också får en underhållsskuld.</p>
+    <p>Vilka åtgärder krävs för att godsjärnvägen ska få en större roll i framtiden? Vi föreslår här i första hand åtgärder som inte kostar pengar eller åtminstone inte kostar mycket pengar. Vi vet att det behöver byggas nya järnvägar för att få ökad kapacitet och vi vet att vi behöver ett ökat underhåll för att få bättre kvalitet i järnvägstrafiken. Dessa problem är väl kända och diskuteras mycket i branschen och politiken men vi tror inte att vi kan komma med några nya lösningar på detta. I denna analys koncentrerar vi oss därför på andra åtgärder som kanske inte blivit lika uppmärksammade tidigare. Bakom många av dessa förslag ligger också synpunkter som vi fått vid intervjuer med 25 företrädare för branschen.</p>
+    <p>1.       Skapa en sammanhållande kraft för godstrafiken på järnväg i Sverige</p>
+    <p>2.       Avreglera avregleringen</p>
+    <p>3.       Genomför avregleringen fullt ut i alla länder</p>
+    <p>4.       Skapa mer kapacitet genom enklare åtgärder</p>
+    <p>5.       Utveckla nya underhållsmetoder och organisera underhållet bättre</p>
+    <p>6.       Skapa ett gemensamt informationssystem och en databas för godstransporter på järnväg</p>
+    <p>7.       Underlätta intermodala transporter genom stimulansåtgärder</p>
+    <p>8.       Utveckla ny teknik för effektivare transporter</p>
+    <p>9.       Låt Trafikledningen ta hänsyn till kundernas behov</p>
+    <p>10.   Bilda ett Järnvägsverk</p>
+    <p>Våra intervjuer visar på en stark kritik mot hur Trafikverket fungerar både från trafikföretag och från kunder. Man skulle kunna sammanfatta det som att Trafikverket inte är tillräckligt kundorienterade. Trafikverket är till för kunderna och Trafikverkets kund är tågföretagen och slutkunden är industrin. Den kompetens som behövs för järnvägen skulle komma bättre till sin rätt om järnvägsspecifika funktionerna ligger i en egen myndighet. Då kan också ett sektorsansvar för järnväg skapas.</p>
+    <p> </p>"
+  },
+  "SDGs": "9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_145010Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_145010 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_145010
+Match Vector (SDG 1 - 17):
+[0, 0, 3, 0, 0, 0, 8, 0, 96, 0, 29, 0, 1, 0, 0, 0, 0]
+
+Assigned value in JSON: "9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   96 hit(s)
+       * "järnväg": 27
+       * "railway": 19
+       * "godståg": 8
+       * "freight trains": 7
+       * "railways": 7
+  [ 2] SDG 11 :   29 hit(s)
+       * "godståg": 8
+       * "freight transport": 4
+       * "rail freight": 3
+       * "transport policy": 2
+       * "godstransport": 2
+  [ 3] SDG  7 :    8 hit(s)
+       * "energy consumption": 2
+       * "energiförbrukning": 2
+       * "electric railway": 1
+       * "electric trucks": 1
+       * "energisnåla": 1
+  [ 4] SDG  3 :    3 hit(s)
+       * "particulate emissions": 1
+       * "partikelutsläpp": 1
+       * "health": 1
+  [ 5] SDG 13 :    1 hit(s)
+       * "fossil-fuel": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9"
+=================================================================
+\end{lstlisting}
+
+OSDG failed to handle this abstract, which is an exceptionally long, policy-and-operations-heavy dual-language text (over 800 words per language) analyzing railway deregulation, axle/train lengths, and rolling resistance, without relying on high-level UN agenda slogans. The program output is shown in \Cref{lst:t_145010Output} and it shows:
+\begin{itemize}
+    \item \gls{SDG}~9 (96 hits — Overwhelming Primary Signal): The program cleanly isolated \gls{SDG}~9 with 96 hits—more than triple the second-ranked goal—directly confirming the \gls{DiVA} \gls{JSON} metadata (\enquote{SDGs}: \enquote{9}).   The score was driven by the dual-language railway infrastructure and freight terminology.  
+    
+    \item Secondary Contextual Signals (\gls{SDG}~11, \gls{SDG}~7, \gls{SDG}~3, \gls{SDG}~13):
+    \begin{itemize}
+    \item \gls{SDG}~11 (29 hits): Captures modal shift and freight logistics policy (\enquote{godståg}: 8, \enquote{freight transport}: 4, \enquote{rail freight}: 3, \enquote{transport policy}: 2, \enquote{godstransport}: 2).
+    
+    \item \gls{SDG}~7 (8 hits): Picks up rail's comparative energy efficiency over road trucking (\enquote{energy consumption}: 2, \enquote{energiförbrukning}: 2, \enquote{electric railway}: 1, \enquote{electric trucks}: 1, \enquote{energisnåla}: 1).
+    
+    \item \gls{SDG}~3 (3 hits): Accurately flags the health comparison regarding road-traffic particulate pollution (\enquote{particulate emissions}: 1, \enquote{partikelutsläpp}: 1, \enquote{health}: 1).
+    
+    \item \gls{SDG}~13 (1 hit): Trace hit on \enquote{fossil-fuel}.
+    \end{itemize}
+    
+    \item Zero False-Positive Bleed: The remaining 12 \glspl{SDG} sit cleanly at 0.
+\end{itemize}
+
+Look closely at the hierarchy of the four secondary signals; we can distinguish actionable metadata additions from contextual signals:
+\begin{itemize}
+    \item \gls{SDG}~11 (29 hits): With 29 hits across modal-shift and transport-policy terms (freight transport, rail freight, transport policy), \gls{SDG}~11 is substantial enough to warrant adding to the \gls{DiVA} metadata alongside \gls{SDG}~9 (under Target 11.2, sustainable transport systems).
+
+    \item \gls{SDG}~7 (8 hits), \gls{SDG}~3 (3 hits), and \gls{SDG}~13 (1 hit): By contrast, these represent genuine but secondary comparative arguments used in the abstract to justify shifting freight from road to rail (comparative rolling resistance and energy efficiency under Target 7.3; avoiding road-traffic particulate pollution under Target 3.9; replacing fossil-fuelled trucks under Target 13.2) --- rather than core research contributions that require separate DiVA tags.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+This case confirms \gls{SDG}~9 as the dominant classification while demonstrating how a dual-language domain lexicon can cleanly separate a strong co-primary metadata candidate (\gls{SDG}~11) from genuine, lower-weight comparative arguments (\glspl{SDG}~7, 3, and 13) without triggering false-positive noise across unrelated goals.
+\medskip
+
+This case study also clarifies that not every non-zero match vector entry should be blindly added to \gls{DiVA}'s \glspl{SDG}.
+\end{takeaway}
+
+\begin{casestudySection}[Confirming SDG 9, Adding SDG 11, and Filtering Trace False Positives]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_12808.json (manually reformatted to keep only one abstract per language and to add new lines between paragraphs)}, label=lst:t_12808.json]
+{
+  "divaID": "diva2:2049356",
+  "Title": {
+    "Main title": "How can we exploit the potential of rail for freight transport?",
+    "Language": "eng"
+  },
+  "Alternative title": {
+    "Main title": "Hur kan vi utnyttja järnvägens potential för godstransporter?",
+    "Language": "swe"
+  },
+  "keywords": {
+    "eng": "Transports railway freight transports costs quality potential",
+    "swe": "Transporter järnväg godstransporter kostnad kvalitet potential"
+  },
+  "abstracts": {
+    "eng": "<p>The development of total freight transport performance is closely linked to the development of industry and has increased more or less continuously. During the post-war period until 1985, both rail, truck and shipping increased rapidly. Since 1985, almost all of the increase in freight transport work in Sweden has taken place by truck. This means that rail and maritime transport have reduced their share, contrary to the objectives of the EU and national transport policies.</p><p>The cost of transport (price) and quality are decisive for the choice of means of transport. Better environment is also a request but must not cost much. This is evident from all the research both in terms of models for the choice of means of transport and in studies of how customers choose the means of transport. Competition is fierce and customers change carriers if they can save money, which is natural.</p>
+    <p>Switching from rail to truck is often easier than the other way around. There are roads everywhere but no tracks. If rail transport to a place is shut down, the industrial tracks will also be closed down sooner or later, and then it will not be easy to start again if the situation changes. Admittedly, there are combined transports by truck and rail, but the transshipment costs money and takes time.</p>
+    <p>Until 2020, transport costs developed relatively similarly by rail and truck. Between 2021 and 2023, the cost of trucks increased through higher diesel prices, but from 2023 to 2025, the cost decreased through a lower diesel price, while the cost of freight trains increased through higher track fees. The cost difference between rail and truck has increased by 20% in favor of trucks in just a few years. This is due in roughly equal parts to increased track fees and reduced diesel prices.</p>
+    <p>Delays in train traffic have increased over the years, although there are variations. A method has been developed to calculate the socio-economic additional costs for delays. In 2023 and 2024, the additional costs were approximately SEK 9 billion/year as there was low punctuality for both passenger and freight traffic. The largest share of costs is made up of passenger and customer costs, which account for 65% of the total costs.</p><p>For several reasons, greater redundancy is needed in the railway network so that trains can run a different route than the one planned, if necessary:</p><p>·       To make room for track work</p>
+    <p>·       In the event of disruptions and traffic interruptions</p>
+    <p>·       In case of lack of capacity so that another route can be chosen</p>
+    <p>·       To create alternative transport routes in crisis and war</p>
+    <p>One problem is that it is not always easy to divert trains at a junction In many places where the tracks intersect, it is only possible to drive in one direction. Then you need triangle tracks that are shortcuts between different tracks.</p>
+    <p>One example is the ongoing overhead contact line replacement between Gothenburg and Alingsås. When the line is closed, trains between Gothenburg and Stockholm will have to be diverted via Borås-Herrljunga or Vänersborg-Herrljunga. The distance is longer and it takes 40-90 minutes longer to drive and turn around in Herrljunga. A significant part of this time could have been saved if triangular tracks had been built in Herrljunga and it could also be used in case of disturbances.</p>
+    <p>For the needs of the Armed Forces, redundancy in the railway network in the form of alternative routes and triangular tracks is of crucial importance. There is also a need for opportunities to distinguish between military and civilian transport, backup plans for manual traffic control and a railway corps with trained personnel for crisis and war.</p>
+    <p>To analyze the opportunities for the business community to use rail transport, we have conducted a number of in-depth interviews with about 25 transport customers, operators and transport companies. The interviews consistently show that the respondents feel that the cost picture for railways has changed negatively over the past ten years. Together with our analyses, the results indicate that the following measures are required to better exploit the potential of freight rail:</p>
+    <p>The cost of running freight trains must be reduced by 20% Interviews with customers and transport companies show that costs need to be reduced by 20% if rail is to increase its market share</p>
+    <p>2.      The maintenance backlog must be worked off and quality increased</p>
+    <p>Delays for passenger and freight trains cost society SEK 9 billion per year – invest SEK 9 billion a year in maintenance and develop new methods and the maintenance backlog can be worked off in 10 years</p>
+    <p>3.      Build redundancy in the rail network through triangular tracks and alternate routes </p><p>Facilitate the diversion of trains through better connections between lines and alternative routes – this is needed both to deal with disruptions, for track works and for the needs of the military</p>
+    <p>4.      Introduce fair track charges for freight traffic</p>
+    <p>Freight traffic cannot pay for poorer train paths and lower priority – track charges must take into account the competitiveness of industry and the fact that Sweden has long distances compared to other countries </p>
+    <p>5.      Set a goal for increased freight traffic by rail by 2030 where everyone contributes</p>
+    <p>·       Government: Set a target for 2030, eliminate the maintenance backlog over 10 years and decide on competitive track charges for railways and industry</p>
+    <p>·       The Swedish Transport Administration: Develop railway expertise and plan and prioritise for increased freight traffic by 2030</p>
+    <p>·       Transport companies: Collaborate in a disturbed situation, develop new transport systems and market rail transport</p>
+    <p>·       Transport customers: Collaborate in industry-wide transport systems and develop knowledge of rail logistics</p>
+    <p> </p>",
+    "swe": "<p>Utvecklingen av det totala godstransportarbetet är nära kopplad till industrins utveckling och har ökat mer eller mindre kontinuerligt. Under efterkrigstiden fram till 1985 ökade både järnväg, lastbil och sjöfart snabbt. Från 1985 har nästan all ökning av godstransportarbetet I Sverige skett på lastbil. Det innebär att järnväg och sjöfart har minskat sin andel tvärtemot EU:s och den nationella transportpolitikens mål.</p><p>Transportkostnaden (priset) och kvaliteten har en avgörande betydelse för valet av transportmedel. Miljön får gärna vara med på ett hörn men få inte kosta mycket. Det framgår av all forskning både när det gäller modeller för transportmedelsval och i undersökningar av hur kunderna väljer transportmedel. Konkurrensen är hård och kunderna byter transportör om de kan spara pengar vilket är naturligt.</p>
+    <p>Att byta från järnväg till lastbil är det ofta lättare än tvärtom. Det finns vägar överallt men inte spår. Om järnvägstransporterna till en ort läggs ner så läggs även industrispåren ned så småningom och då är det inte lätt att börja igen om situationen skulle förändras. Visserligen finns det kombitransporter med lastbil och järnväg men omlastningen kostar pengar och tar tid.</p><p>Fram till 2020 var utvecklades transportkosterna relativt lika. Mellan 2021 och 2023 ökade kostnaderna för lastbil genom högre dieselpris men från 2023 till 2025 minskade kostnaden genom ett lägre dieselpris samtidigt som kostnaden för godståg ökade genom högre banavgifter. Kostnadsskillnaden mellan järnväg och lastbil har på några få år ökat med 20 % till förmån för lastbil. Det beror till ungefär lika delar på höjda banavgifter och sänkta dieselpriser.</p>
+    <p>Förseningarna i tågtrafiken har ökat över åren även om det finns variationer. En metod har utvecklats i för att beräkna de samhällsekonomiska merkostnaderna för förseningar År 2023 och 2024 var merkostnaderna ca 9 Mdr SEK/år då det var låg punktlighet både för person- och godstrafik. Den största andelen av kostnaderna utgörs av resenärs- och kundkostnader som svarar för 65 % av de totala kostnaderna.</p>
+    <p>Av flera skäl behövs en större redundans i järnvägsnätet så att tågen vid behov kan köra en annan väg än den som är planerad:</p>
+    <p>·       För att lämna plats för banarbeten</p><p>·       Vid störningar och trafikavbrott</p>
+    <p>·       Vid kapacitetsbrist så att man kan välja en annan linje</p>
+    <p>·       För att skapa alternativa transportvägar i kris och krig</p>
+    <p>Ett problem är att det inte alltid är enkelt att leda om tåg i en knutpunkt På många platser där banorna korsar varandra går det bara att köra in åt ett håll. Då behövs triangelspår som är genvägar mellan olika banor.</p>
+    <p>Ett exempel är det pågående kontaktledningsbytet mellan Göteborg och Alingsås. När sträckan stängs av måste tågen mellan Göteborg och Stockholm ledas om via Borås-Herrljunga eller Vänersborg-Herrljunga. Sträckan är längre och det tar 40–90 min längre tid att köra och vända i Herrljunga. En betydande del av denna tid hade kunnat sparas om man byggt triangelspår i Herrljunga och det skulle även kunna användas i vid störningar.</p>
+    <p>För försvarets behov är redundans i järnvägsnätet i form av alternativa vägar och triangelspår av avgörande betydelse. Det behövs också möjligheter att skilja mellan militära och civila transporter, reservplaner för manuell trafikstyrning och en järnvägskår med utbildad personal för kris och krig.</p><p>För att analysera vilka möjligheter näringslivet har att använda järnvägstransporter har vi genomfört ett antal djupintervjuer med ca 25 transporkunder, operatörer och transportföretag. Intervjuerna visar genomgående att respondenterna upplever kostnadsbilden för järnväg har förändrats negativt de senaste tio åren. Tillsammans med våra analyser pekar resultaten på att följande åtgärder krävs för att bättre kunna utnyttja godsjärnvägens potential:</p>
+    <p>Kostnaden för att köra godståg måste minska med 20 % Intervjuer med kunder och transportföretag visar att kostnaderna måste minska med 20 % om järnvägen ska öka sin marknadsandel</p>
+    <p>2.      Underhållsskulden måste arbetas bort och kvaliteten öka</p>
+    <p>Förseningarna för person- och godståg kostar samhället 9 miljarder per år – satsa 9 miljarder per år på underhåll och utveckla nya metoder så kan underhållsskulden arbetas bort på 10 år</p>
+    <p>3.      Bygg upp redundans i järnvägsnätet genom triangelspår och alternativa vägar </p>
+    <p>Underlätta omledning av tåg genom bättre förbindelser mellan banor och alternativa vägar – det behövs både för att hantera störningar, för banarbeten och för militärens behov</p>
+    <p>4.      Inför rättvisa banavgifter för godstrafiken</p>
+    <p>Godstrafiken kan inte betala för sämre tåglägen och lägre prioritet – banavgifterna måste ta hänsyn till industrins konkurrenskraft och att Sverige har långa avstånd jämfört med andra länder </p>
+    <p>5.      Sätt en målbild för ökad godstrafik på järnväg 2030 där alla bidrar</p>
+    <p>·       Regeringen: Sätt upp en målbild för 2030, bygg bort underhållsskulden på 10 år och besluta om konkurrenskraftiga banavgifter för järnvägen och industrin</p>
+    <p>·       Trafikverket: Utveckla järnvägskompetensen och planera och prioritera för en ökad godstrafik till 2030</p>
+    <p>·       Transportföretagen: Samverka i stört läge, utveckla nya transportsystem och marknadsför järnvägstransporter</p>
+    <p>·       Transportkunder: Samarbeta i branschgemensamma transportsystem och utveckla kunskapen om järnvägslogistik</p>"
+  },
+  "SDGs": "9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_12808Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_12808 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_12808
+Match Vector (SDG 1 - 17):
+[0, 0, 4, 0, 0, 0, 0, 0, 77, 0, 27, 0, 0, 0, 1, 1, 0]
+
+Assigned value in JSON: "9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   77 hit(s)
+       * "järnväg": 20
+       * "railway": 7
+       * "banavgifter": 5
+       * "godstransport": 4
+       * "triangelspår": 4
+  [ 2] SDG 11 :   27 hit(s)
+       * "godstransport": 4
+       * "freight transport": 3
+       * "järnvägsnätet": 3
+       * "godståg": 3
+       * "transport systems": 2
+  [ 3] SDG  3 :   4 hit(s)
+       * "störningar": 3
+       * "disturbances": 1
+  [ 4] SDG 15 :   1 hit(s)
+       * "natura": 1
+  [ 5] SDG 16 :   1 hit(s)
+       * "rättvisa": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9"
+=================================================================
+\end{lstlisting}
+
+As in the previous case study, OSDG could not handle this lengthy (English) abstract, whereas \Cref{lst:t_12808Output} shows that the dual-language classifier program cleanly separated two substantive goals from three low-count false-positive signals:
+\begin{itemize}
+    \item \textbf{\gls{SDG}~9 (77 hits --- Primary Confirmation):} Driven by specialized Swedish and English railway-infrastructure vocabulary (\enquote{järnväg}: 20, \enquote{railway}: 7, \enquote{banavgifter} [track access charges]: 5, and \enquote{triangelspår} [triangular junction tracks for network redundancy]: 4), confirming \gls{DiVA}'s assignment (\enquote{9}) under Target~9.1 (\emph{reliable, sustainable and resilient infrastructure}).
+
+    \item \textbf{\gls{SDG}~11 (27 hits --- Actionable Secondary Addition):} Driven by freight modal-shift and transport-system terminology (\enquote{godstransport}: 4 [shared with \gls{SDG}~9], \enquote{freight transport}: 3, \enquote{järnvägsnätet}: 3, \enquote{godståg}: 3, \enquote{transport systems}: 2), aligning with Target~11.2 and warranting inclusion alongside \gls{SDG}~9 in \gls{DiVA}.
+
+    \item \textbf{Lexical False-Positive Trace Hits (\gls{SDG}~3, \gls{SDG}~15, \gls{SDG}~16):} Unlike the genuine secondary arguments seen in the previous case, all three trace signals here are lexical false friends that should be ignored: \enquote{störningar}/\enquote{disturbances} (4 hits under \gls{SDG}~3) refers to railway traffic disruptions rather than medical disorders; \enquote{natura} (1 hit under \gls{SDG}~15) matched as a substring inside the English word \enquote{natural}; and \enquote{rättvisa} (1 hit under \gls{SDG}~16) refers to fair track-access pricing (\enquote{rättvisa banavgifter}) rather than judicial justice.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+This companion report reinforces the value of adding \gls{SDG}~11 alongside \gls{SDG}~9 for modal-shift freight research, while demonstrating why low-count trace hits (\glspl{SDG}~3, 15, and 16) must be audited for domain polysemy and substring collisions (such as \enquote{natura} matching inside \enquote{natural}) before updating repository metadata.
+\end{takeaway}
+
+\begin{casestudySection}[Author metadata over-tagging]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_147969.json (manually reformatted to keep only one abstract per language and added newlines after paragraph)}, label=lst:t_147969.json]
+{
+  "divaID": "diva2:2060123",
+  "Title": {
+    "Main title": "Irradiation response, thermophysical and mechanical properties of pure and doped uranium mononitride",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "Uranium mononitride, SIMFUEL, thermal conductivity, ion implantation, irradiation damage, chemical disorder, mechanical properties, dimensional stability"
+  },
+  "abstracts": {
+    "eng": "<p>Uranium mononitride (UN) is a promising advanced nuclear fuel for Gen-IV fast-spectrum systems and small modular reactors due to its high uranium density and superior thermal conductivity compared to conventional oxide fuels. However, its behaviour under irradiation, particularly the coupled effects of fission product (FP) chemistry and radiation damage on thermophysical and mechanical properties, remains insufficiently understood.</p><p>This thesis presents an experimental investigation of the thermophysical, mechanical, and dimensional response of pure and doped UN within a separate-effects testing framework. Simulated burn-up fuels (SIMFUEL) were employed to study the role of chemical disorder, while ion irradiation and implantation were used to introduce controlled radiation damage and selected FP chemistry.</p>
+    <p>Chemical modification was achieved through powder mixing and arc-melting routes, enabling the incorporation of zirconium and thorium as solutes. Structural characterization confirmed the formation of solid solutions, and secondary phases as well as microstructural variations depending on processing route. Thermal diffusivity measurements revealed that chemical disorder leads to a systematic reduction in thermal transport, primarily attributed to enhanced phonon scattering resulting from mass and strain fluctuations in the lattice.</p>
+    <p>Irradiation effects were investigated using proton irradiation and ion implantation of selected FP (Zr, Ba, Kr, Xe). Defect formation, clustering, and irradiation-induced cracking were observed, with clear dependence on damage level and implanted species. Near-surface thermal diffusivity measurements demonstrated a degradation of heat transport with increasing irradiation dose. Mechanical characterization revealed irradiation-induced hardening, while microstructural observations showed crack initiation and propagation associated with defect accumulation and stress development.</p><p>In addition, a surface-based methodology was developed to quantify irradiation-induced dimensional changes at the microscale. Both swelling and shrinkage were observed, highlighting the complex relation between defect evolution and microstructural conditions.</p>
+    <p>The combined results establish clear relationships between chemical disorder, irradiation damage, and property degradation in UN. The findings demonstrate that both compositional modification and defect accumulation significantly influence thermal transport, mechanical response, and dimensional stability. </p>
+    <p>This work provides new experimental insight into the behaviour of UN and contributes to the understanding required for its future application in advanced nuclear energy systems. The results motivate further studies combining chemistry and irradiation with in-reactor validation to fully capture fuel performance under realistic reactor conditions.</p>",
+    "swe": "<p>Uranmononitrid (UN) är ett lovande avancerat kärnbränsle för Gen-IV snabba reaktorsystem och små modulära reaktorer, tack vare sin höga urandensitet och sin överlägsna värmeledningsförmåga jämfört med konventionella oxidbränslen. Trots detta är materialets beteende under bestrålning, särskilt de kopplade effekterna av fissionsproduktskemi (FP) och strålskador på termofysiska och mekaniska egenskaper, fortfarande inte tillräckligt väl förstått.</p>
+    <p>I denna avhandling genomförs en experimentell studie av det termofysiska, mekaniska och dimensionsmässiga beteendet hos rent och dopat UN inom ett ramverk där separata effekter betraktas. Simulerat utbrända bränslen (SIMFUEL)-konceptet används för att undersöka effekten av kemisk oordning, medan jonbestrålning och jonimplantering används för att introducera kontrollerade strålskador samt utvalda fissionsproduktsurrogat.</p>
+    <p>Kemisk modifiering utfördes genom pulverblandning och ljusbågssmältning, vilket möjliggjorde införande av zirkonium och torium som lösningsämnen. Strukturell karakterisering bekräftade bildandet av fasta lösningar, förekomst av sekundära faser samt mikrostrukturella variationer beroende på tillverkningsmetod. Mätningar av termisk diffusivitet visade att kemisk oordning leder till en systematisk försämring av värmetransporten, vilket huvudsakligen tillskrivs ökad fononspridning orsakad av mass- och spänningsvariationer i kristallgittret.</p>
+    <p>Bestrålningseffekter undersöktes med protonbestrålning och jonimplantering av utvalda fissionsprodukter (Zr, Ba, Kr, Xe). Defektbildning, klustring och bestrålningsinducerad sprickbildning observerades, med tydligt beroende av skadenivå och jonart. Mätningar av termisk diffusivitet i provets ytlager visade en tydlig försämring av värmetransporten med ökande bestrålningsdos. Mekanisk karakterisering visade bestrålningsinducerad härdning, medan mikrostrukturella analyser visade sprickinitiering och sprickpropagering kopplad till defektackumulering och spänningsuppbyggnad.</p>
+    <p>Vidare utvecklades en ytbaserad metod för att kvantifiera bestrålningsinducerade dimensionsförändringar på mikroskala. Både svällning och krympning observerades, vilket belyser det komplexa sambandet mellan defektutveckling och mikrostruktur.</p>
+    <p>Resultaten visar tydliga samband mellan kemisk oordning, strålskador och degradering av materialegenskaper i UN. Arbetet visar att både sammansättningsförändringar och defektackumulering har en betydande inverkan på värmetransport, mekaniskt beteende och dimensionsstabilitet.</p>
+    <p>Denna avhandling bidrar med ny experimentell kunskap om beteendet hos UN och utgör ett underlag för dess framtida användning i avancerade kärnenergisystem. Resultaten motiverar vidare studier där kemisk modifiering och bestrålning kombineras med validering under reaktorförhållanden, för att fullt ut kunna beskriva bränslets prestanda under realistiska driftförhållanden.</p>"
+  },
+  "SDGs": "7, 9, 12, 13, 15"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_147969Output]
+./sdg_classifier_dual_language.py /tmp/SDGs/t_147969 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_147969
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 16, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "7, 9, 12, 13, 15"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   17 hit(s)
+       * "uranium mononitride": 3
+       * "strålskador": 3
+       * "irradiation damage": 2
+       * "ion implantation": 2
+       * "jonimplantering": 2
+  [ 2] SDG  7 :   16 hit(s)
+       * "Gen-IV": 2
+       * "uranium mononitride": 3
+       * "nuclear energy systems": 1
+       * "small modular reactors": 1
+       * "små modulära reaktorer": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 7, SDG 9, SDG 12, SDG 13, SDG 15"
+=================================================================
+\end{lstlisting}
+OSDG could not handle the (English) abstract. In contrast, \Cref{lst:t_147969Output} shows that the dual-language classifier cleanly separated the substantiated nuclear-materials research from unsupported downstream tags:
+\begin{itemize}
+    \item \gls{SDG}~9 (17 hits) \& \gls{SDG}~7 (16 hits): Both core engineering and clean-energy dimensions are strongly substantiated in the match vector --- capturing the materials characterization and irradiation testing under \gls{SDG}~9 (\enquote{uranium mononitride}, \enquote{strålskador}, \enquote{irradiation damage}, \enquote{ion implantation}, \enquote{jonimplantering}; Target~9.5) alongside the advanced reactor and nuclear fuel technology under \gls{SDG}~7 (\enquote{Gen-IV}, \enquote{uranium mononitride}, \enquote{nuclear energy systems}, \enquote{small modular reactors}, \enquote{små modulära reaktorer}; Target~7.a). 
+
+    \item Zero False-Positive Drift: \glspl{SDG}~12, 13, and 15 remain at 0 in the match vector, preserving the audit trail that those three tags in \gls{DiVA} (\enquote{7, 9, 12, 13, 15}) stem from author metadata over-tagging rather than textual evidence in the abstract.
+\end{itemize}
+
+Because the script preserves pre-assigned metadata rather than pruning unsupported tags, a human review is needed to trim \glspl{SDG}~12, 13, and 15, leaving only \glspl{SDG}~7 and 9.
+\end{casestudySection}
+
+\begin{takeaway}
+The inclusion of \glspl{SDG}~12, 13, and 15 represents over-tagging or broad downstream rationalization: the author appears to have added \gls{SDG}~12 (uranium resource efficiency / burn-up), \gls{SDG}~13 (low-carbon baseload power), and \gls{SDG}~15 (minimizing land footprint of power generation), none of which are mentioned in the abstracts, titles, or keywords.  Only \glspl{SDG}~7 and 9 are warranted here.
+\end{takeaway}
+
+\begin{casestudySection}[Compilation thesis with diverse SDGs in the publications]
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_1482.json (manually reformatted to keep only one English abstract and added newlines at the end of paragraphs, while removing unnecessary paragraph breaks)}, label=lst:t_1482.json]
+{
+  "divaID": "diva2:2028728",
+  "Title": {
+    "Main title": "<em>Aligning Governmental Policy Intervention Gaps with Citizen Consumption Actions</em>",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "Environmental Policy, Intervention, Citizen Consumption Actions, Smart Devices, Renewable Energy Communities, Energy Poverty, Food Insecurity"
+  },
+  "abstracts": {
+    "eng": "<p>The thesis is motivated and inspired by existing environmental policies from global governing bodies to local municipalities and their impact on the citizens there.</p>
+    <p>However, gaps exist between policies, their interventions and the effect on citizens, where we do not know their impacts, their explanations and how to fine-tune them.</p>
+    <p>Some environmental policies are designed and deployed built on globalised knowledge, rather than on local insights and actions of people expected to be affected by them.</p><p>Social interventions for such policies can introduce smart devices into neighbourhoods but they may be developed based on government’s goals rather than on citizen’s needs.</p>
+    <p>Also, economic impacts are often varied based on income characteristics of a home, which can bring a wide distribution of unintended, unjust and unequal effects.</p>
+    <p>This thesis explores a range of policies and intervention impacts on citizen actions, from renewable energy directives to food waste fridges and retro fitting regulations.</p>
+    <p>The policies are designed at different scales, including the United Nations (global),< EU (continental), the Netherlands (national), Amsterdam (city) and Zuid-Oost (district).</p>
+    <p>Papers 1 and 2 study sustainable neighbourhoods and renewable energy communities using visual ethnography with citizens from a neighbourhood within Stockholm.</p>
+    <p>Papers 3, 4 and 5 study energy poverty, food insecurity and household poverty using mixed methods with citizens from various neighbourhoods in Amsterdam.</p>
+    <p>First, results indicate self-sufficiency, community plot ratio and civic generosity are UNEP indexes that citizens find suitable for assessing sustainability in neighbourhoods. However, self-sufficient production of food and energy is unfeasible for all homes.</p>
+    <p>Second, results show EU renewable energy communities are aligned to these indexes. However, they greatly depend on civic ambitions of volunteers to be implemented.</p>
+    <p>Third, Dutch policies which include energy coaching and smart device interventions reduce gas, electricity, income spent on energy bills and ultimately, energy poverty. However, coaching helps homes feel in control of their consumption but not warmer.</p>
+    <p>Fourth, data indicates that a community smart fridge pilot intervention reduces supermarket food waste, treats food insecurity and increases food interactions. However, the viability of such a technology still depends on citizens as consumers.</p>
+    <p>Finally, results show that short term energy subsidies and long-term energy retrofits, can significantly further impact important indicators contributing to household poverty. However, home expenditures such as rent and groceries have continued to rise too.</p>
+    <p>Thus, this thesis has 5 papers all studying policy action gaps in which they:</p>
+    <p>a) are all inspired by environmental policy ambitions from global to city scale</p>
+    <p>b) study social interventions of achieving ambitions in urban neighbourhoods</p>
+    <p>c) focus on economic needs with a range of high income to low-income homes.</p>
+    <p>d) apply a citizen-centric approach with the assistance of smart devices or cameras</p>",
+    "swe": "<p>Avhandlingen motiveras och inspireras av befintliga miljöpolicys från global till lokal nivå samt genom dess påverkan på medborgare. Det finns dock en kunskapslucka i skärningspunkten mellan policys, interventioner och vilken effekt de har på medborgare. Vi känner inte till deras påverkan, förklaringsmodeller eller hur de kan finjusteras. Vissa miljöpolicys är utformade och implementerade utifrån global kunskap, snarare än utifrån lokala insikter och handlingar hos människor som förväntas påverkas av dem. Sociala interventioner för att införa policys för smarta enheter i stadsdelar kan utvecklas utifrån statliga mål snarare än utifrån medborgares behov. Dessutom varierar de ekonomiska effekterna ofta beroende på hushållens socioekonomi, vilket kan medföra oavsiktliga, orättvisa och ojämlika effekter. Denna avhandling utforskar effekten ett antal policys och interventioner har på medborgares handlingar, från direktiv om förnybar energi till kylskåp för att minska matsvinn till regler för energieffektivisering. Policys är utformade på olika nivåer, inklusive; FN (globalt), EU (kontinentalt), Nederländerna (nationellt) och Amsterdam (kommunalt). Artikel 1 och 2 studerar hållbara stadsdelar och förnybara energigemenskaper genom visuell etnografi med medborgare från en stadsdel i Stockholm. Artikel 3, 4 och 5 studerar energifattigdom, livsmedelsosäkerhet och hushållsfattigdom med hjälp av mixed methods med medborgare från olika stadsdelar i Amsterdam.</p><p>För det första visar resultaten att UNEP index “self-sufficiency”, “community plot ratio” och “civic genorosity” är index som medborgare anser lämpliga för att bedöma hållbarhet i stadsdelar. Dock är självförsörjande produktion av mat och energi ogenomförbar för alla hushåll. För det andra visar resultaten att EU:s förnybara energigemenskaper är i linje med dessa index. Dock är de starkt beroende av ideella ambitioner hos volontärer för att genomföras. För det tredje minskar nederländska policys som inkluderar energicoaching och smart device-interventioner förbrukningen av gas, elektricitet samt kostnaderna för energi och i slutändan energifattigdom. Dock hjälper coaching hushåll att känna kontroll över sin konsumtion men det får dem inte att känna sig varmare. För det fjärde indikerar data att ett smart gemenskapskylskåp minskar matsvinn i livsmedelsbutiker och behandlar livsmedelsosäkerhet genom en pilotintervention i en stadsdel med blandade inkomster. Dock beror livskraften för en sådan teknik fortfarande på medborgare som konsumenter. Slutligen visar resultaten att kortsiktiga energisubventioner och långsiktiga energiåtgärder kan påverka viktiga indikatorer som bidrar till hushållsfattigdom avsevärt. Dock har hushållsutgifter som hyra och matvaror också fortsatt att stiga.</p>
+    <p>Således har denna avhandling 5 artiklar som alla studerar policy-interventionsluckor där de: a) alla är inspirerade av miljöpolitiska ambitioner från global till stadsnivå b) studerar sociala interventioner för att uppnå mål i urbana stadsdelar c) fokuserar på ekonomiska behov med ett spann från hög- till låginkomsthushåll d) tillämpar ett medborgarcentrerat tillvägagångssätt med hjälp av smarta enheter eller kameror.</p>"
+  },
+  "SDGs": "1, 2, 7, 11, 12"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_1482Output]
+ ./sdg_classifier_dual_language.py /tmp/SDGs/t_1482 --verbose
+=================================================================
+==> Dual-Language SDG Classification Report: t_1482
+Match Vector (SDG 1 - 17):
+[22, 8, 0, 0, 0, 0, 22, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "1, 2, 7, 11, 12"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  1 :   22 hit(s)
+       * "poverty": 5
+       * "food insecurity": 3
+       * "energy poverty": 3
+       * "insecurity": 3
+       * "hushållsfattigdom": 2
+  [ 2] SDG  7 :   22 hit(s)
+       * "renewable energy": 4
+       * "renewable": 4
+       * "energy communities": 3
+       * "energy poverty": 3
+       * "energigemenskaper": 2
+  [ 3] SDG  2 :    8 hit(s)
+       * "food insecurity": 3
+       * "insecurity": 3
+       * "matsvinn": 2
+  [ 4] SDG 10 :    6 hit(s)
+       * "poverty": 5
+       * "poverty AND ("inequality" OR "unequal" OR "social mobility")": 1
+  [ 5] SDG 11 :    6 hit(s)
+       * "waste": 2
+       * "city scale": 1
+       * "city AND ("inclusiv*" OR "safe*" OR "resilien*" OR "sustainab*" OR "affordab*" OR "pollut*" OR "housing" OR "gentrification")": 1
+       * "sustainable AND ("urban" OR "city" OR "cities" OR "municipal" OR "settlement" OR "slum" OR "town")": 1
+       * "urban AND ("inclusiv*" OR "safe*" OR "resilien*" OR "sustainab*" OR "affordab*" OR "pollut*" OR "housing" OR "gentrification")": 1
+  [ 6] SDG 12 :    6 hit(s)
+       * "environmental policy": 2
+       * "food waste": 2
+       * "energy subsidies": 1
+       * "sustainability AND ("consumption" OR "production" OR "value chain")": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 1, SDG 2, SDG 7, SDG 11, SDG 12"
+=================================================================
+\end{lstlisting}
+
+OSDG identifies \glspl{SDG}~1 and 7. In contrast, \Cref{lst:t_1482Output} shows evidence for \glspl{SDG}: 1, 7, 2, 10, 11, and 12. 
+
+This document is a textbook validation of the multi-track classifier against OSDG's coarse top-2 truncation. OSDG typically truncates or threshold-filters to the two highest-probability goals when an abstract spans five distinct policy papers. Here, \enquote{energy poverty}, \enquote{household poverty}, and \enquote{renewable energy communities} dominated OSDG's statistical weights, masking the food-waste, urban-neighborhood, and consumption-reduction papers in the second half of the abstract.
+
+The program correctly identified the 5 \gls{DiVA} goals \enquote{1, 2, 7, 11, 12} + \gls{SDG}~10:
+\begin{itemize}
+    \item \gls{SDG}~1 (22 hits): Driven by \enquote{poverty} (5), \enquote{food insecurity} (3), \enquote{energy poverty} (3), and \enquote{hushållsfattigdom} (2) from Papers 3–5.
+    
+    \item \gls{SDG}~7 (22 hits): Driven by \enquote{renewable energy} (4), \enquote{energy communities} (3), \enquote{energy poverty} (3), and \enquote{energigemenskaper} (2) from Papers 1–3.
+
+    \item \gls{SDG}~2 (8 hits): Driven by \enquote{food insecurity} (3) and \enquote{matsvinn} (2) from the community smart-fridge pilot in Paper 4.
+
+
+    \item \gls{SDG}~11 (6 hits): Fired both on direct terms (\enquote{waste}, \enquote{city scale}) and on \textit{STRINGS co-occurrence rules} pairing \enquote{city} / \enquote{urban} / \enquote{sustainable} with \enquote{inclusiv*}, \enquote{safe*}, \enquote{resilien*}, \enquote{sustainab*}, and \enquote{affordab*} across the Stockholm and Amsterdam neighborhood studies.
+
+
+    \item \gls{SDG}~12 (6 hits): Driven by \enquote{food waste} (2), \enquote{environmental policy} (2), \enquote{energy subsidies} (1), and STRINGS co-occurrence (\enquote{sustainability} + \enquote{consumption}), directly aligning with Target 12.3 (halving retail/consumer food waste) and Target 12.c (rationalizing inefficient fossil-fuel/energy subsidies).
+
+
+    \item \gls{SDG}~10 (6 hits — Substantiated Secondary Signal): Driven by \enquote{poverty} (5) and the STRINGS rule \enquote{poverty} AND (\enquote{inequality} OR \enquote{unequal} OR \enquote{social mobility}) (1), directly reflecting the abstract's analysis of \enquote{a wide distribution of unintended, unjust and unequal effects} across \enquote{high income to low-income homes} (\enquote{ojämlika effekter}, \enquote{hög- till låginkomsthushåll}).
+\end{itemize}
+
+
+Note that there was zero \textit{False-Positive Bleed}:  All remaining 11 goals sit cleanly at \enquote{0}.
+
+\textbf{This case study demonstrates why compilation theses (sammanläggningsavhandlingar) spanning multiple socio-technical interventions require multi-goal classification} --- showing how the dual-language dictionary plus STRINGS co-occurrence rules recover the full five-goal \gls{DiVA} assignment (\enquote{1, 2, 7, 11, 12}) while OSDG stopped at two.
+\end{casestudySection}
+
+\begin{takeaway}
+Compilation theses are likely to span multiple domains across their constituent publications and therefore legitimately contribute toward several \glspl{SDG}---requiring multi-track lexical and co-occurrence classification rather than top-2 \gls{ML} truncation to capture their full scope.
+\end{takeaway}
+
+
+
 \Needspace*{6\baselineskip}
 \section{Conclusions}
 \label{sec:Conclusions}
