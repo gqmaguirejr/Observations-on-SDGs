@@ -532,7 +532,9 @@ Furthermore, this study does not identify individual authors; rather, it aims to
 \section{Case studies}
 The exact counts of the number of instances of given terms can vary as the program continues to evolve; therefore, these numbers should be taken as indicative and not absolute.
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Forced compliance or satisficing SDG?]
+\label{cs:satisficingSDG}
 Consider the following:
 \begin{lstlisting}[language={json}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={t\_141736.json (manually reformatted to keep only one English abstract)}, label=lst:t_141736.json]
@@ -590,7 +592,9 @@ The thesis is purely experimental high-energy particle physics and concerns \tex
 This case illustrates how mandatory or strongly nudged \gls{SDG} fields can produce false positives in fundamental science: lexical false friends (\enquote{energy}) lead authors to assign aspirational or tangentially related goals to purely theoretical or experimental work.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Correct identification of SDG 9]
+\label{cs:CorrectIdentificationOfNine}
 Consider the following:
 \begin{lstlisting}[language={json}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={t\_141404.json (manually reformatted to keep only one English abstract)}, label=lst:t_141404.json]
@@ -651,7 +655,9 @@ However, the program's output shows the results of \gls{SDG}~9 terms:
 Unlike the previous case, this report represents a true positive for \gls{SDG}~9. It demonstrates that technical engineering abstracts often express sustainability goals through domain-specific operational metrics (\eg axle load and track wear pricing) rather than high-level policy vocabulary --- causing general-purpose \gls{ML} classifiers to miss valid \gls{SDG} alignments that domain-enriched keyword dictionaries successfully capture.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Implicit versus Explicit SDGs]
+\label{cs:ImplicitVersusExplicitSDGs}
 Consider the following:
 \begin{lstlisting}[language={json}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={t\_123456.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_123456.json]
@@ -738,7 +744,9 @@ However, the author never used terms such as \enquote{energy}, \enquote{power}, 
 OSDG identified \gls{SDG}~9, but missed both the co-primary \gls{SDG}~12 and the secondary pedagogical \gls{SDG}~4. Neither OSDG nor keyword matching detected \gls{SDG}~7, because its justification relies on implicit domain knowledge within \gls{KTH}'s production engineering environment rather than surface vocabulary --- demonstrating why parsing explicit in-text \gls{SDG} declarations is essential for complete metadata recovery.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[A dominant SDG, with a strong secondary SDG]
+\label{cs:oneDominatWithStrongSecondary}
 Consider the following:
 \begin{lstlisting}[language={json}, extendedchars=false, caption={t\_141830.json (manually reformatted to keep only one abstract in each language and to insert newlines at the end of paragraphs)}, label=lst:t_141830.json]
 {
@@ -822,7 +830,9 @@ OSDG says \glspl{SDG} 7 \& 11, the \gls{DiVA} record said 11, and the program fo
 While the author's assignment of \gls{SDG}~11 accurately reflects the thesis's primary urban-transport framing, both OSDG and the dual-language classifier demonstrate that \gls{SDG}~7 is an equally strong co-primary match. Adding \gls{SDG}~7 to the \gls{DiVA} metadata would improve discoverability for researchers searching for urban fleet electrification and energy-optimization studies.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Divergence Between Author Assignment and OSDG]
+\label{cs:DivergenceBetweenAuthorAndOSDG}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_142021.json (manually reformatted to keep only one English abstract)}, label=lst:t_142021.json]
 {
@@ -895,7 +905,9 @@ Because long-term railway network investment (\gls{SDG}~9) and passenger transit
 Adding \gls{SDG}~11 to \gls{SDG}~9 would improve this entry's discoverability for both \glspl{SDG}. Moreover, this case illustrates that the dominant \gls{SDG} was \textbf{not} the one identified by OSDG.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[A dominant SDG that OSDG did not find, along with two secondary SDGs]
+\label{cs:ADominantOSDGdidnotFind}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_143470.json (manually reformatted to keep only one copy of each abstract and to insert newlines at the end of paragraphs)}, label=lst:t_143470.json]
 {
@@ -966,8 +978,9 @@ In this case, OSDG could not handle the abstract, while the program found a clea
 While \gls{SDG}~9 is the clear primary classification for this acoustic-characterization study, optionally adding \gls{SDG}~3 and \gls{SDG}~11 would improve discoverability for researchers focused on noise pollution abatement, highlighting the interconnected health and urban-environment dimensions of noise-reduction engineering.
 \end{takeaway}
 
-
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Dual-Language Synergy Across Technical \& Institutional Vocabulary]
+\label{cs:DualLanguageSynergy}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_144856.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_144856.json]
 {
@@ -1041,7 +1054,9 @@ This case also illustrates lexical polysemy across domains via the single 1-hit 
 Leveraging dual-language content simultaneously is advantageous compared to relying on an \gls{ML} tool that processes only one language at a time.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Confirmation of two SDGs and evidence for another SDG]
+\label{cs:ConfirmationOfTwoAndEvidenceForAnother}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_144936.json (manually reformatted to keep only one English abstract and to add a space after punctuation and add newlines)}, label=lst:t_144936.json]
 {
@@ -1123,7 +1138,9 @@ There is a trace hit on \gls{SDG}~6 (\enquote{vatten}: 1), which is triggered by
 There is clear confirmation of the two \glspl{SDG} that both OSDG and the program agree on, but also solid evidence for including \gls{SDG}~13.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Confirmation of the primary SDG, but evidence for 4 secondary contextual signals]
+\label{cs:ConfirmPrimaryFourSecondaries}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_145010.json (manually reformatted to keep only one abstract in each language and adding newlines after paragraphs)}, label=lst:t_145010.json]
 {
@@ -1266,7 +1283,9 @@ This case confirms \gls{SDG}~9 as the dominant classification while demonstratin
 This case study also clarifies that not every non-zero match vector entry should be blindly added to \gls{DiVA}'s \glspl{SDG}.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Confirming SDG 9, Adding SDG 11, and Filtering Trace False Positives]
+\label{cs:ConfirmingNineAddingElevenAndFiltering}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_12808.json (manually reformatted to keep only one abstract per language and to add new lines between paragraphs)}, label=lst:t_12808.json]
 {
@@ -1384,7 +1403,9 @@ As in the previous case study, OSDG could not handle this lengthy (English) abst
 This companion report reinforces the value of adding \gls{SDG}~11 alongside \gls{SDG}~9 for modal-shift freight research, while demonstrating why low-count trace hits (\glspl{SDG}~3, 15, and 16) must be audited for domain polysemy and substring collisions (such as \enquote{natura} matching inside \enquote{natural}) before updating repository metadata.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Author metadata over-tagging]
+\label{cs:overtagging}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_147969.json (manually reformatted to keep only one abstract per language and added newlines after paragraph)}, label=lst:t_147969.json]
 {
@@ -1456,7 +1477,93 @@ Because the script preserves pre-assigned metadata rather than pruning unsupport
 The inclusion of \glspl{SDG}~12, 13, and 15 represents over-tagging or broad downstream rationalization: the author appears to have added \gls{SDG}~12 (uranium resource efficiency / burn-up), \gls{SDG}~13 (low-carbon baseload power), and \gls{SDG}~15 (minimizing land footprint of power generation), none of which are mentioned in the abstracts, titles, or keywords.  Only \glspl{SDG}~7 and 9 are warranted here.
 \end{takeaway}
 
+\begin{casestudySection}[Three-Way False Positive on SDG 6: Fluid Mechanics vs.\ Water Policy]
+\label{cs:ThreeWayError}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_152511.json (manually reformatted to keep only one abstract for each language and adding new lines after paragraphs; additionally, there is some \LaTeX{} cleanup of the abstracts)}, label=lst:t_152511.json]
+{
+  "divaID": "diva2:2004558",
+  "Title": {
+    "Main title": "Numerical studies on elastoviscoplastic fluid flows",
+    "Language": "eng"
+  },
+  "Alternative title": {
+    "Main title": "Numeriska studier av elastoviskoplastiska fluidflöden",
+    "Language": "swe"
+  },
+  "keywords": {
+    "eng": "Yield stress fluids, Elastoviscoplastic Fluids, Multiphase Flows, Droplets, Emulsions, Bubbles, Particles, Natural Convection, Turbulence, Flow instability",
+    "swe": "Flytspänningsvätskor, Elastoviskoplastiska vätskor, Flerfasflöden, Droppar, Emulsioner, Bubblor, Partiklar, Fri konvektion, Turbulens, Flödesinstabiliteter"
+  },
+  "abstracts": {
+    "eng": "<p>Yield stress fluids are ubiquitous in our environment and industrial processes - from food, cosmetics and hygiene products to paper pulp processing and geophysical flows of magma, mudslides and avalanches. The flow behaviour of these fluids is qualitatively different from water and other simple fluids, for instance because they behave as soft solid materials before starting to flow. Therefore it is important for applications to be able to understand and model yield stress fluid flow.</p>
+    <p>Bingham formulated his seminal model for yield stress fluids already in the beginning of 20\textsuperscript{th} century, but in the recent years experiments have shown that many flow phenomena cannot be explained by the Bingham model. A new central insight is that the elasticity of the material plays a role, and results in behaviours similar to viscoelastic fluids. To capture such effects in computer simulations, one has to use an elastoviscoplastic model that combines yield stress and elasticity of the fluid.</p>
+    <p>This thesis consists of computer simulations of flows of elastoviscoplastic fluids in fundamental canonical flow configurations of relevance for industries. Also multiphase flows are studied – suspensions of particles, droplets and bubbles – with specialised numerical methods.  In suspensions of bubbles or droplets in planar shear flow, we show how rheology and droplet dynamics is affected by yield stress and elasticity of the surrounding material.  Fluid elasticity makes the droplets migrate towards channel walls, while yield stress increases the effective viscosity of the fluid, slowing down this migration. When two bubbles come close to each other in shear flow, they either attract or repel each other in the vorticity direction depending on their relative separation.</p>
+    <p>Particle suspensions are analysed in a three-dimensional channel with a quadratic cross-section. We observe, similarly to experiments, that spherical particles move towards the four corners of the channel, and we explain this phenomenon by analysing the stress fields obtained from our simulations. Non-spherical particles on the other hand can obtain several distinct stable orientations, and precessing or tumbling motions, when interacting with the solid part of the material, the `central plug region'.</p>
+    <p>Building on the studies of multiphase flows comprising elastoviscoplastic carrier fluids under laminar flow conditions, attention was turned to the behaviour of viscous droplets suspended in such fluids under turbulent flow conditions. The elasticity and yield stress of the carrier fluid are found to play a central role in droplet break-up and coalescence. As elasticity and yield stress increase, droplet break-up is suppressed, leading to the formation of large droplets and an accompanying skewness in the size distribution of droplets. The elasticity of the carrier fluid generates lift forces across the channel that drive droplet migration towards the centre. This migration depletes droplet layers near the walls, hence no significant variations in drag are observed.</p>
+    <p>Next, the first study of heat transfer by natural convection in elastoviscoplastic fluids is performed. The findings show that material elasticity can account for experimentally observed behaviour in Carbopol, such as the immediate onset of motion when a temperature gradient is applied in fluids with sufficiently low yield stress. In fluids with higher (super-critical) yield stress, the solid-like material is found to undergo elasto-inertial vibrations, resembling the behaviour of a damped spring-mass system.</p>
+    <p>Finally, three-dimensional computer simulations are conducted to successfully reproduce for the first time a classical wake instability in the flow viscoelastic fluids past a confined, circular cylinder in both steady and time-dependent regimes. The influence of different fluid behaviours is examined - in particular, the impact of shear-thinning in viscoelastic liquids and the role of yield stress in elastoviscoplastic materials. The results show that a small degree of shear-thinning in the first normal stress coefficient of viscoelastic liquids can rapidly suppress the instability. In elastoviscoplastic fluids, the characteristic instability is found to persist, with velocity fluctuations remarkably extending into the surrounding un-yielded regions of the material - which behave like soft solids - through elastic deformation.</p>",
+    "swe": "<p>Flytspänningsvätskor är vanligt förekommande i vår omgivning och i industriella processer – från livsmedel, kosmetika och hygienprodukter till processering av pappersmassa och geofysiska flöden av till exempel magma, jordskred och laviner. Flödesbeteendet av dessa vätskor skiljer sig markant från flödet av vatten och andra enkla vätskor, bland annat för att de beter sig som mjuka fasta material innan de börjar flöda, vilket ger lavinartade beteenden. Därför är det viktigt för tillämpningarna att  kunna förstå och modellera deras flöden.</p>
+    <p>Bingham formulerade sin banbrytande modell för flytspänningsvätskor redan i början av 1900-talet, men de senaste åren har experiment visat att många strömningsfenomen för dessa vätskor inte kan förklaras av Bingham-modellen. En ny central insikt är att materialens elasticitet spelar roll, och resulterar i flödesfenomen som liknar viskoelastiska vätskor. För att kunna fånga dessa effekter måste man använda en elastoviskoplastisk modell som kombinerar flytspänning och elasticitet.</p>
+    <p>Denna avhandling består av datorberäkningar av elastoviskoplastiska vätskeflöden i grundläggande flödeskonfigurationer av relevans för industrierna. Också flerfasflöden studeras – suspensioner av partiklar, droppar och bubblor – med specialiserade numeriska metoder. I suspensioner av bubblor och droppar i plan skjuvströmning visar vi hur reologin och dropparnas dynamik påverkas av flytspänning och elasticitet av materialet. Vätskans elasticitet leder till att dropparna flyttar sig mot kanalväggarna, medan flytspänning ökar den effektiva viskociteten och saktar ner deras förflyttning. När två bubblor kommer nära varandra i skjuvströmning så rör de sig mot eller ifrån varandra i vorticitetsriktningen.</p>
+    <p>Partikelsuspensioner analyseras i tredimensionella kanaler av kvadratiskt tvärsnitt. Vi observerar likt experiment att runda (sfäriska) partiklar flyttar sig mot kanalens fyra hörn och förklarar detta fenomen genom att studera spänningsfält från simuleringarna. Icke-sfäriska partiklar däremot kan anta flera stabila orienteringar och jämviktstillstånd, och partiklarna utför flera olika precesserande och tumlande rörelser, när de interagerar med den fasta delen av materialet, den `centrala pluggregionen'.</p>
+    <p>Med utgångspunkt i studierna av droppar, bubblor och partiklar i elastoviskoplastiska vätskor under laminära strömningsförhållanden riktas uppmärksamheten mot beteendet hos viskösa droppar suspenderade i sådana vätskor under turbulenta strömningsförhållanden. Elasticiteten och flytspänning hos bärarvätskan visar sig spela en central roll för droppars sönderfall och koalescens. När elasticitet och flytgräns ökar motverkas droppars sönderfall, vilket leder till bildandet av stora droppar och en åtföljande skevhet i storleksfördelningen. De stora dropparnas deformerbarhet, tillsammans med bärarvätskans elasticitet, genererar lyftkrafter tvärs över kanalen som driver droppmigration mot centrum. Denna migration tunnar ut droppskikten nära väggarna, och därför observeras inga betydande variationer i friktion.</p>
+    <p>Nästa del av arbetet utgörs av den första studien av värmeöverföring genom naturlig konvektion i elastoviskoplastiska vätskor. Resultaten visar att materialets elasticitet kan förklara experimentellt observerat beteende i Carbopol, såsom det omedelbara påbörjandet av rörelse när en temperaturgradient appliceras i vätskor med tillräckligt låg flytgräns. I vätskor med högre (superkritisk) flytgräns uppvisar det fastliknande materialet elasto-inertiella vibrationer, vilka påminner om beteendet hos ett dämpat fjäder-mass-system.</p>
+    <p>Avslutningsvis utförs tredimensionella datorsimuleringar där man för första gången framgångsrikt reproducerar en klassisk vakinstabilitet i strömningen av viskoelastiska vätskor kring en innesluten, cirkulär cylinder under både stationära och tidsberoende förhållanden. Olika vätskeegenskapers inverkan undersöks – särskilt effekten av skjuvtunnande i viskoelastiska vätskor och flytgränsens roll i elastoviskoplastiska material. Resultaten visar att en liten grad av skjuvtunnande i den första normala spänningskoefficienten hos viskoelastiska vätskor snabbt kan dämpa instabiliteten. I elastoviskoplastiska vätskor kvarstår den karakteristiska instabiliteten, och hastighetsfluktuationer sträcker sig påtagligt in i de omgivande, ej uppflytna områdena av materialet – som beter sig som mjuka fasta kroppar – genom elastisk deformation.</p>"
+  },
+  "SDGs": "6, 9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_152511Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_152511
+=================================================================
+==> Dual-Language SDG Classification Report: t_152511
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 1, 0, 0, 17, 0, 0, 1, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "6, 9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   17 hit(s)
+       * "computer simulations": 3
+       * "multiphase flows": 3
+       * "flerfasflöden": 2
+       * "industriella processer": 1
+       * "paper pulp processing": 1
+  [ 2] SDG  6 :    1 hit(s)
+       * "vatten": 1
+  [ 3] SDG 12 :    1 hit(s)
+       * "viscosity": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 6, SDG 9"
+=================================================================
+\end{lstlisting}
+
+What makes this case study interesting is the three-way false-positive convergence on \gls{SDG}~6 driven by a superficial physical-substance association (\enquote{fluids/water} $\rightarrow$ Clean Water and Sanitation):
+\begin{itemize}
+    \item The author assigned \glspl{SDG} \enquote{6, 9} --- likely because the thesis studies fluid flows and mentions water, mudslides, and paper pulp processing, but here occurring as a secondary tag alongside a valid \gls{SDG}~9.
+
+    \item OSDG also hallucinated \gls{SDG}~6 from the fluid-mechanics vocabulary.
+
+    \item The classifier program recorded a 1-hit trace on \enquote{vatten} (and \enquote{viscosity} under \gls{SDG}~12), which—because \enquote{6} was pre-assigned in \gls{DiVA} --- got echoed into Suggested \enquote{\glspl{SDG}} value: \enquote{SDG 6, SDG 9}.
+\end{itemize}
+
+Both OSDG and the program identify \gls{SDG}~6 and \gls{SDG}~9. However, in this case, water (\enquote{vatten}) is mentioned once solely as an introductory Newtonian baseline to contrast with yield-stress fluids (\enquote{differs qualitatively from water and other simple fluids} / \enquote{skiljer sig markant från flödet av vatten och andra enkla vätskor}).
+
+Neither the English nor the Swedish abstract evaluates water quality, wastewater treatment, water-use efficiency, or water-related ecosystems (UN Targets 6.1–6.6).  Moreover, treating general fluid dynamics, droplet coalescence, or an incidental mention of \enquote{water} and \enquote{mudslides} as \gls{SDG}~6 turns a universal policy goal into a loose technical descriptor for any liquid-phase simulation.
+\end{casestudySection}
+
+\begin{takeaway}
+Use only \gls{SDG} tags that reflect a policy objective or societal outcome that the publication explicitly supports. Because \enquote{water} appears here merely as a physical baseline in a computational fluid-dynamics study, \gls{SDG}~6 should be pruned from the \gls{DiVA} metadata, leaving only \gls{SDG}~9.
+\end{takeaway}
+
+
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Compilation thesis with diverse SDGs in the publications]
+\label{cs:CompilationTheseWithDIverseSDGs}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_1482.json (manually reformatted to keep only one English abstract and added newlines at the end of paragraphs, while removing unnecessary paragraph breaks)}, label=lst:t_1482.json]
 {
@@ -1573,7 +1680,9 @@ Note that there was zero \textit{False-Positive Bleed}:  All remaining 11 goals 
 Compilation theses are likely to span multiple domains across their constituent publications and therefore legitimately contribute toward several \glspl{SDG}---requiring multi-track lexical and co-occurrence classification rather than top-2 \gls{ML} truncation to capture their full scope.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Importance of domain-specific terms]
+\label{cs:ImporantanceOfDomainSepcificTerms}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_149108.json (manually reformatted to keep only one English abstract)}, label=lst:t_149108.json]
 {
@@ -1638,7 +1747,9 @@ Note that there is zero bleed, \ie the remaining 15 \glspl{SDG} sit cleanly at 0
 This case study illustrates the critical importance of domain-specific technical terms: without specialized reactor-physics vocabulary (such as \enquote{PWRs}, \enquote{nodal calculations}, and \enquote{fuel depletion}), an automated classifier would either miss \gls{SDG}~7 entirely or classify a nuclear engineering thesis solely as a generic machine-learning paper (\gls{SDG}~9). 
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[A clear single SDG]
+\label{cs:SingleClearSDG}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_150476.json (manually reformatted to keep only one abstract per language)}, label=lst:t_150476.json]
 {
@@ -1691,7 +1802,9 @@ Note that there is zero false-positive bleed, \ie all other 16 \glspl{SDG} regis
 In the UN \gls{SDG} framework, pure mathematical and optimization terms do \textbf{not} have a standalone \gls{SDG} of their own; instead, they are domain-scoped by their physical or societal application.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Single SDG: Full Agreement Across Author, OSDG, and Classifier program]
+\label{cs:ThreeWayAgreement}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_150695.json (manually reformatted to keep only one abstract per language and added newlines between paragraphs)}, label=lst:t_150695.json]
 {
@@ -1749,7 +1862,9 @@ Again, there were zero false-positive bleeds, \ie all other 16 \glspl{SDG} regis
 When a biomedical or biomechanical abstract articulates injury mechanisms and clinical health outcomes in accessible terminology rather than purely mathematical optimization formulas, general-purpose \gls{ML} classifiers (OSDG) and domain-specific dual-language lexicons converge cleanly on the exact single \gls{SDG} assigned by the author.
 \end{takeaway}
 
-\begin{casestudySection}[Validating Multi-Goal Urban Health and Equity (\glspl{SDG}~3, 10, and 11)]
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Validating Multi-Goal Urban Health and Equity (SDGs~3, 10, and 11)]
+\label{cs:MultaigoalUrbanHealthAndEquity}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_150949.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_150949.json]
 {
@@ -1840,6 +1955,65 @@ The trace hit for \gls{SDG}~16 is a problem of the isolated use of \enquote{rät
 Whereas general-purpose \gls{ML} classifiers can misread environmental acoustics as climate action (\gls{SDG}~13) while overlooking health and equity, a dual-language domain lexicon validates the author's multi-goal framing across urban sustainability (\gls{SDG}~11), public health (\gls{SDG}~3), and population-centric environmental justice (\gls{SDG}~10).
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Extratextual Domain Awareness (\gls{SDG}~16)]
+\label{cs:ExtratextualDomainAwareness}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_152070.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_152070.json]
+{
+  "divaID": "diva2:2057783",
+  "Title": {
+    "Main title": "Non-linear structural phenomena influencing flutter performance",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "aeroelasticity, structural dynamics, sloshing"
+  },
+  "abstracts": {
+    "eng": "<p>This thesis explores the effect of local non-linear phenomena on a structure that can otherwise be described linearly with a high degree of accuracy, with the focus on fuel sloshing in external stores. While it is possible to make high fidelity simulations of these phenomena, they are complex enough that it is not possible in a production environment where thousands of analyses are made. </p><p>Experimental modal analysis of multiple sets of composite wings show manufacturing induced asymmetries, with a significant frequency shift observed in the first bending mode between the left and right wings of one set. These variations caused nominal symmetric and anti-symmetric mode shapes to shift into single wing dominated modes. Tests using a wing-fuel tank system demonstrated that liquid-filled configurations exhibit distinct dynamic behaviors compared to rigid-mass equivalents. At a 50% fill level, a store sway structural mode present in the dry configuration was found to dissipate in the wet configuration. Additionally, the liquid-filled stores were subject to frequency shifts in torsional modes and an increase in overall structural damping. Excitation using robotic motion was evaluated using the same sloshing tank attached to a six-degrees-of-freedom industrial robot, with a focus on achieving chaotic fluid motion. It is shown to be a valid alternative to traditional excitation schemes.</p><p>Numerical simulations using individually updated finite element models showed a substantial variation in critical flutter speeds. Configurations utilizing liquid-filled tanks demonstrated higher critical flutter velocities than rigid-filled counterparts due to increased frequency separation between fundamental wing bending and torsion modes. The results indicate that linear models approximating fuel as a frozen mass can lead to an underestimation of critical dynamic pressure. Experimental validation remain essential for ensuring the robustness of analytical flutter predictions.</p>",
+    "swe": "<p>Denna avhandling utforskar effekten av lokala icke-linjära fenomen på en struktur som i övrigt kan beskrivas linjärt med hög noggrannhet, med fokus på bränsleskvalp i externa laster. Trots att högupplösta simuleringar av dessa fenomen är möjliga, är de så komplexa att det inte är möjligt att använda dessa i en skarp produktutvecklingsmiljö där tusentals analyser genomförs.</p><p>Experimentell modalanalys av flera uppsättningar kompositvingar uppvisar tillverkningsinducerade asymmetrier, med en signifikant frekvensförskjutning för första böjmoden mellan vingarna i en uppsättning. Dessa variationer orsakade att nominellt symmetriska och antisymmetriska modformer skiftade till moder dominerade av en vinge i taget. Tester av ett vingsystem med bränsletank visade att vätskefyllda konfigurationer uppvisar distinkta beteenden jämfört med motsvarigheter fyllda med stel massa. Vid en fyllnadsgrad på 50 \% i den våta konfigurationen försvann en strukturell mod för sidrörelse (store sway), som fanns i den torra konfigurationen. Dessutom introduceras tydliga frekvensskift och en ökning av strukturell dämpning i torsionsmoder. Excitering med industrirobot utvärderades med samma tank monterad på en robot, med fokus på förmågan att uppnå kaotisk vätskerörelse. Det visas vara ett giltigt alternativ till shakerexcitering.</p><p>Numeriska simuleringar med individuellt uppdaterade finita elementmodeller visade på en variation i kritiska fladderhastigheter. Konfigurationer med vätskefyllda tankar uppvisade generellt högre kritiskt dynamiskt tryck än motsvarigheter med stel massa, på grund av en ökad frekvensseparation mellan vingens fundamentala böj- och torsionsmoder. Resultaten indikerar att linjära modeller som approximerar bränsle som en frusen massa, kan leda till en underskattning av kritiskt dynamiskt tryck. Experimentell validering av strukturdynamiska egenskaper är avgörande för att säkerställa robustheten i analytiska fladderprediktioner.</p>"
+  },
+  "SDGs": "9, 16"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_152070Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_152070
+=================================================================
+==> Dual-Language SDG Classification Report: t_152070
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9, 16"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :    9 hit(s)
+       * "finita elementmodeller": 1
+       * "numeriska simuleringar": 1
+       * "finite element models": 1
+       * "numerical simulations": 1
+       * "structural dynamics": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 16"
+=================================================================
+\end{lstlisting}
+
+OSDG identified \gls{SDG}~9 in agreement with the output of the program shown in  \Cref{lst:t_152070Output}.
+
+The author also included \gls{SDG}~16, despite no terms in the abstracts suggesting this. This stems from extratextual domain knowledge: the thesis investigates fuel sloshing in external stores on composite wings (\enquote{bränsleskvalp i externa laster}), a classic military aerospace application (wing-mounted external fuel tanks on fighter aircraft). Authors working on defense-related aerospace projects at \gls{KTH} appear to routinely tag \gls{SDG}~16 (Peace, Justice and Strong Institutions / national defense and security) in \gls{DiVA} even when the abstract uses neutral engineering phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}) without explicit security or defense keywords. In fact, the word \enquote{defense} only appears as \enquote{D. of Defense} in the author portion of references 4 and 22.
+
+Because the program is scoped to preserve pre-assigned metadata (Suggested '\enquote{SDGs} value: \enquote{\gls{SDG}~9, \gls{SDG}~16}), automated keyword auditing flags the 0 match count for \gls{SDG}~16 so a human reviewer can decide whether extratextual sponsorship justifies keeping it or whether metadata should reflect only what is substantiated in the abstract (\gls{SDG}~9)
+
+However, the author also included \gls{SDG}~16 in \gls{DiVA} (\enquote{9, 16}), despite zero textual evidence in the title, keywords, or abstracts. Although the research was funded by Vinnova (Sweden's civilian innovation agency) rather than a defense ministry, it investigates fuel sloshing in external stores on composite wings (\enquote{bränsleskvalp i externa laster})---a classic dual-use and military aerospace application (wing-mounted external fuel tanks on fighter aircraft). Here, the author appears to have tagged \gls{SDG}~16 (\emph{Peace, Justice and Strong Institutions}, encompassing national security and defense institutions) based on extratextual knowledge of the downstream aerospace application, even though the abstract itself uses purely neutral structural-dynamics phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}). In fact, the word \enquote{defense} appears in the thesis only as \enquote{D. of Defense} in the author affiliation of two bibliography entries (References~4 and 22).
+\end{casestudySection}
+
+\begin{takeaway}
+The author's inclusion of \gls{SDG}~16 is driven by extratextual awareness of a downstream defense aerospace application rather than content present in the thesis abstract or explicit defense sponsorship. Because \gls{SDG} metadata is intended to help readers discover relevant publications, tagging \gls{SDG}~16 on a purely aeroelasticity abstract without any security, peace, or governance context in the text misleads searchers.
+\end{takeaway}
+
+
 
 
 
@@ -1847,16 +2021,14 @@ Whereas general-purpose \gls{ML} classifiers can misread environmental acoustics
 \section{Conclusions}
 \label{sec:Conclusions}
 
+There is evidence of \enquote{performative \glspl{SDG}} where students assign \glspl{SDG} \first when none are relevant, or \Second when the thesis provides no basis for assigning a given \gls{SDG}.
+\begin{itemize}
+    \item Performative \& Aspirational Tagging: Authors assign \glspl{SDG} when none apply (\eg basic high-energy physics in \Cref{cs:satisficingSDG}) or over-tag broad downstream rationalizations unsupported by the text (\Cref{cs:overtagging}).
 
+\item Under-Tagging \& Implicit Domain Knowledge: Authors omit valid co-primary \glspl{SDG} (\eg omitting \gls{SDG}~7 on electric autonomous vehicles in \Cref{cs:oneDominatWithStrongSecondary} or \gls{SDG}11 on rail freight modal shift in \Cref{cs:DivergenceBetweenAuthorAndOSDG}, \Cref{cs:ConfirmPrimaryFourSecondaries}, and \Cref{cs:ConfirmingNineAddingElevenAndFiltering}) or leave key connections implicit in the abstract (\Cref{cs:ImplicitVersusExplicitSDGs}).
 
-
-There is evidence of \enquote{performative \glspl{SDG}} where students 
-
-
-
-\begin{takeaway}
-
-\end{takeaway}
+\item Limitations of General-Purpose ML Classifiers vs. Dual-Language Domain Lexicons: Off-the-shelf classifiers, such as OSDG, frequently fail on dense mathematical/engineering abstracts (\Cref{cs:CorrectIdentificationOfNine,cs:ADominantOSDGdidnotFind,cs:ImporantanceOfDomainSepcificTerms,cs:SingleClearSDG}), truncate multi-paper compilation theses to top-2 guesses (\Cref{cs:CompilationTheseWithDIverseSDGs}), or misclassify environmental acoustics as climate action (\Cref{cs:MultaigoalUrbanHealthAndEquity})—whereas a bilingual (English/Swedish) domain-enriched lexicon with co-occurrence rules recovers the full signal while exposing polysemous trace noise (\enquote{rättvisa}, \enquote{vatten}, \enquote{natura}, \enquote{störningar}).
+\end{itemize}
 
 
 \clearpage
@@ -1866,16 +2038,21 @@ This section presents recommendations based on observations from this study to i
 
 \subsection{For Authors}
 
-\begin{recommendation}[]
-\label{rec:digitalFirst}
-
+\begin{recommendation}[\gls{SDG} tags should reflect the explicit scope of the work]
+\label{rec:explicitScope}
+UN \glspl{SDG} are defined as universal policy objectives and outcomes rather than technical descriptors, so you should choose your \glspl{SDG} to help your reader understand which \glspl{SDG} your publication actually supports.
 \end{recommendation}
-\begin{takeaway}
 
-\end{takeaway}
+\begin{recommendation}[Use \glspl{SDG} for thematic discovery with respect to policy objectives and outcomes, rather than for any other purpose.]
+\label{rec:NotForSignalingDualUse}
+\glspl{SDG} are ill-suited as a mechanism either to signal or to obscure dual-use status. Dual-use classification is a regulatory and ethical governance issue (governed by export controls, ethical review boards, and funder disclosures), whereas \glspl{SDG} are thematic discovery tags meant to reflect the substantive content and explicit framing of the publication itself.
 
+For example, if the defense or security relevance is \textbf{not} explicitly articulated in the thesis's problem framing, assigning \gls{SDG}~16 blurs the line between what the research actually investigates and what an external stakeholder might eventually use it for.
+\end{recommendation}
 
+\subsection{For Repository Managers/KTH Library and For Automated Classification Tools}
 
+It should be made clear in \gls{DiVA}'s submission \gls{UI} and in any recommendations for authors that leaving \glspl{SDG} blank is valid when none apply (thus avoiding the forced-compliance tagging from \Cref{cs:satisficingSDG}), and pairing automated lexical suggestions with human audit of low-count trace hits.
 
 \clearpage
 \phantomsection % Directs hyperref to anchor exactly here
