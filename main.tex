@@ -1477,6 +1477,7 @@ Because the script preserves pre-assigned metadata rather than pruning unsupport
 The inclusion of \glspl{SDG}~12, 13, and 15 represents over-tagging or broad downstream rationalization: the author appears to have added \gls{SDG}~12 (uranium resource efficiency / burn-up), \gls{SDG}~13 (low-carbon baseload power), and \gls{SDG}~15 (minimizing land footprint of power generation), none of which are mentioned in the abstracts, titles, or keywords.  Only \glspl{SDG}~7 and 9 are warranted here.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Three-Way False Positive on SDG 6: Fluid Mechanics vs.\ Water Policy]
 \label{cs:ThreeWayError}
 Consider the following:
@@ -2013,8 +2014,163 @@ However, the author also included \gls{SDG}~16 in \gls{DiVA} (\enquote{9, 16}), 
 The author's inclusion of \gls{SDG}~16 is driven by extratextual awareness of a downstream defense aerospace application rather than content present in the thesis abstract or explicit defense sponsorship. Because \gls{SDG} metadata is intended to help readers discover relevant publications, tagging \gls{SDG}~16 on a purely aeroelasticity abstract without any security, peace, or governance context in the text misleads searchers.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Both the author and OSDG missed the main SDG]
+\label{cs:BothAuthorOSDGmisseMainSDG}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_15302.json (manually reformatted to keep only one abstract per language and added new lines after paragraphs)}, label=lst:t_15302.json]
+{
+  "divaID": "diva2:2080121",
+  "Title": {
+    "Main title": "Communication Related to Geotechnical Risks in Large Tunnel Projects",
+    "Language": "eng"
+  },
+  "Alternative title": {
+    "Main title": "Kommunikation kring georisker i stora tunnelprojekt",
+    "Language": "swe"
+  },
+  "keywords": {
+    "swe": "georisk, kommunikation, tunnelprojekt, megaprojekt"
+  },
+  "abstracts": {
+    "eng": "<p>Tunnel projects for transport infrastructure are often large, complex, and high-risk investments that involve advanced technical solutions as well as logistical, political, and organisational challenges and conflicting objectives. Historical experience furthermore shows that many large tunnel projects exceed both their planned schedules and budgets. These projects combine high complexity with considerable uncertainty, not least regarding ground conditions, which places substantial demands on the client’s ability to organise both communication and risk management activities. Inadequate communication is a frequently recurring cause of problems in construction projects, and effective communication within the project as well as with its stakeholders is often regarded as a key factor for project success.</p><p>This report addresses communication related to georisks in large tunnel projects, as this type of risk is particularly challenging and involves many different actors engaged in identifying, assessing, managing, and communicating these risks. In addition, there is a lack of scientific studies and literature that shed light on the communication of georisks in large tunnel projects.</p>
+    <p>The purpose of the study was to investigate, identify, and map communication related to georisks during the planning and design phases of large tunnel projects, and to further develop existing practices and guidelines. The objective was to create better conditions for clients and design consultants to plan and organise communication related to georisks so that tunnel projects can be carried out more efficiently. Semi-structured interviews were used as the research method. The interviewees held different roles within the client organisation and the design consultant organisation during the design of two major Swedish rock tunnel projects. The interviews were conducted during the period 2022–2025.</p>
+    <p>The interview results provide a picture of how different roles involved in planning and design communicate information about georisks within the tunnel projects. The study shows that the coordination of communication related to georisks within both the client organisation and the design consultant organisation is assigned to the relatively new role of risk manager. The study identified at least one risk manager within the client organisation and at least one risk manager within the design consultant organisation. The risk manager’s primary tool for risk coordination is the so-called risk register, which is intended to compile and describe the identified risks and to document any measures decided for each risk. Consequently, several different risk registers exist within a single tunnel project, as there are multiple risk coordinators. The study also identifies various challenges associated with the use of these risk registers.</p>
+    <p>Overall, the interviews indicate that information related to georisks is often clear when transferred from the design consultant organisation to the client organisation, whereas feedback from the client organisation to the design consultant organisation is less clear. The interviews further show that communication within the design consultant organi-sation, that is, between different consultant groups, needs improvement.</p>
+    <p>Based on the study results, proposals are presented for improving risk management practices in Swedish tunnel projects, with a specific focus on the organisation of communication related to georisks. One concrete proposal is that the client should develop policy documents and/or guidelines describing how risk management is expected to be conducted within and between the client organisation and the design consultant organisation. Similar policies and guidelines could also be developed at an industry level, for example by industry organisations or professional associations.</p>",
+    "swe": "<p>Tunnelprojekt för transportinfrastruktur är ofta stora, komplexa och riskfyllda investeringar som innebär avancerade tekniska lösningar, logistiska, politiska och organisatoriska utmaningar samt målkonflikter. Historien visar dessutom att flertalet stora tunnelprojekt överskrider såväl tidplan som budget. I dessa projekt kombineras hög komplexitet med hög osäkerhet om bland annat markförhållandena vilket ställer stora krav på beställarens förmåga på att organisera såväl kommunikation som riskhanterings-arbete. Otillräcklig kommunikation är en ofta återkommande orsak till problem i byggprojekt och en välfungerande kommunikation inom projektet såväl som med dess intressenter anses ofta vara en nyckelfaktor.</p><p>Föreliggande rapport handlar om kommunikation kring georisker i stora tunnelprojekt, eftersom denna typ av risker är speciellt utmanande och många olika aktörer är involverade i arbetet med att identifiera, värdera, hantera och kommunicera dessa risker. Dessutom saknas vetenskapliga studier och litteratur som belyser kommunikation av georisker i stora tunnelprojekt.</p>
+    <p>Syftet med studien var att undersöka, identifiera och kartlägga kommunikationen kring georisker under planering och projektering i stora tunnelprojekt och vidareutveckla rådande praxis och riktlinjer. Målet var att skapa bättre förutsättningar för beställare och projekterande konsulter att planera och organisera kommunikationen kring georisker så att tunnelprojekt kan genomföras mer effektivt. Som forskningsmetod har semistrukturerade intervjuer använts. De intervjuade har haft olika roller i beställarens respektive den projekterande konsultens organisationer under projekteringen av två stora svenska bergtunnelprojekt. Intervjuerna utfördes under perioden 2022–2025.</p>
+    <p>Resultatet av intervjuerna tecknar en bild av hur olika roller under planering och projektering kommunicerar information om georisker till varandra i tunnelprojekten. Studien visar att samordningen av kommunikationen kring georisker inom såväl beställarorganisationen som den projekterande konsultorganisationen ligger på den relativt nya rollen risksamordnare. Studien har identifierat minst en risksamordnare inom beställarorganisationen och minst en risksamordnare inom den projekterande konsultorganisationen. Risksamordnarens främsta verktyg för risksamordningsarbetet är den så kallade risklistan som ska samla och beskriva de identifierade riskerna, samt dokumentera eventuella åtgärder som beslutats kring respektive risk. Det finns alltså flera olika risklistor inom ett och samma tunnelprojekt eftersom det finns flera olika  risksamordnare. Studien visar också olika utmaningar som uppkommer i arbetet med risklistorna.</p>
+    <p>Övergripande ger intervjuerna bilden av att informationen kring georisker ofta är tydlig när den överförs från den projekterande konsultorganisationen till beställar-organisationen, men att återkopplingen från beställarorganisationen till den projekterande konsultorganisationen är mer otydlig. Intervjuerna visar också att kommunikationen inom den projekterande konsultorganisationen, dvs mellan olika konsultgrupper, är i behov av förbättring.  </p>
+    <p>Baserat på resultaten av studien ges ett antal förslag hur riskhanteringsarbetet i svenska tunnelprojekt kan förbättras, specifikt avseende organisering av kommunikation kring georisker. Ett konkret förslag är att beställaren tar fram policydokument och/eller vägledningar för hur riskhanteringsarbetet förväntas gå till inom och mellan beställare och projekterande konsultorganisation. Liknande policys och vägledningar kan också tas fram på branschnivå, exempelvis hos branschorganisationer eller föreningar.</p>"
+  },
+  "SDGs": "11"
+}
+\end{lstlisting}
 
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_15302Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15302
+=================================================================
+==> Dual-Language SDG Classification Report: t_15302
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 27, 0, 0, 0, 0, 0, 0]
 
+Assigned value in JSON: "11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   46 hit(s)
+       * "tunnelprojekt": 11
+       * "tunnel projects": 10
+       * "georisker": 9
+       * "georisks": 8
+       * "transport infrastructure": 1
+  [ 2] SDG 11 :   27 hit(s)
+       * "tunnelprojekt": 11
+       * "tunnel projects": 10
+       * "transport infrastructure": 1
+       * "transportinfrastruktur": 1
+       * "construction projects": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 11"
+=================================================================
+\end{lstlisting}
+
+OSDG identified \gls{SDG}~11 and did not include \gls{SDG}~9. In contrast, \Cref{lst:t_15302Output} shows \gls{SDG}~9 with 46 hits and \gls{SDG}~11 with 27 hits.
+
+The reason for including \gls{SDG}~9 is that the text focuses on civil-infrastructure engineering governance and geotechnical risk registers rather than urban communities:
+\begin{itemize}
+    \item \textbf{\gls{SDG}~9 (46 hits --- Primary Infrastructure Goal):} While both goals share generic tunnel terms (\enquote{tunnelprojekt}: 11, \enquote{tunnel projects}: 10), \gls{SDG}~9 pulls decisively ahead via geotechnical risk management nomenclature (\enquote{georisker}: 9, \enquote{georisks}: 8). The report examines how risk managers (\enquote{risksamordnare}), clients (\enquote{beställare}), and design consultants (\enquote{projekterande konsulter}) coordinate using risk registers (\enquote{risklistan}) during the planning and design of large rock tunnel projects---mapping directly to Target~9.1 (\emph{develop quality, reliable, sustainable and resilient infrastructure}).
+    
+    \item \textbf{\gls{SDG}~11 (27 hits --- Secondary / Over-Attributed):} Beyond shared tunnel and transport terms, \gls{SDG}~11 registers virtually no independent urban policy vocabulary; the abstract never mentions cities, urban areas, public transit, commuters, or settlements. Both the author and OSDG appear to have conflated generic \enquote{transport infrastructure} with \gls{SDG}~11 while overlooking the primary civil-engineering infrastructure goal (\gls{SDG}~9).
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Both the author and OSDG conflated large transport-infrastructure megaprojects with urban sustainability (\gls{SDG}~11) while missing the primary resilient-infrastructure goal (\gls{SDG}~9). \gls{SDG}~9 should be the primary classification, and \gls{SDG}~11 should only be retained if the underlying tunnel projects serve urban transit corridors, thereby aligning the \gls{DiVA} metadata with Target~9.1.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Author missed the dominant cross-cutting policy objective (SDG 13)]
+\label{cs:AuthorMissedMajorSDG}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_15611.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_15611.json]
+{
+  "divaID": "diva2:2038369",
+  "Title": {
+    "Main title": "Kunskapssyntes om svenska byggnaders klimatpåverkan",
+    "Language": "swe"
+  },
+  "keywords": {
+    "eng": "Embodied greenhouse gas emissions, life cycle assessment, new-build, renovation of buildings",
+    "swe": "Inbyggd klimatpåverkan, livscykelanalys, nybyggnad, renovering av byggnader"
+  },
+  "abstracts": {
+    "eng": "<p>This project focused on embodied greenhouse gas emissions (GHGe) in buildings, in light of ongoing regulatory developments regarding climate declarations for buildings. Several sub-studies were conducted using data on resource use from a large number of new-build and renovation projects.Embodied GHGe was calculated across the full life cycle for new buildings, showing that the modules A1-A5 dominate the building’s overall climate impact. This suggests that extending the Swedish regulatory framework for climate declarations to cover the full life cycle would likely not result in significantly different steering effects than today. Additionally, the relationship between a number of building characteristics and embodied GHGe at component level was examined. The study found no evidence that low embodied emissions compromises acoustic or energy performance. However, it highlighted the complex relationship between building design and climate impact, underlining the importance of early-stage calculations to optimize the design for the specific project.Overall, the results suggest that the current Swedish methodology for climate declarations is effective in signaling reductions in climate impact from a life-cycle perspective. However, climate requirements should be complemented with other performance criteria that help to lay a solid foundation for minimizing future emissions.Another sub-study compared embodied GHGe with other environmental and resource indicators. The findings indicate that additional indicators should be considered going forward. However, data uncertainties currently limit the ability to draw robust conclusions about potential negative side effects of a narrow focus on climate impact alone. Nevertheless, the growing use of climate calculations in the sector will potentially drive interest in broadening the understanding of other environmental impacts, such as biodiversity loss and resource depletion. This, in turn, may drive demand for more reliable environmental data.The project also analyzed a large number of renovation projects, revealing considerable variation in embodied GHGe depending on the type and extent of interventions. As a result, establishing general reference values for renovations is difficult. Instead, the study suggests developing reference values per intervention type, which could support identifying reduction potentials and shaping climate requirements in renovation projects.In conclusion, while knowledge of embodied GHGe in new Swedish buildings is relatively strong, further development is needed for components and activities not yet covered by the Swedish regulatory framework for climate declarations. Future efforts should also aim to improve understanding of climate impact evaluation and reduction strategies at the building stock level, making room for a higher diversity of low-carbon strategies, which is essential to achieving profoundly sustainable emission levels.</p>",
+    "swe": "<p>Detta projekt har fokuserat på inbyggd klimatpåverkan hos byggnader, i ljuset av den pågående regelutvecklingen om klimatdeklaration av byggnader. Flera delstudier har genomförts baserat på data om resursanvändning från ett större antal nybyggnads- respektive renoveringsprojekt. Inbyggd klimatpåverkan under hela livscykeln beräknades för nya byggnader vilket synliggjorde hur byggskedets klimatpåverkan dominerar livscykelns klimatpåverkan. Det betyder att en utvidgning av det svenska regelverkets klimatdeklaration till att omfatta hela livscykeln troligen inte skulle leda till väsentligt annorlunda styrning än idag. Vidare undersöktes sambandet mellan byggnadsegenskaper och klimatpåverkan på byggdelsnivå. Studien gav inget ytterligare stöd för att låg klimatpåverkan för byggskedet skulle kunna innebära lägre ljud- eller energiprestanda. Däremot betonades den komplexa relationen mellan byggnadsdesign och klimatpåverkan, vilket förstärker vikten av tidiga klimatberäkningar för att optimera utformningen i det enskilda projektet. Sammantaget visar dessa resultat att beräkningsmetodiken i det svenska regelverket för klimatdeklarationer kan betraktas som effektiv för att ge styrsignaler mot minskad klimatpåverkan iett livscykelperspektiv. Dock behöver klimatkrav kompletteras med andra prestandakrav som kan lägga en god grund för att minimera framtida klimatpåverkan. En annan delstudie jämförde byggskedets klimatpåverkan med andra miljö- och resursindikatorer. Resultaten visar att fler indikatorer bör beaktas framöver, även om osäkerheterna i dessa miljödata i nuläget försvårar robusta slutsatser om huruvida ensidigt fokus på klimatpåverkan riskerar att ge andra negativa miljöeffekter. Utvecklingen med klimatberäkningar i branschen kan dock förväntas bidra till ökat intresse för kunskapsuppbyggnad om annan miljöpåverkan, såsom biodiversitet och resursutarmning, vilket kan öka efterfrågan på tillförlitliga miljödata.Projektet inkluderade också en analys av ett större antal renoveringsprojekt. Här syntes stor variation i inbyggd klimatpåverkan, beroende på typen och omfattningen av åtgärder. Därför är generella referensvärden för renoveringsprojekt svåra att fastställa. Istället föreslås att referensvärden tas fram per åtgärdstyp, vilket kan underlätta identifiering av reduktionsmöjligheter och stötta klimatkrav vid renovering.Avslutningsvis konstateras att kunskapen om klimatpåverkan från nya byggnader är relativt god, men att det finns behov av fortsatt utveckling kring de delar som ännu inte täcks av det svenska klimatdeklarationsregelverket. Fortsatt arbete bör också inriktas på att skapa bättre förståelse för utvärdering och strategier för minskad klimatpåverkan på beståndsnivå. På så sätt kan också andra klimatstrategier bättre synliggöras som är nödvändiga för att få ner de totala utsläppen till en nivå som kan betraktas som hållbar.</p>"
+  },
+  "SDGs": "11"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_15611Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15611
+=================================================================
+==> Dual-Language SDG Classification Report: t_15611
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 23, 9, 49, 1, 9, 0, 0]
+
+Assigned value in JSON: "11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 13 :   49 hit(s)
+       * "klimatpåverkan": 16
+       * "climate impact": 5
+       * "inbyggd klimatpåverkan": 4
+       * "klimatdeklaration": 4
+       * "embodied greenhouse gas emissions": 2
+  [ 2] SDG 11 :   23 hit(s)
+       * "byggnader": 6
+       * "renovation projects": 3
+       * "renoveringsprojekt": 3
+       * "greenhouse gas emissions": 2
+       * "nybyggnad": 2
+  [ 3] SDG 12 :    9 hit(s)
+       * "livscykel": 5
+       * "environmental impacts": 1
+       * "life cycle assessment": 1
+       * "cycle assessment": 1
+       * "life-cycle": 1
+  [ 4] SDG 15 :    9 hit(s)
+       * "biodivers": 2
+       * "environmental impacts": 1
+       * "biodiversity loss": 1
+       * "biodiversitet": 1
+       * "biodiversity": 1
+  [ 5] SDG  7 :    2 hit(s)
+       * "life cycle assessment": 1
+       * "sustainab* AND ("energy" OR "electricity")": 1
+  [ 6] SDG  9 :    2 hit(s)
+       * "life cycle assessment": 1
+       * "cycle assessment": 1
+  [ 7] SDG 14 :    1 hit(s)
+       * "biodiversitet": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 11"
+=================================================================
+\end{lstlisting}
+
+OSDG identifies \gls{SDG}~13, and \Cref{lst:t_15611Output} decisively confirms \gls{SDG}~13 as the top match (49 hits), driven by embodied greenhouse gas emissions and Swedish climate declarations for buildings (\enquote{klimatpåverkan}: 16, \enquote{climate impact}: 5, \enquote{inbyggd klimatpåverkan}: 4, \enquote{klimatdeklaration}: 4, \enquote{embodied greenhouse gas emissions}: 2).
+
+The author tagged only \enquote{11} in \gls{DiVA} (\enquote{SDGs}: \enquote{11}) because the study examines new construction and renovation of the Swedish building stock (\enquote{byggnader}: 6, \enquote{renovation projects}: 3, \enquote{renoveringsprojekt}: 3, \enquote{nybyggnad}: 2) --- corresponding to Target~11.c (sustainable and resilient buildings). In addition, the classifier detects secondary contextual signals for \gls{SDG}~12 (9 hits via \enquote{livscykel} and \enquote{life cycle assessment}) and \gls{SDG}~15 (9 hits via \enquote{biodiversitet} and \enquote{biodiversity loss}), alongside minor trace overlap on \glspl{SDG}~7, 9, and 14 (1--2 hits). Because \gls{SDG}~13 (climate mitigation and statutory climate declarations in construction) is at least as central to the explicit policy scope of the work as \gls{SDG}~11, adding \gls{SDG}~13 produces a far more faithful metadata record than \gls{SDG}~11 alone.
+\end{casestudySection}
+
+\begin{takeaway}
+Authors in sector-specific engineering disciplines (\eg building construction) often tag only the sectoral goal (\gls{SDG}~11) while overlooking the dominant cross-cutting policy objective (\gls{SDG}~13, climate mitigation). Here, both OSDG and the dual-language classifier identify \gls{SDG}~13 as the strongest signal, indicating that \gls{SDG}~13 should be added alongside \gls{SDG}~11 in \gls{DiVA}.
+\end{takeaway}
 
 
 \Needspace*{6\baselineskip}
