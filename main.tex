@@ -2172,6 +2172,160 @@ The author tagged only \enquote{11} in \gls{DiVA} (\enquote{SDGs}: \enquote{11})
 Authors in sector-specific engineering disciplines (\eg building construction) often tag only the sectoral goal (\gls{SDG}~11) while overlooking the dominant cross-cutting policy objective (\gls{SDG}~13, climate mitigation). Here, both OSDG and the dual-language classifier identify \gls{SDG}~13 as the strongest signal, indicating that \gls{SDG}~13 should be added alongside \gls{SDG}~11 in \gls{DiVA}.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Complementarity between OSDG and the dual-language classifier]
+\label{cs:ComplementarityBetweenOSDGandProgram}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_15766.json (manually reformatted to keep only one abstract in each language, added new lines after paragraphs, and inserted some missing spaces in the Swedish abstract)}, label=lst:t_15766.json]
+{
+  "divaID": "diva2:1907535",
+  "Title": {
+    "Main title": "Land Conflicts on Agricultural Land in Tanzania",
+    "Language": "eng",
+    "Subtitle": "<em>Lessons from Investment Farms in Bagamoyo and Kilombero Districts</em>"
+  },
+  "keywords": {
+    "eng": "SAGCOT, farmland, compensation, competition, village land, grievance",
+    "swe": "SAGCOT, jordbruksmark, ersättning, konkurrens, bymark, missnöje"
+  },
+  "abstracts": {
+    "eng": "<p>Demand for agricultural land has been rising in many developing countries partly due to opportunities from rising food prices, the need for renewable energy, and the quest for alternative kinds of investments. Tanzania has adopted a range of initiatives aimed at increasing large-scale agricultural investment and has put in place measures for mitigating agricultural land conflicts. However, the country has been experiencing a surge of land conflicts associated with agricultural investments. Limited information is available on how such conflicts arise, how smallholders perceive agricultural investments, and why existing conflict mitigation measures fail to cope with or check the rise in land conflicts hence prompting this study.</p>
+    <p>Interviews were conducted with key stakeholders including land technocrats, investor representatives, and smallholders. Focus group discussions were done with smallholders and local leaders. Additional data were collected from documentary reviews. Content and thematic analysis were used in data analysis.</p>
+    <p>Findings indicate that land conflicts between investors and smallholders arise when large chunks of land owned by the government and encroached by squatters are allocated to investors. Squatting is prevalent because large chunks of land are left unused for a long time by the legal occupiers without intervention by authorities that are suppossed to put in place effective land management conditions. Squatters on government farmland have no possibility of getting legal access to the land through adverse possession regardless of the number of years they occupy the land. The inability of squatters to legally access the land is a structural barrier that may cause deprivation and conflict.</p><p>Perception of local communities on commercial farming investment varies depending on investor - smallholder relations. Generally, perception is negative. However, perception is better where the investor provides decent employment opportunities and contributes to local development projects.</p>
+    <p>Existing measures for managing land conflicts are constrained because they are focused on mitigating conflicts originating from resource scarcity, while the main challenge is structural scarcity. It is recommended that existing measures for mitigating land conflicts be optimized and that mechanisms for legal access to unused government farmland be put in place, including seasonal use of land under the administration of village councils and district land offices.</p>",
+    "swe": "<p>Efterfrågan på jordbruksmark har ökat i många utvecklingsländer delvis på grund av stigande livsmedelspriser, behovet av förnybar energi och strävan efter alternativa typer av investeringar. Tanzania har antagit en rad initiativ som syftar till att öka storskaliga jordbruksinvesteringar och har vidtagit åtgärder för att mildra konflikter rörande jordbruksmark. Nationen upplever dock en våg av markkonflikter i samband med jordbruksinvesteringar. Begränsad information finns tillgänglig om hur sådana konflikter uppstår, hur småbrukare uppfattar jordbruksinvesteringar och varför befintliga konfliktdämpande åtgärder inte lyckas hejda ökningen av markkonflikter, vilket föranleder denna studie.</p>
+    <p>Intervjuer har genomförts med representanter för myndigheter, investerare och småbrukare. Fokusgrupp-diskussioner har genomförts med småbrukare och lokala ledare. Ytterligare data samlades in genom dokumentgranskning, med åtföljande innehållsanalys av data.</p>
+    <p>Resultaten tyder på att markkonflikter uppstår när större statligt ägda markområden, som tagits i besittning av ockupanter (squatters) allokeras till investerare. Squatting är utbredd eftersom storamarkområden lämnas oanvända under lång tid av de som tilldelats marken, utan ingripande av demyndigheter som ska upprätthålla utvecklingsvillkoren. Squatters på statlig jordbruksmark haringen möjlighet att få laglig tillgång till marken genom hävd oavsett hur många år de har marken i sin besittning. Svirgheterna för squatters att erhålla laglig rätt till marken är en strukturell barriär som orsakar frustration och konflikter.</p>
+    <p>Lokalsamhällenas uppfattning om kommersiella jordbruksinvesteringar i sina områden varierar beroende på förhållande mellan investerare och småbrukare. Generellt sett är uppfattningen negativ. Men uppfattningen är bättre där investeraren ger rimliga sysselsättningsmöjligheter och bidrar till lokala utvecklingsprojekt.</p><p>Befintliga åtgärder för att hantera markkonflikter är begränsade eftersom de är inriktade på att mildra konflikter som härrör från resursbrist, medan den största utmaningen är strukturella brister. Det rekommenderas att befintliga åtgärder för att mildra markkonflikter optimeras och att laglig tillgång till oanvänd statlig jordbruksmark tillåts för småbrukare om än säsongsmässigt underförvaltning av byråd.</p>"
+  },
+  "SDGs": "1, 2"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_15766Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15766
+=================================================================
+==> Dual-Language SDG Classification Report: t_15766
+Match Vector (SDG 1 - 17):
+[6, 31, 0, 0, 0, 0, 4, 1, 0, 0, 6, 0, 0, 0, 1, 0, 2]
+
+Assigned value in JSON: "1, 2"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  2 :   31 hit(s)
+       * "jordbruksmark": 5
+       * "smallholder": 5
+       * "småbrukare": 5
+       * "jordbruksinvesteringar": 4
+       * "smallholders": 4
+  [ 2] SDG  1 :    6 hit(s)
+       * "laglig tillgång till marken": 1
+       * "employment opportunities": 1
+       * "legal access to the land": 1
+       * "laglig rätt till marken": 1
+       * "adverse possession": 1
+  [ 3] SDG 11 :    6 hit(s)
+       * "squatter": 6
+  [ 4] SDG  7 :    4 hit(s)
+       * "renewable energy": 1
+       * "förnybar energi": 1
+       * "renewable": 1
+       * "renewable AND ("energy" OR "electricity")": 1
+  [ 5] SDG 17 :    2 hit(s)
+       * "developing countries": 1
+       * "utvecklingsländer": 1
+  [ 6] SDG  8 :    1 hit(s)
+       * "employment opportunities": 1
+  [ 7] SDG 15 :    1 hit(s)
+       * "land management": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 1, SDG 2"
+=================================================================
+\end{lstlisting}
+
+The author's \gls{DiVA} assignment of \enquote{1, 2} is genuinely warranted by the \gls{UN} target definitions: Target~1.4 (equal rights to economic resources, ownership, and control over land for the poor and vulnerable) and Target~2.3 / 2.a (small-scale food producers, secure and equal access to land, and agricultural investment in developing countries).
+
+OSDG identified only \gls{SDG}~1 because its semantic representation keys heavily on socio-legal deprivation and land-rights language (\enquote{deprivation}, \enquote{squatters}, \enquote{legal access to the land}, \enquote{developing countries}) while missing \gls{SDG}~2 due to the absence of explicit nutrition, hunger, or crop-yield terms (\enquote{food prices} appears only once as a macro driver).
+
+In contrast, \Cref{lst:t_15766Output} shows that the dual-language target-mapped lexicons decisively recover \gls{SDG}~2 (31 hits, led by \enquote{jordbruksmark}: 5, \enquote{smallholder}: 5, \enquote{småbrukare}: 5, \enquote{jordbruksinvesteringar}: 4, and \enquote{smallholders}: 4) alongside \gls{SDG}~1 (6 hits across Target~1.4 land-tenure and livelihood terms: \enquote{laglig tillgång till marken}, \enquote{legal access to the land}, \enquote{laglig rätt till marken}, \enquote{adverse possession}, and \enquote{employment opportunities}).
+
+This case study also illustrates a domain-context nuance for the term \enquote{squatter} (6 hits under \gls{SDG}~11). Standard bibliometric dictionaries (here, Elsevier~V4) map \enquote{squatter} to urban informal settlements (\gls{SDG}~11) even when the study concerns \textit{rural agricultural land encroachment} --- reinforcing why author judgment and explicit scope (\Cref{rec:explicitScope}) remain essential alongside automated scoring.
+
+\textbf{NB:} The minor background hits on \gls{SDG}~7 (4 hits on \enquote{renewable energy}/\enquote{förnybar energi}), \gls{SDG}~17 (2 hits on \enquote{developing countries}), \gls{SDG}~8 (1 hit), and \gls{SDG}~15 (1 hit) reflect macro-economic drivers mentioned in the opening paragraph rather than core research contributions.
+\end{casestudySection}
+
+\begin{takeaway}
+General-purpose semantic \gls{ML} classifiers (\eg OSDG) and target-mapped bilingual lexicons exhibit genuine complementarity: OSDG readily captured the socio-legal land-rights framing of \gls{SDG}~1 while missing \gls{SDG}~2, whereas the dual-language lexicon recovered both \gls{SDG}~2 and Target~1.4 land-tenure terms while exposing urban-bias dictionary artifacts (\enquote{squatter} $\rightarrow$ \gls{SDG}~11).
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Implicit Engineering Extrapolation: Brake Wear vs.\ SDG 12]
+\label{cs:brakeWearOverTagging}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_161329.json (manually reformatted to keep only one abstract in each language and added newlines at end of paragraphs)}, label=lst:t_161329.json]
+{
+  "divaID": "diva2:2012957",
+  "Title": {
+    "Main title": "Thermal Analysis of Mechanical Brakes in Rail Vehicles: Modelling and Simulation",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "heat transfer, finite element method, contact, wear, tread and disc brakes, rail vehicles",
+    "swe": "Värmeöverföring, finita elementmetoden, kontakt, slitage, bromsbelägg och skivbromsar, spårfordon"
+  },
+  "abstracts": {
+    "eng": "<p>Rail vehicles are known for being energy-efficient in both passenger and freight transport. A critical subsystem of rail vehicles is the braking system, which ensures operational safety. Among the various braking systems, mechanical brakes are considered more reliable due to their fail-safe design, allowing effective braking even in the event of system failures - something that electric brakes today cannot guarantee.</p>
+    <p>Mechanical brakes generate braking force through friction, resulting in frictional heat and wear. The increase in temperature and wear of the friction pads, discs, or wheels induces uneven contacts. These uneven contacts introduce uncertainty in friction pairs and may reduce the coefficient of friction. Thus, friction heat affects braking performance and makes thermal analysis essential for mechanical brakes. This analysis primarily focuses on how heat is generated and dissipated. Conducting a precise thermal analysis of railway mechanical brakes is a challenging task.</p>
+    <p>While experiments are an effective means to investigate thermal characteristics, they are expensive and have limitations in data collection. In contrast, modelling and simulation are cost-effective and provide unique insights into thermal properties. This research focuses on modelling and simulating railway mechanical brakes with respect to their thermal-related properties. Three different modelling approaches are employed: analytical, numerical, and data-driven models. These methods aim to explore why composite brake blocks in winter result in longer braking distances, how to accurately simulate the temperature of brake discs, and what the computational cost is associated with each modelling method.</p><p>First, an analytical model examines how ice melts and is removed, revealing that the wettability of the composite material is the primary reason for the long braking distance of freight trains. The simulation results align with accident reports, which primarily occur at low ambient temperatures, around -15 °C, low speeds, approximately 20 km/h, and empty wagons. In the next step, a numerical model utilizes the finite element method (FEM) to solve heat transfer and elastic equations, incorporating thermal expansion, wear and contact. The simulation results are then compared with experimental data, demonstrating that this FEM model is robust, fast and accurate. Finally, a data-driven model is developed to reduce the computational cost of FEM. The results indicated that the data-driven model surpasses FEM in accuracy, computational time and complexity, with a root mean square error 12.1 °C vs. 23.4 °C, a computation time of 3 minutes vs. 104 minutes, and fewer input parameters, i.e. less than 20 vs. over 115.</p><p>In summary, this research employs modelling and simulation methods to conduct thermal analysis of the railway mechanical brake system, providing unique insights into thermal-related mechanical problems.</p>",
+    "swe": "<p>Järnvägsfordon är kända för att vara energieffektiva både inom person- och godstransport. Ett kritiskt delsystem i dessa fordon är bromssystemet, som säkerställer driftsäkerheten. Bland de olika typerna av bromssystem anses de mekaniska bromsarna vara mer tillförlitliga tack vare sin failsafe-design, vilket möjliggör effektiv bromsning även vid systemfel – något som elektriska bromsar i dagsläget inte kan garantera.</p>
+    <p>Mekaniska bromsar genererar bromskraft genom friktion, vilket leder till friktionsvärme och slitage. Den ökade temperaturen och slitaget på bromsbelägg, skivor eller hjul orsakar ojämna kontaktytor. Dessa ojämnheter skapar osäkerhet i friktionsparen och kan minska friktionskoefficienten. Friktionsvärmen påverkar alltså bromsprestandan och gör termisk analys nödvändig för mekaniska bromsar. Denna analys fokuserar främst på hur värme alstras och avleds. Att genomföra en exakt termisk analys av järnvägens mekaniska bromsar är en utmanande uppgift.</p>
+    <p>Även om experiment är ett effektivt sätt att undersöka termiska egenskaper, är de kostsamma och begränsade i datainsamling. Modellering och simulering utgör däremot kostnadseffektiva alternativ som ger unika insikter i de termiska egenskaperna. Denna forskning fokuserar på modellering och simulering av järnvägens mekaniska bromsar med avseende på deras termiska egenskaper. Tre olika modelleringsmetoder används: analytiska, numeriska och data-drivna modeller. Dessa metoder syftar till att undersöka varför kompositbromsklossar under vinterförhållanden leder till längre bromssträckor, hur bromsskivans temperatur kan simuleras med hög noggrannhet, samt vilken beräkningskostnad som är förknippad med respektive modell.</p>
+    <p>Först undersöker en analytisk modell hur is smälter och avlägsnas, och visar att kompositmaterialets vätbarhet är den främsta orsaken till de långa bromssträckorna hos godståg. Simuleringsresultaten överensstämmer med olycksrapporter, som främst inträffar vid låga omgivningstemperaturer, omkring –15 °C, låga hastigheter, cirka 20 km/h, och tomma vagnar. Därefter används en numerisk modell som tillämpar finita elementmetoden (FEM) för att lösa värmeöverförings- och elasticitetsekvationer, inklusive termisk expansion, slitage och kontakt. Simuleringsresultaten jämförs sedan med experimentella data och visar att denna FEM-modell är robust, snabb och noggrann. Slutligen utvecklas en data-driven modell för att minska beräkningskostnaden för FEM. Resultaten visar att den data-drivna modellen överträffar FEM vad gäller noggrannhet, beräkningstid och komplexitet, med ett medelkvadratfel på 12,1 °C jämfört med 23,4 °C, en beräkningstid på 3 minuter jämfört med 104 minuter, samt färre indata – mindre än 20 jämfört med över 115.</p><p>Sammanfattningsvis använder denna forskning modellerings- och simuleringsmetoder för att genomföra termisk analys av järnvägens mekaniska bromssystem och erbjuder unika insikter i termiskt relaterade mekaniska problem.</p>"
+  },
+  "SDGs": "9, 12"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_161329Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_161329
+=================================================================
+==> Dual-Language SDG Classification Report: t_161329
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 3, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9, 12"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   20 hit(s)
+       * "rail vehicles": 4
+       * "järnväg": 4
+       * "railway": 3
+       * "finite element method": 2
+       * "finita elementmetoden": 2
+  [ 2] SDG 11 :    3 hit(s)
+       * "freight transport": 1
+       * "godstransport": 1
+       * "godståg": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 12"
+=================================================================
+\end{lstlisting}
+
+In this case study, the author over-tagged due to implicit engineering extrapolation, whereas both OSDG and the dual-language classifier converge on \gls{SDG}~9 (20 hits across dual-language rail-vehicle and finite-element terms) and reject \gls{SDG}~12. This is the exact inverse failure mode of an author under-tagging by omitting an implicit goal (see \Cref{cs:AuthorMissedMajorSDG}), and closely parallels the reliance on implicit disciplinary knowledge seen in \Cref{cs:ImplicitVersusExplicitSDGs}.
+
+The author tagged \enquote{9, 12} in \gls{DiVA}, apparently inferring \gls{SDG}~12 (\emph{Responsible Consumption and Production}) from mechanical brake wear (\enquote{slitage}), composite brake blocks, or reducing costly physical experiments via simulation. However, neither abstract evaluates material lifecycle waste, recycling, or circular resource consumption --- making \gls{SDG}~12 an \textit{implicit downstream extrapolation} rather than part of the thesis's explicit policy scope (a pattern also seen in \Cref{cs:ThreeWayError} and earlier nuclear-fuel metadata). Meanwhile, the minor 3-hit signal under \gls{SDG}~11 (\enquote{freight transport}, \enquote{godstransport}, \enquote{godståg}) reflects the freight-rail operating context rather than urban sustainability.
+\end{casestudySection}
+
+\begin{takeaway}
+Because the program preserves pre-assigned \gls{DiVA} metadata when auditing existing records, it outputs \enquote{SDG 9, SDG 12} even though \gls{SDG}~12 registers 0 hits in the match vector. In retrospective audits, a 0-hit metadata tag acts as an automated flag indicating potential over-tagging in \gls{DiVA}.
+\medskip
+
+\textbf{NB:} In prospective usage, an author runs the program \textbf{before} entering metadata into \gls{DiVA}, in which case no pre-assigned \enquote{SDGs} field exists to echo unsupported tags.
+\end{takeaway}
 
 \Needspace*{6\baselineskip}
 \section{Conclusions}
