@@ -136,6 +136,29 @@ Extension = .ttf,
 \newtcolorbox{casestudySection}[1][]{
   colback=blue!5!white,
   colframe=blue!75!black,
+  code={%
+    \refstepcounter{casestudyCounter}%
+    \phantomsection
+    \addcontentsline{toc}{subsection}{%
+      Case Study \arabic{casestudyCounter}\ifstrempty{#1}{}{: #1}%
+    }%
+  },
+  title={\S\thesection\,Case Study \arabic{casestudyCounter}\ifstrempty{#1}{}{: #1}},
+  fonttitle=\bfseries,
+  enhanced,
+  drop shadow,
+  breakable=true,
+  before upper={%
+    \hyphenpenalty=100
+    \exhyphenpenalty=100
+    \tolerance=9999
+    \emergencystretch=3em
+  }
+}
+\begin{comment}
+\newtcolorbox{casestudySection}[1][]{
+  colback=blue!5!white,
+  colframe=blue!75!black,
   code={\refstepcounter{casestudyCounter}},
   title={\S\thesection\,Case Study \arabic{casestudyCounter}\ifstrempty{#1}{}{: #1}},
   fonttitle=\bfseries,
@@ -149,7 +172,7 @@ Extension = .ttf,
     \emergencystretch=3em
   }
 }
-
+\end{comment}
 
 
 
@@ -2324,7 +2347,212 @@ The author tagged \enquote{9, 12} in \gls{DiVA}, apparently inferring \gls{SDG}~
 Because the program preserves pre-assigned \gls{DiVA} metadata when auditing existing records, it outputs \enquote{SDG 9, SDG 12} even though \gls{SDG}~12 registers 0 hits in the match vector. In retrospective audits, a 0-hit metadata tag acts as an automated flag indicating potential over-tagging in \gls{DiVA}.
 \medskip
 
-\textbf{NB:} In prospective usage, an author runs the program \textbf{before} entering metadata into \gls{DiVA}, in which case no pre-assigned \enquote{SDGs} field exists to echo unsupported tags.
+\textbf{NB:} In prospective usage, an author runs the program \textbf{before} entering metadata into \gls{DiVA}, in which case no pre-assigned \enquote{SDGs} field exists 
+to echo unsupported tags.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Too short for OSDG]
+\label{cs:TooShortForOSDG}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_162455.json (manually reformatted to keep only one English abstract)}, label=lst:t_162455.json]
+{
+  "divaID": "diva2:2011378",
+  "Title": {
+    "Main title": "Underwater Quantum Magnetometer Array Aid Inertial Navigation - Feasibility and Challenges",
+    "Language": "eng",
+    "Subtitle": "Technical report from the Vinnova ENOK project 2024-03194"
+  },
+  "keywords": {
+    "eng": "magnetic field, quantum sensor, navigation, underwater"
+  },
+  "abstracts": {
+    "eng": "<p>Current autonomous underwater vehicles generally use multibeam sonars and Doppler velocity logs to aid their inertial navigation systems. While effective, these active acoustic systems can reveal the presence of a vehicle, making them unsuitable for covert operations. This report presents the key findings from a research project investigating the feasibility of using a quantum magnetometer array as a substitute or complement to active sonar sensors in autonomous underwater vehicles. Field and sea trials demonstrate that the magnetic field near the Earth’s surface exhibits significant spatial variations, enabling speed estimation and absolute positioning using quantum magnetometer arrays. Theoretical analysis shows that temporal variations in the Earth’s magnetic field, rather than sensor noise, set the fundamental performance limit for estimating vehicle speed using a magnetometer sensor array. However, if a continuous forward communication link with a rate of ∼ 10 bits/s is available, the temporal variation can, to a large extent, be removed by transmission of correction data. Temporal variations also make map-matching-based positioning challenging. But by estimating the magnetic-field gradient using a magnetometer array, temporal variations can be effectively canceled, making gradient-based magnetic-field map-matching a promising approach. Further work is needed to quantify the effects of platform-induced disturbances and map imperfections. </p>"
+  },
+  "SDGs": "9, 14"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_162455Output]
+ ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162455
+=================================================================
+==> Dual-Language SDG Classification Report: t_162455
+Match Vector (SDG 1 - 17):
+[0, 0, 1, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 4, 0, 0, 0]
+
+Assigned value in JSON: "9, 14"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   13 hit(s)
+       * "magnetometer": 5
+       * "magnetometer array": 3
+       * "autonomous underwater vehicles": 2
+       * "inertial navigation": 2
+       * "quantum sensor": 1
+  [ 2] SDG 14 :    4 hit(s)
+       * "autonomous underwater vehicles": 2
+       * "underwater vehicles": 2
+  [ 3] SDG  3 :    1 hit(s)
+       * "disturbances": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 14"
+=================================================================
+\end{lstlisting}
+
+OSDG failed to find any \gls{SDG} because the abstract is only 176 words, below OSDG's minimum of 300 words.
+
+Additionally, it contains no explicit sustainability, ecological, climate, or socio-economic policy language --- only defense/sensor instrumentation terms (\enquote{multibeam sonars}, \enquote{Doppler velocity logs}, \enquote{inertial navigation systems}, \enquote{covert operations}, \enquote{quantum magnetometer array}) --- OSDG's semantic classifier fell below its confidence threshold and returned no classification.
+
+In contrast, as shown in \Cref{lst:t_162455Output}, the program recovered both pre-assigned goals (\enquote{9, 14}):
+\begin{itemize}
+    \item \gls{SDG}~9 (13 hits): Driven cleanly by quantum-sensing and navigation instrumentation vocabulary (\enquote{magnetometer}: 5, \enquote{magnetometer array}: 3, \enquote{autonomous underwater vehicles}: 2, \enquote{inertial navigation}: 2, \enquote{quantum sensor}: 1), mapping to Target 9.5 (scientific research and technological innovation in sensor/navigation systems).
+    
+    \item \gls{SDG}~14 (4 hits): Driven by \enquote{autonomous underwater vehicles} (2 hits) and \enquote{underwater vehicles} (2 hits), capturing the marine/subsea operational domain (\enquote{sea trials}, \enquote{underwater}) even without an ecological conservation framing. 
+    
+    \item Trace False-Positive Bleed (\gls{SDG}~3: 1 hit): Fired solely on \enquote{disturbances} (specifically from \enquote{platform-induced disturbances}), sitting safely below the \texttt{--min-hits 2} threshold.
+\end{itemize}
+
+\textbf{NB:} Note that \enquote{underwater vehicles} (2 hits) is a substring match inside \enquote{autonomous underwater vehicles} (2 hits). While \gls{SDG}~14 (Target 14.a: increase scientific knowledge, develop research capacity and transfer marine technology) is genuinely warranted by the subsea instrumentation and sea trials,
+\end{casestudySection}
+
+\begin{takeaway}
+This case study illustrates OSDG's length-threshold abstention on concise, domain-specialized technical reports (under 300 words) that lack standard sustainability prose, whereas a target-mapped keyword lexicon succeeds in recovering the \glspl{SDG} assigned by the author in \gls{DiVA}'s metadata.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Year-over-Year Classifier Sensitivity in Annual Transport Reports (diva2:1937679 \& diva2:2033753)]
+\label{cs:rail-annual-pair}
+  \begin{lstlisting}[language={json}, caption={t\_162668.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_162668.json]
+{
+  "divaID": "diva2:1937679",
+  "Title": {
+    "Main title": "Utbud och priser i persontrafik på järnväg 2024",
+    "Language": "swe",
+    "Subtitle": "Utveckling i Sverige 1990-2024"
+  },
+  "abstracts": {
+    "eng": "<p><em>(Machine translated summary; the report is in Swedish only)</em></p><p><strong>Summary</strong></p><p>The purpose of this report is to follow up on the development of supply and prices in passenger rail transport with a selection of routes in Sweden and to neighbouring countries as part of the Swedish Transport Agency's market monitoring.</p><p>For the passenger rail lines, supply including ticket prices has been collected for connections between two locations. On some more important connections, the collection has been expanded to also include commercial air and bus lines that compete with trains in order to obtain a comprehensive picture of the public transport supply. Data on supply has been collected on a typical weekday, which has been a non-holiday Wednesday in March or October depending on the conditions in each year. In 2024, the planned travel day, or main measurement day, was Wednesday 20 March and the prices correspond to bookings one week before departure.</p><p>Demand for passenger rail transport has grown for several decades in line with improvements in supply through faster trains, more frequent trips and attractive prices. The Covid-19 pandemic from 2020 meant a sharp interruption in development. However, train traffic recovered relatively quickly thanks to high demand for leisure travel, while business travel remains lower. The latter has primarily affected domestic air traffic, which has less than half as many departures in 2024 as in 2019 on the five major lines, but also to some extent high-speed train traffic in terms of ticket revenue.</p><p>In 2024, the supply of train traffic has been fairly stable with relatively small changes since 2023. The changes that are noticeable are primarily in high-speed train traffic, where changes in the number of departures lead to changed ticket prices through the flexible pricing that is applied. SJ has withdrawn some high-speed train departures on several lines, which is likely due to a shortage of vehicles, caused partly by the ongoing reconstruction program of X 2000, partly by technical problems and lagging maintenance of the trainsets. One route where prices have increased noticeably is Gothenburg−Stockholm, where the supply of SJ's fast trains decreased by a couple of departures compared to 2023, the low-cost operator Flixtrain left the market and MTRX fast trains were taken over by VR in 2024. On the Malmö−Gothenburg route, SJ reduced the supply by more than halving the number of fast train departures and thus adjusted ticket prices upwards.</p><p>In summary, 2024 has meant a certain reduction in fast train supply for technical reasons, and consequent higher prices on certain lines. Demand is relatively weak on business trips but very strong on private trips. However, the competitive situation of the train with air and bus has changed radically after the Covid-19 pandemic and fast trains are clearly the market leader in many long-distance connections.</p>",
+    "swe": "<p><strong>Sammanfattning</strong></p><p>Syftet med föreliggande rapport är att följa upp utvecklingen av utbud och priser inom persontrafik på järnväg med ett urval sträckor i Sverige och till grannländerna som en del av Transportstyrelsens marknadsövervakning.</p><p>För järnvägslinjerna med persontrafik har utbud inklusive biljettpriser samlats in för relationer mellan två orter. På några viktigare relationer har insamlingen utökats med även kommersiella flyg- och busslinjer som konkurrerar med tåg för att få en helhetsbild av kollektivtrafikutbudet. Data om utbudet har samlats in en typisk vardag, vilket har varit en helgfri onsdag i mars eller oktober beroende på förutsätt­ningarna respektive år. 2024 var den planerade resdagen, eller huvudmätdagen, onsdagen den 20 mars och priserna motsvarar bokning en vecka innan avresa.</p><p>Efterfrågan i persontrafik på järnväg har växt under flera decennier i takt med utbudsförbättringar genom snabbare tåg, tätare turer och attraktiva priser. Covid-19-pandemin från 2020 innebar ett kraftigt avbräck i utvecklingen. Tågtrafiken återhämtade sig dock relativt snabbt tack vare stor efterfrågan på fritidsresor medan tjänsteresorna fortsatt ligger lägre. Det senare har framför allt drabbat den inrikes flygtrafiken som har mindre än hälften så många avgångar 2024 som 2019 på de fem stora linjerna, men även till viss del snabbtågstrafiken när det gäller biljettintäkter.</p><p>Under 2024 har utbudet av tågtrafik varit tämligen stabilt med relativt små förändringar sedan 2023. De förändringar som märks är framför allt i snabbtågs­trafiken där förändringar i antalet avgångar leder till förändrat biljettpris genom den flexibla prissättning som tillämpas. SJ har dragit in några snabbtågs­avgångar på flera linjer vilket sannolikt beror på fordonsbrist, orsakade av dels pågående ombyggnads­program av X 2000, dels tekniska problem och eftersläpande underhåll av tågsätten. En sträcka där priserna noterbart gått upp är Göteborg−Stockholm, där utbudet av SJ:s snabbtåg minskade med ett par avgångar jämfört med 2023, lågprisoperatören Flixtrain lämnade marknaden och MTRX snabbtåg togs över av VR 2024. På sträckan Malmö−Göteborg minskade SJ utbudet genom att mer än halvera antalet snabbtågsavgångar och justerade därmed upp biljettpriserna.</p><p>Sammanfattningsvis har 2024 inneburit en viss minskning av snabbtågsutbudet av tekniska skäl, och åtföljande högre priser på vissa linjer. Efterfrågan är relativt svag på tjänsteresor men mycket stark på privatresor. Däremot har tågets konkurrenssituation med flyg och buss förändrats radikalt efter covid-19-pandemin och snabbtåg är tydligt marknadsledande i många långväga relationer.</p>"
+  },
+  "SDGs": "9, 11"
+}
+\end{lstlisting}
+  \begin{lstlisting}[language={json}, caption={t\_162669.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_162669.json]
+{
+  "divaID": "diva2:2033753",
+  "Title": {
+    "Main title": "Supply and prices in passenger rail transport 2025",
+    "Language": "eng",
+    "Subtitle": "Development in Sweden 1990-2025"
+  },
+  "Alternative title": {
+    "Main title": "Utbud och priser i persontrafik på järnväg 2025",
+    "Language": "swe",
+    "Subtitle": "Utveckling i Sverige 1990-2025"
+  },
+  "keywords": {
+    "swe": "Marknadsövervakning, tågutbud, biljettpriser, konkurrens, flygutbud, bussutbud"
+  },
+  "abstracts": {
+    "eng": "<p>Demand for passenger rail transport has grown for several decades in line with supply improvements through faster trains, more frequent services and attractive prices. The Covid-19 pandemic from 2020 meant a sharp break in development. However, rail transport recovered relatively quickly thanks to high demand for leisure travel, while business travel remains lower. </p><p>In domestic air traffic, only 28% of the 2019 departures remains on the five major routes in 2025. As a comparison, the supply of train traffic has been similar to the previous year and also similar to 2019. A major change, however, is that the track maintenance work on the Gothenburg−Alingsås section has led to a deterioration in the interregional Gothenburg−Stockholm as well as regional services due to limited available capacity. Fewer departures and extended travelling times result in lower accessibility. At the same time, the airline BRA has wound up its operations under its own brand and left Bromma Airport. Aviation has thus contributed to a similar national deterioration in accessibility as for the railways.</p><p>Since 2024, tendered night train services have been in a period of reduction. This is due to increased costs and reduced budget space for subsidies at the Swedish Transport Administration (Trafikverket). The effect of reduced subsidies will therefore be a deterioration in accessibility between northern and southern Sweden.</p><p>A study of weekly variations shows that our data collection on a representative Wednesday provides a good picture of the train supply that attracts both business and private travellers. However, the flight and coach supply has greater supply variations during the week, with significantly less supply for flights (mainly business travellers) and greater supply for coaches (mainly leisure travellers) at weekends.</p><p>The pandemic and the subsequent inflation have meant that regional train tickets have become cheaper in real terms. Tickets for private travellers in the commercial supply, on the other hand, have risen in price.</p><p>In summary, 2025 has meant a deterioration in national accessibility between Gothenburg and Stockholm with both a worse supply for trains and a worse supply for flights. Demand is relatively weak for business travel but strong for private travel, which has led to changes in supply, especially for domestic flights. The competitive situation of the train with air and coach has changed radically after the Covid-19 pandemic, and fast trains are clearly the market leader in many interregional relationships.</p><p>Footnote: Normalised ticket prices in the report are given in “kr/mil”, which means SEK per 10 km (price level 2024).</p>",
+    "swe": "<p>Efterfrågan i persontrafik på järnväg har växt under flera decennier i takt med utbudsförbättringar genom snabbare tåg, tätare turer och attraktiva priser. Covid-19-pandemin från 2020 innebar ett kraftigt avbräck i utvecklingen. Tågtrafiken återhämtade sig dock relativt snabbt tack vare stor efterfrågan på fritidsresor medan tjänsteresorna fortsatt ligger lägre. </p><p>I den inrikes flygtrafiken finns 2025 enbart kvar 28 % av avgångarna 2019 på de fem stora linjerna. Som jämförelse har utbudet av tågtrafik varit liknande föregående år och även liknande 2019. En större förändring är dock att banarbetet på sträckan Göteborg−Alingsås har lett till försämrat utbud av interregional tågtrafik Göteborg−Stockholm såväl som regionala tåg på grund av begränsad bankapacitet. Färre turer och förlängda restider ger lägre tillgänglighet. Flygbolaget BRA har samtidigt avvecklat sin verksamhet i egen regi och lämnat Bromma flygplats. Flyget har därmed bidragit till en liknande nationell tillgänglighets­försämring som för järnvägens del.</p><p>Upphandlad nattågstrafik är sedan 2024 inne i en period av neddragning. Det beror på ökade kostnader och minskat budgetutrymme för bidrag hos Trafikverket. Effekten av minskade subventioner blir därför en tillgänglighetsförsämring mellan norra och södra Sverige.</p><p>En studie av veckovariationer visar att vår datainsamling en representativ onsdag ger en god bild av tågutbudet som attraherar både tjänste- och privatresenärer. Flyg- och bussutbudet har dock större utbudsvariationer under veckan, med påtagligt mindre utbud för flyg (främst tjänsteresenärer) och större för långväga buss (främst fritidsresenärer) vid veckosluten.</p><p>Pandemin och den efterföljande inflationen har medfört att regionala tågbiljetter blivit billigare i reala termer. Biljetter för privatresenärer i det kommersiella utbudet har däremot stigit i pris.</p><p>Sammanfattningsvis har 2025 inneburit en försämrad nationell tillgänglighet mellan Göteborg och Stockholm med både sämre utbud för tåg och sämre utbud för flyg. Efterfrågan är relativt svag på tjänsteresor men stark på privatresor vilket har lett till förändringar i utbudet särskilt för inrikes flyg. Tågets konkurrenssituation med flyg och buss har förändrats radikalt efter covid-19-pandemin och snabbtåg är tydligt marknadsledande i många långväga relationer.</p>"
+  },
+  "SDGs": "9, 11"
+}
+\end{lstlisting}
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_162668Output]
+ ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162668
+=================================================================
+==> Dual-Language SDG Classification Report: t_162668
+Match Vector (SDG 1 - 17):
+[0, 0, 6, 0, 0, 0, 0, 0, 14, 0, 14, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9, 11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   14 hit(s)
+       * "snabbtåg": 8
+       * "järnväg": 4
+       * "tågtrafik": 2
+  [ 2] SDG 11 :   14 hit(s)
+       * "train traffic": 4
+       * "persontrafik på järnväg": 3
+       * "passenger rail": 3
+       * "tågtrafik": 2
+       * "public transport": 1
+  [ 3] SDG  3 :    6 hit(s)
+       * "covid-19": 4
+       * "pandemic": 2
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 11"
+=================================================================
+\end{lstlisting}
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_162669Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162669
+=================================================================
+==> Dual-Language SDG Classification Report: t_162669
+Match Vector (SDG 1 - 17):
+[0, 0, 7, 0, 0, 0, 0, 0, 13, 4, 10, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9, 11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   13 hit(s)
+       * "tågtrafik": 3
+       * "järnväg": 3
+       * "trafikverket": 2
+       * "track maintenance": 1
+       * "banarbetet": 1
+  [ 2] SDG 11 :   10 hit(s)
+       * "tågtrafik": 3
+       * "persontrafik på järnväg": 2
+       * "passenger rail": 2
+       * "train traffic": 1
+       * "nattågstrafik": 1
+  [ 3] SDG  3 :    7 hit(s)
+       * "covid-19": 4
+       * "pandemic": 3
+  [ 4] SDG 10 :    4 hit(s)
+       * "tillgänglighet": 4
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 11"
+=================================================================
+\end{lstlisting}
+
+Consecutive annual editions of the Swedish Transport Agency's (\emph{Transportstyrelsen}) market-monitoring report on passenger rail supply and pricing --- the 2024 edition (\texttt{t\_162668}, \texttt{diva2:1937679}) and the 2025 edition (\texttt{t\_162669}, \texttt{diva2:2033753}) --- provide a controlled comparison for evaluating automated \gls{SDG} classification stability. Both records share identical institutional framing, structure, and \gls{DiVA} metadata assignments (\texttt{\enquote{9, 11}}), reflecting rail infrastructure reliability (Target~9.1) and accessible, sustainable passenger transport systems (Target~11.2).
+
+Despite their near-identical scope, OSDG exhibited two distinct failure modes across the two years:
+\begin{itemize}
+  \item \textbf{2024 Edition (\texttt{diva2:1937679}) --- Abstention:} OSDG failed to assign any SDG to either the Swedish summary or its machine-translated English counterpart. Because the text presents market-monitoring statistics (timetable frequencies, operator competition, and ticket pricing) without explicit environmental or sustainability rhetoric, OSDG's semantic confidence fell below its reporting threshold.
+
+
+  \item \textbf{2025 Edition (\texttt{diva2:2033753}) --- Semantic Drift to \gls{SDG}~10:} OSDG classified the 2025 edition solely as \textbf{\gls{SDG}~10} (\emph{Reduced Inequalities}). In 2025, the summary repeatedly discusses reduced regional \emph{accessibility} (\emph{tillgänglighet}) between northern and southern Sweden following track maintenance and reduced subsidies for night-train services. OSDG interpreted these geographic service disparities and subsidy references as social inequality rather than rail-transport provision, omitting both \gls{SDG}~9 and \gls{SDG}~11.
+
+\end{itemize}
+
+In contrast, the dual-language keyword classifier produced stable, consistent top-ranked matches across both editions:
+\begin{itemize}
+  \item \textbf{2024 Edition (\texttt{t\_162668}):} \gls{SDG}~9 (14~hits: \enquote{snabbtåg}, \enquote{järnväg}, \enquote{tågtrafik}) and \gls{SDG}~11 (14~hits: 
+\enquote{train traffic}: 4,
+\enquote{persontrafik på järnväg}: 3,
+\enquote{passenger rail}: 3,
+\enquote{tågtrafik}: 2, and
+\enquote{public transport}: 1) emerged as the top two goals, ahead of contextual references to post-pandemic recovery (\gls{SDG}~3: 6~hits).
+
+  \item \textbf{2025 Edition (\texttt{t\_162669}):} After aligning bilingual passenger-rail terms (\emph{persontrafik på järnväg}, \emph{nattågstrafik}) symmetrically with English \emph{passenger rail} under \gls{SDG}~11 and retaining rail infrastructure maintenance terms (\emph{järnväg}, \emph{track maintenance}, \emph{banarbetet}) under \gls{SDG}~9, the classifier ranked \gls{SDG}~9 (13~hits) and \gls{SDG}~11 (10~hits) first and second, ahead of \gls{SDG}~3 (7~hits) and \gls{SDG}~10 (4~hits from \emph{tillgänglighet}).
+
+\end{itemize}
+
+This pair demonstrates how small lexical shifts in recurring policy reports can cause neural/semantic classifiers to alternate between abstention and misclassification, whereas an explicit, bilingual target-mapped lexicon preserves longitudinal consistency and distinguishes transport accessibility (Target~11.2) from socioeconomic inequality (\gls{SDG}~10).
+\end{casestudySection}
+\begin{takeaway}
+Small year-over-year lexical shifts in recurring policy reports can cause neural/semantic classifiers to swing between total abstention (2024) and complete misclassification (2025, misreading regional rail \emph{tillgänglighet} as \gls{SDG}~10). By contrast, an explicit bilingual target-mapped lexicon preserves longitudinal consistency across \glspl{SDG}~9 and 11 while keeping secondary polysemous hits (\emph{tillgänglighet}) ranked well below the primary transport goals.
 \end{takeaway}
 
 \Needspace*{6\baselineskip}
