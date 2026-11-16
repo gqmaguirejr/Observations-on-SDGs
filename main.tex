@@ -2555,6 +2555,89 @@ This pair demonstrates how small lexical shifts in recurring policy reports can 
 Small year-over-year lexical shifts in recurring policy reports can cause neural/semantic classifiers to swing between total abstention (2024) and complete misclassification (2025, misreading regional rail \emph{tillgänglighet} as \gls{SDG}~10). By contrast, an explicit bilingual target-mapped lexicon preserves longitudinal consistency across \glspl{SDG}~9 and 11 while keeping secondary polysemous hits (\emph{tillgänglighet}) ranked well below the primary transport goals.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Single-Goal Collapse and Multi-Goal Decomposition in Media Governance (diva2:2087612)]
+\label{cs:media-diversity}
+
+Considering the publication:
+\begin{lstlisting}[language={json}, caption={t\_17547.json}, label=lst:t_17547.json]
+{
+  "divaID": "diva2:2087612",
+  "Title": {
+    "Main title": "Mission Impossible? The Imperative, Pitfalls, and Innovations in Diversity Management in Media",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "Diversity management, polyphony, newsroom diversity, inclusive recruitment, tokenism, microaggressions, diversity as competence, intersectionality, organizational change"
+  },
+  "abstracts": {
+    "eng": "<p> This report examines the implementation and experience of diversity management within 15 newsrooms across Poland, Sweden, and the United Kingdom. Drawing on 75 interviews with managers, journalists, and experts conducted between 2022 and 2023, the study explores how media organizations are redefining diversity as polyphony—a communication-centered approach that views diverse backgrounds and networks as a critical professional competence rather than a mere demographic requirement. The research identifies five core strategies currently used to enhance newsroom diversity: inclusive recruitment practices, targeted skills training, systematic data analysis of staff and content, the creation of specialized Diversity and Inclusion (D&amp;I) roles, and organizational initiatives to promote diverse values. However, the study also highlights significant pitfalls and systemic barriers, including the risks of tokenism, where minority journalists feel reduced to their identities or ‘branded’ for PR purposes without meaningful editorial support. Many journalists from minority backgrounds reported facing microaggressions, isolation, and an emotional drain when expected to represent entire communities. The report concludes that while diversity management is increasingly viewed as a business and democratic necessity, a profound gap remains between institutional branding and the lived reality of newsroom cultures. It calls for continued accountability and a critical shift toward creating genuinely inclusive environments that empower all voices. </p>"
+  },
+  "SDGs": "5, 10, 16"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_17547Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17547
+=================================================================
+==> Dual-Language SDG Classification Report: t_17547
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 1, 2, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 13, 0]
+
+Assigned value in JSON: "5, 10, 16"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 10 :   13 hit(s)
+       * "diversity management": 4
+       * "inclusive recruitment": 2
+       * "microaggressions": 2
+       * "tokenism": 2
+       * "minority": 2
+  [ 2] SDG 16 :   13 hit(s)
+       * "newsroom": 4
+       * "journalists": 3
+       * "institutional branding": 1
+       * "democratic necessity": 1
+       * "media organizations": 1
+  [ 3] SDG  5 :    2 hit(s)
+       * "intersectionality": 1
+       * "intersectional": 1
+  [ 4] SDG  4 :    1 hit(s)
+       * "professional competence": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 5, SDG 10, SDG 16"
+=================================================================
+\end{lstlisting}
+
+This case study illustrates \enquote{Single-Goal Collapse} by OSDG to a single \gls{SDG}~16 versus the target-level decomposition shown in \Cref{lst:t_17547Output}:
+\begin{itemize}
+    \item \gls{SDG}~10 registered \num{13}~hits (\enquote{diversity management}: 4, \enquote{inclusive recruitment}: 2, \enquote{microaggressions}: 2, \enquote{tokenism}: 2, and  \enquote{minority}: 2), mapping directly to Targets~10.2 and 10.3 (social inclusion and eliminating discriminatory practices).
+
+    \item \gls{SDG}~16 registered \num{13} hits (
+\enquote{newsroom}: 4,
+\enquote{journalists}: 3,
+\enquote{institutional branding}: 1,
+\enquote{democratic necessity}: 1, and
+\enquote{media organizations}: 1), capturing press accountability and public-interest institutional governance (Targets~16.6 and 16.10).
+
+    \item \gls{SDG}~5  registered \num{2} hits (
+\enquote{intersectionality}: 1 and
+\enquote{intersectional}: 1), triggered by the keyword \enquote{intersectionality}.
+
+    \item \gls{SDG}~4 registered \num{1} hit (
+\enquote{professional competence}: 1), representing minor contextual noise rather than an education-policy claim.
+\end{itemize}
+
+OSDG collapsed the author's three-goal assignment (\enquote{5, 10, 16}) into a single institutional-accountability label (\gls{SDG}~16: \textit{Peace, Justice and Strong Institutions}), missing the co-primary workplace inclusion and anti-discrimination core (\gls{SDG}~10). At the same time, the program's lexicon demonstrates principled boundary discipline: rather than over-broadening \gls{SDG}~5 (Gender Equality) to absorb general workplace diversity and anti-discrimination vocabulary, it routes those terms cleanly to \gls{SDG}~10 while isolating \gls{SDG}~5 strictly to explicit intersectionality framing.
+\end{casestudySection}
+
+\begin{takeaway}
+This case demonstrates that qualitative social-science abstracts often distribute their sustainability signals across multiple closely related goals. Whereas single-label semantic classifiers collapse such texts onto the most prominent institutional frame (\gls{SDG}~16), target-mapped lexical decomposition distinguishes workplace anti-discrimination (\gls{SDG}~10) from institutional accountability (\gls{SDG}~16) while maintaining disciplined precision around gender equality (\gls{SDG}~5).
+\end{takeaway}
+
+
 \Needspace*{6\baselineskip}
 \section{Conclusions}
 \label{sec:Conclusions}
