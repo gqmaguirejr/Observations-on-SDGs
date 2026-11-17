@@ -1501,6 +1501,72 @@ The inclusion of \glspl{SDG}~12, 13, and 15 represents over-tagging or broad dow
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
+\begin{casestudySection}[Partial Over-Tagging, Omitted Co-Primary Goals, and Substring Co-Occurrence on Light Pollution (diva2:2049656)]
+\label{cs:LightPollutionAndPartialOverTagging}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_20802.json (manually reformatted to keep only one English abstract while preserving the source encoding artifact in the title)}, label=lst:t_20802.json]
+{
+  "divaID": "diva2:2049656",
+  "Title": {
+    "Main title": "Portable lighting customization and Light measurements NorDark Testbed, Å…lesund/NW",
+    "Language": "eng"
+  },
+  "abstracts": {
+    "eng": "<p>This report shares findings from a study within the NorDark research project on sustainable outdoor lighting. The work focused on measuring light and designing a portable headlamp tailored for pedestrians navigating dark natural areas around Ålesund, Norway. Researchers combined field measurements—such as brightness, color, and light spread—with lab tests to assess current lighting conditions and explore alternatives to permanent fixtures. The study looked at how changes in light level, color temperature, and beam direction can enhance visibility while minimizing glare, light pollution, and harm to wildlife. Overall, the results point toward portable, energy-efficient lighting solutions that keep people safe while respecting the natural environment, especially in sensitive rural and semi-urban settings.</p>"
+  },
+  "SDGs": "12, 13, 15"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_20802Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_20802
+=================================================================
+==> Dual-Language SDG Classification Report: t_20802
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0]
+
+Assigned value in JSON: "12, 13, 15"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :    5 hit(s)
+       * "outdoor lighting": 1
+       * "light pollution": 1
+       * "pollution": 1
+       * "sustainable AND ("urban" OR "city" OR "cities" OR "municipal" OR "settlement" OR "slum" OR "town")": 1
+       * "urban AND ("inclusiv*" OR "safe*" OR "resilien*" OR "sustainab*" OR "affordab*" OR "pollut*" OR "housing" OR "gentrification")": 1
+  [ 2] SDG 15 :    4 hit(s)
+       * "harm to wildlife": 1
+       * "light pollution": 1
+       * "natural areas": 1
+       * "wildlife AND ("biodivers*" OR "ecosystem" OR "ecological" OR "sustainab*")": 1
+  [ 3] SDG  7 :    3 hit(s)
+       * "energy-efficient lighting": 1
+       * "energy-efficient": 1
+       * "sustainab* AND ("energy" OR "electricity")": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 12, SDG 13, SDG 15"
+=================================================================
+\end{lstlisting}
+
+At 118 words (English only), this concise project report fell below OSDG's reporting threshold, while \Cref{lst:t_20802Output} exposes a complex mismatch between the author's metadata (\enquote{12, 13, 15}) and the textual evidence (\gls{SDG}~11: 5 hits, \gls{SDG}~15: 4 hits, \gls{SDG}~7: 3 hits):
+\begin{itemize}
+    \item \textbf{Partial Over-Tagging (\glspl{SDG}~12 and 13: 0 hits) vs.\ Validated Ecological Scope (\gls{SDG}~15: 4 hits):} The author's assignment of \gls{SDG}~15 is substantiated by the study's explicit focus on minimizing \enquote{light pollution} and \enquote{harm to wildlife} in \enquote{dark natural areas} (Target~15.5). Conversely, \gls{SDG}~12 (0 hits) and \gls{SDG}~13 (0 hits) lack any textual basis --- no lifecycle waste, material circularity, or greenhouse-gas mitigation is analyzed, suggesting the author loosely equated \enquote{energy-efficient lighting} with climate action (\gls{SDG}~13) and sustainable design with \gls{SDG}~12.
+    
+    \item \textbf{Omission of Co-Primary Pedestrian Safety (\gls{SDG}~11: 5 hits) and Lighting Efficiency (\gls{SDG}~7: 3 hits):} While over-tagging \glspl{SDG}~12 and 13, the author omitted \gls{SDG}~11 (safe pedestrian mobility and reducing semi-urban light pollution; Targets~11.2 and 11.6) and \gls{SDG}~7 (energy-efficient lighting alternatives; Target~7.3).
+    
+    \item \textbf{STRINGS Substring Co-Occurrence and Nested Phrase Matching:} In \Cref{lst:t_20802Output}, two of the five hits for \gls{SDG}~11 fired because the compiled STRINGS regex matched \texttt{urban} inside the hyphenated compound \enquote{semi-urban} alongside \enquote{sustainable} and \enquote{safe}, while nested phrase and root terms (\enquote{pollution} inside \enquote{light pollution}; \enquote{energy-efficient} inside \enquote{energy-efficient lighting}) amplified single domain mentions. Combined with explicit domain compounds (\enquote{outdoor lighting}, \enquote{harm to wildlife}), these rules elevate all three substantiated goals (\glspl{SDG}~11, 15, and 7) cleanly above the \texttt{--min-hits 2} inference threshold.
+\end{itemize}
+
+\textbf{NB:} The \gls{DiVA} record title contains a mojibake character artifact (\enquote{\texttt{Å…lesund}} for \enquote{Ålesund}), whereas the abstract text preserves the clean UTF-8 character (cf.\ \Cref{rec:divaQualityControl}).
+\end{casestudySection}
+
+\begin{takeaway}
+Authors can simultaneously over-tag unsupported macro-goals (\glspl{SDG}~12 and 13) while omitting the direct sectoral goals (\glspl{SDG}~11 and 7) that describe their study's actual outcomes. Auditing both the match vector and the underlying STRINGS co-occurrence rules helps prune unsubstantiated metadata tags while recovering omitted co-primary goals (here, replacing \enquote{12, 13, 15} with \enquote{7, 11, 15}).
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Three-Way False Positive on SDG 6: Fluid Mechanics vs.\ Water Policy]
 \label{cs:ThreeWayError}
 Consider the following:
@@ -1770,6 +1836,85 @@ Note that there is zero bleed, \ie the remaining 15 \glspl{SDG} sit cleanly at 0
 \begin{takeaway}
 This case study illustrates the critical importance of domain-specific technical terms: without specialized reactor-physics vocabulary (such as \enquote{PWRs}, \enquote{nodal calculations}, and \enquote{fuel depletion}), an automated classifier would either miss \gls{SDG}~7 entirely or classify a nuclear engineering thesis solely as a generic machine-learning paper (\gls{SDG}~9). 
 \end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Distinguishing Missing Domain Vocabulary from Over-Tagging on Structural Reuse (SDG 9, 11, and 12 in diva2:2026564)]
+\label{cs:CircularConcreteStructuralTesting}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_21258.json (manually reformatted to keep only one English abstract and added newlines after paragraphs)}, label=lst:t_21258.json]
+{
+  "divaID": "diva2:2026564",
+  "Title": {
+    "Main title": "Procedure for quality management of reclaimed concrete elements",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "precast concrete, reuse, deconstruction, circular construction, technical standards, non-destructive testing, structural survey, quality management, semi-destructive testing, product approval, full-scale testing"
+  },
+  "abstracts": {
+    "eng": "<p>A quality management procedure for ensuring the safe reusability of deconstructed precast concrete elements is essential for more widespread and mainstreamed reuse. The quality of reclaimed elements should be maintained throughout the process, and any reductions thereof that may have occurred must be reliably identified.</p>
+    <p>The ReCreate project researches reusing precast concrete elements, not originally designed for disassembly, through real-life deconstruction and reuse pilots in four European countries. The project covers all essential aspects of the whole reuse process, including quality management.</p>
+    <p>For reuse to be safe and to have potential for business profitability, the quality and value of precast concrete elements must be consciously managed throughout different process phases. Reusability in high-value applications can be ensured with the help of a systematic quality management procedure, which has dedicated stages for the different phases of the overall reuse process. The quality of the elements can be inadvertently reduced in each stage, and thus the possible reducing factors need to be considered individually.</p>
+    <p>This document presents the initial outline for the quality management procedure under development in the project. The key process stages are:</p>
+    <p>• Pre-deconstruction audit, where the main actions are finding out the type and number of elements, assessing their reuse potential, and gathering information for the next stages.</p>
+    <p>• Structural investigation, where the main actions are ensuring material properties of elements primarily with non-destructive (ND) or semi-destructive (SD) methods, determining the condition of the elements, and finding out the existence of possible hazardous substances.</p>
+    <p>• Deconstruction design and execution, where the determination of safe deconstruction and lifting methods is the main action, together with transportation and storage of deconstructed elements.</p>
+    <p>• Full-scale testing is carried out if the structural capacity of reclaimed elements cannot be uncovered through other means or if there is doubt about safety factors. Also newly developed retrofit connections need testing if original connections cannot be reused.</p>
+    <p>• Redesign and reassembly, where the main actions are designing the reclaimed elements according to Eurocodes and standards in force. Also, the refurbishment of the reclaimed elements must be designed.</p>
+    <p>• Product approval and authorisation is the final stage, where documents from the previous stages, together with technical drawings and calculations, will be presented to authorities to obtain official permits for reuse.</p>
+    <p>Visual investigation and thorough documentation are an essential part of each stage. Information must be carried through from stage to stage.</p>
+    <p>The current report presents the key process stages, along with a discussion on factors that may reduce the quality of salvaged elements and which must thus be addressed. By the end of the project, this outline will be developed into a best practice proposal, which will be published as a separate deliverable.</p>"
+  },
+  "SDGs": "9, 11, 12"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_21258Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_21258
+=================================================================
+==> Dual-Language SDG Classification Report: t_21258
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 8, 14, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "9, 11, 12"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 12 :   14 hit(s)
+       * "deconstruction": 5
+       * "reclaimed elements": 4
+       * "reusability": 2
+       * "designed for disassembly": 1
+       * "salvaged elements": 1
+  [ 2] SDG  9 :   12 hit(s)
+       * "precast concrete": 4
+       * "full-scale testing": 2
+       * "semi-destructive testing": 1
+       * "non-destructive testing": 1
+       * "technical standards": 1
+  [ 3] SDG 11 :    8 hit(s)
+       * "deconstruction": 5
+       * "circular construction": 1
+       * "reclaimed concrete": 1
+       * "transportation": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 9, SDG 11, SDG 12"
+=================================================================
+\end{lstlisting}
+
+OSDG failed to classify this technical report, whereas \Cref{lst:t_21258Output} confirms all three goals assigned by the author (\enquote{9, 11, 12}) with zero bleed across the remaining 14 goals:
+\begin{itemize}
+    \item \textbf{Substantiated \gls{SDG}~9 (12 hits) vs.\ Over-Tagging:} Prior to adding civil-engineering testing terms, \gls{SDG}~9 registered 0 hits in the match vector. Unlike \Cref{cs:overtagging} --- where 0-hit metadata tags reflected unsupported author extrapolation --- here \gls{SDG}~9 is genuinely warranted by the report's core structural-engineering and testing methodology: non-destructive and semi-destructive structural surveys, full-scale load testing of structural capacity, retrofit connection engineering, and compliance with Eurocodes and technical standards (\enquote{precast concrete}: 4, \enquote{full-scale testing}: 2, \enquote{semi-destructive testing}: 1, \enquote{non-destructive testing}: 1, \enquote{technical standards}: 1; Targets~9.4 and 9.5).
+    
+    \item \textbf{Circular Construction \& Resource Reuse (\gls{SDG}~12: 14 hits \& \gls{SDG}~11: 8 hits):} Enriching \gls{SDG}~12 with disassembly and salvage vocabulary (\enquote{deconstruction}: 5, \enquote{reclaimed elements}: 4, \enquote{reusability}: 2, \enquote{designed for disassembly}: 1, \enquote{salvaged elements}: 1; Target~12.5) alongside \gls{SDG}~11 (\enquote{deconstruction}: 5, \enquote{circular construction}: 1, \enquote{reclaimed concrete}: 1, plus \enquote{transportation}: 1; Target~11.c) aligns the classifier's top three goals cleanly with the author's metadata.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+A 0-hit score for an author-assigned \gls{SDG} does not automatically indicate metadata over-tagging; auditing the abstract distinguishes unsubstantiated claims from genuine domain contributions whose specialized engineering vocabulary (\eg \enquote{precast concrete}, \enquote{non-destructive testing}, \enquote{full-scale testing}) had not yet been added to the lexicon.
+\end{takeaway}
+
 
 \Needspace*{8\baselineskip}
 \begin{casestudySection}[A clear single SDG]
@@ -3134,6 +3279,82 @@ When a socio-technical sustainability assessment explicitly evaluates clean-ener
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
+\begin{casestudySection}[Convergence on Sustainable Finance (SDG~8) and Climate Policy (SDG~13), Plus Parenthetical Example Amplification (SDG~7) (diva2:1992082)]
+\label{cs:SustainableFinanceConvergence}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_125694.json (manually reformatted to keep only one English abstract)}, label=lst:t_125694.json]
+{
+  "divaID": "diva2:1992082",
+  "Title": {
+    "Main title": "Policies for Sustainable Finance to Fund the Climate Transition",
+    "Language": "eng",
+    "Subtitle": "A report by the Sustainable Finance Lab (Sweden) Commissioned by the Swedish Climate Policy Council"
+  },
+  "keywords": {
+    "eng": "Climate, Policy, Sustainability"
+  },
+  "abstracts": {
+    "eng": "<p>The saying ‘money rules the world’ captures an important truth about how finance and investment flows determine the future of our society. In order to meet the challenges posed by climate change, there is a great need to redirect investments from economic activities that pollute the environment (such as fossil fuel extraction) into more sustainable activities and green projects (such as recycling and renewable energy). This report explores ways in which this can be successfully achieved. More specifically, the report seeks to answer two overarching questions: 1. What role does the financial sector play in achieving society’s climate goals and in financing the climate transition? 2. How can the government of Sweden influence the financial sector so that capital is increasingly directed towards more sustainable activities?</p>"
+  },
+  "SDGs": "13"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_125694Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_125694
+=================================================================
+==> Dual-Language SDG Classification Report: t_125694
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 4, 10, 0, 2, 1, 1, 9, 0, 0, 0, 0]
+
+Assigned value in JSON: "13"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  8 :   10 hit(s)
+       * "sustainable finance": 2
+       * "financial sector": 2
+       * "financing the climate transition": 1
+       * "redirect investments": 1
+       * "economic activities": 1
+  [ 2] SDG 13 :    9 hit(s)
+       * "sustainable activities": 2
+       * "climate transition": 2
+       * "financing the climate transition": 1
+       * "climate policy council": 1
+       * "climate change": 1
+  [ 3] SDG  7 :    4 hit(s)
+       * "renewable energy": 1
+       * "renewable": 1
+       * "renewable AND ("energy" OR "electricity")": 1
+       * "sustainab* AND ("energy" OR "electricity")": 1
+  [ 4] SDG 10 :    2 hit(s)
+       * "financial sector": 2
+  [ 5] SDG 11 :    1 hit(s)
+       * "recycling": 1
+  [ 6] SDG 12 :    1 hit(s)
+       * "recycling": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 13"
+=================================================================
+\end{lstlisting}
+
+Despite being only 152 words long (English only) --- comparable in length to \Cref{cs:TooShortForOSDG} and \Cref{cs:ProjectTitleBleedAndMissingVocab}, where OSDG returned no output --- this policy report is dense with explicit sustainability and climate-finance vocabulary, enabling OSDG to classify it under \glspl{SDG}~13, 7, and 8. In \Cref{lst:t_125694Output}, the dual-language classifier converges on the exact same top three goals (\gls{SDG}~8: 10 hits, \gls{SDG}~13: 9 hits, \gls{SDG}~7: 4 hits), revealing three analytical insights:
+\begin{itemize}
+    \item \textbf{Author Omission of the Financial-Sector Goal (\gls{SDG}~8: 10 hits):} The author tagged only \enquote{13} in \gls{DiVA}, capturing the climate-policy objective (\gls{SDG}~13: 9 hits, Target~13.a on mobilizing climate finance) while omitting \gls{SDG}~8 (Target~8.10 on strengthening financial institutions and green capital allocation), which actually leads the keyword vector via \enquote{sustainable finance} (2), \enquote{financial sector} (2), \enquote{financing the climate transition} (1), and \enquote{redirect investments} (1).
+    
+    \item \textbf{Parenthetical Example Amplification (\gls{SDG}~7: 4 hits vs.\ \gls{SDG}~12: 1 hit):} Both OSDG and the classifier elevate \gls{SDG}~7 to third place even though \enquote{renewable energy} appears only once inside a parenthetical list of illustrative green investments (\enquote{green projects (such as recycling and renewable energy)}). Because a single occurrence of \enquote{renewable energy} satisfies multiple overlapping lexical and STRINGS co-occurrence rules (\enquote{renewable energy}, \enquote{renewable}, and two boolean rules), it accumulates 4 hits, whereas its companion example \enquote{recycling} registers only 1 hit under \glspl{SDG}~11 and 12 (alongside a 2-hit contextual trace on \enquote{financial sector} under \gls{SDG}~10). Neither \gls{SDG}~7 nor \glspl{SDG}~10--12 is a substantive focus of the report; adding \gls{SDG}~8 alongside \gls{SDG}~13 (\enquote{8, 13}) best reflects the study's core scope.
+    
+    \item \textbf{Policy-Density vs.\ Length in OSDG:} Comparing this 152-word text with \Cref{cs:TooShortForOSDG} (176 words) and \Cref{cs:ProjectTitleBleedAndMissingVocab} (151 words) demonstrates that OSDG's abstention on short engineering abstracts is governed primarily by semantic confidence on UN policy phrasing rather than a strict word-count threshold alone.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+When a policy report examines financial-sector instruments for climate mitigation, both semantic classifiers and target-mapped lexicons identified the co-primary economic goal (\gls{SDG}~8) the author omitted. At the same time, single parenthetical examples (\eg \enquote{renewable energy}) can trigger disproportionate multi-rule hits (\gls{SDG}~7), requiring human review to separate core policy instruments (\glspl{SDG}~8 and 13) from illustrative examples.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Motivating Premise vs.\ Substantive Scope in Author Tagging (SDG~3 in diva2:2062158)]
 \label{cs:MotivatingPremiseSDG3}
 Consider the following:
@@ -3212,6 +3433,269 @@ Here, OSDG identified \glspl{SDG}~11 and 13, whereas the author assigned \enquot
 Authors frequently assign an \gls{SDG} based on a high-level societal motivation mentioned in their opening sentence (\eg \enquote{risks to human health}) even when the study itself evaluates only physical proxy variables (\eg urban surface temperatures). Comparing hit counts across goals distinguishes substantive research outcomes (\glspl{SDG}~11 and 13) from background motivations (\gls{SDG}~3).
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Competing Physical False Friends: Hydraulic Energy Dissipation (SDG~7) vs. Air--Water Flow (SDG~6) (diva2:2057190)]
+\label{cs:CompetingPhysicalFalseFriends}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_18963.json (manually reformatted to keep only one abstract per language and added newline after paragraphs)}, label=lst:t_18963.json]
+{
+  "divaID": "diva2:2057190",
+  "Title": {
+    "Main title": "Numerical simulations of air-water flow and energy dissipation for safe spillway discharge",
+    "Language": "eng"
+  },
+  "keywords": {
+    "eng": "Spillway, Step geometry, Aerator, Flow behaviour, Air concentration, Two-phase flow, Turbulence models, Detached Eddy Simulation, Delayed Detached Eddy Simulation, Large Eddy Simulation.",
+    "swe": "Utskov, Steggeometri, Luftningsanordning, Flödesbeteende, Luftkoncentration, Tvåfasströmning, Turbulensmodeller, Detached Eddy Simulation, Delayed Detached Eddy Simulation, Large Eddy Simulation."
+  },
+  "abstracts": {
+    "eng": "<p>Spillway is a critical hydraulic structure designed to regulate water level, prevent overtopping, and ensure a safe outlet for water passage from the reservoir to downstream. A chute spillway may experience cavitation if the flow velocity exceeds from 20 m/s, requiring its design to be optimized. Many existing energy dissipation structures were designed using lower flood standards and are inadequate under current flood conditions. Cavitation damage in chute spillways of high-head dams poses a risk to structural integrity and dam safety. Aeration in high-velocity spillway flow mitigates bubble collapse and sub-atmospheric pressure conditions, increasing bulk flow depth and reducing the potential for cavitation damage to spillway surfaces and sidewalls. The investigation of such flow behaviour is complex due to high turbulence and the unsteady nature of air-water interactions. </p>
+    <p>To evaluate such scenarios, physical modeling is commonly used to examine spillway capacity and energy dissipation. However, accurately measuring air entrainment under high-flow conditions remains challenging. Computational Fluid Dynamics (CFD) simulations complement physical experiments and enable independent hydraulic investigations, providing valuable insight into air-water flow behaviour and energy dissipation mechanisms. This thesis presents a comprehensive numerical investigation of two-phase flow and energy dissipation in a spillway, focusing on high-velocity discharge conditions that are crucial to dam safety. The primary objective is to use advanced numerical modelling capabilities to assess spillway hydraulic performance and to provide practical guidance for design and operation. The methodology employs advanced CFD techniques, including Volume of Fluid (VOF) and Mixture models for multiphase flow, alongside a hierarchy of turbulence models, including Reynolds-Averaged Navier-Stokes (RANS), Detached Eddy Simulation (DES), Delayed Detached Eddy Simulation (DDES), and Large Eddy Simulation (LES). The numerical models are rigorously validated against experimental data.</p>
+    <p>Paper I presents an investigation of four geometrical configurations flat and pooled stepped spillways. Key findings of Paper I reveal that pooled stepped spillway configurations enhance energy dissipation and reduce cavitation risk compared to flat stepped designs. Additionally, pooled steps demonstrated superior overall hydraulic performance and improved flow behavior, achieving the lowest downstream velocities and effectively minimizing cavitation potential. Furthermore, Paper II investigates the comparative performance of 2D and 3D modelling approaches, along with advanced turbulence models, for simulating two-phase air-water flow. The results indicate that 2D Eulerian models are suitable for shallow water flows with negligible vertical velocity components and are appropriate for preliminary analyses due to their computational efficiency and reasonable accuracy. In contrast, 3D models are better suited for strongly accelerated, highly turbulent flow, offering improved accuracy, particularly in representing complex flow characteristics. Advanced turbulence-resolving approaches, such as DES and DDES, provide enhanced flow field resolution and more reliable prediction of air entrainment. Additionally, the application of 3D turbulence modeling improves the representation of air-water flow behavior and enhances the prediction of air concentration within the cavity in the impact zone.</p>
+    <p>Subsequently, Paper III investigates the sensitivity of aerated spillway flow predictions to grid resolution with Sub-Grid Scale (SGS) modelling. The findings indicate that grid resolution with Locally Refined Structured Meshes (LRSM) shows improved accuracy in capturing complex air-water interactions compared to Unstructured Meshes (USM). Moreover, aerated spillway flow predictions are highly sensitive to grid resolution rather than to the SGS modelling approach.</p>",
+    "swe": "<p>Ett utskov är en kritisk hydraulisk struktur utformad för att reglera vattennivån, förhindra överströmning och säkerställa avbördning från reservoaren till nedströms. En utskovskanal kan uppleva kavitation om vattenhastigheten överstiger 20 m/s, vilket kräver att dess design optimeras. Många befintliga avbördningsanordningar konstruerades med lägre kapacitet och är otillräckliga för att avbörda gällande dimensionerande vattenföringar. Kavitation i utskovskanaler med hög fallhöjd utgör en risk för strukturell integritet och dammsäkerhet. Luftningsanordningar mildrar bubbelkollaps och subatmosfäriska tryckförhallanden, vilket minskar risken för kavitationsskador på betongytor. Undersökningen av sådant flödesbeteende är komplext på grund av hög turbulens och den ostadiga naturen i tvåfasströmningarna.</p>
+    <p>För att utvärdera sådana scenarier används ofta laboratoriemodeller och fysiska tester för att undersöka avbördningskapacitet och energiomvandling. Att noggrant mäta luftflöden under höga flödesförhallanden är dock fortfarande utmanande. Numeriska beräkningar (CFD) kompletterar fysiska experiment och möjliggör oberoende hydrauliska undersökningar, vilket ger värdefulla insikter i beteenden hos tvåfasströmningar.</p>
+    <p>Denna uppsats presenterar numeriska studier av tvåfasströmningar och energiomvandlingen i utskov, med fokus på strömningsförhållanden vid höga hastigheter som är avgörande för dammsäkerheten. Det huvudsakliga målet är att använda numeriska verktyg för att bedöma utskovets hydrauliska prestanda och att ge praktisk vägledning för design och drift. Tillsammans med en hierarki av turbulensmodeller, inklusive Reynolds-Averaged Navier-Stokes (RANS), Detached Eddy Simulation (DES), Delayed Detached Eddy Simulation (DDES) och Large Eddy Simulation (LES), används i studien avancerad CFD-teknik, inklusive den s.k. Volume of Fluid (VOF)-modellen och tvåfasmodeller. De numeriska modellerna är validerade mot experimentella data.</p>
+    <p>Artikel I presenterar en undersökning av fyra geometriska utformningar av plana och bassängförsedda (pooled) trappliknande utskov. De viktigaste resultaten från Artikel I visar att bassängförsedda trappskonfigurationer förbättrar energiomvandlingen och minskar risken för kavitation jämfört med plana trapputformningar. Dessutom uppvisade de bassängförsedda stegen överlägsen hydraulisk totalprestanda och förbättrat flödesbeteende, genom att uppnå de lägsta nedströmningshastigheterna och effektivt minimera kavitationspotentialen. Vidare undersöker Artikel II den jämförande prestandan hos 2D- och 3D modelleringsmetoder, tillsammans med avancerade turbulensmodeller, för simulering av tvåfasströmning av luft och vatten. Resultaten indikerar att 2D Euleriska modeller är lämpliga för grunda vattenflöden med försumbara vertikala hastighetskomponenter och är ändamålsenliga för preliminära analyser tack vare sin beräkningseffektivitet och rimliga noggrannhet. Däremot är 3D modeller bättre lämpade för starkt accelererade och höggradigt turbulenta flöden, och erbjuder förbättrad noggrannhet, särskilt vid representation av komplexa flödesegenskaper. Avancerade turbulensupplösande metoder, såsom DES och DDES, ger förbättrad upplösning av flödesfältet och mer tillförlitliga prediktioner av luftinblandning. Dessutom förbättrar tillämpningen av 3D turbulensmodellering beskrivningen av luft vattenflödets beteende och ökar noggrannheten i prediktionen av luftkoncentration i nedslagszonen.</p>
+    <p>Därefter undersöker Artikel III känsligheten hos prediktioner av luftat utskovsflöde med avseende på rutnätsupplösning vid användning av Sub Grid Scale modellering (SGS). Resultaten visar att rutnätsupplösning med lokalt förfinade strukturerade nät (Locally Refined Structured Meshes, LRSM) uppvisar förbättrad noggrannhet i att fånga komplexa luft vatteninteraktioner jämfört med ostrukturerade nät (Unstructured Meshes, USM). Vidare är prediktionerna av luftat utskovsflöde betydligt mer känsliga för rutnätsupplösning än för valet av SGS modelleringsansats.</p>"
+  },
+  "SDGs": "7, 9"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_18963Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18963
+=================================================================
+==> Dual-Language SDG Classification Report: t_18963
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 1, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "7, 9"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :   42 hit(s)
+       * "CFD": 4
+       * "RANS": 2
+       * "LES": 2
+       * "spillway": 14
+       * "utskov": 9
+  [ 2] SDG  6 :    1 hit(s)
+       * "vatten": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 7, SDG 9"
+=================================================================
+\end{lstlisting}
+
+Whereas \Cref{cs:ThreeWayError} illustrated three-way convergence on a false positive, this hydraulic-engineering thesis demonstrates \emph{competing false friends} across the author (\enquote{7, 9}), OSDG (\gls{SDG}~6), and the dual-language classifier (\gls{SDG}~9: 42 hits, \gls{SDG}~6: 1 hit, \gls{SDG}~7: 0 hits):
+\begin{itemize}
+    \item \textbf{True Primary Goal (\gls{SDG}~9: 42 hits):} Driven by hydraulic civil-infrastructure and computational-fluid-dynamics terminology (\enquote{spillway}: 14, \enquote{utskov}: 9, \enquote{CFD}: 4, \enquote{RANS}: 2, \enquote{LES}: 2), the thesis investigates stepped dam spillways to prevent cavitation damage and ensure dam safety under modern flood standards --- mapping squarely to Target~9.1 (\emph{develop quality, reliable, sustainable and resilient infrastructure}).
+    
+    \item \textbf{Author's Physical False Friend (\gls{SDG}~7: 0 hits):} Analogous to high-energy physics in \Cref{cs:satisficingSDG}, the author appears to have associated \enquote{energy dissipation} (\emph{energiomvandlingen}) and dam structures with hydropower under \gls{SDG}~7 (\emph{Affordable and Clean Energy}). In hydraulic spillway engineering, however, \enquote{energy dissipation} refers to safely converting destructive kinetic flow energy into turbulence and heat to protect concrete structures from erosion --- not generating clean electricity.
+    
+    \item \textbf{OSDG's Physical False Friend (\gls{SDG}~6):} OSDG classified the abstract solely as \gls{SDG}~6 (\emph{Clean Water and Sanitation}), triggered by repeated references to \enquote{water level}, \enquote{reservoir}, \enquote{air-water flow}, and \enquote{shallow water flows}, even though the thesis addresses neither water quality, sanitation, nor water-resource scarcity (Targets~6.1--6.6). By contrast, the dual-language classifier registered only a 1-hit trace on \enquote{vatten} while keeping \gls{SDG}~7 at 0.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Technical engineering terminology contains domain-specific false friends that mislead both human annotators and semantic classifiers: hydraulic \enquote{energy dissipation} in dam spillways concerns structural safety (\gls{SDG}~9) rather than clean energy generation (\gls{SDG}~7), while \enquote{air--water flow} concerns multiphase fluid mechanics rather than water sanitation (\gls{SDG}~6). Accordingly, \gls{SDG}~7 should be pruned from the \gls{DiVA} metadata, leaving only \gls{SDG}~9.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Zero-Hit Failure on Swedish Labor-Market and Anti-Corruption Policy Vocabulary (diva2:2006917)]
+\label{cs:ZeroHitSwedishLaborPolicy}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_21779.json (manually reformatted to keep only one Swedish abstract)}, label=lst:t_21779.json]
+{
+  "divaID": "diva2:2006917",
+  "Title": {
+    "Main title": "Rangordning av problem inom svenska byggbranschen",
+    "Language": "swe"
+  },
+  "keywords": {
+    "swe": "byggbranschen, arbetslivskriminalitet, kartellbildning, människohandel"
+  },
+  "abstracts": {
+    "swe": "<p>Byggbranschen har länge setts som en problembransch med bristande innovationsförmåga, konkurrenskraft, och produktivitet, belastad med byggfel, svartarbete och dålig lönsamhet. Under de senaste decennierna har även begrepp som arbetslivskriminalitet, och människohandel tillkommit. De olika problemområdena har utretts genom olika initiativ, ofta genom olika SOU-er, men även från arbetsmarknadens parter. Utredningarna har i vissa fall blivit grund för åtgärder.</p><p> Det finns olika grupperingar som ”äger” olika problemområden, vilket kan ses som en självklarhet. Byggföretag kan peka på problem avseende lönsamhet, osund konkurrens, svårigheter med upphandling, beställare kan peka på problem med kartellbildning, byggfel, bristande produktivitet. Staten kan å sin sida också peka på byggfel, bristande produktivitet och innovationsförmåga, men även på svartarbete och skatteundandragande. Ur fackligt perspektiv finns problem med löneutveckling och löner nedpressade under nivån för kollektivavtal. Byggmarknadskommissionen och Delegationen mot arbetslivskriminalitet har behandlat frågorna avseende arbetslivskriminalitet och människohandel. Ingen instans förefaller rangordna problemen i sin helhet.</p>"
+  },
+  "SDGs": "8"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_21779Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_21779
+=================================================================
+==> Dual-Language SDG Classification Report: t_21779
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 11, 0]
+
+Assigned value in JSON: "8"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  8 :   19 hit(s)
+       * "arbetslivskriminalitet": 4
+       * "människohandel": 3
+       * "byggbranschen": 3
+       * "produktivitet": 3
+       * "svartarbete": 2
+  [ 2] SDG 16 :   11 hit(s)
+       * "arbetslivskriminalitet": 4
+       * "människohandel": 3
+       * "kartellbildning": 2
+       * "skatteundandragande": 1
+       * "osund konkurrens": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 8"
+=================================================================
+\end{lstlisting}
+
+Unlike the engineering records where OSDG abstained while the keyword classifier succeeded, this Swedish-only construction-sector policy report initially exhibited the exact opposite failure mode: OSDG natively processed the Swedish abstract and identified \glspl{SDG}~16 and 8, whereas the baseline keyword classifier returned an all-zero match vector (\texttt{[0, ..., 0]}):
+\begin{itemize}
+    \item \textbf{Root Cause of the Initial All-Zero Vector:} Because the underlying Elsevier~V4, UoA, and STRINGS dictionaries are English-only, Swedish-only records depend entirely on the dual-language auxiliary lexicon. Although the initial auxiliary lists included literal UN translations (\eg \enquote{tvångsarbete}, \enquote{korruption och mutor}, \enquote{olagliga finansiella flöden}), they lacked the idiomatic Swedish labor-market and regulatory compounds used in national public inquiries (\emph{SOU}-reports) --- such as \emph{arbetslivskriminalitet}, \emph{människohandel}, \emph{svartarbete}, \emph{kartellbildning}, and \emph{skatteundandragande}.
+
+    \item \textbf{Recovery of Both Co-Primary Goals (\gls{SDG}~8: 19 hits \& \gls{SDG}~16: 11 hits):} As shown in \Cref{lst:t_21779Output}, adding these Swedish labor-crime and anti-corruption terms elevates \gls{SDG}~8 (19 hits across \enquote{arbetslivskriminalitet}: 4, \enquote{människohandel}: 3, \enquote{byggbranschen}: 3, \enquote{produktivitet}: 3, and \enquote{svartarbete}: 2; Targets~8.2, 8.7, and 8.8) and \gls{SDG}~16 (11 hits across \enquote{arbetslivskriminalitet}: 4, \enquote{människohandel}: 3, \enquote{kartellbildning}: 2, \enquote{skatteundandragande}: 1, and \enquote{osund konkurrens}: 1; Targets~16.2, 16.4, and 16.5) with zero noise across all other 15 goals --- confirming the author's \enquote{8} assignment while supporting the addition of \gls{SDG}~16 (\enquote{8, 16}) as identified by OSDG.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+When evaluating Swedish-only abstracts outside core engineering domains, an all-zero match vector signals a coverage gap in the Swedish auxiliary lexicon rather than an irrelevant publication. Benchmarking against OSDG on Swedish socio-economic and legal texts exposes idiomatic national policy terms (\eg \emph{arbetslivskriminalitet}, \emph{svartarbete}, \emph{kartellbildning}) that are absent from literal translations of UN goal descriptions.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Zero-Hit Failure on Built Cultural Heritage Conservation (SDG 11, Target 11.4) in Swedish (diva2:2034202)]
+\label{cs:ZeroHitCulturalHeritageSDG11}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_22580.json (manually reformatted to keep only one Swedish abstract)}, label=lst:t_22580.json]
+{
+  "divaID": "diva2:2034202",
+  "Title": {
+    "Main title": "Förstudie",
+    "Language": "swe",
+    "Subtitle": "Stockholms slotts fasader – Långsiktigt underhåll av sten"
+  },
+  "keywords": {
+    "eng": "History of Architecture, History of Conservation, Royal Palace Stockholm",
+    "swe": "Arkitekturhistoria, Restaureringshistoria, Stockholms slott"
+  },
+  "abstracts": {
+    "swe": "<p>Stockholms slott ger i kraft av sin enhetliga yttre gestalt intryck av att ha tillkommit under en begränsad period. Men i själva verket är slottet resultatet av en lång byggnadsprocess. En översikt över de senaste trehundra årens försök att vidmakthålla fasaderna på Stockholms slott visar på motsvarande sätt att såväl skador som underhållsinsatser har varit ständigt återkommande.</p><p>Ur kulturhistorisk synvinkel är slottets fasader alltså resultatet av många olika insatser från olika perioder. De numera frilagda stenarbetena är inte bara ett vittnesbörd om det förra sekelskiftets restaureringsideologi, de förstärker också bilden av slottet som hantverksprodukt. Den genomfärgade putsen är i sin tur anpassad till den anslutande stenen, med avikt att ge ett enhetligt intryck även i tider av bristande underhåll. Fasaderna kan med andra ord betraktas som en konstnärlig helhetslösning, där estetiska och kulturhistoriska faktorer balanseras av faktorer som rör underhåll, material och teknik.</p>"
+  },
+  "SDGs": "11"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_22580Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_22580
+=================================================================
+==> Dual-Language SDG Classification Report: t_22580
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :    7 hit(s)
+       * "kulturhistorisk": 2
+       * "history of conservation": 1
+       * "restaureringshistoria": 1
+       * "restaureringsideologi": 1
+       * "arkitekturhistoria": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 11"
+=================================================================
+\end{lstlisting}
+
+Here, the author assigned \enquote{11} to a 134-word Swedish architectural-conservation report examining three centuries of stone facade maintenance and restoration at Stockholm Palace (\enquote{Stockholms slott}). While OSDG returned no output, the baseline keyword classifier initially produced an all-zero match vector (\texttt{[0, ..., 0]}) before built-heritage terms were added:
+\begin{itemize}
+    \item \textbf{Substantiated \gls{SDG}~11 via Target~11.4:} Although \gls{SDG}~11 is most commonly associated with urban transit, housing, and spatial planning, Target~11.4 explicitly calls to \enquote{strengthen efforts to protect and safeguard the world's cultural and natural heritage}. Architectural history and long-term conservation of historic monuments (\enquote{History of Conservation}, \enquote{kulturhistorisk}, \enquote{restaureringshistoria}) fall squarely within this mandate.
+    
+    \item \textbf{Resolving the Lexical Coverage Gap (\gls{SDG}~11: 7 hits):} Because the abstract is written solely in Swedish and the English keywords used \enquote{History of Conservation} and \enquote{History of Architecture} rather than the literal UN phrase \enquote{cultural heritage}, all baseline English dictionaries returned 0 hits. Adding disciplinary architectural-conservation terms in both languages (\enquote{kulturhistorisk}: 2, \enquote{history of conservation}: 1, \enquote{restaureringshistoria}: 1, \enquote{restaureringsideologi}: 1, \enquote{arkitekturhistoria}: 1, and \enquote{history of architecture}: 1) yields 7 hits exclusively under \gls{SDG}~11 (\Cref{lst:t_22580Output}) with zero noise across the remaining 16 goals.
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Under-represented \gls{SDG} targets --- such as Target~11.4 on safeguarding cultural and architectural heritage --- are easily missed when domain scholars describe their work using disciplinary conservation terminology (\eg \enquote{kulturhistorisk}, \enquote{restaureringshistoria}, \enquote{History of Conservation}) rather than verbatim UN phrasing (\enquote{cultural heritage}).
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Swedish Urban Growth, Gender Safety (SDG 5), and Crime Prevention (SDG 16) with PDF-Paste Word-Fusion Artifacts (diva2:1919207)]
+\label{cs:SwedishGenderSafetyAndCrimeSDG5_16}
+Consider the following:
+\begin{lstlisting}[language={json}, caption={t\_24331.json (manually reformatted to keep only one Swedish abstract while preserving source spacing artifacts)}, label=lst:t_24331.json]
+{
+  "divaID": "diva2:1919207",
+  "Title": {
+    "Main title": "Snabb befolkningstillväxt, brott och andra utmaningar",
+    "Language": "swe",
+    "Subtitle": "Skellefteå, Sverige"
+  },
+  "keywords": {
+    "swe": "Brott, Rädsla för brott, mindre kommun, Northvolt, Skellefteå"
+  },
+  "abstracts": {
+    "swe": "<p>Skellefteås snabba befolkningstillväxt har drivits av den stora ökningen av arbetskraft tillNorthvolts batterifabrik. Detta har lett till ett ökat behov av bostäder och utökad kommunalservice, och visar på en omfattande samhällsomvandling som inkluderar brottslighet. Syftetmed denna studie är att undersöka den snabba befolkningstillväxten och hur brist på bostäderskapar en potentiell illegal marknad. Vi analyserar också hur en inflyttning av en storarbetskraft, som huvudsakligen består av män, skapar otrygghet i det offentliga rummet ochpåverkar kvinnors rörlighet. Trots att polisanmälda brott inte visar en ökning, finns det bevisför att brottslighet relaterat till bostadsförsörjning och genusrelaterade brott har ökat, samträdsla för brott bland unga flickor. Internationell forskning visar inte en direkt koppling mellanhur en snabb befolkningstillväxt och bostadsförsörjning kan utnyttjas av organiseradbrottslighet. För att förebygga dessa brott i framtiden bör statliga myndigheter och kommunersamarbeta för att dela kunskap och följa upp risker systematiskt. Inom upphandlingar bör detgöras ordentliga bakgrundskontroller på företagets ledning och granska deras ekonomi för attupptäcka illegala aktiviteter. Konsekvenserna för företag som bryter mot reglerna måste varatydliga. En förändring i mentaliteten kring hur kommuner stöttar och vägleder företag krävs,där de vågar ställa krav på företagen och följa upp processer. Gällande sexualbrott ochotrygghet rekommenderar vi ökade trygghetsåtgärder i offentliga rum, samt en akut satsningoch mer resurser för att motverka genusrelaterat våld. Mer kunskap krävs för att förstå hurolika grupper i befolkningen upplever den snabba befolkningstillväxten och desskonsekvenser.</p>"
+  },
+  "SDGs": "5, 10, 11, 17"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_24331Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_24331
+=================================================================
+==> Dual-Language SDG Classification Report: t_24331
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 5, 0, 1, 0, 0, 0, 15, 0, 0, 0, 0, 14, 0]
+
+Assigned value in JSON: "5, 10, 11, 17"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :   15 hit(s)
+       * "befolkningstillväxt": 5
+       * "bostadsförsörjning": 2
+       * "bostäder": 2
+       * "kommuner": 2
+       * "offentliga rummet": 1
+  [ 2] SDG 16 :   14 hit(s)
+       * "brott": 7
+       * "brottslighet": 2
+       * "illegala aktiviteter": 1
+       * "bakgrundskontroller": 1
+       * "rädsla för brott": 1
+  [ 3] SDG  5 :   5 hit(s)
+       * "genusrelaterade brott": 1
+       * "genusrelaterat våld": 1
+       * "kvinnors rörlighet": 1
+       * "unga flickor": 1
+       * "sexualbrott": 1
+  [ 4] SDG  7 :   1 hit(s)
+       * "batteri": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 5, SDG 10, SDG 11, SDG 17"
+=================================================================
+\end{lstlisting}
+
+On this Swedish-only urban sociology and criminology study examining rapid industrialization in Skellefteå, OSDG identified \glspl{SDG}~11, 16, and 5, whereas the author assigned \enquote{5, 10, 11, 17}. After enriching the Swedish social-policy dictionaries, \Cref{lst:t_24331Output} reproduces OSDG's exact top-three ranking (\gls{SDG}~11: 15 hits, \gls{SDG}~16: 14 hits, \gls{SDG}~5: 5 hits):
+\begin{itemize}
+    \item \textbf{True Triad (\glspl{SDG}~11, 16, and 5) vs.\ Author Over-Tagging (\glspl{SDG}~10 and 17):} The study investigates housing shortages and public-space safety during rapid municipal growth (\gls{SDG}~11: 15 hits; Targets~11.1 and 11.7), organized crime in housing supply, fear of crime, and procurement vetting (\gls{SDG}~16: 14 hits; Targets~16.1, 16.4, and 16.5), and sexual offenses, women's mobility, and gender-based violence (\gls{SDG}~5: 5 hits; Target~5.2). Remarkably, the author omitted \gls{SDG}~16 despite listing \enquote{Brott} and \enquote{Rädsla för brott} as primary keywords, while over-tagging \glspl{SDG}~10 and 17 (0 hits each) on the basis of a single recommendation for inter-agency municipal collaboration.
+    
+    \item \textbf{Swedish Social-Policy Vocabulary and Context Bleed:} Prior to enrichment, \gls{SDG}~16 and \gls{SDG}~5 registered 0 hits because Swedish criminology and gender-safety compounds (\enquote{brottslighet}, \enquote{rädsla för brott}, \enquote{sexualbrott}, \enquote{genusrelaterat våld}, \enquote{kvinnors rörlighet}) were absent from the auxiliary dictionaries. Meanwhile, mentioning Northvolt's battery factory (\enquote{Northvolts batterifabrik}) as the macroeconomic cause of migration triggers a harmless 1-hit context trace for \enquote{batteri} under \gls{SDG}~7.
+    
+    \item \textbf{PDF Copy-Paste Word-Fusion Artifacts:} The raw \gls{DiVA} abstract contains numerous fused tokens resulting from missing spaces during PDF extraction (\eg \texttt{tillNorthvolts}, \texttt{bostäderskapar}, \texttt{organiseradbrottslighet}, \texttt{samträdsla}, \texttt{ochotrygghet}), illustrating how repository text-extraction noise can defeat strict word-boundary matching if terms are not matched flexibly (cf.\ \Cref{rec:divaQualityControl}).
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Evaluating Swedish social-science abstracts against OSDG highlights two complementary needs: expanding the Swedish auxiliary lexicon beyond technical and UN-verbatim terms into domestic criminology and gender-safety vocabulary (\glspl{SDG}~5 and 16, here replacing \enquote{5, 10, 11, 17} with \enquote{5, 11, 16}), and accounting for PDF copy-paste spacing corruption in \gls{DiVA} metadata.
+\end{takeaway}
+
+
 \Needspace*{6\baselineskip}
 \section{Conclusions}
 \label{sec:Conclusions}
@@ -3259,7 +3743,7 @@ When authors paste abstracts into \gls{DiVA} metadata fields, ensure that word s
 
 
 \subsection{For Automated Classification Tools}
-
+Bootstrap the dual-language program's lexicon expansion via OSDG disagreement mining on non-English records.
 
 \clearpage
 \phantomsection % Directs hyperref to anchor exactly here
