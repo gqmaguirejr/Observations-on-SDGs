@@ -538,11 +538,20 @@ print(f"{total_docs=}")
 total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. Note that some of these were duplicate documents (mainly due to having multiple authors from different schools (or other affiliations) --- as the outer loop iterated over schools). Thus, only a very small fraction of the publications had identified \glspl{SDG} in the \gls{DiVA} field for \glspl{SDG}. Some publications may list relevant \glspl{SDG} in the abstract, but unless the \glspl{SDG} appear in the \gls{DiVA} field for \glspl{SDG}, they were not extracted. Some extracted publications listed relevant \glspl{SDG} in the abstract, and these were considered the authors' explicit in-text declarations of \glspl{SDG}.
 \end{takeaway}
 
+\textbf{NB:} The naming of the files is in the form \fname{t\_\{document\_number\}.json}, but the \texttt{document\_number} has no meaning --- it is simply to give each file a unique name.
 
 \subsection{Focus}
 \label{sec:focus}
 
 The primary focus of this study was to identify acronyms and terms associated with specific \glspl{SDG} using titles, subtitles, keywords, abstracts, and identified \glspl{SDG} from the \gls{DiVA} data, to provide a tool to help authors. 
+
+\subsection{Three-Tier Suggestion Precedence}
+\label{sec:threeTierSuggestionPrecedence}
+When generating a \texttt{Suggested 'SDGs' value}, \fname{sdg\_classifier\_dual\_language.py} applies a strict three-tier precedence hierarchy:
+\begin{equation*}
+  \text{In-text explicit declarations} \;>\; \text{Pre-existing file metadata} \;>\; \text{Unscoped keyword inference}.
+\end{equation*}
+Specifically, if the abstract or keywords contain explicit author declarations (\eg \enquote{SDG~13}), the classifier scopes its suggestion to those declared goals; otherwise, if the input \gls{JSON} record already contains a non-empty \texttt{"SDGs"} field from \gls{DiVA}, it preserves those pre-assigned goals (\enquote{Scoped to pre-assigned SDGs in metadata}); and only when neither source is present does it fall back to the top-$k$ keyword-inferred goals meeting the minimum hit threshold ($\ge \texttt{--min-hits}$). This conservative design prevents automated batch runs from silently overwriting curated repository metadata, while the full 17-element \texttt{Match Vector} and \texttt{Top Keyword Matching Goals} breakdown are always computed and output so that zero-evidence self-deposit errors (\eg \Cref{cs:diva2_2052118}) or omitted co-primary goals remain immediately visible during audit review.
 
 \subsection{Scope Boundaries}
 \label{sec:scope_boundaries}
@@ -2567,7 +2576,7 @@ This case study illustrates OSDG's length-threshold abstention on concise, domai
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Year-over-Year Classifier Sensitivity in Annual Transport Reports (diva2:1937679 \& diva2:2033753)]
+\begin{casestudySection}[Year-over-Year Classifier Sensitivity in Annual Transport Reports]
 \label{cs:rail-annual-pair}
   \begin{lstlisting}[language={json}, caption={t\_162668.json (manually reformatted to keep only one abstract in each language)}, label=lst:t_162668.json]
 {
@@ -2701,7 +2710,7 @@ Small year-over-year lexical shifts in recurring policy reports can cause neural
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Single-Goal Collapse and Multi-Goal Decomposition in Media Governance (diva2:2087612)]
+\begin{casestudySection}[Single-Goal Collapse and Multi-Goal Decomposition in Media Governance]
 \label{cs:media-diversity}
 
 Consider the following:
@@ -2783,7 +2792,7 @@ This case demonstrates that qualitative social-science abstracts often distribut
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Sectoral Urban Planning vs.\ Institutional Governance Framing (diva2:2053599)]
+\begin{casestudySection}[Sectoral Urban Planning vs.\ Institutional Governance Framing]
 \label{cs:UrbanGovernanceAndPolicyMobility}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_17592.json (manually reformatted to keep only one abstract per language and added newlines to avoid \LaTeX{}'s \enquote{Dimension too large error})}, label=lst:t_17592.json]
@@ -2882,7 +2891,7 @@ Benchmarking the dual-language classifier against both \gls{DiVA} metadata and O
 
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Project-Title Bleed and Missing Hub Vocabulary in Short Texts (diva2:1905065)]
+\begin{casestudySection}[Project-Title Bleed and Missing Hub Vocabulary in Short Texts]
 \label{cs:ProjectTitleBleedAndMissingVocab}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_17603.json (manually reformatted to keep only one English abstract)}, label=lst:t_17603.json]
@@ -2942,7 +2951,7 @@ On short abstracts, boilerplate references to overarching funding-program names 
 
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Author Misclassification via Lexical Polysemy (\enquote{Land}) and Glued Source Tokens (diva2:2060639)]
+\begin{casestudySection}[Author Misclassification via Lexical Polysemy (\enquote{Land}) and Glued Source Tokens]
 \label{cs:CadastralGovernanceAndTextGluing}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_17904.json (manually reformatted to keep only one abstract per language while preserving the missing-space artifacts present in the DiVA record; additionally, newlines were added at the end of paragraphs)}, label=lst:t_17904.json]
@@ -3023,7 +3032,7 @@ Ideally, the \gls{DiVA} entries should be corrected (report this via \href{mailt
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Complementary Author--OSDG Divergence in Swedish Legal-Planning Research (diva2:1946206)]
+\begin{casestudySection}[Complementary Author--OSDG Divergence in Swedish Legal-Planning Research]
 \label{cs:SwedishLegalPlanningIntersection}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_18072.json (manually reformatted to keep only one Swedish abstract and added newlines at the end of paragraphs)}, label=lst:t_18072.json]
@@ -3092,7 +3101,7 @@ When a publication bridges two policy domains --- such as municipal urban planni
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Tourism-Framing Drift in OSDG (SDG~8) vs.\ Transborder Rail Infrastructure (SDGs~9 and 11) (diva2:1962179)]
+\begin{casestudySection}[Tourism-Framing Drift in OSDG (SDG~8) vs.\ Transborder Rail Infrastructure (SDGs~9 and 11)]
 \label{cs:NightTrainTourismDrift}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_18430.json (manually reformatted to keep only one Swedish abstract and added newlines after paragraphs)}, label=lst:t_18430.json]
@@ -3173,7 +3182,7 @@ When a Swedish railway-procurement report mentions regional business and tourism
 
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Exact Top-4 Recovery of a Justified Multi-Goal Assignment (SDGs~7, 9, 12, and 13) vs.\ Single-Goal Collapse in OSDG (diva2:1987118)]
+\begin{casestudySection}[Exact Top-4 Recovery of a Justified Multi-Goal Assignment (SDGs~7, 9, 12, and 13) vs.\ Single-Goal Collapse in OSDG]
 \label{cs:JustifiedFourGoalAviation}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_18531.json (manually reformatted to keep only one abstract per language and added newlines after paragraphs)}, label=lst:t_18531.json]
@@ -3279,7 +3288,7 @@ When a socio-technical sustainability assessment explicitly evaluates clean-ener
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Convergence on Sustainable Finance (SDG~8) and Climate Policy (SDG~13), Plus Parenthetical Example Amplification (SDG~7) (diva2:1992082)]
+\begin{casestudySection}[Convergence on Sustainable Finance (SDG~8) and Climate Policy (SDG~13), Plus Parenthetical Example Amplification (SDG~7)]
 \label{cs:SustainableFinanceConvergence}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_125694.json (manually reformatted to keep only one English abstract)}, label=lst:t_125694.json]
@@ -3355,7 +3364,7 @@ When a policy report examines financial-sector instruments for climate mitigatio
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Motivating Premise vs.\ Substantive Scope in Author Tagging (SDG~3 in diva2:2062158)]
+\begin{casestudySection}[Motivating Premise vs.\ Substantive Scope in Author Tagging]
 \label{cs:MotivatingPremiseSDG3}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_1873.json (manually reformatted to keep only one abstract per language)}, label=lst:t_1873.json]
@@ -3434,7 +3443,7 @@ Authors frequently assign an \gls{SDG} based on a high-level societal motivation
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Competing Physical False Friends: Hydraulic Energy Dissipation (SDG~7) vs. Air--Water Flow (SDG~6) (diva2:2057190)]
+\begin{casestudySection}[Competing Physical False Friends: Hydraulic Energy Dissipation (SDG~7) vs. Air--Water Flow (SDG~6)]
 \label{cs:CompetingPhysicalFalseFriends}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_18963.json (manually reformatted to keep only one abstract per language and added newline after paragraphs)}, label=lst:t_18963.json]
@@ -3503,7 +3512,7 @@ Technical engineering terminology contains domain-specific false friends that mi
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Zero-Hit Failure on Swedish Labor-Market and Anti-Corruption Policy Vocabulary (diva2:2006917)]
+\begin{casestudySection}[Zero-Hit Failure on Swedish Labor-Market and Anti-Corruption Policy Vocabulary]
 \label{cs:ZeroHitSwedishLaborPolicy}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_21779.json (manually reformatted to keep only one Swedish abstract)}, label=lst:t_21779.json]
@@ -3565,7 +3574,7 @@ When evaluating Swedish-only abstracts outside core engineering domains, an all-
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Zero-Hit Failure on Built Cultural Heritage Conservation (SDG 11, Target 11.4) in Swedish (diva2:2034202)]
+\begin{casestudySection}[Zero-Hit Failure on Built Cultural Heritage Conservation (SDG 11, Target 11.4) in Swedish]
 \label{cs:ZeroHitCulturalHeritageSDG11}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_22580.json (manually reformatted to keep only one Swedish abstract)}, label=lst:t_22580.json]
@@ -3623,7 +3632,7 @@ Under-represented \gls{SDG} targets --- such as Target~11.4 on safeguarding cult
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Swedish Urban Growth, Gender Safety (SDG 5), and Crime Prevention (SDG 16) with PDF-Paste Word-Fusion Artifacts (diva2:1919207)]
+\begin{casestudySection}[Swedish Urban Growth, Gender Safety (SDG 5), and Crime Prevention (SDG 16) with PDF-Paste Word-Fusion Artifacts]
 \label{cs:SwedishGenderSafetyAndCrimeSDG5_16}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_24331.json (manually reformatted to keep only one Swedish abstract while preserving source spacing artifacts)}, label=lst:t_24331.json]
@@ -3695,8 +3704,169 @@ On this Swedish-only urban sociology and criminology study examining rapid indus
 Evaluating Swedish social-science abstracts against OSDG highlights two complementary needs: expanding the Swedish auxiliary lexicon beyond technical and UN-verbatim terms into domestic criminology and gender-safety vocabulary (\glspl{SDG}~5 and 16, here replacing \enquote{5, 10, 11, 17} with \enquote{5, 11, 16}), and accounting for PDF copy-paste spacing corruption in \gls{DiVA} metadata.
 \end{takeaway}
 
+\Needspace*{12\baselineskip}
+\begin{casestudySection}[Cross-Domain Polysemy in Socio-Technical Healthcare]
+\label{cs:diva2_2078980}
+Consider the following:
+\begin{lstlisting}[language={json}, inputencoding=utf8, caption={t\_54434.json (manually reformatted to keep only one abstract per language and added newlines after the end of paragraphs; note that \texttt{listings} misplaces certain non-ASCII punctuation such as the non-breaking hyphen \texttt{U+2011})}, label=lst:t_54434.json]
+{
+  "divaID": "diva2:2078980",
+  "Title": {
+    "Main title": "The Lighthouse Never Sleeps",
+    "Language": "eng",
+    "Subtitle": "Life-sustaining Care, Life-threatening Risks, and the Parents Who Buffer the System for Tracheostomy-dependent Children"
+  },
+  "keywords": {
+    "eng": "Tracheostomy-dependent children, Life-sustaining technology, Parents, Everyday life, Lived experiences, Home care, Safety, Health, HTO, SOC, Domestication of technology, Sustainability, Parental expertise",
+    "swe": "Trakeostomerade barn, Livsuppehållande teknik, Föräldrar, Vardag, Levd erfarenhet, Vård i hemmet, Personlig assistans, Säkerhet, Hälsa, MTO, KASAM, Domesticering av Teknik, Hållbarhet, Föräldrars expertis"
+  },
+  "abstracts": {
+    "eng": "<p>Tracheostomy-dependent children are a growing population, emerging from increased survival and, consequently, the possibility of living with increasingly complex conditions. This development is assumed to result from parallel advancements, innovations, and research in healthcare and technology fields. Many complex conditions require continuous life-sustaining dependence on both care and technology to maintain health and survival. However, a stagnant perspective and focus have prioritized development, innovation, and research toward survival rather than living with these conditions and their requirements. In families of tracheostomy‑dependent children, parents often assume responsibility for and carry out their children’s daily care, especially when care and everyday life transition into the family home and are supported by Personal Care Assistants. It is important to explore and highlight these families’ experiences to build knowledge and understanding of the system these families rely on and exist within.</p>
+    <p>This thesis aims to analyze critical aspects and system-level interactions in families’ everyday lives and understand how interactions between humans, technology, and organizations shape and influence safety and sustainability in their everyday lives and the provision of care. The thesis is theoretically grounded in the HTO concept (Human–Technology–Organization), the salutogenic perspective on health through SOC (Sense of Coherence and Meaning), and a framework for domestication and its process between humans and technology. The thesis consists of four studies: three interview studies and one literature review. For Studies I and II, parents of tracheostomy-dependent children were recruited from Sweden’s only long-term intensive care unit for children to be interviewed. Study I used Grounded Theory to analyze how these parents adapted to parenthood. Study II used descriptive phenomenology to explore parents’ lived experiences in everyday life. The third study (Study III) was a scoping literature review that aimed to describe the safety risks, incidents, and adverse events for children living with tracheostomy that have been reported in previous research and how these have been described. For the fourth study (Study IV), parents, personal assistants, and healthcare professionals were recruited via social media and related organizations for interviews. Study IV used the domestication framework in an abductive analysis supported by Reflexive Thematic analysis, with the aim of describing how the tracheostomy is domesticated in these families’ everyday lives.</p>
+    <p>The thesis identifies the largely neglected but parentally formative pre-tracheostomy‑ ICU-period, with insufficient recognition or support. Following tracheostomy, everyday life is reorganized around the technology and the child’s dependence, requiring parents to be actively present and involved across all contexts and interactions with the surrounding society to ensure safety, facilitate participation, and broker system interactions. Previous research regarding safety has been fragmented and narrowly focused, obscuring the origin of risks and adverse events, indicating the need for a broader and diversified perspective to accurately identify risks and enable effective interventions. The thesis also shows how the tracheostomy domesticates the families, homes, and routines, while families held limited influence over the technology of tracheostomy. Although parents would develop expertise and mastery of the technology and their children’s care within the home, their expertise is rarely acknowledged or integrated systematically beyond individual Healthcare Professionals. The current system in which these families exist is inefficient and risk-laden‑ and calls for urgent, co-designed‑ interventions that center on the lived experiences and needs of the families. A shift relevant to transition from the needs and requirements posed by a parental-reliant system to system adaptations that meaningfully support families.</p>
+    <p>This thesis provides a systems perspective and account of primarily parents of tracheostomy-dependent‑ children, arguing that prior research has often overlooked the socio‑technical system that these families depend on, and that depend on these families. It contends that the system is implicitly dependent on parents and families of tracheostomy-dependent children, who must continually compensate for systemic gaps while simultaneously providing life-sustaining care and managing life-threatening‑ risks for their children. This unrecognized overreliance diverts parental efforts and focuses away from the child, towards primarily system maintenance, stability, and functionality instead. Overreliance on parents effectively locks parents into acting as system buffers‑ to ensure their tracheostomy-dependent children’s health and survival. A modified Human–Technology–Organization (HTO) model is introduced to illustrate previously unarticulated system complexity and interdependencies, offering a novel system perspective. A system that depends on parents to ensure their tracheostomy-dependent‑ children’s survival, safety, and health is unsustainable for all humans, all actors, and stakeholders, as well as the system itself. Tracheostomy-dependent children are in the most vulnerable position, exposed to life-threatening‑ risks and consequences if they do not receive the life-sustaining care and support they depend on.</p>",
+    "swe": "<p>Barn som lever med långtids-trakeostomi utgör en växande population som har tillkommit genom en ökad överlevnad och därmed möjlighet att leva med alltmer komplexa tillstånd. Denna utveckling antas vara en följd av parallella framsteg, innovationer och forskning inom hälso- och sjukvård samt teknik. Många komplexa tillstånd förlitar sig på kontinuerliga livsuppehållande insatser i form av både vård och teknologi för att upprätthålla och stödja hälsa och överlevnad. Dessvärre har ett stagnerat perspektiv och fokus medfört att utveckling, innovation och forskning fortsatt har prioriterats mot överlevnaden av dessa komplexa tillstånd, snarare än att leva med tillstånden och de krav de medför. I familjer där barn lever med trakeostomi tar föräldrarna ofta ansvar för och tillgodoser deras barns dagliga vårdbehov, särskilt när vård och vardagsliv flyttar in i hemmet och ges med stöd av personliga assistenter. Dessa familjers erfarenheter är viktiga att utforska och belysa för att bygga kunskap och förståelse om det system de förlitar sig på och existerar inom.</p>
+    <p>Denna avhandling syftar till att analysera avgörande aspekter och interaktioner på systemnivå i dessa familjers vardag genom att skapa förståelse för hur interaktioner mellan människa, teknik och organisation formar och påverkar säkerhet och hållbarhet i deras vardag och vårdgivande. Teoretiskt grundas avhandlingen i MTO‑konceptet (Människa–Teknik–Organisation), det salutogena perspektivet på hälsa genom KASAM (Känsla av sammanhang och mening) samt ett ramverk för domesticering och dess process mellan människa och teknik. Avhandlingen omfattar fyra delstudier, varav tre intervjustudier och en litteraturöversikt. Till studie I och II rekryterades föräldrar till barn med trakeostomi från Sveriges enda långtidsintensivvårdsavdelning för barn för intervjuer. Studie I använde grundad teori för att analysera hur dessa föräldrar adapterade till föräldraskapet. Studie II använde deskriptiv fenomenologi för att utforska föräldrarnas levda erfarenhet i vardagen. Den tredje studien (studie III) var en kartläggande litteraturöversikt som syftade till att beskriva vilka säkerhetsrisker, incidenter och negativa händelser för barn som lever med trakeostomi som har beskrivits i tidigare publicerad forskning, och hur dessa har beskrivits. Till den fjärde studien (studie IV) rekryterades föräldrar, personliga assistenter och sjukvårdspersonal via sociala medier och intresseorganisationer för intervjuer. Studie IV använde ramverket för domesticering i en abduktiv analys med stöd av reflexiv tematisk analys i syfte att beskriva hur trakeostomin domesticeras i dessa familjers vardag.</p>
+    <p>Avhandlingen identifierar den till stora delar förbisedda, men föräldraformande, perioden av intensivvård innan trakeostomin. En period som ofta präglas av otillräckligt synliggörande av de erfarenheter och upplevelser som familjerna gör samt ett bristande stöd. Efter trakeostomin omorganiseras vardagen kring tekniken och barnets beroende, vilket kräver att föräldrar är aktivt närvarande och delaktiga i alla sammanhang och interaktioner med det omgivande samhället för att säkerställa säkerhet, möjliggöra delaktighet och förmedla interaktion inom systemet. Tidigare forskning relaterad till säkerhet har varit fragmenterad och med snäv inriktning och avgränsning, vilket har bidragit till svårigheter att avgöra var risker och negativa händelser uppstår ifrån. Dessa förhållanden pekar mot ett behov av ett bredare och mer diversifierat perspektiv för att identifiera risker och möjliggöra effektiva åtgärder. Avhandlingen beskriver också att trakeostomin domesticerar familjer, hemmet och rutiner, samtidigt som familjerna har begränsat inflytande över trakeostomin och själva tekniken. Även om föräldrar utvecklar både expertis, teknisk skicklighet och bemästrar sitt barns vård i hemmet, erkänns denna expertis sällan systematiskt, bortsett från enskild personal inom hälso- och sjukvård. Det system som dessa familjer nu existerar inom har visat sig både ineffektivt och riskfyllt, vilket kräver skyndsamma, samskapade interventioner som sätter familjernas levda erfarenheter och behov i centrum. Detta innebär ett skifte ifrån ett system som förlitar sig och ställer krav på föräldrar till att i stället införa systemanpassningar som meningsfullt stödjer familjer.</p>
+    <p>Avhandlingen erbjuder ett systemperspektiv och en redogörelse främst från dessa föräldrars perspektiv, och argumenterar för att tidigare forskning ofta har förbisett det sociotekniska system som dessa familjer är beroende av, och som i sin tur är beroende av dessa familjer. Avhandlingen gör gällande att systemets funktion i praktiken vilar på föräldrar och familjer till barn som lever med trakeostomi, vilka kontinuerligt måste kompensera för systembrister, samtidigt som de ger den livsuppehållande vård deras barn behöver, och hanterar de livshotande risker som trakeostomin medför. Dessa tidigare förbisedda förutsättningar förflyttar föräldrarnas insatser och fokus ifrån barnet till att i första hand upprätthålla systemets drift, stabilitet och funktion. Systemets beroende av föräldrar låser i praktiken in föräldrar i rollen som systembuffertar för att säkerställa sina barns hälsa och överlevnad. En modifierad MTO‑modell introduceras och illustrerar tidigare outtalad systemkomplexitet, ömsesidiga beroendeförhållanden och relationer, samt erbjuder ett nytt systemperspektiv. Ett system som förlitar sig på föräldrar är enskilt ansvariga för sina trakeostomerade barns överlevnad, säkerhet och hälsa är ohållbart, för samtliga inblandade människor, för samtliga aktörer och intressenter, samt för systemet självt. De trakeostomerade barnen befinner sig i den allra mest sårbara positionen, utsatta för livshotande risker och konsekvenser om de inte får den livsuppehållande vård och det stöd de förlitar sig på.</p>"
+  },
+  "SDGs": "3"
+}
+\end{lstlisting}
 
-\Needspace*{6\baselineskip}
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_54434Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_54434
+=================================================================
+==> Dual-Language SDG Classification Report: t_54434
+Match Vector (SDG 1 - 17):
+[1, 2, 51, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0]
+
+Assigned value in JSON: "3"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  3 :   51 hit(s)
+       * "tracheostomy": 16
+       * "trakeostomi": 11
+       * "health": 8
+       * "healthcare": 3
+       * "sjukvård": 3
+  [ 2] SDG  2 :    2 hit(s)
+       * "domestication": 2
+  [ 3] SDG  9 :    2 hit(s)
+       * "innovation AND ("sustainab*" OR "green" OR "inclusive")": 1
+       * "research and development AND ("productiv*" OR "technolog*" OR "innovati*" OR "infrastructure" OR "industrialization")": 1
+  [ 4] SDG  1 :    1 hit(s)
+       * "dependent children": 1
+  [ 5] SDG 16 :    1 hit(s)
+       * "neglect": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 3"
+=================================================================
+\end{lstlisting}
+
+Record \texttt{diva2:2078980} (\textit{The Lighthouse Never Sleeps: Life-sustaining Care, Life-threatening Risks, and the Parents Who Buffer the System for Tracheostomy-dependent Children}) is a dissertation examining home care, patient safety, and Human--Technology--Organization (HTO) interactions for children reliant on long-term tracheostomies. Both the author metadata and OSDG assign \gls{SDG}~3 (\enquote{Good Health and Well-Being}) exclusively.
+
+\begin{itemize}
+  \item \textbf{Bilingual Clinical Signal Recovery:} Incorporating domain-specific clinical and intensive-care terminology (\enquote{tracheostomy}, \enquote{trakeostomi}, \enquote{intensive care}, \enquote{intensivvård}, and \enquote{adverse events}) alongside core health terms (\enquote{health}, \enquote{healthcare}, \enquote{sjukvård}) raises \gls{SDG}~3 from \num{20} to \num{51}~hits across the English and Swedish abstracts, establishing an unambiguous primary classification.
+  
+  \item \textbf{Cross-Domain Homonym and Hyphenation Collisions:} Prior to lexical refinement, two domain-specific compounds produced spurious secondary hits under socio-economic and agricultural goals:
+  \begin{enumerate}
+    \item \textbf{Medical technology dependence vs.\ household poverty (\gls{SDG}~1):} The phrase \enquote{dependent children} initially triggered 8~hits under \gls{SDG}~1 from occurrences of \enquote{tracheostomy-dependent children}. Applying a negative lookbehind (\texttt{(?<!-)\textbackslash bdependent children\textbackslash b}) eliminates ASCII-hyphenated medical compounds, leaving only a single residual hit caused by a Unicode non-breaking hyphen (\texttt{U+2011}) in \enquote{tracheostomy\char"2011 dependent children} --- underscoring the importance of Unicode hyphen normalization prior to regex matching.
+    
+    \item \textbf{Sociological domestication of technology vs.\ agricultural domestication (\gls{SDG}~2):} In Science and Technology Studies (STS), \enquote{domestication} describes how households integrate a medical device into daily routines (\enquote{domestication of technology}). Excluding that explicit collocation via negative lookahead removes the keyword-level false positive while retaining two general occurrences of \enquote{domestication} (\gls{SDG}~2: 2~hits) as minor background noise well below the dominant 51-hit clinical signal.
+  \end{enumerate}
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Handling cross-domain polysemy requires considering the terms in the context in which they are used, rather than in isolation. In a primarily lexicon-based program, this ability is more limited than when using an \gls{LLM}.
+\medskip
+
+Unicode normalization, and in this case, Unicode hyphen normalization, is once again shown to be important and has now been incorporated into the program.
+\end{takeaway}
+
+\Needspace*{8\baselineskip}
+\begin{casestudySection}[Detecting Implausible Author-Assigned SDG Metadata]
+\label{cs:diva2_2052118}
+Consider the following:
+\begin{lstlisting}[language={json}, inputencoding=utf8, caption={t\_74501.json (manually reformatted to keep only one abstract per language and added newlines after the end of paragraphs)}, label=lst:t_74501.json]
+{
+  "divaID": "diva2:2052118",
+  "Title": {
+    "Main title": "Ethical Reasoning in Tech Work",
+    "Language": "eng",
+    "Subtitle": "From Individual Responsibility to Collective Action"
+  },
+  "keywords": {
+    "eng": "ethics, moratily, emotions, interview study, responsibility"
+  },
+  "abstracts": {
+    "eng": "<p>Technology production is a complex process that requires the accumulation of resources and in which very little is done individually. Given the fragmentation of tech development and the limits of individual action, how much can tech workers affect the tech they produce? Do they care about the tech they are building and its implications for the world? Who should act to ensure that technology is “ethical”? What are the possibilities for individual and collective action that exist in tech workplaces? These are the questions I aim to answer in my dissertation. </p>
+    <p>This dissertation is an interdisciplinary project connecting four studies with the methods from design research, ethnomethodology and sociology. The papers are published within the fields of human-computer interaction (HCI) and computer supported cooperative work (CSCW) and positioned within the tradition of studying ethics in practice, which approaches ethics by studying the work practices in specific tech organisations. Theoretically, my work is grounded in the philosophical tradition of ethics of care with its focus on concrete situated actions instead of omnirelevant rules, in the ethnomethodological tradition of respecifying theoretical phenomena as matters of practice, and in moral anthropology with its focus on ethics as shaped by communities.   </p>
+    <p>The four papers combined in the thesis explore the ethical reasoning of tech practitioners in academic settings, government officials working with AI in Sweden, and technology practitioners working in commercial companies in Europe. I rely on a variety of qualitative data: (1) a video-ethnography of design ideation sessions at the university; (2) an interview-study of ethical responsibility by tech practitioners in academia, governmental sector and the industry; (3) a a workshop-based study of voicing discomfort (critique) in a design workshop with academic; (4) an interview-based study of ethics discourses in tech companies in Europe. The studies contribute to design and HCI with an empirical research of ethical reasoning in everyday design work.  </p>
+    <p>The thesis aims to advance an anthropological, human-centred take on ethics in HCI. I argue in favour of including affect and emotion of tech practitioners into the discussion on ethics in HCI and emphasise the limitations of an individualistic take on ethics. Affect is important for connecting the level of everyday practices with structural power relations. Understanding the limitations of individual action and focusing on the potential for collective action instead is important for balancing responsibility with power. This thesis also draws attention to the inequality within the tech sector as a factor that hinders the possibility for forming a shared agenda and engaging in collective action. </p>",
+    "swe": "<p>Teknikproduktion är en komplex process som kräver ackumulering av resurser och där väldigt lite görs individuellt. Med tanke på fragmenteringen av utvecklingen av teknik och begränsningarna för individuellt agerande, hur mycket kan arbetare påverka den teknik de producerar? Bryr de sig om den teknik de producerar och dess konsekvenser för världen? Vem bör agera för att säkerställa att tekniken är “etisk”? Vilka möjligheter för individuellt och kollektivt agerande finns det på teknikarbetsplatser? Det är dessa frågor jag strävar efter att besvara i min avhandling.</p>
+    <p>Denna avhandling är ett tvärvetenskapligt projekt som kopplar samman fyra studier innehållande metoder från designforskning, etnometodologi och sociologi. Artiklarna är publicerade inom områdena människa-datorinteraktion (MDI) och datorstödd kooperativt arbete (CSCW) och positionerade inom praktisk etik, en forskningsansats som studerar etik genom att granska arbetsmetoder i specifika teknikorganisationer. Mitt arbete är teoretiskt grundat i den filosofiska traditionen i omsorgsetik med fokus på konkreta situerade handlingar istället för allmängiltiga regler, i den etnometodologiska traditionen att specificera teoretiska fenomen som praktiska frågor, och i moralantropologi med fokus på etik som formas av samhällen.</p>
+    <p>De fyra artiklarna som kombineras i avhandlingen utforskar det etiska resonemanget hos teknikutövare i akademiska miljöer, myndighetspersoner som arbetar med AI i Sverige och teknikutövare som arbetar i kommersiella företag i Europa. Jag förlitar mig på en mängd olika kvalitativa data: (1) en videoetnografi av designsessioner vid universitetet; (2) en intervjustudie om tillskrivning av etiskt ansvar av teknikutövare inom akademin, den offentliga sektorn och industrin; (3) en workshopbaserad studie av uttryck för obehag (kritik) i en designworkshop med akademiker; (4) en intervjubaserad studie av etiska diskurser i teknikföretag i Europa. Studierna bidrar till design- och MDI-fälten med empirisk forskning om etiskt resonemang i vardagligt designarbete.</p>
+    <p>Avhandlingen syftar till att främja en antropologisk, människocentrerad syn på etik inom MDI. Jag argumenterar för att inkludera affekt och känsla i diskussionen om etik inom MDI och betonar begränsningarna med en individualistisk syn på etik. Affekt är viktigt för att koppla samman vardagliga observerbara arbetsmetoder med strukturella maktrelationer inom tekniksektorn. Att förstå begränsningarna med individuellt handlande och istället fokusera på potentialen för ett kollektivt handlande är viktigt för att balansera ansvar med makt. Denna avhandling uppmärksammar också ojämlikheten inom tekniksektorn som en faktor som hindrar möjligheten att forma en gemensam agenda och engagera sig in kollektivt handlande.</p>"
+  },
+  "SDGs": "2"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_74501Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_74501
+=================================================================
+==> Dual-Language SDG Classification Report: t_74501
+Match Vector (SDG 1 - 17):
+[1, 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 0, 0, 0, 2, 0]
+
+Assigned value in JSON: "2"
+
+Top Keyword Matching Goals:
+  [ 1] SDG  9 :    3 hit(s)
+       * "AI": 2
+       * "research and development AND ("productiv*" OR "technolog*" OR "innovati*" OR "infrastructure" OR "industrialization")": 1
+  [ 2] SDG  8 :    2 hit(s)
+       * "human-computer interaction": 1
+       * "människa-datorinteraktion": 1
+  [ 3] SDG 16 :    2 hit(s)
+       * "power relations": 1
+       * "maktrelationer": 1
+  [ 4] SDG  1 :    1 hit(s)
+       * "inequality": 1
+  [ 5] SDG 10 :    1 hit(s)
+       * "inequality": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 2"
+=================================================================
+\end{lstlisting}
+
+Record \texttt{diva2:2052118} (\textit{Ethical Reasoning in Tech Work: From Individual Responsibility to Collective Action}) is a dissertation examining ethical reasoning, workplace practices, and collective action among tech practitioners and Swedish government \gls{AI} officials within \gls{HCI} and \gls{CSCW}. While the author-deposited metadata assigns \gls{SDG}~2 (\enquote{Zero Hunger}), OSDG predicts \gls{SDG}~16 (\enquote{Peace, Justice and Strong Institutions}).
+
+\begin{itemize}
+  \item \textbf{Exposing Implausible Self-Deposit Metadata (\gls{SDG}~2: 0~hits):} Neither the English nor the Swedish abstract, title, or keywords contain any reference to agriculture, nutrition, food security, or hunger. Combined with the spelling error in the supplied keyword list (\enquote{moratily}), the recorded \texttt{"SDGs": "2"} value indicates a probable drop-down selection error when entering metadata into \gls{DiVA} rather than an aspirational thematic connection. As shown in \Cref{lst:t_74501Output}, running in scoped mode simply echoes the pre-assigned \enquote{SDG 2} despite its \num{0}-hit score, whereas unscoped evaluation immediately flags the zero-evidence assignment.
+  
+  \item \textbf{Bilingual Recovery of Substantive Thematic Goals:} Evaluating both languages in unscoped mode with \texttt{--min-hits 2} surfaces three substantive dimensions supported by explicit textual evidence while suppressing single-occurrence noise (\enquote{inequality}: 1~hit each under \glspl{SDG}~1 and 10):
+  \begin{enumerate}
+    \item \textbf{Technology and \gls{AI} production (\gls{SDG}~9: 3~hits):} Captured via \enquote{AI} (2~hits) and the \enquote{research and development} rule (1~hit), reflecting the dissertation's focus on industrial technology production and public-sector \gls{AI} work.
+    
+    \item \textbf{Workplace practices and collective action (\gls{SDG}~8: 2~hits):} Matched symmetrically across languages via \enquote{human-computer interaction} (1~hit) and \enquote{människa-datorinteraktion} (1~hit), aligning with the investigation of tech workplaces (\enquote{teknikarbetsplatser}) and worker agency.
+    
+    \item \textbf{Structural power relations and institutional accountability (\gls{SDG}~16: 2~hits):} Captured symmetrically via \enquote{power relations} (1~hit) and \enquote{maktrelationer} (1~hit), corroborating OSDG's classification of the public-sector governance and ethical accountability themes.
+  \end{enumerate}
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Pre-assigned metadata tags can propagate self-deposit data-entry errors when evaluated in scoped mode. Unscoped dual-language lexical matching provides an auditable verification layer that flags zero-evidence \gls{SDG} assignments while identifying the substantive underlying goals supported by the abstracts.
+\end{takeaway}
+
+\clearpage
 \section{Conclusions}
 \label{sec:Conclusions}
 
@@ -3747,6 +3917,13 @@ When authors paste abstracts into \gls{DiVA} metadata fields, ensure that word s
 
 \subsection{For Automated Classification Tools}
 Bootstrap the dual-language program's lexicon expansion via OSDG disagreement mining on non-English records.
+
+\begin{recommendation}[Separate pre-deposit author guidance from unscoped retrospective repository audits]
+\label{rec:unscopedRetrospectiveAudits}
+In the normal pre-deposit workflow, an author runs \fname{sdg\_classifier\_dual\_language.py} on a draft title, abstract, and keyword set before entering metadata into \gls{DiVA}. Because no \texttt{"SDGs"} field exists yet at that stage, the three-tier precedence rule (\Cref{sec:threeTierSuggestionPrecedence}) falls through directly to unscoped keyword inference, helping the author select substantiated goals before submission.
+
+For retrospective audits of existing \gls{DiVA} records, however, repository managers should evaluate records with metadata-scoping disabled --- or automatically flag any pre-assigned \gls{SDG} whose entry in the 17-element \texttt{Match Vector} is \num{0}. Relying solely on scoped suggestions in batch audits allows drop-down selection errors (such as \texttt{"SDGs": "2"} in \Cref{cs:diva2_2052118}) and unsupported downstream tags to pass through unchallenged, whereas comparing pre-assigned values against unscoped match counts surfaces zero-evidence metadata immediately for curator review (while still distinguishing unsubstantiated tags from domain vocabulary gaps as in \Cref{cs:CircularConcreteStructuralTesting}).
+\end{recommendation}
 
 \clearpage
 \phantomsection % Directs hyperref to anchor exactly here
