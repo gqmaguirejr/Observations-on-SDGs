@@ -373,15 +373,28 @@ The \glspl{SDG} are designed as \textit{universal policy objectives and outcomes
 When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
 Lukas Pukelis, Nuria Bautista-Puig, Gustė Statulevičiūtė, Vilius Stančiauskas, Gokhan Dikmener, and Dina Akylbekova~\cite{pukelis2022osdg20multilingualtool}.
 
-The Python program I developed is called \texttt{sdg\_classifier\_dual\_language.py} and is available in the \dname{scripts} directory of the GitHub project \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing}. It uses a combination of acronyms and terms together with \mbox{co-occurrence} information. It builds on:
+The Python program I developed is called \fname{sdg\_classifier\_dual\_language.py} and is available in the \dname{scripts} directory of the GitHub project \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing}. It uses a combination of acronyms and terms together with \mbox{co-occurrence} information, building on:
 \begin{itemize}
-    \item Elsevier Data Repository, V4~\cite{Rivest2021_SDG} as extracted from files at \url{https://elsevier.digitalcommonsdata.com/datasets/9sxdykm8s4/4} on 2026.10.05. It is available under a CC BY 4.0 license. 
+    \item Elsevier Data Repository, V4~\cite{Rivest2021_SDG}, as extracted from files at \url{https://elsevier.digitalcommonsdata.com/datasets/9sxdykm8s4/4} on 2026.10.05 (available under a CC BY 4.0 license).
 
-    \item  UoA-SDG-Keyword-List-Ver.-1.1.xlsx \url{https://www.sdgmapping.auckland.ac.nz/files/2020/10/UoA-SDG-Keyword-List-Ver.-1.1.xlsx} from the University of Auckland SDG Keywords Dictionary Project~\cite{Wang2023_UoA_SDG_Mapping}.
+    \item \fname{UoA-SDG-Keyword-List-Ver.-1.1.xlsx} (\url{https://www.sdgmapping.auckland.ac.nz/files/2020/10/UoA-SDG-Keyword-List-Ver.-1.1.xlsx}) from the University of Auckland SDG Keywords Dictionary Project~\cite{Wang2023_UoA_SDG_Mapping}.
 
-    \item The STRINGS project (Science, Technology, Research and Innovations for the Global Goals) is a global research initiative led by the Science Policy Research Unit (SPRU) at the University of Sussex, UCL STEaPP, and the UNDP to map and align science and innovation with the \gls{UN} Sustainable Development Goals (SDGs)~\cite{Confraria2024_STRINGS_SDG}. It is available under the Creative Commons Attribution 4.0 International license.
-
+    \item The STRINGS project (Science, Technology, Research and Innovations for the Global Goals), led by the Science Policy Research Unit (SPRU) at the University of Sussex, UCL STEaPP, and the \gls{UN} Development Programme (UNDP)~\cite{Confraria2024_STRINGS_SDG} (available under a Creative Commons Attribution 4.0 International license).
 \end{itemize}
+This program is sometimes referred to in the text as a \enquote{dual-language classifier}.
+
+Because lexical and semantic \gls{SDG} classifiers operate on surface text across multiple disciplines and languages, several linguistic phenomena govern both signal recovery and false-positive noise throughout the case studies in \Cref{sec:CaseStudies}:
+\begin{description}
+    \item[Synonyms and Cross-Lingual Equivalents] Different terms within or across languages that express the same underlying concept (\eg English \enquote{tracheostomy} and Swedish \enquote{trakeostomi}, or disciplinary \enquote{kulturhistorisk} vs.\ \gls{UN} \enquote{cultural heritage}). Omitting domain or Swedish-language synonyms leads to under-detection (false negatives).
+
+    \item[Polysemy] The capacity of a single word or phrase to carry multiple related senses depending on disciplinary context (\eg \enquote{domestication} in agriculture vs.\ sociological domestication of technology in \Cref{cs:diva2_2078980}, or \enquote{energy dissipation} in power generation vs.\ dam spillway hydraulics in \Cref{cs:CompetingPhysicalFalseFriends}). Uncontextualized matching of polysemous terms produces cross-domain false positives.
+
+    \item[Homonyms and Domain False Friends] Terms that share an identical surface form across unrelated domains (\eg \enquote{dependent children} in pediatric medical-device dependence under \gls{SDG}~3 vs.\ household poverty under \gls{SDG}~1, or \enquote{rättvisa} in procedural and legal justice under \gls{SDG}~16 vs.\ socio-economic equity under \gls{SDG}~10).
+
+    \item[Co-Occurrence Rules] Boolean or proximity rules (\eg those derived from the STRINGS project) that require multiple terms to appear within the same text before registering a match, reducing false positives from isolated generic words while occasionally matching substrings inside hyphenated compounds (\eg \texttt{urban} inside \enquote{semi-urban} in \Cref{cs:LightPollutionAndPartialOverTagging}).
+
+    \item[Trace Hits (Lexical Noise) vs.\ Substantive Matches] Low-count matches (typically \num{1}--\num{2}~hits) triggered by passing examples, measurement platforms, or background covariates, contrasted with high-count, multi-term matches that reflect a publication's core \gls{SDG} contribution.
+\end{description}
 
 \section{Methodology}
 \label{sec:Methodology}
@@ -562,6 +575,7 @@ Furthermore, this study does not identify individual authors; rather, it aims to
 
 
 \section{Case studies}
+\label{sec:CaseStudies}
 The exact counts of the number of instances of given terms can vary as the program continues to evolve; therefore, these numbers should be taken as indicative and not absolute.
 
 \Needspace*{8\baselineskip}
@@ -3865,6 +3879,64 @@ Record \texttt{diva2:2052118} (\textit{Ethical Reasoning in Tech Work: From Indi
 \begin{takeaway}
 Pre-assigned metadata tags can propagate self-deposit data-entry errors when evaluated in scoped mode. Unscoped dual-language lexical matching provides an auditable verification layer that flags zero-evidence \gls{SDG} assignments while identifying the substantive underlying goals supported by the abstracts.
 \end{takeaway}
+
+\begin{casestudySection}[Non-SDG Foundational Research and Repository Deposit Pressure]
+\label{cs:diva2_2107472}
+Consider the following:
+\begin{lstlisting}[language={json}, inputencoding=utf8, caption={t\_78848.json (manually reformatted to keep only one abstract per language and added newlines after the end of paragraphs)}, label=lst:t_78848.json]
+{
+  "divaID": "diva2:2107472",
+  "Title": {
+    "Main title": "Hear Here",
+    "Language": "eng",
+    "Subtitle": "Perception and Vocal Adaptation in Virtual Choir Singing"
+  },
+  "keywords": {
+    "eng": "choir acoustics, virtual acoustics, choir spacing, Self-to-Other Ratio (SOR), self-hearing, vocal adaptation"
+  },
+  "abstracts": {
+    "eng": "<p>Choir sound emerges from individual singers, yet each singer also hears and responds to the collective sound of the ensemble from within it. Studying this relationship under controlled conditions is challenging in live choir experiments, where the singer’s own voice, the surrounding voices, the room response, and the ongoing adaptations of performers are all present in the sound field. Consequently, the singer’s own voice (Self) and the surrounding ensemble (Other) are difficult to isolate and control independently under repeatable conditions. This thesis aimed to establish a controlled experimental framework for investigating choir acoustics at the level of the individual singer and to examine how such a framework can be used to study singers’ perception, Self–Other balance, and vocal adaptation.</p>
+    <p>Across the included studies, controlled interaction with reproduced Other, spatial rendering, and the representation of Self informed an integrated virtual choir framework that kept the singer actively performing. The framework was applied in a within-singer choir-spacing experiment with 39 experienced choir singers performing one at a time with spatialised virtual-choir playback under three spacing conditions. Perceptual responses were analysed alongside separated, calibrated, system-referenced measures of Self level, Other level, and Self-to-Other Ratio (SOR).</p>
+    <p>Wider spacing increased perceived audibility of Self and was associated with greater perceived ease of tuning, whereas the audibility of different parts of Other showed no uniform improvement. Most singers favoured wider spacing for concert performance. Other changed substantially more than Self, so the Self–Other balance shifted across conditions rather than being restored. The Self–Other relationship became more apparent at phrase level, and perceived self-hearing was more clearly associated with SOR than with Self level alone. These findings demonstrate the feasibility of investigating singer–ensemble interaction with controlled virtual acoustics during active singing.</p>",
+    "swe": "<p>Körens ljud uppstår när många enskilda sångare sjunger tillsammans, samtidigt som varje sångare hör och reagerar på ensemblens samlade klang inifrån kören. I levande körer uppstår ett komplext ljudfält, där sångarens egen röst, de omgivande rösterna, rummets respons och sångarnas fortlöpande anpassningar alla är närvarande. Sångarens egen röst (eng. Self) och de övriga rösterna (eng. Other) blir svåra att separera och styra oberoende av varandra på ett reproducerbart sätt. Detta arbete syftade till att etablera ett validerat experimentellt ramverk av utrustning och metoder med virtuell akustik, för att kunna undersöka körakustik utifrån den enskilda sångarens akustiska betingelser, för att sedan studera sångares perception, själv-andra-balans och röstanpassning. Avhandlingens delstudier har alla bäring på detta problem. </p>
+    <p>Det resulterande ramverket möjliggör kontrollerad interaktion med inspelad Other, rumslig återgivning och egen medhörning i ett tekniskt och metodologiskt ramverk för studier med virtuella körer, i vilka sångaren/forskningspersonen förblir aktiv. I huvud-experimentet fick 39 erfarna körsångare sjunga en i taget tillsammans med en rumsligt återgiven virtuell kör, under tre avståndsbetingelser. Utifrån en enkät analyserades sångarnas egna skattningar av betingelserna jämfört med separerade, kalibrerade och systemrefererade mått på ljudnivåerna för egen röst, övriga röster och själv-andra-förhållandet (eng. Self-to-Other Ratio, SOR).</p>
+    <p>Större avstånd ökade den upplevda hörbarheten för den egna rösten och förknippades med större upplevd lätthet att intonera, medan hörbarheten för olika delar av övrigljudet inte förbättrades enhetligt. De flesta sångarna föredrog större avstånd vid konsertframförande. Nivån för övrigljudet påverkades betydligt mer än den egna rösten nivå, så att själv-andra-balansen försköts mellan betingelserna i stället för att vidmakthållas. Sambandet mellan Self och Other blev tydligare vid uppdelad analys av  enstaka musikaliska fraser, och den upplevda hörbarheten för den egna rösten var tydligare relaterad till SOR än till enbart den egna rösten nivå. Resultaten visar att kontrollerad virtuell akustik kan användas för att undersöka interaktionen mellan sångare och ensemble under aktiv sång.</p>"
+  },
+  "SDGs": "3, 4"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_78848Output]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_78848
+=================================================================
+==> Dual-Language SDG Classification Report: t_78848
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "3, 4"
+
+Top Keyword Matching Goals:
+  (No significant keyword matches found)
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 3, SDG 4"
+=================================================================
+\end{lstlisting}
+
+The \gls{DiVA} record \texttt{diva2:2107472} (\textit{Hear Here: Perception and Vocal Adaptation in Virtual Choir Singing}) is a dissertation in musical and room acoustics that establishes an experimental virtual-choir framework to investigate choir spacing, Self-to-Other Ratio (SOR), and singers' vocal adaptation. Although the author assigned \gls{SDG}~3 (\enquote{Good Health and Well-Being}) and \gls{SDG}~4 (\enquote{Quality Education}), both OSDG and the dual-language classifier return no \gls{SDG} matches.
+
+\begin{itemize}
+    \item \textbf{All-Zero Match Vector Across Both Languages:} Evaluating both the English and Swedish abstracts yields an all-zero match vector across all \num{17} goals, corroborating OSDG's refusal to classify the record (while scoped output merely echoes \enquote{SDG 3, SDG 4} under the metadata-precedence rule of \Cref{sec:threeTierSuggestionPrecedence}). Neither abstract contains clinical, public-health, or medical terminology (\gls{SDG}~3) or formal schooling, curriculum, or educational-policy terminology (\gls{SDG}~4).
+  
+  \item \textbf{Repository Deposit Pressure vs.\ Foundational Science:} Like pure mathematics, theoretical physics (\eg \Cref{cs:satisficingSDG}), or fundamental chemistry, basic perceptual acoustics investigates foundational physical and human-sensory phenomena rather than sustainable development targets. When self-archiving workflows encourage or prompt authors to select \glspl{SDG}, researchers in non-applied or artistic-technical domains frequently assign \gls{SDG}~3 or \gls{SDG}~4 by loose cultural association (\eg associating singing with personal well-being and musical rehearsal with learning).
+\end{itemize}
+\end{casestudySection}
+
+\begin{takeaway}
+Not all scholarly research maps meaningfully onto the \gls{UN} \glspl{SDG}, nor does every publication need to claim \gls{SDG} alignment. An all-zero match vector across both languages acts as an essential negative control, demonstrating that lexical restraint prevents overfitting and avoids inflating institutional \gls{SDG} metrics across foundational and non-applied disciplines.
+\end{takeaway}
+
 
 \clearpage
 \section{Conclusions}
