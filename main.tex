@@ -408,10 +408,11 @@ Because lexical and semantic \gls{SDG} classifiers operate on surface text acros
 
 \section{Methodology}
 \label{sec:Methodology}
-This project extracted the \gls{SDG} notes available via \gls{DiVA} on 7 November 2026 using a Jupyter notebook. The data was collected by exporting \gls{MODS} files for the following types of publications: "bookReview", "comprehensiveDoctoralThesis", "review", "monographDoctoralThesis", "article", "comprehensiveLicentiateThesis", "artisticOutput", "monographLicentiateThesis", "book", "manuscript", "chapter", "other", "collection", "patent", "conferencePaper", "report", "conferenceProceedings", "studentThesis", "dissertation". The \gls{MODS} \gls{XML} was parsed and the publications inserted into a Python Pandas DataFrame. Metadata for publications with \glspl{SDG} was exported in \gls{JSON} format with the code shown in \Cref{lst:checkSDGs}.
+This project extracted the \gls{SDG} notes available via \gls{DiVA} on 7 November 2026 using a Jupyter notebook. The data was collected by exporting \gls{MODS} files for the following types of publications: \enquote{bookReview}, \enquote{comprehensiveDoctoralThesis}, \enquote{review}, \enquote{monographDoctoralThesis}, \enquote{article}, \enquote{comprehensiveLicentiateThesis}, \enquote{artisticOutput}, \enquote{monographLicentiateThesis}, \enquote{book}, \enquote{manuscript}, \enquote{chapter}, \enquote{other}, \enquote{collection}, \enquote{patent}, \enquote{conferencePaper}, \enquote{report}, \enquote{conferenceProceedings}, \enquote{studentThesis}, and \enquote{dissertation}. The \gls{MODS} \gls{XML} was parsed and the publications inserted into a Python Pandas DataFrame. Metadata for publications with \glspl{SDG} was exported in \gls{JSON} format with the code shown in \Cref{lst:checkSDGs}.
 
 \begin{lstlisting}[language=Python, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Python code for check\_SDGs() to extract \gls{SDG} data and output it as \gls{JSON}}, label=lst:checkSDGs]
+
 def write_JSON(fordiva_data, document_number):
     os.makedirs("/tmp/SDGs", exist_ok=True)
     output_file = f"/tmp/SDGs/t_{document_number}.json"
@@ -421,6 +422,9 @@ def write_JSON(fordiva_data, document_number):
 
 def check_SDGs():
     global Verbose_Flag
+    
+    output_DiVA_IDs=set() # set of diva_id records already processed
+    
     document_number = 0
 
     for school in sorted(schools_info):
@@ -432,6 +436,10 @@ def check_SDGs():
             fordiva_data = dict()
 
             diva_id = row.get('recordInfo.recordIdentifier')
+            # only process each diva_id record once
+            if diva_id in output_DiVA_IDs:
+                continue
+                
             fordiva_data['divaID'] = diva_id
 
             sdgs_codes = row.get('sustainableDevelopment')
@@ -547,8 +555,10 @@ def check_SDGs():
             # -------------------------------------------------------------
             # 6. Write to JSON
             # -------------------------------------------------------------
-            document_number += 1
-            write_JSON(fordiva_data, document_number)
+            if diva_id not in output_DiVA_IDs:
+                document_number += 1
+                write_JSON(fordiva_data, document_number)
+                output_DiVA_IDs.add(diva_id)
 
     return document_number
 
@@ -613,9 +623,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_141736Output]
- ./sdg_classifier_dual_language.py /tmp/SDGs/t_141736 --verbose
+ ./sdg_classifier_dual_language.py /tmp/SDGs/t_141736.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_141736
+==> Dual-Language SDG Classification Report: t_141736.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -673,9 +683,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_141404Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_141404 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_141404.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_141404
+==> Dual-Language SDG Classification Report: t_141404.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -738,9 +748,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:123456Output]
- ./sdg_classifier_dual_language.py /tmp/SDGs/t_123456 --verbose
+ ./sdg_classifier_dual_language.py /tmp/SDGs/t_123456.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_123456
+==> Dual-Language SDG Classification Report: t_123456.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 4, 0, 0, 0, 0, 26, 0, 0, 24, 0, 0, 0, 0, 0]
 
@@ -834,9 +844,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_141830Output]
-    ./sdg_classifier_dual_language.py /tmp/SDGs/t_141830 --verbose
+    ./sdg_classifier_dual_language.py /tmp/SDGs/t_141830.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_141830
+==> Dual-Language SDG Classification Report: t_141830.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 82, 0, 17, 2, 121, 0, 2, 0, 0, 0, 0]
 
@@ -909,9 +919,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_142021Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_142021 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_142021.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_142021
+==> Dual-Language SDG Classification Report: t_142021.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 12, 0, 0, 0, 0, 0, 0]
 
@@ -994,9 +1004,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_143470Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_143470 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_143470.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_143470
+==> Dual-Language SDG Classification Report: t_143470.json
 Match Vector (SDG 1 - 17):
 [0, 0, 4, 0, 0, 0, 0, 0, 79, 0, 4, 0, 0, 0, 0, 0, 0]
 
@@ -1064,9 +1074,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_144856Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_144856 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_144856.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_144856
+==> Dual-Language SDG Classification Report: t_144856.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 11, 0, 0, 0, 0, 1, 0]
 
@@ -1140,9 +1150,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_144936Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_144936 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_144936.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_144936
+==> Dual-Language SDG Classification Report: t_144936.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 1, 14, 0, 0, 0, 16, 0, 13, 0, 0, 0, 0]
 
@@ -1267,9 +1277,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_145010Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_145010 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_145010.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_145010
+==> Dual-Language SDG Classification Report: t_145010.json
 Match Vector (SDG 1 - 17):
 [0, 0, 3, 0, 0, 0, 8, 0, 96, 0, 29, 0, 1, 0, 0, 0, 0]
 
@@ -1411,9 +1421,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_12808Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_12808 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_12808.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_12808
+==> Dual-Language SDG Classification Report: t_12808.json
 Match Vector (SDG 1 - 17):
 [0, 0, 4, 0, 0, 0, 0, 0, 77, 0, 27, 0, 0, 0, 1, 1, 0]
 
@@ -1493,9 +1503,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_147969Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_147969 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_147969.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_147969
+==> Dual-Language SDG Classification Report: t_147969.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 16, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -1553,9 +1563,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_20802Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_20802
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_20802.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_20802
+==> Dual-Language SDG Classification Report: t_20802.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 5, 0, 0, 0, 4, 0, 0]
 
@@ -1640,9 +1650,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_152511Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_152511
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_152511.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_152511
+==> Dual-Language SDG Classification Report: t_152511.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 1, 0, 0, 17, 0, 0, 1, 0, 0, 0, 0, 0]
 
@@ -1726,9 +1736,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_1482Output]
- ./sdg_classifier_dual_language.py /tmp/SDGs/t_1482 --verbose
+ ./sdg_classifier_dual_language.py /tmp/SDGs/t_1482.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_1482
+==> Dual-Language SDG Classification Report: t_1482.json
 Match Vector (SDG 1 - 17):
 [22, 8, 0, 0, 0, 0, 22, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0]
 
@@ -1823,9 +1833,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_149108Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_149108 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_149108.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_149108
+==> Dual-Language SDG Classification Report: t_149108.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 7, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -1904,9 +1914,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_21258Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_21258
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_21258.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_21258
+==> Dual-Language SDG Classification Report: t_21258.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 8, 14, 0, 0, 0, 0, 0]
 
@@ -1970,9 +1980,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_150476Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_150476 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_150476.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_150476
+==> Dual-Language SDG Classification Report: t_150476.json
 Match Vector (SDG 1 - 17):
 [0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -2033,9 +2043,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_150695Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_150695 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_150695.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_150695
+==> Dual-Language SDG Classification Report: t_150695.json
 Match Vector (SDG 1 - 17):
 [0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -2097,9 +2107,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_150949Output]
-./sdg_classifier_dual_language.py /tmp/SDGs/t_150949 --verbose
+./sdg_classifier_dual_language.py /tmp/SDGs/t_150949.json --verbose
 =================================================================
-==> Dual-Language SDG Classification Report: t_150949
+==> Dual-Language SDG Classification Report: t_150949.json
 Match Vector (SDG 1 - 17):
 [0, 0, 39, 0, 0, 0, 5, 0, 6, 3, 43, 0, 0, 0, 0, 1, 0]
 
@@ -2181,9 +2191,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_152070Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_152070
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_152070.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_152070
+==> Dual-Language SDG Classification Report: t_152070.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -2249,9 +2259,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_15302Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15302
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15302.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_15302
+==> Dual-Language SDG Classification Report: t_15302.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 27, 0, 0, 0, 0, 0, 0]
 
@@ -2315,9 +2325,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_15611Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15611
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15611.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_15611
+==> Dual-Language SDG Classification Report: t_15611.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 23, 9, 49, 1, 9, 0, 0]
 
@@ -2403,9 +2413,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_15766Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15766
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_15766.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_15766
+==> Dual-Language SDG Classification Report: t_15766.json
 Match Vector (SDG 1 - 17):
 [6, 31, 0, 0, 0, 0, 4, 1, 0, 0, 6, 0, 0, 0, 1, 0, 2]
 
@@ -2489,9 +2499,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_161329Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_161329
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_161329.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_161329
+==> Dual-Language SDG Classification Report: t_161329.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 3, 0, 0, 0, 0, 0, 0]
 
@@ -2551,9 +2561,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_162455Output]
- ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162455
+ ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162455.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_162455
+==> Dual-Language SDG Classification Report: t_162455.json
 Match Vector (SDG 1 - 17):
 [0, 0, 1, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 4, 0, 0, 0]
 
@@ -2640,9 +2650,9 @@ This case study illustrates OSDG's length-threshold abstention on concise, domai
 \end{lstlisting}
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_162668Output]
- ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162668
+ ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162668.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_162668
+==> Dual-Language SDG Classification Report: t_162668.json
 Match Vector (SDG 1 - 17):
 [0, 0, 6, 0, 0, 0, 0, 0, 14, 0, 14, 0, 0, 0, 0, 0, 0]
 
@@ -2669,9 +2679,9 @@ Suggested 'SDGs' value: "SDG 9, SDG 11"
 \end{lstlisting}
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_162669Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162669
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_162669.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_162669
+==> Dual-Language SDG Classification Report: t_162669.json
 Match Vector (SDG 1 - 17):
 [0, 0, 7, 0, 0, 0, 0, 0, 13, 4, 10, 0, 0, 0, 0, 0, 0]
 
@@ -2755,9 +2765,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_17547Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17547
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17547.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_17547
+==> Dual-Language SDG Classification Report: t_17547.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 1, 2, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 13, 0]
 
@@ -2852,9 +2862,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output (prior to expanding \gls{SDG}~16 governance vocabulary)}, label=lst:t_17592Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17592
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17592.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_17592
+==> Dual-Language SDG Classification Report: t_17592.json
 Match Vector (SDG 1 - 17):
 [2, 0, 0, 0, 0, 0, 0, 8, 5, 2, 69, 1, 0, 0, 2, 3, 0]
 
@@ -2936,9 +2946,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output (prior to adding mobility-hub vocabulary)}, label=lst:t_17603Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17603
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17603.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_17603
+==> Dual-Language SDG Classification Report: t_17603.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0]
 
@@ -3003,9 +3013,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_17904Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17904
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_17904.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_17904
+==> Dual-Language SDG Classification Report: t_17904.json
 Match Vector (SDG 1 - 17):
 [3, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 49, 0]
 
@@ -3080,9 +3090,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_18072Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18072
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18072.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_18072
+==> Dual-Language SDG Classification Report: t_18072.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 37, 0, 0, 0, 0, 32, 0]
 
@@ -3158,9 +3168,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_18430Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18430
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18430.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_18430
+==> Dual-Language SDG Classification Report: t_18430.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 1, 2, 41, 0, 22, 0, 0, 0, 0, 0, 0]
 
@@ -3235,9 +3245,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_18531Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18531
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18531.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_18531
+==> Dual-Language SDG Classification Report: t_18531.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 1, 0, 0, 21, 4, 7, 0, 3, 13, 27, 1, 7, 2, 1]
 
@@ -3333,9 +3343,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_125694Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_125694
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_125694.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_125694
+==> Dual-Language SDG Classification Report: t_125694.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 4, 10, 0, 2, 1, 1, 9, 0, 0, 0, 0]
 
@@ -3410,9 +3420,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output (prior to adding Swedish urban heat-island vocabulary)}, label=lst:t_1873Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_1873
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_1873.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_1873
+==> Dual-Language SDG Classification Report: t_1873.json
 Match Vector (SDG 1 - 17):
 [0, 0, 1, 0, 0, 2, 3, 0, 8, 0, 33, 0, 4, 0, 1, 0, 0]
 
@@ -3496,9 +3506,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_18963Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18963
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_18963.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_18963
+==> Dual-Language SDG Classification Report: t_18963.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 1, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -3556,9 +3566,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_21779Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_21779
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_21779.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_21779
+==> Dual-Language SDG Classification Report: t_21779.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 11, 0]
 
@@ -3620,9 +3630,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_22580Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_22580
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_22580.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_22580
+==> Dual-Language SDG Classification Report: t_22580.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0]
 
@@ -3677,9 +3687,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_24331Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_24331
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_24331.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_24331
+==> Dual-Language SDG Classification Report: t_24331.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 5, 0, 1, 0, 0, 0, 15, 0, 0, 0, 0, 14, 0]
 
@@ -3758,9 +3768,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_54434Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_54434
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_54434.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_54434
+==> Dual-Language SDG Classification Report: t_54434.json
 Match Vector (SDG 1 - 17):
 [1, 2, 51, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0]
 
@@ -3840,9 +3850,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_74501Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_74501
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_74501.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_74501
+==> Dual-Language SDG Classification Report: t_74501.json
 Match Vector (SDG 1 - 17):
 [1, 0, 0, 0, 0, 0, 0, 2, 3, 1, 0, 0, 0, 0, 0, 2, 0]
 
@@ -3917,9 +3927,9 @@ Consider the following:
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
     postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_78848Output]
-./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_78848
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_78848.json
 =================================================================
-==> Dual-Language SDG Classification Report: t_78848
+==> Dual-Language SDG Classification Report: t_78848.json
 Match Vector (SDG 1 - 17):
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
