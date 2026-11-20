@@ -44,7 +44,17 @@
     %\setmonofont[Ligatures={NoCommon}, Numbers={Lining,Monospaced}]{TeX Gyre Cursor}  %% Courier like font
     \babelfont{tt}{TeX Gyre Cursor}
 
-
+    \babelprovide[import, onchar=ids fonts]{greek}
+    \babelprovide[import, onchar=ids fonts]{russian}
+    \babelfont[greek, russian]{rm}[
+    % Assuming the fonts are in a place TeX can find them,
+    Extension = .ttf,
+    UprightFont = NotoSerif-Regular,
+    BoldFont = NotoSerif-Bold,
+    ItalicFont = NotoSerif-Italic,
+    BoldItalicFont = NotoSerif-BoldItalic,
+    Language=Default
+]{NotoSerifCustom} % Use a custom internal name   
 
 \usepackage{mathtools}
 \usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
@@ -3878,6 +3888,7 @@ Record \texttt{diva2:2052118} (\textit{Ethical Reasoning in Tech Work: From Indi
 Pre-assigned metadata tags can propagate self-deposit data-entry errors when evaluated in scoped mode. Unscoped dual-language lexical matching provides an auditable verification layer that flags zero-evidence \gls{SDG} assignments while identifying the substantive underlying goals supported by the abstracts.
 \end{takeaway}
 
+\Needspace*{8\baselineskip}
 \begin{casestudySection}[Non-SDG Foundational Research and Repository Deposit Pressure]
 \label{cs:diva2_2107472}
 Consider the following:
@@ -3958,6 +3969,7 @@ There is clear evidence of \enquote{performative \glspl{SDG}} where authors assi
 \label{sec:recommendations}
 This section presents recommendations based on observations from this study to improve the quality of \glspl{SDG}.
 
+\Needspace*{15\baselineskip}
 \subsection{For Authors}
 
 \begin{recommendation}[\gls{SDG} tags should reflect the explicit scope of the work]
@@ -3972,7 +3984,8 @@ UN \glspl{SDG} are defined as universal policy objectives and outcomes rather th
 For example, if the defense or security relevance is \textbf{not} explicitly articulated in the thesis's problem framing, assigning \gls{SDG}~16 blurs the line between what the research actually investigates and what an external stakeholder might eventually use it for.
 \end{recommendation}
 
-\subsection{For Repository Managers and KTH Library}
+\Needspace*{14\baselineskip}
+\subsection{For Supervisors, Repository Managers, and KTH Library}
 
 \begin{recommendation}[Clarify that leaving SDG blank is valid and audit low-count trace hits]
 \label{rec:blankValidAndAudit}
@@ -3981,10 +3994,10 @@ Make clear in \gls{DiVA}'s submission \gls{UI} and in author guidelines that lea
 
 \begin{recommendation}[Enforce text normalization and character-encoding quality control in DiVA]
 \label{rec:divaQualityControl}
-When authors paste abstracts into \gls{DiVA} metadata fields, ensure that word spaces and paragraph breaks are preserved rather than stripped at line boundaries (\Cref{cs:CadastralGovernanceAndTextGluing}), and render embedded footnotes using proper \gls{HTML} markup. Repository quality-control workflows should also scan for concatenated tokens (\eg \texttt{ofcadastral}), mojibake, and homoglyph encoding errors (\eg Cyrillic \enquote{С} [\texttt{U+0421}] substituted for Latin \enquote{C} [\texttt{U+0043}]), and apply Unicode \texttt{NFC} normalization across all metadata fields at ingestion so that defective records are corrected early.
+When authors paste abstracts into \gls{DiVA} metadata fields, ensure that word spaces and paragraph breaks are preserved rather than stripped at line boundaries (\Cref{cs:CadastralGovernanceAndTextGluing}), and render embedded footnotes using proper \gls{HTML} markup. Repository quality-control workflows should also scan for concatenated tokens (\eg \texttt{ofcadastral}), mojibake, and homoglyph encoding errors (\eg Cyrillic \enquote{С} [\texttt{U+0421}] substituted for Latin \enquote{C} [\texttt{U+0043}]), and apply Unicode \texttt{NFC} normalization and ligature replacement across all metadata fields at ingestion so that defective records are corrected early.
 \end{recommendation}
 
-
+\Needspace*{20\baselineskip}
 \subsection{For Automated Classification Tools}
 Bootstrap the dual-language program's lexicon expansion via OSDG disagreement mining on non-English records.
 
@@ -3994,6 +4007,8 @@ In the normal pre-deposit workflow, an author runs \fname{sdg\_classifier\_dual\
 
 For retrospective audits of existing \gls{DiVA} records, however, repository managers should evaluate records with metadata-scoping disabled --- or automatically flag any pre-assigned \gls{SDG} whose entry in the 17-element \texttt{Match Vector} is \num{0}. Relying solely on scoped suggestions in batch audits allows drop-down selection errors (such as \texttt{"SDGs": "2"} in \Cref{cs:diva2_2052118}) and unsupported downstream tags to pass through unchallenged, whereas comparing pre-assigned values against unscoped match counts surfaces zero-evidence metadata immediately for curator review (while still distinguishing unsubstantiated tags from domain vocabulary gaps as in \Cref{cs:CircularConcreteStructuralTesting}).
 \end{recommendation}
+
+Note that the program \fname{audit\_SDGs\_from\_JSON.py} is designed for auditing a batch of \gls{JSON} records. The file given as an argument should contain concatenated \gls{JSON} records for publications (see \fname{SupportingMaterial/all-with-SDGs.json} for an example of such a file). The program can also be applied to a single \gls{JSON} file.
 
 
 \clearpage
