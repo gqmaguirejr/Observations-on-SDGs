@@ -693,7 +693,7 @@ However, the program's output shows the results of \gls{SDG}~9 terms:
 \item Target 9.4 (upgrade infrastructure and retrofit industries): Pricing models tied to steering performance (classes R1, R2, S) and axle load create direct financial incentives for operators to retrofit or upgrade rolling stock to \enquote{track-friendly} vehicles.
 \end{itemize}
 
-\textbf{NB:} Acronym substring overlap inflates the raw hit count (\eg \texttt{TAC} matching inside \texttt{D-TAC}) inflates the raw hit count.
+\textbf{NB:} Acronym substring overlap inflates the raw hit count (\eg \texttt{TAC} matching inside \texttt{D-TAC}).
 
 \end{casestudySection}
 
@@ -2194,11 +2194,9 @@ Suggested 'SDGs' value: "SDG 9, SDG 16"
 
 OSDG identified \gls{SDG}~9 in agreement with the output of the program shown in  \Cref{lst:t_152070Output}.
 
-The author also included \gls{SDG}~16, despite no terms in the abstracts suggesting this. This stems from extratextual domain knowledge: the thesis investigates fuel sloshing in external stores on composite wings (\enquote{bränsleskvalp i externa laster}), a classic military aerospace application (wing-mounted external fuel tanks on fighter aircraft). Authors working on defense-related aerospace projects at \gls{KTH} appear to routinely tag \gls{SDG}~16 (Peace, Justice and Strong Institutions / national defense and security) in \gls{DiVA} even when the abstract uses neutral engineering phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}) without explicit security or defense keywords. In fact, the word \enquote{defense} only appears as \enquote{D. of Defense} in the author portion of references 4 and 22.
+The author also included \gls{SDG}~16, despite no terms in the abstracts suggesting this. This stems from extratextual domain knowledge: the thesis investigates fuel sloshing in external stores on composite wings (\enquote{bränsleskvalp i externa laster}), a classic military aerospace application (wing-mounted external fuel tanks on fighter aircraft). The research was funded by Vinnova (Sweden's civilian innovation agency) rather than a defense ministry. However, authors working on defense-related aerospace projects at \gls{KTH} appear to routinely tag \gls{SDG}~16 (Peace, Justice and Strong Institutions / national defense and security) in \gls{DiVA} even when the abstract uses neutral engineering phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}) without explicit security or defense keywords. In fact, the word \enquote{defense} only appears as \enquote{D. of Defense} in the author portion of references 4 and 22.
 
-Because the program is scoped to preserve pre-assigned metadata (Suggested '\enquote{SDGs} value: \enquote{\gls{SDG}~9, \gls{SDG}~16}), automated keyword auditing flags the 0 match count for \gls{SDG}~16 so a human reviewer can decide whether extratextual sponsorship justifies keeping it or whether metadata should reflect only what is substantiated in the abstract (\gls{SDG}~9)
-
-However, the author also included \gls{SDG}~16 in \gls{DiVA} (\enquote{9, 16}), despite zero textual evidence in the title, keywords, or abstracts. Although the research was funded by Vinnova (Sweden's civilian innovation agency) rather than a defense ministry, it investigates fuel sloshing in external stores on composite wings (\enquote{bränsleskvalp i externa laster})---a classic dual-use and military aerospace application (wing-mounted external fuel tanks on fighter aircraft). Here, the author appears to have tagged \gls{SDG}~16 (\emph{Peace, Justice and Strong Institutions}, encompassing national security and defense institutions) based on extratextual knowledge of the downstream aerospace application, even though the abstract itself uses purely neutral structural-dynamics phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}). In fact, the word \enquote{defense} appears in the thesis only as \enquote{D. of Defense} in the author affiliation of two bibliography entries (References~4 and 22).
+Because the program is scoped to preserve pre-assigned metadata (Suggested '\enquote{SDGs} value: \enquote{\gls{SDG}~9, \gls{SDG}~16}), automated keyword auditing flags the 0 match count for \gls{SDG}~16 so a human reviewer can decide whether extratextual sponsorship justifies keeping it or whether metadata should reflect only what is substantiated in the abstract (\gls{SDG}~9).
 \end{casestudySection}
 
 \begin{takeaway}
@@ -2582,7 +2580,7 @@ In contrast, as shown in \Cref{lst:t_162455Output}, the program recovered both p
     \item Trace False-Positive Bleed (\gls{SDG}~3: 1 hit): Fired solely on \enquote{disturbances} (specifically from \enquote{platform-induced disturbances}), sitting safely below the \texttt{--min-hits 2} threshold.
 \end{itemize}
 
-\textbf{NB:} Note that \enquote{underwater vehicles} (2 hits) is a substring match inside \enquote{autonomous underwater vehicles} (2 hits). While \gls{SDG}~14 (Target 14.a: increase scientific knowledge, develop research capacity and transfer marine technology) is genuinely warranted by the subsea instrumentation and sea trials.
+\textbf{NB:} Note that \enquote{underwater vehicles} (2 hits) is a substring match inside \enquote{autonomous underwater vehicles} (2 hits). \gls{SDG}~14 (Target 14.a: increase scientific knowledge, develop research capacity and transfer marine technology) is genuinely warranted by the subsea instrumentation and sea trials.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -3184,7 +3182,7 @@ Suggested 'SDGs' value: "SDG 9"
 
 This Swedish-only transport policy report exhibits a three-way divergence across the author (\gls{SDG}~9), OSDG (\gls{SDG}~8), and the dual-language classifier (\gls{SDG}~9: 41 hits, \gls{SDG}~11: 22 hits):
 \begin{itemize}
-    \item \textbf{OSDG Semantic Drift to \gls{SDG}~8 (Tourism \& Regional Business Framing):} Processing the Swedish summary natively, OSDG classified the report solely as \gls{SDG}~8 (\enquote{Decent Work and Economic Growth}). Although the opening paragraph notes that Jämtland's regional business community and hospitality sector (\enquote{näringslivet}, \enquote{besöksnäringen}) depend on functioning night-train connections and the keywords list \enquote{Marknad, Ekonomi, Lönsamhet}, the study itself evaluates railway rolling-stock procurement, timetable architecture, and cross-border rail electrification (Storlien--Trondheim)---mapping squarely to Target~9.1 (\enquote{develop quality, reliable, sustainable and resilient infrastructure, including regional and transborder infrastructure}) and Target~11.2 (accessible passenger rail transport).
+    \item \textbf{OSDG Semantic Drift to \gls{SDG}~8 (Tourism \& Regional Business Framing):} Processing the Swedish summary natively, OSDG classified the report solely as \gls{SDG}~8 (\enquote{Decent Work and Economic Growth}). Although the opening paragraph notes that Jämtland's regional business community and hospitality sector (\enquote{näringslivet}, \enquote{besöksnäringen}) depend on functioning night-train connections and the keywords list \enquote{Marknad, Ekonomi, Lönsamhet}, the study itself evaluates railway rolling-stock procurement, timetable architecture, and cross-border rail electrification (Storlien--Trondheim) --- mapping squarely to Target~9.1 (\enquote{develop quality, reliable, sustainable and resilient infrastructure, including regional and transborder infrastructure}) and Target~11.2 (accessible passenger rail transport).
 
     \item \textbf{Dual-Language Lexicon Decomposition (\glspl{SDG}~9 and 11 vs.\ \gls{SDG}~8):} As shown in \Cref{lst:t_18430Output}, enriching the Swedish lexicon with rolling-stock nomenclature (\enquote{nattåg}, \enquote{sovvagn}, \enquote{liggvagn}) yields 41 hits for \gls{SDG}~9 (confirming the author's \enquote{9} assignment) and 22 hits for \gls{SDG}~11 (warranting co-primary inclusion for long-distance passenger rail accessibility), while keeping contextual mentions of hospitality/capital costs (\gls{SDG}~8: 2 hits) and cross-border electrification (\gls{SDG}~7: 1 hit) as minor background traces.
 \end{itemize}
@@ -3997,6 +3995,84 @@ In the normal pre-deposit workflow, an author runs \fname{sdg\_classifier\_dual\
 For retrospective audits of existing \gls{DiVA} records, however, repository managers should evaluate records with metadata-scoping disabled --- or automatically flag any pre-assigned \gls{SDG} whose entry in the 17-element \texttt{Match Vector} is \num{0}. Relying solely on scoped suggestions in batch audits allows drop-down selection errors (such as \texttt{"SDGs": "2"} in \Cref{cs:diva2_2052118}) and unsupported downstream tags to pass through unchallenged, whereas comparing pre-assigned values against unscoped match counts surfaces zero-evidence metadata immediately for curator review (while still distinguishing unsubstantiated tags from domain vocabulary gaps as in \Cref{cs:CircularConcreteStructuralTesting}).
 \end{recommendation}
 
+
+\clearpage
+\renewcommand{\bibname}{References}
+
+\printbibliography[heading=bibintoc, title={References}]      
+
+\clearpage
+\appendix
+\section{Statistics of observed SDGs}
+\label{appendix:stats}
+This appendix provides statistical information on the \glspl{SDG} observed in the sample. The data can be found in \fname{SupportingMaterial/all-with-SDGs.json}. The program invocation is shown in \Cref{lst:audit_stats}, and a summary of the statistics appears in \Cref{tab:stats}; additional program output appears on the following page. After this, the definition of the categories is given.
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:audit_stats]
+ ./audit_SDGs_from_JSON.py /tmp/all-with-SDGs.json
+Loaded 330 unique divaID records.
+\end{lstlisting}
+
+\begin{table}[!ht]
+  \centering
+  \caption{Some simple statistics of the observed SDGs}
+  \label{tab:stats}
+  \begin{tabular}{l S[table-format=4.0] S[table-format=3.1]}
+    \toprule
+    \textbf{Category} & \textbf{Count} & \textbf{Percentage} \\
+    \midrule
+    exact\_or\_superset\_lexical\_confirmation & 237 & 71.8 \\
+    trace\_noise\_suppressed\_by\_min\_hits\_2 & 167 & 50.6 \\
+    author\_omitted\_strong\_goal\_ge5 & 123 & 37.3 \\
+    author\_zero\_hit\_assigned\_goal & 84 & 25.5 \\
+    short\_text\_lt\_180w & 26 & 7.9 \\
+    author\_trace\_only\_assigned\_goal & 25 & 7.6 \\
+    no\_abstract & 18 & 5.5 \\
+    glued\_tokens\_or\_page\_header & 16 & 4.8 \\
+    classifier\_no\_goal\_ge2 & 11 & 3.3 \\
+    encoding\_or\_greek\_semicolon & 3 & 0.9 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\clearpage
+
+Sample diva IDs per category:
+\begin{enumerate}
+\item \textbf{no\_abstract:} diva2:1930286, diva2:2040603, diva2:1950741, diva2:2082395, diva2:1959347, diva2:1934082, diva2:1905281, diva2:1949478
+
+\item \textbf{author\_omitted\_strong\_goal\_ge5:} diva2:2012109 (assigned=[3], omitted=[9]), diva2:2048083 (assigned=[9], omitted=[11]), diva2:2049355 (assigned=[9], omitted=[7, 11]), diva2:2095308 (assigned=[4], omitted=[9]), diva2:2052768 (assigned=[3, 11], omitted=[15]), diva2:1992563 (assigned=[11], omitted=[16]), diva2:2005316 (assigned=[9], omitted=[16]), diva2:2045499 (assigned=[7, 9, 12], omitted=[13])
+
+\item \textbf{glued\_tokens\_or\_page\_header:} diva2:1992563, diva2:2057327, diva2:1976266, diva2:1950001, diva2:1919207, diva2:2067565, diva2:2113189, diva2:1958085
+
+\item \textbf{encoding\_or\_greek\_semicolon:} diva2:2040639, diva2:2108375, diva2:1920037
+
+\item \textbf{short\_text\_lt\_180w:} diva2:1939918, diva2:1940203, diva2:1938479, diva2:2021430, diva2:2115177, diva2:2115422, diva2:1992082, diva2:2089222
+
+\item \textbf{author\_zero\_hit\_assigned\_goal:} diva2:1940265 (assigned=[8, 9, 12, 17], zero=[12, 17]), diva2:2057990 (assigned=[3, 11, 12], zero=[3]), diva2:2027356 (assigned=[5, 9, 10, 12, 16], zero=[5, 10, 12]), diva2:1959323 (assigned=[4, 16, 17], zero=[17]), diva2:1938479 (assigned=[7, 9, 11, 12, 13, 17], zero=[11, 17]), diva2:2085782 (assigned=[9, 11, 12, 13], zero=[13]), diva2:1913820 (assigned=[7, 9, 13], zero=[7, 13]), diva2:2082395 (assigned=[12], zero=[12])
+
+\item \textbf{author\_trace\_only\_assigned\_goal:} diva2:2057990 (trace=[12]), diva2:2027356 (trace=[16]), diva2:2035104 (trace=[12]), diva2:1938479 (trace=[7, 9, 12]), diva2:1907001 (trace=[3]), diva2:2021249 (trace=[11]), diva2:2060639 (trace=[11]), diva2:2062158 (trace=[3])
+
+\item \textbf{classifier\_no\_goal\_ge2:} diva2:2082395 (assigned=[12]), diva2:1959347 (assigned=[11, 15, 17]), diva2:2058009 (assigned=[11]), diva2:1949475 (assigned=[11]), diva2:490040 (assigned=[11]), diva2:1938521 (assigned=[11]), diva2:2108430 (assigned=[11]), diva2:2013940 (assigned=[3, 7, 9, 12, 13])
+\end{enumerate}
+\clearpage
+The meaning of the different categories:
+\begin{enumerate}
+\item \textbf{no\_abstract:} There was or were not abstract(s).
+
+\item \textbf{author\_omitted\_strong\_goal\_ge5:} Author omitted 5 or more strong \glspl{SDG}. The author-assigned \glspl{SDG} are listed in \enquote{assigned}; the omitted terms are listed in \enquote{omitted}.
+
+\item \textbf{glued\_tokens\_or\_page\_header:} Tokens missing spaces between them or including page numbers.
+
+\item \textbf{encoding\_or\_greek\_semicolon:} Not using Unicode NFC encoding.
+
+\item \textbf{short\_text\_lt\_180w:} The total text was fewer than 180 words. OSDG requires a minimum of 50 words and recommends 300 words.
+
+\item \textbf{author\_zero\_hit\_assigned\_goal:} The author had zero hits on their assigned \glspl{SDG} The author assigned \glspl{SDG} are listed in \enquote{assigned}, the zero-hits are listed in \enquote{zero}.
+
+\item \textbf{author\_trace\_only\_assigned\_goal:} The author assigned \glspl{SDG} were only trace level (\ie less than 2 hits).
+
+\item \textbf{classifier\_no\_goal\_ge2:} The dual-language classifier found no \glspl{SDG} with two or more hits. The author-assigned \glspl{SDG} are listed in \enquote{assigned}.
+\end{enumerate}
+\clearpage
 \clearpage
 \phantomsection % Directs hyperref to anchor exactly here
 % Align the text expansion of the glossary entries
@@ -4010,18 +4086,4 @@ For retrospective audits of existing \gls{DiVA} records, however, repository man
 \addcontentsline{toc}{section}{List of Acronyms and Abbreviations}
 
 \printglossary[style=mylong, type=\acronymtype, title={List of Acronyms and Abbreviations}]
-\clearpage
-\renewcommand{\bibname}{References}
-
-\printbibliography[heading=bibintoc, title={References}]      
-
-\clearpage
-\appendix
-\begin{comment}
-\section{}
-\label{appendix:xxx}
-\end{comment}
-
-\clearpage
-
 \end{document}
