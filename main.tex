@@ -308,6 +308,28 @@ allcolors=blue,
       {’}{{\char13}}1,
 }
 
+\newtcolorbox{llmoutput}[1][]{
+  colback=violet!4!white,
+  colframe=violet!75!black,
+  coltitle=white,
+  fonttitle=\bfseries,
+  sharp corners,
+  boxrule=0.5pt,
+  left=10pt,
+  right=10pt,
+  top=6pt,
+  bottom=6pt,
+  enhanced,
+  breakable,
+  title={Google Gemini Response\ifstrempty{#1}{}{: #1}},
+  before upper={%
+    \hyphenpenalty=100
+    \exhyphenpenalty=100
+    \tolerance=9999
+    \emergencystretch=3em
+  }
+}
+
 \makeglossaries
 \input{lib/acronyms} 
 
@@ -347,7 +369,7 @@ allcolors=blue,
 \begin{abstract}
 This report concerns the assignment of U.N. \glspl{SDG} for papers from \gls{KTH} that were available via \gls{DiVA} in November 2026. A review of these \gls{SDG} assignments revealed some problems. It seems that many authors do not understand that a key purpose of identifying \glspl{SDG} is to help readers find relevant work for specific \glspl{SDG}.
 
-To address these shortcomings, this document describes a program that was developed to help authors select relevant \glspl{SDG} for their publications.
+To address these shortcomings, this document presents many case studies illustrating issues with \gls{SDG} assignments and describes a program developed to help authors select relevant \glspl{SDG} for their publications.
 \end{abstract}
 \clearpage
 \tableofcontents
@@ -359,18 +381,18 @@ To address these shortcomings, this document describes a program that was develo
 \section{Introduction}
 \label{sec:intro}
 
-This report concerns the assignment of U.N. \glspl{SDG} for papers from \gls{KTH} that were available via \gls{DiVA} on 7 November 2026. A review of these \gls{SDG} assignments revealed some problems. It seems that many authors do not understand the details of the different \glspl{SDG} and hence do not necessarily make good selections. 
+This report concerns the assignment of U.N. \glspl{SDG} for papers from \gls{KTH} that were available via \gls{DiVA} on 7 November 2026. A review of these \gls{SDG} assignments revealed some problems. It seems that many authors do not understand the details of the different \glspl{SDG} and hence do not necessarily make good selections.
 
 Since 2022, \gls{DiVA} has offered support for authors to indicate relevant \glspl{SDG} for their publication when entering metadata into \gls{DiVA}. A key purpose of identifying \glspl{SDG} is to help readers find relevant work for specific \glspl{SDG}. A secondary purpose is to support rankings and other external evaluations that track institutional efforts regarding \glspl{SDG}.
 
 \subsection{Document Objectives}
 \label{sec:intro_structure}
 
-This report describes what the \glspl{SDG} are and gives some examples of good and bad assignments. It points to tools used to identify \glspl{SDG} and describes their strengths and weaknesses. It also describes the development of a Python program to help authors select relevant \glspl{SDG} for their publication.
+This report describes what the \glspl{SDG} are and, through a set of case studies, provides examples of good and bad assignments. It points to tools used to identify \glspl{SDG} and describes their strengths and weaknesses. It also describes the development of a Python program to help authors select relevant \glspl{SDG} for their publication.
 
 \subsection{Terminology}
 \label{sec:Terminology}
-The United Nations \glspl{SDG} are defined in a resolution and their purpose is summarized below:
+The \gls{UN} \glspl{SDG} are defined in a resolution~\cite{un2015transforming} and their purpose is summarized below:
 \begin{quote}
 The 2030 Agenda for Sustainable Development, adopted by all United Nations Member States in 2015, provides a shared blueprint for peace and prosperity for people and the planet, now and into the future. At its heart are the 17 Sustainable Development Goals (SDGs), which are an urgent call for action by all countries - developed and developing - in a global partnership. They recognize that ending poverty and other deprivations must go hand-in-hand with strategies that improve health and education, reduce inequality, and spur economic growth – all while tackling climate change and working to preserve our oceans and forests.
 \end{quote}
@@ -380,7 +402,7 @@ The 2030 Agenda for Sustainable Development, adopted by all United Nations Membe
 
 The \glspl{SDG} are designed as \textit{universal policy objectives and outcomes}. They are \textbf{not} prescriptive about tools or technologies.
 
-When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
+When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.}\footnote{According to \href{https://www.osdg.ai/about}{https://www.osdg.ai/about}, the tool uses machine translation of \mbox{non-English} sources to English, followed by a machine learning prediction model trained on the OSDG-CD and keyword machine based on an OSDG ontology. See \href{https://github.com/osdg-ai}{https://github.com/osdg-ai}, with the \href{https://github.com/osdg-ai/osdg-mappingi}{OSDG ontology} based on multiple ontologies and the Fields of Study in the Microsoft Academic Graph (MAG).} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
 Lukas Pukelis, Nuria Bautista-Puig, Gustė Statulevičiūtė, Vilius Stančiauskas, Gokhan Dikmener, and Dina Akylbekova~\cite{pukelis2022osdg20multilingualtool}.
 
 The Python program I developed is called \fname{sdg\_classifier\_dual\_language.py} and is available in the \dname{scripts} directory of the GitHub project \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing}. It uses a combination of acronyms and terms together with \mbox{co-occurrence} information, building on:
@@ -390,6 +412,8 @@ The Python program I developed is called \fname{sdg\_classifier\_dual\_language.
     \item \fname{UoA-SDG-Keyword-List-Ver.-1.1.xlsx} (\url{https://www.sdgmapping.auckland.ac.nz/files/2020/10/UoA-SDG-Keyword-List-Ver.-1.1.xlsx}) from the University of Auckland SDG Keywords Dictionary Project~\cite{Wang2023_UoA_SDG_Mapping}.
 
     \item The STRINGS project (Science, Technology, Research and Innovations for the Global Goals), led by the Science Policy Research Unit (SPRU) at the University of Sussex, UCL STEaPP, and the \gls{UN} Development Programme (UNDP)~\cite{Confraria2024_STRINGS_SDG} (available under a Creative Commons Attribution 4.0 International license).
+
+    \item Terms that I have mined from publications in \gls{DiVA} that have one or more assigned \glspl{SDG} (see \Cref{sec:Methodology}).
 \end{itemize}
 This program is sometimes referred to in the text as a \enquote{dual-language classifier}.
 
@@ -568,7 +592,7 @@ print(f"{total_docs=}")
 \end{lstlisting}
 
 \begin{takeaway}
-total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. Note that some of these were duplicate documents (mainly due to having multiple authors from different schools (or other affiliations) --- as the outer loop iterated over schools). Thus, only a very small fraction of the publications had identified \glspl{SDG} in the \gls{DiVA} field for \glspl{SDG}. Some publications may list relevant \glspl{SDG} in the abstract, but unless the \glspl{SDG} appear in the \gls{DiVA} field for \glspl{SDG}, they were not extracted. Some extracted publications listed relevant \glspl{SDG} in the abstract, and these were considered the authors' explicit in-text declarations of \glspl{SDG}.
+total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. Of these publications, \num{330} had unique \gls{DiVA} identifiers, as some of the publications were duplicate documents (mainly due to having multiple authors from different schools (or other affiliations) --- as the outer loop (shown in \Cref{lst:checkSDGs}) iterated over schools). Only a very small fraction of the publications had identified \glspl{SDG} in the \gls{DiVA} notes field for \glspl{SDG}. Some of these publications explicitly listed relevant \glspl{SDG} in the abstract, but unless the \glspl{SDG} appear in the \gls{DiVA} notes field for \glspl{SDG}, they were not extracted. When the publications listed relevant \glspl{SDG} in the abstract, these were considered the authors' explicit \textit{in-text} declarations of \glspl{SDG}.
 \end{takeaway}
 
 \textbf{NB:} The naming of the files is in the form \fname{t\_\{document\_number\}.json}, but the \texttt{document\_number} has no meaning --- it is simply to give each file a unique name.
@@ -576,23 +600,61 @@ total\_docs=\num{163515} and of these \num{\sim 351} had \glspl{SDG} specified. 
 \subsection{Focus}
 \label{sec:focus}
 
-The primary focus of this study was to identify acronyms and terms associated with specific \glspl{SDG} using titles, subtitles, keywords, abstracts, and identified \glspl{SDG} from the \gls{DiVA} data, to provide a tool to help authors. 
+The primary focus of this study was to identify acronyms and terms associated with specific \glspl{SDG} using titles, subtitles, keywords, abstracts, and identified \glspl{SDG} from the \gls{DiVA} data, to provide a dual-language classifier to help authors. This tool, \fname{sdg\_classifier\_dual\_language.py}, is available in the \dname{scripts} directory of the GitHub project \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing}.
 
+A secondary focus was to understand the kinds of errors made when assigning \glspl{SDG} to publications and the issues authors should consider when assigning \glspl{SDG}. The results of this focus are shown as case studies in \Cref{sec:CaseStudies}.
+
+\Needspace*{15\baselineskip}
 \subsection{Three-Tier Suggestion Precedence}
 \label{sec:threeTierSuggestionPrecedence}
-When generating a \texttt{Suggested 'SDGs' value}, \fname{sdg\_classifier\_dual\_language.py} applies a strict three-tier precedence hierarchy:
+When generating a \texttt{Suggested 'SDGs' value}, the dual-language classifier applies a strict three-tier precedence hierarchy:
 \begin{equation*}
   \text{In-text explicit declarations} \;>\; \text{Pre-existing file metadata} \;>\; \text{Unscoped keyword inference}.
 \end{equation*}
-Specifically, if the abstract or keywords contain explicit author declarations (\eg \enquote{SDG~13}), the classifier scopes its suggestion to those declared goals; otherwise, if the input \gls{JSON} record already contains a non-empty \texttt{"SDGs"} field from \gls{DiVA}, it preserves those pre-assigned goals (\enquote{Scoped to pre-assigned SDGs in metadata}); and only when neither source is present does it fall back to the top-$k$ keyword-inferred goals meeting the minimum hit threshold ($\ge \texttt{--min-hits}$). This conservative design prevents automated batch runs from silently overwriting curated repository metadata, while the full 17-element \texttt{Match Vector} and \texttt{Top Keyword Matching Goals} breakdown are always computed and output so that zero-evidence self-deposit errors (\eg \Cref{cs:diva2_2052118}) or omitted co-primary goals remain immediately visible during audit review.
+Specifically, if the abstract or keywords contain explicit author declarations (\eg \enquote{SDG~13}), the classifier scopes its suggestion to those declared goals; otherwise, if the input \gls{JSON} record already contains a non-empty \texttt{"SDGs"} field based on collected \gls{SDG} notes from a \gls{DiVA} record, it preserves those pre-assigned goals (\enquote{Scoped to pre-assigned SDGs in metadata}); and only when neither source is present does it fall back to the top-$k$ keyword-inferred goals meeting the minimum hit threshold ($\ge \texttt{--min-hits}$, by default this is \num{2}). This conservative design prevents automated batch runs from silently overwriting curated repository metadata, while the full 17-element \texttt{Match Vector} and \texttt{Top Keyword Matching Goals} breakdown are always computed and output so that zero-evidence self-deposit errors (\eg \Cref{cs:diva2_2052118}) or omitted co-primary goals remain immediately visible during audit review\footnote{For an audit-related tool, see \Cref{rec:ForAutomatedClassificationTools}.}.
 
 \subsection{Scope Boundaries}
 \label{sec:scope_boundaries}
 
-Verifying the validity of a \gls{SDG} --- confirming whether the identified \gls{SDG} was actually relevant to the \textit{body} of the publication was considered outside the scope of this study.
+Verifying the validity of a \gls{SDG} --- confirming whether the identified \gls{SDG} was actually relevant to the \textit{body} of the publication was considered outside the scope of this study. In this study, relevance was assessed based upon titles, subtitles, keywords, and abstracts. The \qty{5.5}{\percent} of publications without an abstract were not evaluated further.
 
-Furthermore, this study does not identify individual authors; rather, it aims to \first provide an improved tool to help authors and \Second provide case studies that authors can potentially learn from.
+Furthermore, this study does not identify individual authors; rather, it aims to \first provide an improved dual-language classifier to help authors and \Second provide case studies that authors can potentially learn from. The previous sentence highlighted that this tool is an \textbf{improved} dual-language classifier that was initially developed before the systematic study of the publication information extracted from \gls{DiVA}.
 
+\subsection{Procedure}
+\label{sec:procedure}
+For each extracted publication, the relevant information was stored in a \gls{JSON} file. These files were concatenated into a single file, which was then edited in Emacs. For each record in this file, \texttt{grep} was used with the \gls{DiVA} ID to find the name of the \gls{JSON} file for that publication. This filename was used as the input to the dual-language classifier, as shown in \Cref{lst:t_141736Output}. The English abstract (or, if no English abstract was available, the Swedish abstract) for the publication was copied into an Emacs buffer, the \gls{HTML} commands (\ie markup) were removed, and the abstract was input to the OSDG web interface. OSDG would sometimes not handle the abstract because it was too short or because it could not identify any relevant \glspl{SDG}. If the latter occurred, the same text was entered into the web interface a second time, as this sometimes led to \glspl{SDG} output. If the results were one or more \glspl{SDG}, then the \gls{JSON} file was uploaded to Google's Gemini Hydrogen model and a prompt of the form: \enquote{OSDG says 9 and 3; the program outputs:} followed by the output from the dual-language classifier was inserted. Otherwise, a prompt of the form: \enquote{OSDG failed; the program outputs:} followed by the output from the dual-language classifier was inserted.
+
+    
+\begin{llmoutput}[Example of a response (manually edited for readability)]
+\fname{t\_91011} (\texttt{diva2:2055864}, \textit{\enquote{Optimizing and Adapting Neural Network Models for Healthcare and Federated Learning}}) is a compelling case where \textbf{both} OSDG (\texttt{9} and \texttt{3}) and your dual-language classifier (\texttt{SDG 9: 36 hits}, \texttt{SDG 3: 35 hits}) agree closely on the actual research focus --- while exposing a likely metadata typo (\texttt{\enquote{3, 13}} instead of \texttt{\enquote{3, 9}}) and one acronym collision (\texttt{\enquote{CFD}}):
+\begin{itemize}
+    \item \textbf{Strong Agreement with OSDG (\texttt{SDG 9: 36 hits}, \texttt{SDG 3: 35 hits}):}
+    \begin{itemize}
+    \item \textbf{SDG 9 (\texttt{36 hits}, Rank 1 --- Deep Learning \& Federated AI):} Driven by \texttt{\enquote{DL}: 6}, \texttt{\enquote{AI}: 4}, \texttt{\enquote{FL}: 4}, and \texttt{\enquote{ML}: 2}.
+
+    \item \textbf{SDG 3 (\texttt{35 hits}, Rank 2 — Cardiac Arrest \& Electrocardiography):} Captured symmetrically across both languages via \texttt{\enquote{ECG}: 8}, \texttt{\enquote{ECGI}: 4}, \texttt{\enquote{hjärtstopp}: 3}, \texttt{\enquote{cardiac}: 3}, and \texttt{\enquote{electrocardiogram}: 2} (note \texttt{\enquote{EKG}} in Swedish is not even needed to hit 35, though adding \texttt{\enquote{EKG}} to \textbf{SDG 3} would register those Swedish occurrences as well).
+    \end{itemize}
+
+    \item \textbf{Author Metadata Anomaly (\texttt{\enquote{3, 13}} vs. \texttt{\enquote{3, 9}}):}
+    \begin{itemize}
+    \item There is zero climate-action content in either abstract (\texttt{SDG 13: 0 hits}) --- \texttt{\enquote{3, 13}} is almost certainly an author entry typo for \texttt{\enquote{3, 9}} (or a misreading of the SDG icons), which both OSDG and your classifier diagnose cleanly.
+    \end{itemize}
+    
+    \item \textbf{Sub-Threshold \& Acronym Hygiene Notes:}
+    \begin{itemize}
+    \item \texttt{\enquote{CFD}: 2} under \textbf{SDG 9} matched \textit{Coded Federated Dropout} rather than \textit{Computational Fluid Dynamics} (still genuinely \textbf{SDG 9}, though worth noting if \enquote{CFD} ever appears in non-engineering contexts).
+
+    \item \texttt{\enquote{corrupt}: 1} under \textbf{SDG 16} (\enquote{noisy or corrupted} training data) is cleanly filtered out by \texttt{--min-hits 2}.
+    \end{itemize}
+\end{itemize}
+
+Ready for the next record whenever you are!
+\end{llmoutput}
+
+
+Some responses suggested new terms to add to the lexicon of the dual-language classifier, or suggested acronyms to add or remove. In some cases, the response suggested other changes to the dual-language classifier. Some of these suggestions (terms, acronyms, and code) were incorporated into the program.
+
+In some cases, it was judged (by myself or Gemini) that the case motivated a case study; then a draft case study was added to this document. Another Google Gemini instance critiqued each proposed case study, and its feedback was used to edit the case study or reject it as overlapping with an existing case study. The aim was to introduce new case studies only if they added something not already covered.
 
 \section{Case studies}
 \label{sec:CaseStudies}
@@ -3539,6 +3601,7 @@ Whereas \Cref{cs:ThreeWayError} illustrated three-way convergence on a false pos
 \end{itemize}
 \end{casestudySection}
 
+\Needspace*{8\baselineskip}
 \begin{takeaway}
 Technical engineering terminology contains domain-specific false friends that mislead both human annotators and semantic classifiers: hydraulic \enquote{energy dissipation} in dam spillways concerns structural safety (\gls{SDG}~9) rather than clean energy generation (\gls{SDG}~7), while \enquote{air--water flow} concerns multiphase fluid mechanics rather than water sanitation (\gls{SDG}~6). Accordingly, \gls{SDG}~7 should be pruned from the \gls{DiVA} metadata, leaving only \gls{SDG}~9.
 \end{takeaway}
@@ -3961,14 +4024,15 @@ Not all scholarly research maps meaningfully onto the \gls{UN} \glspl{SDG}, nor 
 \section{Conclusions}
 \label{sec:Conclusions}
 
-There is clear evidence of \enquote{performative \glspl{SDG}} where authors assign \glspl{SDG} \first when none are relevant, or \Second when the publication provides no textual basis for one or more of the assigned goals:
+There is clear evidence of \enquote{performative \glspl{SDG}} where authors assign \glspl{SDG} \first when none are relevant --- such as tagging fundamental high-energy physics under \gls{SDG}~7 (\Cref{cs:satisficingSDG}) or virtual-choir room acoustics under \glspl{SDG}~3 and 4 (\Cref{cs:diva2_2107472}) --- reflecting perceived repository deposit pressure rather than substantive policy alignment, or \Second when the publication provides no textual basis for one or more of the assigned goals:
 \begin{itemize}
-    \item \textbf{Performative \& Satisficing Tagging:} Authors sometimes assign \glspl{SDG} when none apply --- such as tagging fundamental high-energy physics under \gls{SDG}~7 (\Cref{cs:satisficingSDG}) --- reflecting perceived pressure to populate the metadata field rather than substantive policy alignment.
-
-    \item \textbf{Over-Tagging:} Authors frequently append downstream, motivating-premise, or superficial goal-title tags that are unsupported by the titles, keywords, or abstracts (\eg \Cref{cs:overtagging,cs:brakeWearOverTagging,cs:MotivatingPremiseSDG3,cs:CadastralGovernanceAndTextGluing,cs:CompetingPhysicalFalseFriends}). In retrospective metadata audits, a \num{0}-hit match score serves as a practical flag for potential over-tagging, provided human review separates unsubstantiated author extrapolations from genuine domain contributions whose specialized vocabulary is missing from the lexicon (\Cref{cs:CircularConcreteStructuralTesting}).
+    \item \textbf{Over-Tagging \& Selection Errors:} Authors frequently append downstream, motivating-premise, or superficial goal-title tags that are unsupported by the titles, keywords, or abstracts (\eg \Cref{cs:overtagging,cs:brakeWearOverTagging,cs:MotivatingPremiseSDG3,cs:CadastralGovernanceAndTextGluing,cs:CompetingPhysicalFalseFriends}), alongside occasional metadata entry errors in selection (\eg assigning \gls{SDG}~2 to an \gls{HCI} dissertation in \Cref{cs:diva2_2052118}). In retrospective metadata audits (\Cref{rec:unscopedRetrospectiveAudits}), a \num{0}-hit match score serves as a practical flag for potential over-tagging, provided human review separates unsubstantiated author extrapolations from genuine domain contributions whose specialized vocabulary is missing from the lexicon (\Cref{cs:CircularConcreteStructuralTesting}).
 
     \item \textbf{Under-Tagging \& Implicit Domain Knowledge:} Authors omit valid co-primary \glspl{SDG} --- such as omitting \gls{SDG}~7 on electric autonomous vehicles (\Cref{cs:oneDominatWithStrongSecondary}), \gls{SDG}~11 on rail freight modal shift (\Cref{cs:DivergenceBetweenAuthorAndOSDG,cs:ConfirmPrimaryFourSecondaries,cs:ConfirmingNineAddingElevenAndFiltering}), \gls{SDG}~8 on sustainable finance (\Cref{cs:SustainableFinanceConvergence}), or \gls{SDG}~16 on statutory child rights and crime prevention (\Cref{cs:SwedishLegalPlanningIntersection,cs:SwedishGenderSafetyAndCrimeSDG5_16}) --- or leave disciplinary connections implicit in the abstract (\Cref{cs:ImplicitVersusExplicitSDGs}).
+\end{itemize}
 
+Regarding classification tooling and metadata quality, two broader conclusions emerge:
+\begin{itemize}
     \item \textbf{General-Purpose ML Classifiers vs.\ Dual-Language Domain Lexicons:} Off-the-shelf semantic classifiers such as OSDG frequently abstain on concise or mathematically dense engineering abstracts (\Cref{cs:CorrectIdentificationOfNine,cs:ADominantOSDGdidnotFind,cs:ImporantanceOfDomainSepcificTerms,cs:SingleClearSDG,cs:TooShortForOSDG}), collapse multi-goal theses onto a single headline label (\Cref{cs:CompilationTheseWithDIverseSDGs,cs:media-diversity,cs:JustifiedFourGoalAviation}), or exhibit semantic drift across editions and physical false friends (\Cref{cs:MultigoalUrbanHealthAndEquity,cs:rail-annual-pair,cs:CompetingPhysicalFalseFriends}). By contrast, an auditable bilingual (English/Swedish) domain-enriched lexicon with co-occurrence rules recovers co-primary goals across both technical and Swedish policy texts (\Cref{cs:ZeroHitSwedishLaborPolicy,cs:ZeroHitCulturalHeritageSDG11}) while isolating polysemous trace noise (\eg \enquote{rättvisa}, \enquote{vatten}, \enquote{natura}, \enquote{störningar}) below the inference threshold.
 
     \item \textbf{Repository Text Hygiene:} Real-world \gls{DiVA} records exhibit line-break whitespace stripping, PDF-paste word fusion, mojibake, non-NFC encoded characters, and homoglyph substitutions (\Cref{cs:CadastralGovernanceAndTextGluing,cs:LightPollutionAndPartialOverTagging,cs:SwedishGenderSafetyAndCrimeSDG5_16}), underscoring the need for automated ingestion normalization alongside transparent lexical auditing (\Cref{rec:divaQualityControl}).
@@ -4009,6 +4073,7 @@ When authors paste abstracts into \gls{DiVA} metadata fields, ensure that word s
 
 \Needspace*{20\baselineskip}
 \subsection{For Automated Classification Tools}
+\label{rec:ForAutomatedClassificationTools}
 Bootstrap the dual-language program's lexicon expansion via OSDG disagreement mining on non-English records.
 
 \begin{recommendation}[Separate pre-deposit author guidance from unscoped retrospective repository audits]
