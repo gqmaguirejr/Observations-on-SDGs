@@ -385,6 +385,8 @@ This report concerns the assignment of U.N. \glspl{SDG} for papers from \gls{KTH
 
 Since 2022, \gls{DiVA} has offered support for authors to indicate relevant \glspl{SDG} for their publication when entering metadata into \gls{DiVA}. A key purpose of identifying \glspl{SDG} is to help readers find relevant work for specific \glspl{SDG}. A secondary purpose is to support rankings and other external evaluations that track institutional efforts regarding \glspl{SDG}.
 
+Impatient readers may want to skip directly to the \textbf{Conclusions} in \Cref{sec:Conclusions} and \textbf{Recommendations} in \Cref{sec:recommendations}.
+
 \subsection{Document Objectives}
 \label{sec:intro_structure}
 
@@ -402,7 +404,7 @@ The 2030 Agenda for Sustainable Development, adopted by all United Nations Membe
 
 The \glspl{SDG} are designed as \textit{universal policy objectives and outcomes}. They are \textbf{not} prescriptive about tools or technologies.
 
-When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.}\footnote{According to \href{https://www.osdg.ai/about}{https://www.osdg.ai/about}, the tool uses machine translation of \mbox{non-English} sources to English, followed by a machine learning prediction model trained on the OSDG-CD and keyword machine based on an OSDG ontology. See \href{https://github.com/osdg-ai}{https://github.com/osdg-ai}, with the \href{https://github.com/osdg-ai/osdg-mappingi}{OSDG ontology} based on multiple ontologies and the Fields of Study in the Microsoft Academic Graph (MAG).} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
+When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.}\footnote{According to \href{https://www.osdg.ai/about}{https://www.osdg.ai/about}, the tool uses machine translation of \mbox{non-English} sources to English, followed by a machine learning prediction model trained on the OSDG-CD and keyword machine based on an OSDG ontology. See \href{https://github.com/osdg-ai}{https://github.com/osdg-ai}, with the \href{https://github.com/osdg-ai/osdg-mappingi}{OSDG ontology} based on multiple ontologies and the Fields of Study in the (now discontinued) Microsoft Academic Graph (MAG).} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
 Lukas Pukelis, Nuria Bautista-Puig, Gustė Statulevičiūtė, Vilius Stančiauskas, Gokhan Dikmener, and Dina Akylbekova~\cite{pukelis2022osdg20multilingualtool}.
 
 The Python program I developed is called \fname{sdg\_classifier\_dual\_language.py} and is available in the \dname{scripts} directory of the GitHub project \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing}. It uses a combination of acronyms and terms together with \mbox{co-occurrence} information, building on:
@@ -429,6 +431,20 @@ Because lexical and semantic \gls{SDG} classifiers operate on surface text acros
 
     \item[Trace Hits (Lexical Noise) vs.\ Substantive Matches] Low-count matches (typically \num{1}--\num{2}~hits) triggered by passing examples, measurement platforms, or background covariates, contrasted with high-count, multi-term matches that reflect a publication's core \gls{SDG} contribution.
 \end{description}
+
+\subsection{Context}
+\label{sec:context}
+
+Automated \gls{SDG} classification tools used in scientometrics and repository workflows fall into several categories, each with practical limitations for authors depositing publications in \gls{DiVA}:
+\begin{itemize}
+    \item \textbf{Unmaintained Open-Source Tools (OSDG):} Although OSDG provides a convenient web interface and supports 15 languages, its public GitHub repositories (\url{https://github.com/osdg-ai}) have seen no code updates in roughly three years and no updates to its underlying ontology in five years. Consequently, its model does not reflect newer technical terminology or evolving disciplinary usage.
+
+    \item \textbf{Commercial Bibliometric Queries (Scopus / Times Higher Education (THE)):} According to a bibliometrician at \gls{KTHB}, institutional reporting relies heavily on Scopus \gls{SDG} assignments because those mappings are used by the Times Higher Education (THE) Impact Rankings. However, Scopus relies on proprietary query sets applied primarily to indexed English-language literature, leaving Swedish-language reports, technical deliverables, and theses in \gls{DiVA} either unlabeled or evaluated without their Swedish text. Additionally, licensing issues prevent \gls{KTHB} from importing \glspl{SDG} from Scopus and WoS/Clarivate as labels for publications in \gls{DiVA}.
+
+    \item \textbf{Aggregated Open Metadata Pipelines (OpenAlex \& Swemetrics):} \gls{KTHB} and the Swedish national bibliometric initiative Swemetrics are also evaluating \gls{SDG} classifications from OpenAlex. Whereas OpenAlex previously relied on the open-source Aurora \gls{SDG} classification framework, since October 2026 it has transitioned to a newer classification pipeline (\href{https://help.openalex.org/data/sdgs/}{https://help.openalex.org/data/sdgs/}) whose source code and model weights do not appear to be openly available --- preventing authors and curators from auditing \emph{why} a specific \gls{SDG} was assigned to a given publication.
+\end{itemize}
+
+Because external databases are retrospective, commercial mappings are proprietary and non-importable, newer aggregated pipelines are opaque, and OSDG is no longer actively maintained, authors who seek to assign \glspl{SDG} when entering publications into \gls{DiVA} benefit from an open-source, transparent, dual-language classifier that runs locally on English and Swedish metadata and exposes the exact terms and rules behind every suggested \gls{SDG}.
 
 \section{Methodology}
 \label{sec:Methodology}
@@ -630,9 +646,9 @@ For each extracted publication, the relevant information was stored in a \gls{JS
 \begin{itemize}
     \item \textbf{Strong Agreement with OSDG (\texttt{SDG 9: 36 hits}, \texttt{SDG 3: 35 hits}):}
     \begin{itemize}
-    \item \textbf{SDG 9 (\texttt{36 hits}, Rank 1 --- Deep Learning \& Federated AI):} Driven by \texttt{\enquote{DL}: 6}, \texttt{\enquote{AI}: 4}, \texttt{\enquote{FL}: 4}, and \texttt{\enquote{ML}: 2}.
+    \item \textbf{SDG 9 (\texttt{36 hits}, Rank \char"0023 1 --- Deep Learning \& Federated AI):} Driven by \texttt{\enquote{DL}: 6}, \texttt{\enquote{AI}: 4}, \texttt{\enquote{FL}: 4}, and \texttt{\enquote{ML}: 2}.
 
-    \item \textbf{SDG 3 (\texttt{35 hits}, Rank 2 — Cardiac Arrest \& Electrocardiography):} Captured symmetrically across both languages via \texttt{\enquote{ECG}: 8}, \texttt{\enquote{ECGI}: 4}, \texttt{\enquote{hjärtstopp}: 3}, \texttt{\enquote{cardiac}: 3}, and \texttt{\enquote{electrocardiogram}: 2} (note \texttt{\enquote{EKG}} in Swedish is not even needed to hit 35, though adding \texttt{\enquote{EKG}} to \textbf{SDG 3} would register those Swedish occurrences as well).
+    \item \textbf{SDG 3 (\texttt{35 hits}, Rank \char"0023 2 --- Cardiac Arrest \& Electrocardiography):} Captured symmetrically across both languages via \texttt{\enquote{ECG}: 8}, \texttt{\enquote{ECGI}: 4}, \texttt{\enquote{hjärtstopp}: 3}, \texttt{\enquote{cardiac}: 3}, and \texttt{\enquote{electrocardiogram}: 2} (note \texttt{\enquote{EKG}} in Swedish is not even needed to hit 35, though adding \texttt{\enquote{EKG}} to \textbf{SDG 3} would register those Swedish occurrences as well).
     \end{itemize}
 
     \item \textbf{Author Metadata Anomaly (\texttt{\enquote{3, 13}} vs. \texttt{\enquote{3, 9}}):}
@@ -4085,6 +4101,151 @@ For retrospective audits of existing \gls{DiVA} records, however, repository man
 
 Note that the program \fname{audit\_SDGs\_from\_JSON.py} is designed for auditing a batch of \gls{JSON} records. The file given as an argument should contain concatenated \gls{JSON} records for publications (see \fname{SupportingMaterial/all-with-SDGs.json} for an example of such a file). The program can also be applied to a single \gls{JSON} file.
 
+\begin{recommendation}[Mining Constituent Publications via OpenAlex for Compilation Theses]
+\label{rec:openAlexCompilationTheses}
+Because so few records in \gls{DiVA} currently contain \gls{SDG} notes (\num{330} unique records out of \num{163515} extracted publications; see \Cref{sec:Methodology}), mining existing \gls{DiVA} \gls{SDG} fields across the constituent papers of a compilation thesis (\foreignlanguage{swedish}{sammanläggningsavhandling}) is impractical in practice. However, because the constituent journal articles and conference papers of a compilation thesis are typically published prior to the defense, existing bibliography-checking workflows that already parse \glspl{DOI} and persistent identifiers from the thesis's \fname{references.bib} file can be extended in future work to query the OpenAlex \gls{API} (\texttt{sustainable\_development\_goals}) for each published constituent paper.
+
+Because OpenAlex's current \gls{SDG} pipeline relies on a closed-weights model without an open audit trail (\Cref{sec:context}), retrieved OpenAlex \glspl{SDG} should be treated strictly as candidate priors rather than authoritative labels. A helper utility can aggregate these OpenAlex candidates alongside local dual-language classifier match vectors computed over the constituent abstracts and the thesis \foreignlanguage{swedish}{kappa}, presenting an auditable summary table so that a doctoral candidate can verify which goals are genuinely substantiated across the thesis before entering metadata into \gls{DiVA}.
+\end{recommendation}
+
+\begin{recommendation}[Full-Text Classification of the Author's Source Document]
+\label{rec:fullTextAuthorSource}
+Unlike external bibliometric harvesters or retrospective repository audits that are restricted to titles, keywords, and abstracts (\Cref{sec:scope_boundaries}), the author of a publication has direct access to the complete source manuscript. While \fname{sdg\_classifier\_dual\_language.py} already supports full-text \gls{PDF} input (including typographic ligature normalization, as shown in \Cref{lst:diva2:1914592-FULLTEXT04.pdf,lst:diva2:1922004-FULLTEXT01.pdf}), extending it as future work to parse raw \LaTeX{} source files directly would provide clean structural boundaries that are difficult to recover reliably from compiled \glspl{PDF}.
+
+Full-text classification recovers substantive \gls{SDG} contributions that are compressed or omitted in concise abstracts (\eg \Cref{cs:ImplicitVersusExplicitSDGs,cs:CompilationTheseWithDIverseSDGs}) and handles the \qty{5.5}{\percent} of \gls{DiVA} records lacking an abstract (\Cref{sec:scope_boundaries}). Comparing the full-text \gls{PDF} output for \texttt{diva2:1922004} (\Cref{lst:diva2:1922004-FULLTEXT01.pdf}) against its metadata-only \gls{JSON} record (\Cref{lst:t_11913}) illustrates this gain: \gls{SDG}~11 increases from \num{6} to \num{15} hits and \gls{SDG}~9 increases from \num{3} to \num{8} hits, surfacing \gls{SDG}~9 alongside the author's pre-assigned \gls{SDG}~11. At the same time, full-text evaluation of a complete dissertation (\Cref{lst:diva2:1914592-FULLTEXT04.pdf}) demonstrates that longer documents activate trace hits across many unrelated goals (\eg \num{14} of \num{17} goals firing from passing examples, proper nouns such as \enquote{World Bank}, or bibliography entries). Because reliably segmenting sections and stripping reference lists from arbitrary \gls{PDF} layouts is brittle due to running headers, page numbering, and varying multilingual section titles, \gls{PDF} mode should rely on scaling the minimum hit threshold (\texttt{--min-hits}) relative to document length, whereas parsing raw \LaTeX{} source files can cleanly exclude \texttt{\textbackslash printbibliography} and \texttt{\textbackslash bibliography} blocks and weight explicit structural sections (\eg abstracts, introductions, and conclusions).
+\end{recommendation}
+
+In practice, there are a variety of names for the sections (in both English and Swedish) --- so this needs some more study, but there may be structural commonalities that can be exploited.
+
+Note that the dual-language classifier can already handle a PDF, as shown in \Cref{lst:diva2:1914592-FULLTEXT04.pdf}. However, it does not (yet) handle \LaTeX{} source code input.
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:diva2:1914592-FULLTEXT04.pdf]
+ ./sdg_classifier_dual_language.py --verbose /tmp/third_cycle_PDFs/diva2:1914592-FULLTEXT04.pdf
+
+=================================================================
+==> Dual-Language SDG Classification Report: diva2:1914592-FULLTEXT04.pdf
+Match Vector (SDG 1 - 17):
+[16, 0, 12, 656, 10, 0, 0, 10, 1, 27, 1, 5, 1, 1, 3, 85, 1]
+
+Top Keyword Matching Goals:
+  [ 1] SDG  4 :  656 hit(s)
+       * "STEM": 12
+       * "higher education": 131
+       * "classroom": 128
+       * "student learning": 64
+       * "student engagement": 48
+  [ 2] SDG 16 :   85 hit(s)
+       * "institution": 69
+       * "power relations": 8
+       * "institutionella": 3
+       * "institutionell": 3
+       * "institutional context": 1
+  [ 3] SDG 10 :   27 hit(s)
+       * "inequality": 5
+       * "social integration": 3
+       * "social class": 2
+       * "disparities": 2
+       * "racism": 2
+  [ 4] SDG  1 :   16 hit(s)
+       * "inequality": 5
+       * "world bank": 3
+       * "low-income families": 1
+       * "social inequalities": 1
+       * "gender inequality": 1
+  [ 5] SDG  3 :   12 hit(s)
+       * "well-being": 5
+       * "psychological well-being": 3
+       * "quality of life": 1
+       * "pandemic": 1
+       * "diseases": 1
+  [ 6] SDG  5 :   10 hit(s)
+       * "gendered": 2
+       * "gender disparities": 1
+       * "gender inequality": 1
+       * "women of color": 1
+       * "gender biases": 1
+  [ 7] SDG  8 :   10 hit(s)
+       * "bank": 3
+       * "social and economic development": 1
+       * "economic development": 1
+       * "economic activities": 1
+       * "work environment": 1
+  [ 8] SDG 12 :    5 hit(s)
+       * "environmental education": 5
+  [ 9] SDG 15 :    3 hit(s)
+       * "drought": 2
+       * "environmental factors": 1
+  [10] SDG  9 :    1 hit(s)
+       * "research and development AND ("productiv*" OR "technolog*" OR "innovati*" OR "infrastructure" OR "industrialization")": 1
+  [11] SDG 11 :    1 hit(s)
+       * "urban structure": 1
+  [12] SDG 13 :    1 hit(s)
+       * "droughts AND ("climate")": 1
+  [13] SDG 14 :    1 hit(s)
+       * "blooms": 1
+  [14] SDG 17 :    1 hit(s)
+       * "developing countries": 1
+-----------------------------------------------------------------
+Note: Top 3 inferred keywords (min hits >= 2).
+Suggested 'SDGs' value: "SDG 4, SDG 10, SDG 16"
+=================================================================
+\end{lstlisting}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:diva2:1922004-FULLTEXT01.pdf]
+./sdg_classifier_dual_language.py --verbose /tmp/third_cycle_PDFs/diva2:1922004-FULLTEXT01.pdf
+found ligature ﬁ replacing with fi
+found ligature ﬂ replacing with fl
+=================================================================
+==> Dual-Language SDG Classification Report: diva2:1922004-FULLTEXT01.pdf
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 1, 8, 0, 15, 0, 0, 0, 0, 0, 0]
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :   15 hit(s)
+       * "ground-borne vibration": 11
+       * "earthquake engineering": 1
+       * "built environment": 1
+       * "transportation": 1
+       * "byggnader": 1
+  [ 2] SDG  9 :    8 hit(s)
+       * "finite element modelling": 1
+       * "numerical simulations": 1
+       * "structural dynamics": 1
+       * "finite element": 1
+       * "trafikverket": 1
+  [ 3] SDG  8 :    1 hit(s)
+       * "work environment": 1
+-----------------------------------------------------------------
+Note: Top 3 inferred keywords (min hits >= 2).
+Suggested 'SDGs' value: "SDG 9, SDG 11"
+=================================================================
+\end{lstlisting}
+
+Compare the above results for the whole thesis with those from the titles, subtitles, keywords, and abstracts shown in \Cref{lst:t_11913}. Because the titles, subtitles, keywords, and abstracts appear in both the \gls{JSON} file and in the PDF, one would expect that there should be some overlap and hence an increased number of hits in the full-text case (however, the top-K might not be the same).
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:t_11913]
+./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_11913.json
+=================================================================
+==> Dual-Language SDG Classification Report: t_11913.json
+Match Vector (SDG 1 - 17):
+[0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 6, 0, 0, 0, 0, 0, 0]
+
+Assigned value in JSON: "11"
+
+Top Keyword Matching Goals:
+  [ 1] SDG 11 :    6 hit(s)
+       * "ground-borne vibration": 5
+       * "byggnader": 1
+  [ 2] SDG  9 :    3 hit(s)
+       * "numerical simulations": 1
+       * "railways": 1
+       * "railway": 1
+-----------------------------------------------------------------
+Note: Scoped to pre-assigned SDGs in metadata.
+Suggested 'SDGs' value: "SDG 11"
+=================================================================
+\end{lstlisting}
 
 \clearpage
 \renewcommand{\bibname}{References}
