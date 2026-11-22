@@ -200,6 +200,7 @@ Extension = .ttf,
   drop shadow
 }
 
+
 \usepackage{fancyvrb,fvextra}
 \usepackage{csquotes}               %% Recommended by biblatex
 
@@ -219,7 +220,6 @@ allcolors=blue,
 
 \usepackage[all]{hypcap}	%% prevents an issue related to hyperref and caption linking
 
-
 \usepackage[acronym, style=super, section=section, toc=false, nonumberlist, nomain, nopostdot=true, notranslate]{glossaries-extra}
 
 % Libraries that should be included after hyperref
@@ -228,7 +228,8 @@ allcolors=blue,
 % Define cleveref formatting
 \crefname{casestudyCounter}{Case Study}{Case Studies}
 \Crefname{casestudyCounter}{Case Study}{Case Studies}
-\crefformat{reccount}{Recommendation~#2#1#3}
+\crefname{reccount}{Recommendation}{Recommendations}
+\Crefname{reccount}{Recommendation}{Recommendations}
 
 \usepackage{metalogo}   % for \XeLaTeX and \LuaLaTeX logos
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
@@ -401,7 +402,7 @@ The 2030 Agenda for Sustainable Development, adopted by all United Nations Membe
 -- \href{https://sdgs.un.org/goals}{https://sdgs.un.org/goals}
 \end{flushright}
 
-The \glspl{SDG} are designed as \textit{universal policy objectives and outcomes}. They are \textbf{not} prescriptive about tools or technologies.
+The \glspl{SDG} are designed as \textit{universal policy objectives and outcomes}. They are \textbf{not} prescriptive about tools or technologies. In this work, we focus only on \textbf{direct} contributions to the \glspl{SDG}, not indirect ones (using the distinction between direct and indirect contributions as per~\cite{armitage_mapping_2020}).
 
 When the term \enquote{OSDG} is used, this refers to the open-source tool found at \href{https://www.osdg.ai/}{https://www.osdg.ai/}. This is a widely used tool that is based on the OSDG Community Dataset (OSDG-CD)\cite{osdg_2021_5550238}. This dataset has \num{32120} text excerpts and a total of \num{172769} assigned labels. According to its web page (\url{https://www.osdg.ai/}): \enquote{OSDG currently supports 15 languages: English, Arabic, Danish, Dutch, Finnish, French, German, Italian, Korean, Polish, Portuguese, Russian, Spanish, Swedish, and Turkish.}\footnote{According to \href{https://www.osdg.ai/about}{https://www.osdg.ai/about}, the tool uses machine translation of \mbox{non-English} sources to English, followed by a machine learning prediction model trained on the OSDG-CD and keyword machine based on an OSDG ontology. See \href{https://github.com/osdg-ai}{https://github.com/osdg-ai}, with the \href{https://github.com/osdg-ai/osdg-mappingi}{OSDG ontology} based on multiple ontologies and the Fields of Study in the (now discontinued) Microsoft Academic Graph (MAG).} See the paper \enquote{OSDG 2.0: a multilingual tool for classifying text data by UN Sustainable Development Goals (SDGs)} by 
 Lukas Pukelis, Nuria Bautista-Puig, Gustė Statulevičiūtė, Vilius Stančiauskas, Gokhan Dikmener, and Dina Akylbekova~\cite{pukelis2022osdg20multilingualtool}.
@@ -416,7 +417,10 @@ The Python program I developed is called \fname{sdg\_classifier\_dual\_language.
 
     \item Terms that I have mined from publications in \gls{DiVA} that have one or more assigned \glspl{SDG} (see \Cref{sec:Methodology}).
 \end{itemize}
-This program is sometimes referred to in the text as a \enquote{dual-language classifier}.
+
+
+This program is sometimes referred to in the text as a \enquote{dual-language classifier}. Additionally, while the program draws on multiple sources, it combines them into an integrated lexicon-based matcher (supporting \texttt{OR} and \texttt{AND} boolean operations, while excluding Aurora's \texttt{NEAR} proximity operators), rather than running them as separate ensemble classifiers --- as is done in the \texttt{text2sdg} R package (available on the Comprehensive R Archive Network, CRAN, from \href{https://cran.r-project.org/package=text2sdg}{text2sdg}) and described in~\cite{wulff_using_2024}.
+
 
 Because lexical and semantic \gls{SDG} classifiers operate on surface text across multiple disciplines and languages, several linguistic phenomena govern both signal recovery and false-positive noise throughout the case studies in \Cref{sec:CaseStudies}:
 \begin{description}
@@ -4323,7 +4327,183 @@ The meaning of the different categories:
 \item \textbf{classifier\_no\_goal\_ge2:} The dual-language classifier found no \glspl{SDG} with two or more hits. The author-assigned \glspl{SDG} are listed in \enquote{assigned}.
 \end{enumerate}
 \clearpage
+
+\section{External Benchmark Against the OSDG Community Dataset (OSDG-CD)}
+\label{appendix:OSDG_CD_Benchmark}
+
+To evaluate how the dual-language rule-based classifier behaves outside KTH technical theses, I benchmarked \texttt{sdg\_classifier\_dual\_language.py} against the OSDG Community Dataset Version 2024.04 (\texttt{osdg-community-data-v2024-04-01.csv} from 
+\href{https://zenodo.org/records/11441197}{10.5281/zenodo.11441197}), a crowd-validated corpus of \num{43025} policy and research text excerpts labeled by volunteers against candidate \gls{UN} \glspl{SDG} (\glspl{SDG}~1--16; \gls{SDG}~17 has \num{0} entries in this release of the dataset).
+
+This was implemented via a Python program that uses the dual-language classifier on the text field of each spreadsheet row. The programs,  \fname{compare\_dual\_language\_classifier\_to\_OSDG\_CD.py}, \fname{compare\_dual\_language\_classifier\_to\_OSDG\_CD\_parallel\_edition.py (logically, v1)},
+\fname{compare\_dual\_language\_classifier\_to\_OSDG\_CD\_parallel\_edition\_v2.py}, and
+\fname{compare\_dual\_language\_classifier\_to\_OSDG\_CD\_parallel\_edition\_v3.py}
+, are available via the GitHub \url{https://github.com/gqmaguirejr/KTH-3rd-cycle-template-restructured--testing/}. The differences in the parallel editions are various optimizations that result in the runtimes: \qty{201.51}{\second}, \qty{134.53} (v2 - without pyahocorasick), \qty{153.78}{\second} (v2 - with pyahocorasick installed), and \qty{121.26}{\second} (v3).  The serial version took \qty{15834.37}{\second}.
+
+
+\subsection{Evaluation Protocol and Dataset Partitioning}
+
+Each OSDG-CD record pairs a short text excerpt with a single candidate \gls{SDG} label, the number of volunteer acceptances ($l_{+}$), the number of volunteer rejections ($l_{-}$), and an agreement score defined as
+\begin{equation}
+  \text{agreement} = \frac{|l_{+} - l_{-}|}{l_{+} + l_{-}}.
+\end{equation}
+Across all \num{43025} excerpts ($\text{agreement} \ge 0.00$), records partition into three consensus strata:
+\begin{itemize}
+  \item \textbf{Positive-consensus excerpts ($l_{+} > l_{-}$, $N = \num{35626}$):} Texts where a majority of volunteers confirmed the candidate \gls{SDG} label.
+  \item \textbf{Negative-consensus excerpts ($l_{-} > l_{+}$, $N = \num{6120}$):} Texts where a majority of volunteers rejected the candidate \gls{SDG} label.
+  \item \textbf{Tied excerpts ($l_{+} = l_{-}$, $N = \num{1279}$):} Texts with equal positive and negative volunteer votes.
+\end{itemize}
+
+Using the standard operating thresholds of the dual-language classifier ($\text{top-}k = 3$, $\text{min-hits} \ge 2$), the full benchmark (v3) executed in \SI{121.26}{\second} across \num{12} worker processes via an exact prefix-trie matcher and lazy short-circuit evaluation of the STRINGS co-occurrence rules.
+
+\subsection{Aggregate Agreement and Specificity}
+
+On the \num{35626} positive-consensus excerpts, the dual-language classifier achieves the following retrieval performance:
+\begin{itemize}
+  \item \textbf{Top-1 exact match:} \num{16009} / \num{35626} (\SI{44.9}{\percent})
+  \item \textbf{Top-3 recall ($\text{hits} \ge 2$):} \num{19970} / \num{35626} (\SI{56.1}{\percent})
+  \item \textbf{Any lexical evidence ($\text{hits} \ge 1$):} \num{26113} / \num{35626} (\SI{73.3}{\percent})
+  \item \textbf{Abstention rate (no goal reaching $\text{hits} \ge 2$):} \num{9665} / \num{35626} (\SI{27.1}{\percent})
+\end{itemize}
+
+Equally important for metadata auditing is how the classifier treats false or tenuous goal associations. On the \num{6120} negative-consensus excerpts where human volunteers rejected the candidate \gls{SDG}, the dual-language classifier also rejected the candidate goal ($\text{not in Top-3}$) in \textbf{\num{5290} / \num{6120} (\SI{86.4}{\percent})} of cases, yielding an overall false-positive rate of only \SI{13.6}{\percent} (\num{830} / \num{6120}).
+
+\subsection{Per-SDG Performance and Domain Complementarity}
+
+\Cref{tab:osdg_cd_per_sdg} reports the per-goal breakdown across all 17~\glspl{SDG}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Performance of the dual-language classifier (\texttt{top-k=3}, \texttt{min-hits=2}) on the OSDG Community Dataset (\texttt{v2024-04-01}, $N = \num{43025}$). Because each OSDG-CD row validates a single candidate \gls{SDG} rather than an exhaustive multi-label set, $\text{Prec}^{*}$ treats valid co-occurring \glspl{SDG} in Top-3 as non-target hits and represents a \textit{conservative lower bound}.}
+  \label{tab:osdg_cd_per_sdg}
+  \small
+  \begin{tabular}{r S[table-format=4.0] S[table-format=2.1] S[table-format=2.1] S[table-format=2.1] S[table-format=2.1] S[table-format=3.0] S[table-format=2.1]}
+    \toprule
+    \textbf{SDG} & {\textbf{Pos $N$}} & {\textbf{Top-1 (\%)}} & {\textbf{Top-3 (\%)}} & {\textbf{$\text{Prec}^{*}$ (\%)}} & {\textbf{$\text{F1}^{*}$ (\%)}} & {\textbf{Neg $N$}} & {\textbf{Neg FP (\%)}} \\
+    \midrule
+     1 & 2131 & 69.8 & 77.9 & 28.5 & 41.8 & 536 & 26.9 \\
+    \rowcolor{rowtint}
+     2 & 1751 & 43.4 & 52.5 & 52.4 & 52.4 & 590 & 20.2 \\
+     3 & 2431 & 73.2 & 78.1 & 55.0 & 64.6 & 216 & 13.4 \\
+    \rowcolor{rowtint}
+     4 & 3212 & 48.3 & 51.8 & 69.8 & 59.5 & 476 &  6.1 \\
+     5 & 3379 & 27.9 & 48.8 & 78.0 & 60.0 & 904 &  8.6 \\
+    \rowcolor{rowtint}
+     6 & 2117 & 46.9 & 56.5 & 82.8 & 67.2 & 598 &  6.9 \\
+     7 & 2632 & 37.5 & 42.8 & 73.0 & 54.0 & 366 &  1.4 \\
+    \rowcolor{rowtint}
+     8 & 1333 & 30.4 & 48.0 & 15.3 & 23.3 & 127 & 15.0 \\
+     9 & 2494 & 15.5 & 20.5 & 51.1 & 29.3 & 165 &  1.8 \\
+    \rowcolor{rowtint}
+    10 & 1873 & 14.9 & 50.1 & 17.5 & 25.9 & 380 & 16.3 \\
+    11 & 2004 & 44.9 & 51.7 & 34.5 & 41.4 & 204 & 16.2 \\
+    \rowcolor{rowtint}
+    12 &  977 & 25.6 & 50.5 & 36.6 & 42.4 & 122 & 14.8 \\
+    13 & 1787 & 48.3 & 56.4 & 47.5 & 51.6 & 274 &  2.9 \\
+    \rowcolor{rowtint}
+    14 &  995 & 64.3 & 71.5 & 62.2 & 66.5 & 128 & 10.2 \\
+    15 & 2166 & 56.8 & 68.2 & 65.6 & 66.9 & 328 &  9.8 \\
+    \rowcolor{rowtint}
+    16 & 4344 & 58.9 & 70.0 & 64.7 & 67.3 & 706 & 27.9 \\
+    17 &    0 & {--} & {--} & {--} & {--} &   0 & {--} \\
+    \midrule
+    \textbf{Total / Overall} & \textbf{35626} & \textbf{44.9} & \textbf{56.1} & {--} & {--} & \textbf{6120} & \textbf{13.6} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\FloatBarrier
+Three structural patterns emerge from \Cref{tab:osdg_cd_per_sdg}:
+\begin{enumerate}
+  \item \textbf{High recall on health, poverty, environmental, and governance goals:} Goals whose policy vocabulary overlaps strongly with \gls{UN} agenda terminology achieve Top-3 recall between \SI{68.2}{\percent} and \SI{78.1}{\percent}, led by \gls{SDG}~3 (\SI{78.1}{\percent} Top-3, \qty{73.2}{\percent} Top-1), \gls{SDG}~1 (\qty{77.9}{\percent}), \gls{SDG}~14 (\qty{71.5}{\percent}), \gls{SDG}~16 (\qty{70.0}{\percent}), and \gls{SDG}~15 (\qty{68.2}{\percent}).
+  
+  \item \textbf{Strict resistance to false positives on technical goals:} On volunteer-rejected excerpts, technical goals exhibit near-zero false-positive rates --- \gls{SDG}~7 at \qty{1.4}{\percent}, \gls{SDG}~9 at \qty{1.8}{\percent}, and \gls{SDG}~13 at \qty{2.9}{\percent} --- confirming that the domain-specific engineering terms added to the auxiliary lexicon do not trigger spurious matches on non-relevant policy prose.
+  
+  \item \textbf{Corpus-register divergence on \gls{SDG}~9 (\qty{20.5}{\percent} Top-3 recall):} Whereas many KTH publications focused on hardware, telecommunications, metallurgy, computational mechanics, and transport infrastructure, OSDG-CD excerpts for \gls{SDG}~9 are drawn predominantly from macro-economic development reports emphasizing industrialization policy, \gls{SME} credit access, and institutional innovation ecosystems. This register divergence explains the inverse behavior observed in the \gls{DiVA} audit: OSDG frequently abstains on dense engineering theses where the dual-language classifier succeeds, while OSDG-CD's policy-oriented \gls{SDG}~9 excerpts omit the technical nomenclature targeted by the dual-language classifier's engineering lexicon.
+\end{enumerate}
+
+\subsection{Differences in the numbers between the parallel versions of the program}
+\begin{itemize}
+    \item Why v1 (\qty{201.5}{\second}) vs. v2 / v3 (\qty{134.5}{\second} / \qty{121.3}{\second}) had slightly different numbers --- and Why v2 and v3 are bit-for-bit identical:
+    \begin{itemize}
+    \item v2 and v3 produced \qty{100.0}{\percent} identical numbers across every single metric (\num{16009} / \num{35626} Top-1, \num{19970} / \num{35626} Top-3, \num{5290} / \num{6120} negative specificity), confirming that the lazy STRINGS optimization in v3 is mathematically lossless relative to v2.
+    \end{itemize}
+    
+    \item Why v1 differed slightly (\num{15284} vs. \num{16009} Top-1, \num{19031} vs. \num{19970} Top-3):
+    \begin{itemize}
+    \item In v1, combining all phrases of an \gls{SDG} into a single re.compile(r"(?<!\textbackslash w)(?:phrase\_1|phrase\_2|...)(?!\textbackslash w)") caused Python's regex engine to consume overlapping matches left-to-right without overlapping—so if \enquote{sustainable urban development} matched, nested sub-phrases like \enquote{urban development} or \enquote{sustainable urban} inside the same span were skipped!
+
+    \item In contrast, v2 and v3 scan every node in the Trie at every character offset (\texttt{for i in range(n): while j < n ...}), which matches sdg\_classifier\_dual\_language.py's exact per-phrase re.findall() semantics (where both \enquote{sustainable urban development} and \enquote{urban development} register independently), boosting Top-3 recall on OSDG-CD from \qty{53.4}{\percent} (v1) to \qty{56.1}{\percent} (v2/v3) and Top-1 exact match from \qty{42.9}{\percent} to \qty{44.9}{\percent}.
+    \end{itemize}
+\end{itemize}
+
 \clearpage
+
+\section{Comparison of classifier with AlmaSDG dataset}
+\label{appendix:ComparisonWithAlmaSDG}
+AlmaSDG is a benchmark dataset of \num{139} scientific articles annotated across all \num{17} \glspl{SDG} (\num{2363} binary article--\gls{SDG} cells in total, comprising \num{250} positive \gls{SDG} assignments across \num{126} articles and \num{13} articles with no assigned \glspl{SDG})~\cite{bolognini_almasdg_2026}. It is publicly available on Zenodo (\url{https://zenodo.org/records/19606053}, \doi{10.5281/zenodo.19606053}) and the associated software is available via GitHub (\url{https://github.com/nlp-unibo/AlmaSDG}).
+
+\Cref{lst:AlmaSDGOutput} shows the results of applying the dual-language classifier to the titles, abstracts, and keywords in \fname{alma\_sdg.csv} (Version~v1, dated 16~April~2026, retrieved from Zenodo).
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Comparing dual-language classifier with AlmaSDG}, label=lst:AlmaSDGOutput]
+./compare_dual_language_classifier_to_AlmaSDG.py /tmp/alma_sdg.csv
+========================================================================================
+==> Dual-Language Classifier vs. Alma SDG Assignments (/tmp/alma_sdg.csv)
+Dataset          : /tmp/alma_sdg.csv
+Parameters       : top_k=3, min_hits=2, workers=12
+Elapsed Time     : 5.89s
+----------------------------------------------------------------------------------------
+Total Publications Processed            : 139
+Publications with >=1 Assigned SDG      : 126
+Publications with 0 Assigned SDGs       : 13
+----------------------------------------------------------------------------------------
+1. Multi-Label Agreement Summary (Publications with >=1 Assigned SDG):
+   * Top-1 Prediction in Assigned Set   :     93 / 126 ( 73.8%)
+   * Any Overlap (>=1 SDG Shared)       :    111 / 126 ( 88.1%)
+   * Full Recall (All Assigned Found)   :     66 / 126 ( 52.4%)
+   * Exact Set Match (Pred == Assigned) :     29 / 126 ( 23.0%)
+   * Classifier Abstention (0 goals>=2) :      5 / 126 (  4.0%)
+   * Rows w/ >=1 Zero-Hit Assigned SDG  :     31 / 126 ( 24.6%)
+   * Mean Jaccard Similarity            : 0.5300
+   * Micro Precision / Recall / F1      :  59.2% /  67.8% /  63.2%
+   * Macro F1 (across active SDGs)      :  58.6%
+
+2. Per-SDG Multi-Label Breakdown:
+ SDG | Alma N | Pred N |    TP |    FP |    FN |   Prec |    Rec |     F1 | 0-Hit
+----------------------------------------------------------------------------------------
+   1 |      5 |     19 |     3 |    16 |     2 |  15.8% |  60.0% |  25.0% |     1
+   2 |     12 |     13 |     8 |     5 |     4 |  61.5% |  66.7% |  64.0% |     3
+   3 |     25 |     25 |    22 |     3 |     3 |  88.0% |  88.0% |  88.0% |     1
+   4 |     10 |     10 |     6 |     4 |     4 |  60.0% |  60.0% |  60.0% |     2
+   5 |     13 |      9 |     9 |     0 |     4 | 100.0% |  69.2% |  81.8% |     1
+   6 |      8 |      7 |     6 |     1 |     2 |  85.7% |  75.0% |  80.0% |     0
+   7 |     10 |     14 |    10 |     4 |     0 |  71.4% | 100.0% |  83.3% |     0
+   8 |     15 |     19 |     7 |    12 |     8 |  36.8% |  46.7% |  41.2% |     5
+   9 |     13 |     21 |     7 |    14 |     6 |  33.3% |  53.8% |  41.2% |     2
+  10 |     32 |     26 |    18 |     8 |    14 |  69.2% |  56.2% |  62.1% |     9
+  11 |     23 |     38 |    18 |    20 |     5 |  47.4% |  78.3% |  59.0% |     2
+  12 |     25 |     27 |    18 |     9 |     7 |  66.7% |  72.0% |  69.2% |     0
+  13 |     17 |     22 |    15 |     7 |     2 |  68.2% |  88.2% |  76.9% |     0
+  14 |      7 |     12 |     5 |     7 |     2 |  41.7% |  71.4% |  52.6% |     0
+  15 |      9 |     16 |     7 |     9 |     2 |  43.8% |  77.8% |  56.0% |     1
+  16 |     11 |     15 |     4 |    11 |     7 |  26.7% |  36.4% |  30.8% |     4
+  17 |      7 |      1 |     1 |     0 |     6 | 100.0% |  14.3% |  25.0% |     4
+----------------------------------------------------------------------------------------
+========================================================================================
+\end{lstlisting}
+
+\subsection{Analytical Takeaways}
+\begin{itemize}
+    \item \textbf{Strong Overall Alignment on Core Goals:} Despite using \texttt{top\_k=3} and \texttt{min\_hits=2} without any tuning to AlmaSDG's annotation guidelines, the classifier matches at least one human-annotated goal in \qty{88.1}{\percent} of positive articles (\num{111}/\num{126}), places its Top-1 prediction inside the human set \qty{73.8}{\percent} of the time (\num{93}/\num{126}), and performs best on well-defined sectoral goals such as \gls{SDG}~3 (F1 = \qty{88.0}{\percent}), \gls{SDG}~7 (F1 = \qty{83.3}{\percent}, \qty{100}{\percent} recall), \gls{SDG}~5 (F1 = \qty{81.8}{\percent}, \qty{100}{\percent} precision), and \gls{SDG}~6 (F1 = \qty{80.0}{\percent}).
+
+    \item \textbf{Consistent Zero-Hit Rate Across Independent Corpora (\qty{\sim 25}{\percent}):} Remarkably, \qty{24.6}{\percent} (\num{31}/\num{126}) of positive AlmaSDG articles contain at least one human-assigned \gls{SDG} with \num{0} keyword hits --- nearly identical to the \qty{25.5}{\percent} (\num{84}/\num{330}) observed in \gls{KTH} \gls{DiVA} records (\Cref{tab:stats}). This confirms that human annotators routinely infer broad policy connections (especially for cross-cutting goals like \gls{SDG}~10 [\num{9} zero-hit rows], \gls{SDG}~8 [\num{5} zero-hit rows], \gls{SDG}~16 [\num{4} zero-hit rows], and \gls{SDG}~17 [\num{4} zero-hit rows]) that are not explicitly lexicalized in the abstract.
+
+    \item \textbf{Precision vs.\ Recall Trade-Off on Broad Goals (\gls{SDG}~1 and \gls{SDG}~11):} Broad socio-economic and urban terms cause higher false-positive counts on \gls{SDG}~1 (\num{16} FP, driven by generic terms such as \enquote{poverty} or \enquote{inequality}) and \gls{SDG}~11 (\num{20} FP), whereas \gls{SDG}~17 (\qty{100}{\percent} precision, \qty{14.3}{\percent} recall) is under-predicted because partnership concepts are rarely captured by narrow keyword rules.
+
+    \item \textbf{Negative Control Behavior (\num{13} Zero-SDG Articles):} On the \num{13} AlmaSDG articles (\qty{9.4}{\percent} of the \num{139} articles) annotated with \num{0} \glspl{SDG}, the classifier abstained cleanly on \num{3} records (\qty{23.1}{\percent}: \texttt{11585/968220} with all zeros, plus \texttt{11585/966816} and \texttt{11585/950107} with single trace hits below \texttt{min\_hits=2}), paralleling the negative-control behavior in \Cref{cs:diva2_2107472}. On the remaining \num{10} records (\qty{76.9}{\percent}), the classifier emitted \num{17} false-positive goal predictions (\num{6} single-goal, \num{1} two-goal, and \num{3} three-goal outputs): \num{3} were borderline threshold hits (\eg \texttt{11585/965314} with \num{2} hits on \enquote{daylight} under \gls{SDG}~11 and \texttt{11585/964185} with \num{2} nested hits on \enquote{open-source software} under \gls{SDG}~9), whereas \num{7} contained dense sectoral vocabulary that human annotators nevertheless judged not to constitute a direct \gls{SDG} contribution (\eg \texttt{11585/951446} with \num{13} hits on \enquote{organic certification}/\enquote{smallholder} under \gls{SDG}~2, \texttt{11585/841898} with \num{13} hits on \enquote{forest owners} under \gls{SDG}~15, and \texttt{11585/114241} with \num{12} hits on \enquote{wage}/\enquote{labour supply} under \gls{SDG}~8). This confirms that lexical matching cannot distinguish topical domain vocabulary from genuine policy alignment on its own, reinforcing the need for human author review (\Cref{rec:explicitScope,rec:blankValidAndAudit}).
+\end{itemize}
+
+\clearpage
+
 \phantomsection % Directs hyperref to anchor exactly here
 % Align the text expansion of the glossary entries
 \newglossarystyle{mylong}{%
