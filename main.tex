@@ -444,7 +444,7 @@ Automated \gls{SDG} classification tools used in scientometrics and repository w
 
     \item \textbf{Commercial Bibliometric Queries (Scopus / Times Higher Education (THE)):} According to a bibliometrician at \gls{KTHB}, institutional reporting relies heavily on Scopus \gls{SDG} assignments because those mappings are used by the Times Higher Education (THE) Impact Rankings. However, Scopus relies on proprietary query sets applied primarily to indexed English-language literature, leaving Swedish-language reports, technical deliverables, and theses in \gls{DiVA} either unlabeled or evaluated without their Swedish text. Additionally, licensing issues prevent \gls{KTHB} from importing \glspl{SDG} from Scopus and WoS/Clarivate as labels for publications in \gls{DiVA}.
 
-    \item \textbf{Aggregated Open Metadata Pipelines (OpenAlex \& Swemetrics):} \gls{KTHB} and the Swedish national bibliometric initiative Swemetrics are also evaluating \gls{SDG} classifications from OpenAlex. Whereas OpenAlex previously relied on the open-source Aurora \gls{SDG} classification framework, since October 2026 it has transitioned to a newer classification pipeline (\href{https://help.openalex.org/data/sdgs/}{https://help.openalex.org/data/sdgs/}) whose source code and model weights do not appear to be openly available --- preventing authors and curators from auditing \emph{why} a specific \gls{SDG} was assigned to a given publication.
+    \item \textbf{Aggregated Open Metadata Pipelines (OpenAlex \& Swemetrics):} \gls{KTHB} and the Swedish national bibliometric initiative Swemetrics are also evaluating \gls{SDG} classifications from OpenAlex. Whereas OpenAlex previously relied on the open-source Aurora \gls{SDG} classification framework, since October 2026 it has transitioned to a newer classification pipeline (\href{https://help.openalex.org/data/sdgs/}{https://help.openalex.org/data/sdgs/}) whose source code and model weights are available at \url{https://github.com/ourresearch/openalex-sdgs/tree/main} --- however, as it is a trained model authors and curators cannot easily auditing \emph{why} a specific \gls{SDG} was assigned to a given publication.
 \end{itemize}
 
 Because external databases are retrospective, commercial mappings are proprietary and non-importable, newer aggregated pipelines are opaque, and OSDG is no longer actively maintained, authors who seek to assign \glspl{SDG} when entering publications into \gls{DiVA} benefit from an open-source, transparent, dual-language classifier that runs locally on English and Swedish metadata and exposes the exact terms and rules behind every suggested \gls{SDG}.
@@ -4719,6 +4719,154 @@ Three diagnostic patterns stand out in \Cref{tab:swemetrics_per_sdg}:
   
   \item \textbf{Unverified \texttt{0-Hit} Aurora assignments:} Across all \num{11254} Swemetrics goal-publication pairs in the matched set, \num{6350} (\qty{56.4}{\percent}) register zero lexical matches in the publication's title, keywords, or abstracts --- most notably under \gls{SDG}~7 (\num{1393} / \num{2294} with zero hits), \gls{SDG}~4 (\num{488} / \num{766}), \gls{SDG}~6 (\num{475} / \num{687}), and \gls{SDG}~16 (\num{411} / \num{505}) --- reflecting Swemetrics/Aurora's broader query rules (such as proximity operators and stem expansions) or neural model predictions that infer policy alignment without matching our stricter domain vocabulary. Note that the Aurora assignments are based on the classic Aurora \gls{SDG} model (v5), used by OpenAlex/Swemetrics prior to late 2026.
 \end{enumerate}
+
+\clearpage
+
+\section{Improving the dual-language classifier}
+\label{appendix:improvingClassifier}
+
+Using the commands in \Cref{lst:GetMined_terms}, collect diagnostic data, then mine terms to add to or remove from the program.
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output}, label=lst:GetMined_terms]
+./compare_DiVA_extracts_with_Swemetrics_SDGs.py --output-csv /tmp/compare_DiVA_extracts_with_Swemetrics_SDGs.csv
+./compare_dual_language_classifier_to_AlmaSDG.py --output-csv /tmp/compare_dual_language_classifier_to_AlmaSDG.csv
+./mine_fn_fp_terms.py --source aurora --min-swe-score 0.5 --zero-hit-only --json-out /tmp/mined_terms.json
+\end{lstlisting}
+
+Summary of Changes Applied to \fname{sdg\_classifier\_dual\_language.py}
+\begin{itemize}
+\item Vetted Missing-Term Additions (AUXILIARY\_SDG\_TERMS \& ACRONYMS\_SDG\_TERMS):
+\begin{itemize}
+\item \gls{SDG}~1: Added \enquote{poor}, \enquote{poorer}, \enquote{low-income}, \enquote{income}, \enquote{dålig}, \enquote{fattig}, \enquote{fattiga}, and \enquote{låginkomst}.
+
+\item \gls{SDG}~2: Added \enquote{agriculture}, \enquote{agricultural}, \enquote{food}, \enquote{food products}, \enquote{nutritional}, \enquote{crop}, \enquote{crops}, \enquote{jordbruket}, \enquote{jordbruk}, \enquote{livsmedel}, and \enquote{grödor}.   
+
+\item \gls{SDG}~3: Added \enquote{cervical}, \enquote{injury}, \enquote{injuries}, \enquote{public health}, \enquote{folkhälsa}, \enquote{skada}, \enquote{skador}, and scoped \enquote{treatment} to \enquote{medical treatment} and \enquote{cancer treatment}.
+
+\gls{SDG}~5: Added \enquote{women}, \enquote{gender}, \enquote{female}, \enquote{kvinnor}, \enquote{kön}, and \enquote{genus}.
+
+\item \gls{SDG}~8: Added \enquote{labor}, \enquote{labour}, \enquote{productivity}, \enquote{workplace}, \enquote{employees}, \enquote{arbetskraft}, \enquote{arbetsplats}, and \enquote{sysselsättning}.
+
+\item \gls{SDG}~9: Added \enquote{industry}, \enquote{industrial}, \enquote{software}, \enquote{infrastructure}, \enquote{innovation}, \enquote{industri}, \enquote{programvara}, \enquote{mjukvara}, \enquote{infrastruktur}, plus boiling-water/light-water reactor terms (BWR, BWRs, LWR, LWRs, boiling water reactor(s), light water reactor(s), kokvattenreaktor(er), lättvattenreaktor(er)) relocated from SDG 7.
+
+\item \gls{SDG}~10: Added \enquote{inclusion}, \enquote{exclusion}, \enquote{discrimination}, \enquote{discriminative}, \enquote{discriminate}, \enquote{migration}, \enquote{inkludering}, \enquote{exkludering}, \enquote{diskriminering}, and replaced bare \enquote{equity} with \enquote{health equity} and \enquote{social equity}.
+
+\item \gls{SDG}~11: Added \enquote{architecture}, \enquote{architectural}, \enquote{building}, \enquote{buildings}, \enquote{city}, \enquote{arkitektur}, \enquote{arkitektonisk}, \enquote{byggnad}, \enquote{stad}, and added \enquote{kommunalt avfall} alongside \enquote{municipal solid waste}.
+
+\item S\gls{SDG}~12: Added \enquote{life cycle}, \enquote{life cycle assessment}, \enquote{life cycle cost},\enquote{life cycle management}, \enquote{reclaimed water}, \enquote{water reuse}, \enquote{livscykelanalys}, \enquote{livscykelanalyser}, \enquote{livscykelkostnad}, \enquote{återanvänt vatten}, and \enquote{LCA}.
+
+\item \gls{SDG}~13: Added \enquote{climate}, \enquote{climates}, \enquote{klimat}.
+
+\item \gls{SDG}~14: Added \enquote{sea}, \enquote{ocean}, \enquote{waters}, \enquote{coast}, \enquote{coastal}, \enquote{fish}, \enquote{arctic}, \enquote{atlantic}, \enquote{hav}, \enquote{havet}, \enquote{kust}, and \enquote{fisk}.   
+
+\item \gls{SDG}~15: Added \enquote{soil}, \enquote{soils}, \enquote{forest}, \enquote{forests}, \enquote{species}, \enquote{conservation}, \enquote{ecological}, \enquote{compost}, \enquote{jord}, \enquote{mark}, \enquote{skog}, \enquote{skogar}, \enquote{arter}, and \enquote{naturvård}.   
+
+\item \gls{SDG}~16: Added \enquote{law}, \enquote{legal}, \enquote{justice}, \enquote{rights}, \enquote{administrative}, \enquote{reforms}, \enquote{juridik}, \enquote{juridisk}, \enquote{rättigheter}, and \enquote{förvaltning}.
+
+\item \gls{SDG}~17: Added \enquote{cooperation}, \enquote{partnership}, \enquote{partnerships}, \enquote{international}, \enquote{partnerskap}, and  \enquote{internationell}.
+\end{itemize}
+
+\item High-FP Prunings (SDG*\_EXCLUDED\_TERMS):
+\begin{itemize}
+\item \gls{SDG}~3: Excluded bare \enquote{treatment}, \enquote{disturbances}, and \enquote{störningar}.
+
+\item \gls{SDG}~7: Excluded BWR/LWR boiling-water and light-water reactor phrases (moved to SDG 9).
+
+\item \gls{SDG}~8: Excluded\enquote{by-product}, \enquote{by-products}, \enquote{circular economy}, and \enquote{techno-economic}.
+
+\item S\gls{SDG}~9: Excluded \enquote{finite element}, \enquote{finite element method}, \enquote{finita element}, \enquote{lca}, and \enquote{CFD}.
+
+\item \gls{SDG}~10: Excluded bare \enquote{equity}, \enquote{tillgänglighet}, \enquote{poverty}, and \enquote{public housing}.
+
+\item \gls{SDG}~11: Excluded bare \enquote{waste}, \enquote{recycling}, and \enquote{waste management}.
+
+\item \gls{SDG}~12: Excluded \enquote{energy efficiency}, \enquote{energy savings}, \enquote{energy saving}, \enquote{energy efficient}, \enquote{energy-efficient}, \enquote{thermal energy storage}, and \enquote{viscosity}.
+
+\item \gls{SDG}~13: Excluded \enquote{LCA}, \enquote{life cycle assessment}, \enquote{livscykelanalys}, \enquote{livscykelanalyser} (moved to SDG 12).
+
+\item \gls{SDG}~16: Excluded bare \enquote{institution} and \enquote{institutionell}.   
+\end{itemize}
+
+\item Regex Context Guards (CUSTOM\_TERM\_REGEX):
+\begin{itemize}
+\item \gls{SDG}~3 (health): r"(?<!structural\textbackslash s)\textbackslash bhealth \textbackslash b(?!\textbackslash s+monitoring)" so "structural health monitoring" does not trigger SDG 3.
+
+\item \gls{SDG}~13 (climate, climates, klimat): Negative lookbehinds blocking \enquote{indoor climate}, \enquote{microclimate}, \enquote{micro-climate}, \enquote{inomhusklimat}, and \enquote{mikroklimat}.
+
+\item \gls{SDG}~15 (conservation, forest, forests): Negative lookahead/lookbehinds blocking "\enquote{conservation law(s)} and \enquote{random forest(s)}.
+\end{itemize}
+\end{itemize}
+
+One can now re-run \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py}, \fname{compare\_dual\_language\_classifier\_to\_AlmaSDG.py}, and \fname{compare\_dual\_language\_classifier\_to\_OSDG\_CD\_parallel\_edition\_v3.py} against the updated classifier to measure the precision and recall shifts.
+
+\subsection{Results of the improvements}
+
+The new \fname{mined\_terms.json} shows a massive drop in \texttt{0-Hit} false negatives across almost every single goal—for example, Swemetrics zero-hit FN counts fell from \textbf{33 → 2} (SDG 1), \textbf{16 → 2} (SDG 2), \textbf{17 → 2} (SDG 5), \textbf{411 → 83} (SDG 9), \textbf{106 → 42} (SDG 10), \textbf{551 → 283} (SDG 11), \textbf{39 → 16} (SDG 12), \textbf{71 → 21} (SDG 13), \textbf{140 → 82} (SDG 14), \textbf{121 → 54} (SDG 15), and \textbf{82 → 41} (SDG 17), while AlmaSDG zero-hit FNs dropped to \textbf{0–2 docs} across almost every goal.
+
+At the same time, \fname{mined\_terms.json} cleanly surfaces two remaining precision vs. recall refinements we should make so the new broad unigrams do not over-fire:
+\begin{itemize}
+    \item \textbf{Tighten Broad Single-Word Unigrams That Added Noise in Pass 1:}
+    \begin{itemize}
+    \item \textbf{SDG 17 (`international`: 87 FP vs. 41 TP; `internationell`: 35 FP vs. 8 TP):}\\
+    Adding bare \enquote{international} / \enquote{internationell} triggered false positives on \textit{\enquote{international journal}}, \textit{\enquote{international conference}}, and \textit{\enquote{international standard}}. Replace bare \enquote{international} / \enquote{internationell} with specific partnership compounds (\enquote{international cooperation}, \enquote{international partnership}, \enquote{international partnerships}, \enquote{internationellt samarbete}, \enquote{internationellt partnerskap}).
+
+    \item \textbf{SDG 9 (\enquote{industri}: 395 FP vs. 300 TP; \enquote{industrial}: 276 FP vs. 162 TP):}\\
+    
+    Bare \enquote{industri} / \enquote{industrial} fires on passing mentions of \textit{\enquote{industrial partners}} in unrelated theses. Keep \enquote{industry} and \enquote{industrial} qualified or keep \enquote{industrial} out while retaining specific compounds (\enquote{industrialization}, \enquote{industrialisation}, \enquote{manufacturing industry}, \enquote{tillverkningsindustri}, \enquote{industrisektorn}).
+
+
+    \item \textbf{SDG 15 (\enquote{soil}: 55 FP vs. 42 TP; \enquote{ecological}: 47 FP vs. 24 TP; \enquote{species}: 39 FP vs. 22 TP):}\\
+    Keep \enquote{soils}, \enquote{forest}, \enquote{forests}, \enquote{skog}, \enquote{skogar}, \enquote{naturvård}, \enquote{compost} while tightening bare \enquote{soil}/\enquote{mark} (\enquote{mark} in Swedish means \textit{ground/land} in civil engineering and geotechnics, causing false positives in foundation/tunnel papers!).
+
+    \item \textbf{SDG 5 (\enquote{kvinnor}: 18 FP vs. 7 TP):}\\
+    Add a \texttt{CUSTOM\_TERM\_REGEX} guard on \enquote{women} / \enquote{kvinnor} or keep \enquote{women} while removing bare \enquote{kvinnor} if it triggers on medical cohort descriptions (\textit{\enquote{män och kvinnor}}).
+
+
+    \item \textbf{SDG 16 (\enquote{förvaltning}: 9 FP vs. 0 TP; \enquote{administrative}: 14 FP vs. 4 TP):}\\    
+    Remove bare \enquote{förvaltning} and \enquote{administrative} (keep \enquote{offentlig förvaltning} and \enquote{public administration}).
+    \end{itemize}
+
+    \item \textbf{Add High-Signal Civil/Marine/Governance Terms Uncovered in Pass 2:}
+    \begin{itemize}
+    \item \textbf{SDG 11:} \enquote{concrete}, \enquote{bridge}, \enquote{bridges}, \enquote{betong}, \enquote{broar} (Target 11.c resilient buildings/civil structures, where Swemetrics had \num{62} concrete and \num{26} bridge FNs).
+
+
+    \item \textbf{SDG 14:} \enquote{fartyg}, \enquote{fartygen}, \enquote{oceanic} (Swedish maritime vessels and oceanography).
+    \end{itemize}
+\end{itemize}
+
+\begin{comment}
+    
+
+### Summary of Pass-2 Refinements Applied (from \fname{mined\_terms.json})
+
+1. **Precision Pruning of Over-Broad Pass-1 Unigrams:**
+* **SDG 9 (`industri` / `industrial`):** Replaced bare `"industri"` (`395` FP) and `"industrial"` (`276` FP) with scoped industrial-sector compounds (`"industrialization"`, `"industrialisation"`, `"manufacturing industry"`, `"tillverkningsindustri"`, `"industrisektorn"`).
+
+
+* **SDG 17 (`international` / `internationell`):** Replaced bare `"international"` (`87` FP) and `"internationell"` (`35` FP) with partnership-qualified compounds (`"international cooperation"`, `"international partnership"`, `"international partnerships"`, `"internationellt samarbete"`, `"internationellt partnerskap"`) so generic references to *international conferences/journals* no longer trigger SDG 17.
+
+
+* **SDG 15 (`soil` / `mark`):** Replaced bare `"soil"` (`55` FP) and polysemous Swedish `"mark"` (ground/land in geotechnics) with `"soils"`, `"jordmån"`, and `"skogsmark"`.
+
+
+* **SDG 16 (`administrative` / `förvaltning`):** Removed bare `"administrative"` (`14` FP) and `"förvaltning"` (`9` FP / `0` TP), keeping `"public administration"` and `"offentlig förvaltning"`.
+
+
+
+
+2. **Context Guards & High-Signal Civil/Marine Additions:**
+* **SDG 5 (`women` / `kvinnor`):** Added `CUSTOM_TERM_REGEX` guards blocking symmetric demographic cohort phrases (`"men and women"`, `"women and men"`, `"män och kvinnor"`, `"kvinnor och män"`), eliminating clinical cohort FPs (`18` FP for `kvinnor`) while preserving gender-focused studies.
+
+
+* **SDG 11:** Added `"concrete"`, `"bridge"`, `"bridges"`, `"betong"`, and `"broar"` to capture civil-structure and built-environment publications (`62` concrete and `26` bridge FNs in Swemetrics).
+
+
+* **SDG 14:** Added `"oceanic"`, `"fartyg"`, and `"fartygen"` for Swedish maritime-vessel and oceanographic studies.
+\end{comment}
+
+
+One can now re-run \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py} and \fname{compare\_dual\_language\_classifier\_to\_AlmaSDG.py} to compare the updated precision, recall, and F1 scores against your earlier baseline.
 
 \clearpage
 
