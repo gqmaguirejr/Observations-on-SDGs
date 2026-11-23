@@ -2681,7 +2681,7 @@ In contrast, as shown in \Cref{lst:t_162455Output}, the program recovered both p
     \item Trace False-Positive Bleed (\gls{SDG}~3: 1 hit): Fired solely on \enquote{disturbances} (specifically from \enquote{platform-induced disturbances}), sitting safely below the \texttt{--min-hits 2} threshold.
 \end{itemize}
 
-\textbf{NB:} Note that \enquote{underwater vehicles} (2 hits) is a substring match inside \enquote{autonomous underwater vehicles} (2 hits). \gls{SDG}~14 (Target 14.a: increase scientific knowledge, develop research capacity and transfer marine technology) is genuinely warranted by the subsea instrumentation and sea trials.
+\textbf{NB:} \enquote{underwater vehicles} (2 hits) is a substring match inside \enquote{autonomous underwater vehicles} (2 hits). \gls{SDG}~14 (Target 14.a: increase scientific knowledge, develop research capacity and transfer marine technology) is genuinely warranted by the subsea instrumentation and sea trials.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -4429,7 +4429,7 @@ Three structural patterns emerge from \Cref{tab:osdg_cd_per_sdg}:
     
     \item Why v1 differed slightly (\num{15284} vs. \num{16009} Top-1, \num{19031} vs. \num{19970} Top-3):
     \begin{itemize}
-    \item In v1, combining all phrases of an \gls{SDG} into a single re.compile(r"(?<!\textbackslash w)(?:phrase\_1|phrase\_2|...)(?!\textbackslash w)") caused Python's regex engine to consume overlapping matches left-to-right without overlapping—so if \enquote{sustainable urban development} matched, nested sub-phrases like \enquote{urban development} or \enquote{sustainable urban} inside the same span were skipped!
+    \item In v1, combining all phrases of an \gls{SDG} into a single re.compile(r"(?<!\textbackslash w)(?:phrase\_1|phrase\_2|...)(?!\textbackslash w)") caused Python's regex engine to consume overlapping matches left-to-right without overlapping --- so if \enquote{sustainable urban development} matched, nested sub-phrases like \enquote{urban development} or \enquote{sustainable urban} inside the same span were skipped!
 
     \item In contrast, v2 and v3 scan every node in the Trie at every character offset (\texttt{for i in range(n): while j < n ...}), which matches sdg\_classifier\_dual\_language.py's exact per-phrase re.findall() semantics (where both \enquote{sustainable urban development} and \enquote{urban development} register independently), boosting Top-3 recall on OSDG-CD from \qty{53.4}{\percent} (v1) to \qty{56.1}{\percent} (v2/v3) and Top-1 exact match from \qty{42.9}{\percent} to \qty{44.9}{\percent}.
     \end{itemize}
@@ -4527,6 +4527,198 @@ Publications with 0 Assigned SDGs       : 13
 
     \item \textbf{Negative Control Behavior (\num{13} Zero-SDG Articles):} On the \num{13} AlmaSDG articles (\qty{9.4}{\percent} of the \num{139} articles) annotated with \num{0} \glspl{SDG}, the classifier abstained cleanly on \num{3} records (\qty{23.1}{\percent}: \texttt{11585/968220} with all zeros, plus \texttt{11585/966816} and \texttt{11585/950107} with single trace hits below \texttt{min\_hits=2}), paralleling the negative-control behavior in \Cref{cs:diva2_2107472}. On the remaining \num{10} records (\qty{76.9}{\percent}), the classifier emitted \num{17} false-positive goal predictions (\num{6} single-goal, \num{1} two-goal, and \num{3} three-goal outputs): \num{3} were borderline threshold hits (\eg \texttt{11585/965314} with \num{2} hits on \enquote{daylight} under \gls{SDG}~11 and \texttt{11585/964185} with \num{2} nested hits on \enquote{open-source software} under \gls{SDG}~9), whereas \num{7} contained dense sectoral vocabulary that human annotators nevertheless judged not to constitute a direct \gls{SDG} contribution (\eg \texttt{11585/951446} with \num{13} hits on \enquote{organic certification}/\enquote{smallholder} under \gls{SDG}~2, \texttt{11585/841898} with \num{13} hits on \enquote{forest owners} under \gls{SDG}~15, and \texttt{11585/114241} with \num{12} hits on \enquote{wage}/\enquote{labour supply} under \gls{SDG}~8). This confirms that lexical matching cannot distinguish topical domain vocabulary from genuine policy alignment on its own, reinforcing the need for human author review (\Cref{rec:explicitScope,rec:blankValidAndAudit}).
 \end{itemize}
+\clearpage
+	
+\section{Using the data from Swemetrics}
+\label{appendix:UsingSwemetricsData}
+
+One can use the \href{https://swemetrics.se/ui/}{Swemetrics} interface to access the \gls{SDG} data via a SQL query, such as:
+
+\begin{verbatim}
+SELECT
+  *
+FROM
+  "diva_kth"."main"."ext_work_sdgs"
+LIMIT
+  100000
+\end{verbatim}
+
+The records have the fields shown in \Cref{tab:sdgRecordFields}. The \texttt{record\_id} when prefixed by \texttt{"diva2:"} gives a DiVA ID. There is one row per SDG, with the \texttt{record\_id} repeated if there are multiple SDGs for a given publication. In the data extracted on 2026-11-23, there are \num{14849} rows.
+
+\begin{table}[!ht]
+  \centering
+  \caption{\texttt{ext\_work\_sdgs} record fields}
+  \label{tab:sdgRecordFields}
+  \begin{tabular}{l l l l}
+    \toprule
+    \textbf{Field} & \textbf{Type} & \textbf{Nullable} & \textbf{Description} \\
+    \midrule
+    \texttt{record\_id}     & VARCHAR   & YES & DiVA publication identifier (without \enquote{diva2}) \\
+    \texttt{sdg\_id}        & INTEGER   & YES & UN SDG number 1--17 \\
+    \texttt{display\_name}  & VARCHAR   & YES & English SDG title \\
+    \texttt{score}          & DOUBLE    & YES & Aurora classifier confidence score or \num{0} for native entries \\
+    \texttt{source}         & VARCHAR   & YES & upstream classification source \\
+    \texttt{classified\_at} & TIMESTAMP & YES & UTC timestamp of classification \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\FloatBarrier
+
+If the \texttt{Nullable} column entry is \texttt{YES}, the column allows NULL values (\ie it is optional / has no NOT NULL constraint). This occurs when the database was created with \texttt{CREATE TABLE ... AS SELECT ...} or without explicit \texttt{PRIMARY KEY / NOT NULL} constraints.
+
+
+\subsection{Comparing Dual-Language Classifier Predictions Against Swemetrics}
+\label{sec:SwemetricsComparisonProtocol}
+
+To evaluate how the dual-language rule-based classifier (\fname{sdg\_classifier\_dual\_language.py}) compares against the SDG assignments recorded in Swemetrics across \gls{KTH} publications, we executed \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py} (\texttt{top-k = 3}, \texttt{min-hits = 2}, including explicit in-text \gls{SDG} declarations). The comparison filters the deduplicated \gls{DiVA} metadata dump (\fname{/tmp/combined\_JSON\_output.json}) to the unique publications whose numeric \texttt{diva2:<record\_id>} identifiers appear in the \num{14849}-row Swemetrics extract, completing across all \num{10773} matched records in \qty{94.87}{\second} using \num{12} worker processes.
+
+For each matched publication $i$, let $S_i \subseteq \{1,\dots,17\}$ denote the union of \texttt{sdg\_id} values assigned in Swemetrics, $D_i \subseteq \{1,\dots,17\}$ denote the author- or librarian-declared \glspl{SDG} in the \gls{DiVA} record, and $P_i \subseteq \{1,\dots,17\}$ denote the set of \glspl{SDG} inferred by the dual-language classifier from the concatenated primary title, subtitle, alternative title, alternative subtitle, English and Swedish keywords, and English and Swedish abstracts.
+
+\subsubsection{Dataset Coverage and Provenance Stratification}
+
+\Cref{tab:swemetrics_coverage} summarizes record linkage between the Swemetrics extract and the \gls{DiVA} \gls{JSON} repository dump. The \num{14849} valid Swemetrics rows collapse into \num{14308} unique publications (\num{1.038} \glspl{SDG} per publication on average), of which \num{10773} (\qty{75.3}{\percent}) are present in \texttt{combined\_JSON\_output.json}. The remaining \num{3535} Swemetrics records represent publications outside the JSON export window or document types absent from the extract.
+
+\begin{table}[!ht]
+  \centering
+  \caption{Dataset coverage and record-linkage summary between the Swemetrics SQL extract (\num{14849} rows) and \texttt{/tmp/combined\_JSON\_output.json}.}
+  \label{tab:swemetrics_coverage}
+  \small
+  \begin{tabular}{l r}
+    \toprule
+    \textbf{Dataset / Linkage Metric} & \textbf{Count} \\
+    \midrule
+    Swemetrics valid rows (\texttt{sdg\_id} $\in [1, 17]$) & \num{14849} \\
+    \rowcolor{rowtint}
+    Swemetrics malformed rows & \num{0} \\
+    Swemetrics unique publications (\texttt{record\_id}) & \num{14308} \\
+    \rowcolor{rowtint}
+    DiVA JSON unique publications (\texttt{diva2:*}) & \num{158115} \\
+    DiVA JSON duplicate entries skipped & \num{5400} \\
+    \rowcolor{rowtint}
+    Matched publications evaluated ($N$) & \num{10773} \\
+    Swemetrics publications missing from DiVA JSON & \num{3535} \\
+    \rowcolor{rowtint}
+    Matched publications with empty text fields & \num{10} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\FloatBarrier
+
+Stratifying the \num{10773} matched publications by Swemetrics' \texttt{source} field reveals a sharp structural dichotomy between repository-native labels (\texttt{source = 'native'}, $N = \num{324}$) and automated Aurora classifier assignments (\texttt{source = 'aurora'}, $N = \num{10449}$), as detailed in \Cref{tab:swemetrics_source_metrics}.
+
+\begin{table}[!ht]
+  \centering
+  \caption{Multi-label agreement between the dual-language classifier (\texttt{top-k=3}, \texttt{min-hits=2}) and Swemetrics \glspl{SDG}, overall and stratified by Swemetrics \texttt{source}.}
+  \label{tab:swemetrics_source_metrics}
+  \small
+  \begingroup
+  \sisetup{group-minimum-digits=0}
+  \begin{tabular}{l S[table-format=6.0] *{5}{S[table-format=2.1]} S[table-format=1.4] S[table-format=2.1]}
+    \toprule
+    \textbf{Swemetrics \texttt{source}} & {\textbf{$N$}} & {\textbf{Top-1 (\%)}} & {\textbf{Overlap (\%)}} & {\textbf{Full Rec (\%)}} & {\textbf{Exact (\%)}} & {\textbf{Abstain (\%)}} & {\textbf{Jaccard}} & {\textbf{Micro F1 (\%)}} \\
+    \midrule
+    All Matched & 10773 & 30.4 & 38.3 & 37.0 & 16.4 & 38.5 & 0.2568 & 38.8 \\
+    \rowcolor{rowtint}
+    \texttt{aurora} & 10449 & 28.8 & 36.6 & 36.2 & 16.1 & 39.6 & 0.2473 & 36.9 \\
+    \texttt{native} & 324 & 84.6 & 93.5 & 62.7 & 25.3 & 3.1 & 0.5650 & 66.7 \\
+    \bottomrule
+  \end{tabular}
+  \endgroup
+\end{table}
+\FloatBarrier
+
+Key findings from the provenance stratification in \Cref{tab:swemetrics_source_metrics}:
+\begin{itemize}
+  \item \textbf{Strong concordance on \texttt{native} DiVA declarations ($N = \num{324}$):} Where authors or librarians explicitly declared \glspl{SDG} in \gls{DiVA}, the dual-language classifier places a validated goal at Rank~1 in \qty{84.6}{\percent} of publications, achieves at least one overlapping SDG in \qty{93.5}{\percent} (\num{303} / \num{324}\footnote{Representing \num{324} of the \num{330} unique \gls{DiVA} records with \glspl{SDG} extracted in \Cref{sec:Methodology}, the remaining \num{6} having been deposited or updated after Swemetrics' harvest)}), recovers the complete declared SDG set in \qty{62.7}{\percent}, and abstains in only \qty{3.1}{\percent} (\num{10} / \num{324}), yielding a micro-F1 of \qty{66.7}{\percent} (micro-precision \qty{65.3}{\percent}, micro-recall \qty{68.2}{\percent}) and a mean Jaccard similarity of
+  \num[group-minimum-digits=0]{0.5650}.
+  
+  \item \textbf{Substantial divergence from \texttt{aurora} automated labels ($N = \num{10449}$):} Over \qty{97}{\percent} of Swemetrics records originate from the automated Aurora model, which frequently assigns \glspl{SDG} to short journal articles, conference papers, or abstracts lacking sufficient domain-specific lexical density to cross our strict $\text{min-hits} \ge 2$ threshold (resulting in a \qty{39.6}{\percent} abstention rate and \qty{36.6}{\percent} set overlap).
+\end{itemize}
+
+\subsubsection{Per-SDG Comparative Distribution and Lexical Grounding}
+
+\Cref{tab:swemetrics_per_sdg} contrasts per-goal assignment counts across Swemetrics (\texttt{Swe N}), the dual-language classifier (\texttt{Pred N}), and native DiVA metadata (\texttt{DiVA N}) across all \num{10773} matched publications, together with true positives ($\text{TP}$), false positives ($\text{FP}$), false negatives ($\text{FN}$), precision, recall, $\text{F1}$, and the number of Swemetrics assignments registering zero lexical hits (\texttt{0-Hit}) in the publication's title, keywords, and abstracts.
+
+\begin{table}[!ht]
+  \centering
+  \caption{Per-SDG comparison of dual-language classifier predictions (\texttt{top-k=3}, \texttt{min-hits=2}) against Swemetrics and \gls{DiVA} metadata across $N = \num{10773}$ matched \gls{KTH} publications.}
+  \label{tab:swemetrics_per_sdg}
+  \footnotesize
+  \begin{tabular}{r S[table-format=5.0] S[table-format=5.0] S[table-format=3.0] *{3}{S[table-format=4.0]} *{3}{S[table-format=2.1]} S[table-format=4.0]}
+    \toprule
+    \textbf{SDG} & {\textbf{Swe $N$}} & {\textbf{Pred $N$}} & {\textbf{DiVA $N$}} & {\textbf{TP}} & {\textbf{FP}} & {\textbf{FN}} & {\textbf{Prec (\%)}} & {\textbf{Rec (\%)}} & {\textbf{F1 (\%)}} & {\textbf{0-Hit}} \\
+    \midrule
+     1 &   70 &  142 &   3 &   19 &  123 &   51 & 13.4 & 27.1 & 17.9 &   44 \\
+    \rowcolor{rowtint}
+     2 &   75 &  102 &   9 &   38 &   64 &   37 & 37.3 & 50.7 & 42.9 &   27 \\
+     3 &  364 &  961 &  80 &  303 &  658 &   61 & 31.5 & 83.2 & 45.7 &   35 \\
+    \rowcolor{rowtint}
+     4 &  766 &  416 &  15 &  216 &  200 &  550 & 51.9 & 28.2 & 36.6 &  488 \\
+     5 &  106 &   95 &  16 &   60 &   35 &   46 & 63.2 & 56.6 & 59.7 &   33 \\
+    \rowcolor{rowtint}
+     6 &  687 &  263 &  12 &  190 &   73 &  497 & 72.2 & 27.7 & 40.0 &  475 \\
+     7 & 2294 & 1214 &  58 &  726 &  488 & 1568 & 59.8 & 31.7 & 41.4 & 1393 \\
+    \rowcolor{rowtint}
+     8 &  392 &  378 &  17 &  101 &  277 &  291 & 26.7 & 25.8 & 26.2 &  211 \\
+     9 & 2027 & 3149 & 127 & 1018 & 2131 & 1009 & 32.3 & 50.2 & 39.3 &  721 \\
+    \rowcolor{rowtint}
+    10 &  226 &  222 &  19 &   37 &  185 &  189 & 16.7 & 16.4 & 16.5 &  168 \\
+    11 & 1862 & 1786 & 125 &  888 &  898 &  974 & 49.7 & 47.7 & 48.7 &  743 \\
+    \rowcolor{rowtint}
+    12 &  616 &  985 &  77 &  369 &  616 &  247 & 37.5 & 59.9 & 46.1 &  158 \\
+    13 &  291 &  537 &  78 &  139 &  398 &  152 & 25.9 & 47.8 & 33.6 &  119 \\
+    \rowcolor{rowtint}
+    14 &  312 &  123 &  11 &   66 &   57 &  246 & 53.7 & 21.2 & 30.3 &  208 \\
+    15 &  341 &  236 &  15 &   60 &  176 &  281 & 25.4 & 17.6 & 20.8 &  239 \\
+    \rowcolor{rowtint}
+    16 &  505 &  310 &   9 &   58 &  252 &  447 & 18.7 & 11.5 & 14.2 &  411 \\
+    17 &  315 &   53 &  13 &   19 &   34 &  296 & 35.8 &  6.0 & 10.3 &  273 \\
+    \midrule
+    \textbf{Total / Micro} & 11254 & 10973 & 724 & 4309 & 6664 & 6945 & 39.3 & 38.3 & 38.8 & 6350 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+In \Cref{tab:swemetrics_per_sdg} (generated by \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py}), the columns are \textbf{TP} (True Positives), \textbf{FP} (False Positives\footnote{labeled \texttt{FP} in the table rather than  \texttt{TF}}), and \textbf{FN} (False Negatives).
+
+For each individual goal $g \in \{1, \dots, 17\}$, the script evaluates every matched publication ($N = \num{10773}$) by comparing two sets:
+\begin{itemize}
+    \item \textbf{Reference Set ($S_{\text{Swe}}$):} The set of \texttt{sdg\_id} values assigned to that publication in Swemetrics.
+
+
+    \item \textbf{Predicted Set ($S_{\text{Pred}}$):} The top-$k$ goals (\texttt{--top-k 3}) whose match count in \fname{sdg\_classifier\_dual\_language.py} meets or exceeds \texttt{--min-hits 2} (plus any explicit in-text \texttt{\enquote{SDG g}} mentions in the title, keywords, or abstract).
+\end{itemize}
+
+
+Across all \num{10773} matched publications, the three contingency counts for goal $g$ are calculated as:
+\begin{itemize}
+    \item \textbf{True Positives ($\text{TP}_g$):} Publications where goal $g$ is present in \textbf{both} Swemetrics and the classifier's predicted set ($g \in S_{\text{Swe}} \land g \in S_{\text{Pred}}$).
+
+
+    \item \textbf{False Positives ($\text{FP}_g$):} Publications where the classifier inferred goal $g$ ($\ge 2$ hits in Top-$3$), \textbf{but} Swemetrics did not assign goal $g$ ($g \in S_{\text{Pred}} \land g \notin S_{\text{Swe}}$).
+
+
+    \item \textbf{False Negatives ($\text{FN}_g$):} Publications where Swemetrics assigned goal $g$, \textbf{but} the classifier did not include goal $g$ in its Top-$3$ predictions ($g \in S_{\text{Swe}} \land g \notin S_{\text{Pred}}$).
+\end{itemize}
+
+
+These three counts satisfy the column identities in the table:
+
+$$\text{Swe } N = \text{TP}_g + \text{FN}_g, \qquad \text{Pred } N = \text{TP}_g + \text{FP}_g$$
+
+$$\text{Precision}_g = \frac{\text{TP}_g}{\text{TP}_g + \text{FP}_g}, \qquad \text{Recall}_g = \frac{\text{TP}_g}{\text{TP}_g + \text{FN}_g}, \qquad F_{1,g} = \frac{2\,\text{TP}_g}{2\,\text{TP}_g + \text{FP}_g + \text{FN}_g}$$
+
+\textbf{NB:} True Negatives, $\text{TN}_g = \num{10773} - (\text{TP}_g + \text{FP}_g + \text{FN}_g)$, are omitted from the table because multi-label \gls{SDG} assignments are sparse --- each goal is absent from most publications --- which would make accuracy and specificity artificially close to \qty{100}{\percent}.
+\medskip
+
+Three diagnostic patterns stand out in \Cref{tab:swemetrics_per_sdg}:
+\begin{enumerate}
+  \item \textbf{Consistent \gls{KTH} disciplinary concentration across all three systems:} Swemetrics, the dual-language classifier, and native DiVA declarations all identify the same core institutional pillars --- \gls{SDG}~7 (\num{2294} Swemetrics / \num{1214} classifier), \gls{SDG}~9 (\num{2027} / \num{3149}), \gls{SDG}~11 (\num{1862} / \num{1786}), \gls{SDG}~12 (\num{616} / \num{985}), and \gls{SDG}~3 (\num{364} / \num{961}) --- whereas native DiVA metadata covers only \num{724} goal assignments across \num{324} publications in this cohort.
+  
+  \item \textbf{High recall on health, circularity, gender, and industrial infrastructure:} The dual-language classifier recovers \qty{83.2}{\percent} of Swemetrics \gls{SDG}~3 assignments (\num{303} / \num{364}), \qty{59.9}{\percent} of \gls{SDG}~12 (\num{369} / \num{616}), \qty{56.6}{\percent} of \gls{SDG}~5 (\num{60} / \num{106}), \qty{50.7}{\percent} of \gls{SDG}~2 (\num{38} / \num{75}), and \qty{50.2}{\percent} of \gls{SDG}~9 (\num{1018} / \num{2027}), while capturing \num{2131} additional \gls{SDG}~9 and \num{898} additional \gls{SDG}~11 publications where Aurora omitted technical infrastructure tags.
+  
+  \item \textbf{Unverified \texttt{0-Hit} Aurora assignments:} Across all \num{11254} Swemetrics goal-publication pairs in the matched set, \num{6350} (\qty{56.4}{\percent}) register zero lexical matches in the publication's title, keywords, or abstracts --- most notably under \gls{SDG}~7 (\num{1393} / \num{2294} with zero hits), \gls{SDG}~4 (\num{488} / \num{766}), \gls{SDG}~6 (\num{475} / \num{687}), and \gls{SDG}~16 (\num{411} / \num{505}) --- reflecting Swemetrics/Aurora's broader query rules (such as proximity operators and stem expansions) or neural model predictions that infer policy alignment without matching our stricter domain vocabulary. Note that the Aurora assignments are based on the classic Aurora \gls{SDG} model (v5), used by OpenAlex/Swemetrics prior to late 2026.
+\end{enumerate}
 
 \clearpage
 
