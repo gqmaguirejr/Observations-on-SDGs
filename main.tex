@@ -3202,24 +3202,25 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_18072.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 37, 0, 0, 0, 0, 32, 0]
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 37, 0, 0, 0, 0, 60, 0]
 
 Assigned value in JSON: "11"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 11 :   37 hit(s)
+  [ 1] SDG 16 :   60 hit(s)
+       * "barnkonventionen": 15
+       * "rättigheter": 13
+       * "barns rättigheter": 11
+       * "svensk lag": 7
+       * "lagstiftaren": 3
+  [ 2] SDG 11 :   37 hit(s)
        * "plan- och bygglagen": 8
        * "kommuner": 7
        * "fysiska planeringen": 5
        * "fysisk planering": 4
        * "planbeskrivningar": 3
-  [ 2] SDG 16 :   32 hit(s)
+  [ 3] SDG 10 :   13 hit(s)
        * "barns rättigheter": 11
-       * "svensk lag": 7
-       * "lagstiftaren": 3
-       * "offentlig verksamhet": 2
-       * "barnrättsperspektiv": 2
-  [ 3] SDG 10 :    2 hit(s)
        * "barnrättsperspektiv": 2
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -3229,15 +3230,16 @@ Suggested 'SDGs' value: "SDG 11"
 
 Unlike \Cref{cs:DivergenceBetweenAuthorAndOSDG} --- where OSDG misidentified the primary goal --- this Swedish-only legal-planning report illustrates a genuinely complementary split in which the author and OSDG each captured one half of a valid two-goal intersection (\glspl{SDG}~11 and 16):
 \begin{itemize}
-    \item \textbf{Author's Assignment (\gls{SDG}~11):} The author tagged only \enquote{11}, reflecting the report's focus on municipal spatial planning (\enquote{\foreignlanguage{swedish}{fysisk planering}}, \enquote{\foreignlanguage{swedish}{detaljplaner}}, \enquote{\foreignlanguage{swedish}{plan- och bygglagen}}) and green/play spaces for children (\enquote{\foreignlanguage{swedish}{grönområden och platser för lek}}), which aligns directly with Target~11.7 (\enquote{universal access to safe, inclusive and accessible, green and public spaces, in particular for women and children}).
+    \item \textbf{Author's Assignment (\gls{SDG}~11):} The author tagged only \texttt{"SDGs": "11"}, reflecting the report's focus on municipal spatial planning (\enquote{\foreignlanguage{swedish}{fysisk planering}}, \enquote{\foreignlanguage{swedish}{detaljplaner}}, \enquote{\foreignlanguage{swedish}{plan- och bygglagen}}) and green/play spaces for children (\enquote{\foreignlanguage{swedish}{grönområden och platser för lek}}), which aligns directly with Target~11.7 (\enquote{universal access to safe, inclusive and accessible, green and public spaces, in particular for women and children}).
+    
     \item \textbf{OSDG's Classification (\gls{SDG}~16):} Processing the Swedish abstract natively, OSDG classified the report solely as \gls{SDG}~16, latching onto the statutory and human-rights vocabulary (\enquote{\foreignlanguage{swedish}{FN:s barnkonvention}} [UN Convention on the Rights of the Child], \enquote{\foreignlanguage{swedish}{svensk lag}}, \enquote{\foreignlanguage{swedish}{rättsvetenskaplig studie}}, \enquote{\foreignlanguage{swedish}{barnets bästa}}), which maps to Targets~16.3 and 16.b (rule of law and non-discriminatory laws and policies).
     
-    \item \textbf{Dual-Language Lexicon Decomposition (\gls{SDG}~11: 37 hits \& \gls{SDG}~16: 32 hits):} As shown in \Cref{lst:t_18072Output}, enriching the Swedish spatial-planning and child-rights statutory vocabulary enables the classifier to recover both co-primary dimensions with near-equal weight (\enquote{\foreignlanguage{swedish}{plan- och bygglagen}}: 8, \enquote{\foreignlanguage{swedish}{kommuner}}: 7, \enquote{\foreignlanguage{swedish}{fysiska planeringen}}: 5, and \enquote{\foreignlanguage{swedish}{fysisk planering}}: 4 under \gls{SDG}~11; \enquote{\foreignlanguage{swedish}{barns rättigheter}}: 11, \enquote{\foreignlanguage{swedish}{svensk lag}}: 7, \enquote{\foreignlanguage{swedish}{lagstiftaren}}: 3, and \enquote{\foreignlanguage{swedish}{offentlig verksamhet}}: 2 under \gls{SDG}~16), alongside a minor 2-hit inclusion signal under \gls{SDG}~10 (\enquote{\foreignlanguage{swedish}{barnrättsperspektiv}}: 2) and zero noise across all other goals.
+    \item \textbf{Dual-Language Lexicon Decomposition (\gls{SDG}~16: \num{60}~hits \& \gls{SDG}~11: \num{37}~hits):} As shown in \Cref{lst:t_18072Output}, enriching the Swedish spatial-planning and child-rights statutory vocabulary enables the classifier to recover both co-primary dimensions decisively (\enquote{\foreignlanguage{swedish}{barnkonventionen}}: 15, \enquote{\foreignlanguage{swedish}{rättigheter}}: 13, \enquote{\foreignlanguage{swedish}{barns rättigheter}}: 11, \enquote{\foreignlanguage{swedish}{svensk lag}}: 7, and \enquote{\foreignlanguage{swedish}{lagstiftaren}}: 3 under \gls{SDG}~16; \enquote{\foreignlanguage{swedish}{plan- och bygglagen}}: 8, \enquote{\foreignlanguage{swedish}{kommuner}}: 7, \enquote{\foreignlanguage{swedish}{fysiska planeringen}}: 5, \enquote{\foreignlanguage{swedish}{fysisk planering}}: 4, and \enquote{\foreignlanguage{swedish}{planbeskrivningar}}: 3 under \gls{SDG}~11), alongside a secondary child-inclusion signal under \gls{SDG}~10 (\num{13}~hits via \enquote{\foreignlanguage{swedish}{barns rättigheter}}: 11 and \enquote{\foreignlanguage{swedish}{barnrättsperspektiv}}: 2; Targets~10.2 and 10.3) and \num{0}~hits across all remaining \num{14} goals.
 \end{itemize}
 \end{casestudySection}
 
 \begin{takeaway}
-When a publication bridges two policy domains --- such as municipal urban planning (\gls{SDG}~11) and statutory human-rights law (\gls{SDG}~16) --- human authors tend to tag only their home discipline while semantic classifiers may isolate only the dominant legal frame. Adding both goals (\enquote{11, 16}) to \gls{DiVA} ensures discoverability across both research communities.
+When a publication bridges two policy domains --- such as municipal urban planning (\gls{SDG}~11) and statutory human-rights law (\gls{SDG}~16) --- human authors tend to tag only their home discipline while semantic classifiers may isolate only the dominant legal frame. Adding both goals (\texttt{"11, 16"}) to \gls{DiVA} ensures discoverability across both research communities.
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
@@ -3280,7 +3282,7 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_18430.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 1, 2, 41, 0, 22, 0, 0, 0, 0, 0, 0]
+[0, 0, 1, 0, 0, 0, 1, 2, 41, 0, 34, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "9"
 
@@ -3291,16 +3293,18 @@ Top Keyword Matching Goals:
        * "sovvagn": 5
        * "sovvagnar": 4
        * "nattågen": 4
-  [ 2] SDG 11 :   22 hit(s)
+  [ 2] SDG 11 :   34 hit(s)
+       * "nattåg": 12
        * "sovvagn": 5
        * "sovvagnar": 4
        * "nattågen": 4
        * "liggvagn": 3
-       * "nattågstrafik": 2
   [ 3] SDG  8 :    2 hit(s)
        * "kapitalkostnader": 1
        * "besöksnäringen": 1
-  [ 4] SDG  7 :    1 hit(s)
+  [ 4] SDG  3 :    1 hit(s)
+       * "protes": 1
+  [ 5] SDG  7 :    1 hit(s)
        * "elektrifiering": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -3308,11 +3312,11 @@ Suggested 'SDGs' value: "SDG 9"
 =================================================================
 \end{lstlisting}
 
-This Swedish-only transport policy report exhibits a three-way divergence across the author (\gls{SDG}~9), OSDG (\gls{SDG}~8), and the dual-language classifier (\gls{SDG}~9: 41 hits, \gls{SDG}~11: 22 hits):
+This Swedish-only transport policy report exhibits a three-way divergence across the author (\gls{SDG}~9), OSDG (\gls{SDG}~8), and the dual-language classifier (\gls{SDG}~9: \num{41}~hits, \gls{SDG}~11: \num{34}~hits):
 \begin{itemize}
     \item \textbf{OSDG Semantic Drift to \gls{SDG}~8 (Tourism \& Regional Business Framing):} Processing the Swedish summary natively, OSDG classified the report solely as \gls{SDG}~8 (\enquote{Decent Work and Economic Growth}). Although the opening paragraph notes that Jämtland's regional business community and hospitality sector (\enquote{\foreignlanguage{swedish}{näringslivet}}, \enquote{\foreignlanguage{swedish}{besöksnäringen}}) depend on functioning night-train connections and the keywords list \enquote{\foreignlanguage{swedish}{Marknad, Ekonomi, Lönsamhet}}, the study itself evaluates railway rolling-stock procurement, timetable architecture, and cross-border rail electrification (Storlien--Trondheim) --- mapping squarely to Target~9.1 (\enquote{develop quality, reliable, sustainable and resilient infrastructure, including regional and transborder infrastructure}) and Target~11.2 (accessible passenger rail transport).
 
-    \item \textbf{Dual-Language Lexicon Decomposition (\glspl{SDG}~9 and 11 vs.\ \gls{SDG}~8):} As shown in \Cref{lst:t_18430Output}, enriching the Swedish lexicon with rolling-stock nomenclature (\enquote{\foreignlanguage{swedish}{nattåg}}, \enquote{\foreignlanguage{swedish}{sovvagn}}, \enquote{\foreignlanguage{swedish}{liggvagn}}) yields 41 hits for \gls{SDG}~9 (confirming the author's \enquote{9} assignment) and 22 hits for \gls{SDG}~11 (warranting co-primary inclusion for long-distance passenger rail accessibility), while keeping contextual mentions of hospitality/capital costs (\gls{SDG}~8: 2 hits) and cross-border electrification (\gls{SDG}~7: 1 hit) as minor background traces.
+    \item \textbf{Dual-Language Lexicon Decomposition (\glspl{SDG}~9 and 11 vs.\ \gls{SDG}~8):} As shown in \Cref{lst:t_18430Output}, enriching the Swedish lexicon with rolling-stock nomenclature (\enquote{\foreignlanguage{swedish}{nattåg}}: 12, \enquote{\foreignlanguage{swedish}{sovvagn}}: 5, \enquote{\foreignlanguage{swedish}{sovvagnar}}: 4, \enquote{\foreignlanguage{swedish}{nattågen}}: 4, \enquote{\foreignlanguage{swedish}{liggvagn}}: 3) yields \num{41}~hits for \gls{SDG}~9 (confirming the author's \texttt{"SDGs": "9"} assignment) and \num{34}~hits for \gls{SDG}~11 (warranting co-primary inclusion for long-distance passenger rail accessibility). Contextual mentions of hospitality and capital costs (\gls{SDG}~8: \num{2}~hits via \enquote{\foreignlanguage{swedish}{kapitalkostnader}}: 1 and \enquote{\foreignlanguage{swedish}{besöksnäringen}}: 1), cross-border railway electrification (\gls{SDG}~7: \num{1}~hit via \enquote{\foreignlanguage{swedish}{elektrifiering}}), and a morphological prefix match of \enquote{\foreignlanguage{swedish}{protes}} [\emph{prosthesis}] inside \enquote{\foreignlanguage{swedish}{protester}} [\emph{protests}] (\gls{SDG}~3: \num{1}~hit) remain minor background traces, with \num{0}~hits across all remaining \num{12} goals.
 \end{itemize}
 \end{casestudySection}
 
@@ -3357,50 +3361,52 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_18531.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 1, 0, 0, 21, 4, 7, 0, 3, 13, 27, 1, 7, 2, 1]
+[0, 0, 0, 1, 0, 0, 21, 4, 10, 0, 4, 20, 25, 1, 8, 2, 1]
 
 Assigned value in JSON: "7, 9, 12, 13"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 13 :   27 hit(s)
+  [ 1] SDG 13 :   25 hit(s)
        * "planetens gränser": 4
        * "planetary limits": 4
        * "climate change": 3
-       * "life cycle assessment": 2
-       * "livscykelanalys": 2
+       * "climate": 3
+       * "klimatpåverkan": 2
   [ 2] SDG  7 :   21 hit(s)
        * "SAF": 1
        * "energy transition": 5
        * "energiomställning": 4
        * "life cycle assessment": 2
        * "flygbränsle": 2
-  [ 3] SDG 12 :   13 hit(s)
+  [ 3] SDG 12 :   20 hit(s)
+       * "life cycle": 4
        * "sustainability assessment": 3
        * "environmental performance": 2
        * "life cycle assessment": 2
        * "cycle assessment": 2
-       * "livscykel": 2
-  [ 4] SDG  9 :    7 hit(s)
+  [ 4] SDG  9 :   10 hit(s)
        * "environmental performance": 2
        * "life cycle assessment": 2
        * "cycle assessment": 2
-       * "research and development AND ("productiv*" OR "technolog*" OR "innovati*" OR "infrastructure" OR "industrialization")": 1
-  [ 5] SDG 15 :    7 hit(s)
+       * "technological advancements": 1
+       * "infrastructure": 1
+  [ 5] SDG 15 :    8 hit(s)
        * "environmental impacts": 1
        * "biologisk mångfald": 1
        * "biodiversity loss": 1
        * "biodiversity": 1
-       * "biodivers": 1
+       * "ecological": 1
   [ 6] SDG  8 :    4 hit(s)
        * "sustainability assessment": 3
        * "economic benefits": 1
-  [ 7] SDG 11 :    3 hit(s)
+  [ 7] SDG 11 :    4 hit(s)
        * "greenhouse gas emissions": 1
        * "travel demand": 1
        * "governance": 1
+       * "building": 1
   [ 8] SDG 16 :    2 hit(s)
+       * "samordnad styrning": 1
        * "governance": 1
-       * "styrning": 1
   [ 9] SDG  4 :    1 hit(s)
        * "skills development": 1
   [10] SDG 14 :    1 hit(s)
@@ -3413,13 +3419,13 @@ Suggested 'SDGs' value: "SDG 7, SDG 9, SDG 12, SDG 13"
 =================================================================
 \end{lstlisting}
 
-Whereas \Cref{cs:overtagging} demonstrated unsupported multi-goal over-tagging (\enquote{7, 9, 12, 13, 15}), this doctoral thesis provides the positive counterpart: an author assignment of four goals (\enquote{7, 9, 12, 13}) that is rigorously substantiated by both the abstract and the classifier's top four ranked goals (\Cref{lst:t_18531Output}), while OSDG collapsed the entire multi-dimensional assessment onto \gls{SDG}~13 alone:
+Whereas \Cref{cs:overtagging} demonstrated unsupported multi-goal over-tagging (\texttt{"7, 9, 12, 13, 15"}), this doctoral thesis provides the positive counterpart: an author assignment of four goals (\texttt{"SDGs": "7, 9, 12, 13"}) that is rigorously substantiated by both the abstract and the classifier's top four ranked goals (\Cref{lst:t_18531Output}), while OSDG collapsed the entire multi-dimensional assessment onto \gls{SDG}~13 alone:
 \begin{itemize}
-    \item \textbf{\gls{SDG}~13 (27 hits) \& \gls{SDG}~7 (21 hits):} Capture the core climate-mitigation and clean-propulsion transition in aviation (\enquote{\foreignlanguage{swedish}{planetens gränser}}: 4, \enquote{planetary limits}: 4, \enquote{climate change}: 3, \enquote{energy transition}: 5, \enquote{\foreignlanguage{swedish}{energiomställning}}: 4, \enquote{\foreignlanguage{swedish}{flygbränsle}}: 2, and \enquote{SAF}: 1, alongside \enquote{liquid hydrogen} and \enquote{\foreignlanguage{swedish}{flytande väte}}; Targets~13.2, 7.2, and 7.3).
+    \item \textbf{\gls{SDG}~13 (\num{25}~hits) \& \gls{SDG}~7 (\num{21}~hits):} Capture the core climate-mitigation and clean-propulsion transition in aviation (\enquote{\foreignlanguage{swedish}{planetens gränser}}: 4, \enquote{planetary limits}: 4, \enquote{climate change}: 3, \enquote{climate}: 3, \enquote{\foreignlanguage{swedish}{klimatpåverkan}}: 2 under \gls{SDG}~13; \enquote{energy transition}: 5, \enquote{\foreignlanguage{swedish}{energiomställning}}: 4, \enquote{life cycle assessment}: 2, \enquote{\foreignlanguage{swedish}{flygbränsle}}: 2, \enquote{SAF}: 1 under \gls{SDG}~7, alongside \enquote{liquid hydrogen} and \enquote{\foreignlanguage{swedish}{flytande väte}}; Targets~13.2, 7.2, and 7.3).
 
-    \item \textbf{\gls{SDG}~12 (13 hits):} Substantiates the prospective life-cycle assessment (pLCA) and absolute environmental sustainability assessment (AESA) evaluating cross-sectoral environmental burden-shifting and rebound effects (\enquote{sustainability assessment}: 3, \enquote{environmental performance}: 2, \enquote{life cycle assessment}: 2, \enquote{\foreignlanguage{swedish}{livscykel}}: 2; Target~12.2).
+    \item \textbf{\gls{SDG}~12 (\num{20}~hits):} Substantiates the prospective life-cycle assessment (pLCA) and absolute environmental sustainability assessment (AESA) evaluating cross-sectoral environmental burden-shifting and rebound effects (\enquote{life cycle}: 4, \enquote{sustainability assessment}: 3, \enquote{environmental performance}: 2, \enquote{life cycle assessment}: 2, \enquote{cycle assessment}: 2; Target~12.2).
 
-    \item \textbf{\gls{SDG}~9 (7 hits) \& Secondary Ecological Context (\gls{SDG}~15: 7 hits):} \gls{SDG}~9 captures novel propulsion technology R\&D and shared infrastructure investment (Targets~9.4 and 9.5) via both specific R\&D rules and shared \gls{LCA} terminology, tying in hit count with \gls{SDG}~15, which surfaces the thesis's finding that 2050 aviation scenarios could overshoot biodiversity-loss planetary boundaries (\enquote{biodiversity loss}, \enquote{\foreignlanguage{swedish}{biologisk mångfald}}). Meanwhile, minor background hits on \glspl{SDG}~8, 11, 16, 4, 14, and 17 (1--4 hits) remain properly excluded from the metadata.
+    \item \textbf{\gls{SDG}~9 (\num{10}~hits) \& Secondary Ecological Context (\gls{SDG}~15: \num{8}~hits):} \gls{SDG}~9 captures novel propulsion technology R\&D and shared infrastructure investment (Targets~9.4 and 9.5) via both specific R\&D terms (\enquote{technological advancements}: 1, \enquote{infrastructure}: 1) and shared \gls{LCA} terminology (\enquote{environmental performance}: 2, \enquote{life cycle assessment}: 2, \enquote{cycle assessment}: 2), ranking ahead of \gls{SDG}~15, which surfaces the thesis's finding that 2050 aviation scenarios could overshoot biodiversity-loss planetary boundaries (\enquote{biodiversity loss}: 1, \enquote{\foreignlanguage{swedish}{biologisk mångfald}}: 1). Meanwhile, minor background hits on \glspl{SDG}~8, 11, 16, 4, 14, and 17 (\num{1}--\num{4}~hits) remain properly excluded from the metadata.
 \end{itemize}
 \end{casestudySection}
 
@@ -3455,23 +3461,23 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_125694.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 4, 10, 0, 2, 1, 1, 9, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 4, 10, 0, 2, 0, 1, 16, 0, 0, 0, 0]
 
 Assigned value in JSON: "13"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  8 :   10 hit(s)
+  [ 1] SDG 13 :   16 hit(s)
+       * "climate": 6
+       * "sustainable activities": 2
+       * "climate transition": 2
+       * "financing the climate transition": 1
+       * "climate policy council": 1
+  [ 2] SDG  8 :   10 hit(s)
        * "sustainable finance": 2
        * "financial sector": 2
        * "financing the climate transition": 1
        * "redirect investments": 1
        * "economic activities": 1
-  [ 2] SDG 13 :    9 hit(s)
-       * "sustainable activities": 2
-       * "climate transition": 2
-       * "financing the climate transition": 1
-       * "climate policy council": 1
-       * "climate change": 1
   [ 3] SDG  7 :    4 hit(s)
        * "renewable energy": 1
        * "renewable": 1
@@ -3479,9 +3485,7 @@ Top Keyword Matching Goals:
        * "sustainab* AND ("energy" OR "electricity")": 1
   [ 4] SDG 10 :    2 hit(s)
        * "financial sector": 2
-  [ 5] SDG 11 :    1 hit(s)
-       * "recycling": 1
-  [ 6] SDG 12 :    1 hit(s)
+  [ 5] SDG 12 :    1 hit(s)
        * "recycling": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -3489,13 +3493,13 @@ Suggested 'SDGs' value: "SDG 13"
 =================================================================
 \end{lstlisting}
 
-Despite being only 152 words long (English only) --- comparable in length to \Cref{cs:TooShortForOSDG} and \Cref{cs:ProjectTitleBleedAndMissingVocab}, where OSDG returned no output --- this policy report is dense with explicit sustainability and climate-finance vocabulary, enabling OSDG to classify it under \glspl{SDG}~13, 7, and 8. In \Cref{lst:t_125694Output}, the dual-language classifier converges on the exact same top three goals (\gls{SDG}~8: 10 hits, \gls{SDG}~13: 9 hits, \gls{SDG}~7: 4 hits), revealing three analytical insights:
+Despite being only \num{152}~words long (English only) --- comparable in length to \Cref{cs:TooShortForOSDG} and \Cref{cs:ProjectTitleBleedAndMissingVocab}, where OSDG returned no output --- this policy report is dense with explicit sustainability and climate-finance vocabulary, enabling OSDG to classify it under \glspl{SDG}~13, 7, and 8. In \Cref{lst:t_125694Output}, the dual-language classifier converges on the exact same top three goals (\gls{SDG}~13: \num{16}~hits, \gls{SDG}~8: \num{10}~hits, \gls{SDG}~7: \num{4}~hits), with \num{0}~hits across all remaining \num{12} goals, revealing three analytical insights:
 \begin{itemize}
-    \item \textbf{Author Omission of the Financial-Sector Goal (\gls{SDG}~8: 10 hits):} The author tagged only \enquote{13} in \gls{DiVA}, capturing the climate-policy objective (\gls{SDG}~13: 9 hits, Target~13.a on mobilizing climate finance) while omitting \gls{SDG}~8 (Target~8.10 on strengthening financial institutions and green capital allocation), which actually leads the keyword vector via \enquote{sustainable finance} (2), \enquote{financial sector} (2), \enquote{financing the climate transition} (1), and \enquote{redirect investments} (1).
+    \item \textbf{Author Omission of the Co-Primary Financial-Sector Goal (\gls{SDG}~8: \num{10}~hits):} The author tagged only \texttt{"SDGs": "13"} in \gls{DiVA}, capturing the dominant climate-policy objective (\gls{SDG}~13: \num{16}~hits via \enquote{climate}: 6, \enquote{sustainable activities}: 2, \enquote{climate transition}: 2, \enquote{financing the climate transition}: 1, and \enquote{climate policy council}: 1; Target~13.a on mobilizing climate finance) while omitting the co-primary economic and financial-sector goal \gls{SDG}~8 (\num{10}~hits via \enquote{sustainable finance}: 2, \enquote{financial sector}: 2, \enquote{financing the climate transition}: 1, \enquote{redirect investments}: 1, and \enquote{economic activities}: 1; Target~8.10 on strengthening financial institutions and green capital allocation).
     
-    \item \textbf{Parenthetical Example Amplification (\gls{SDG}~7: 4 hits vs.\ \gls{SDG}~12: 1 hit):} Both OSDG and the classifier elevate \gls{SDG}~7 to third place even though \enquote{renewable energy} appears only once inside a parenthetical list of illustrative green investments (\enquote{green projects (such as recycling and renewable energy)}). Because a single occurrence of \enquote{renewable energy} satisfies multiple overlapping lexical and STRINGS co-occurrence rules (\enquote{renewable energy}, \enquote{renewable}, and two boolean rules), it accumulates 4 hits, whereas its companion example \enquote{recycling} registers only 1 hit under \glspl{SDG}~11 and 12 (alongside a 2-hit contextual trace on \enquote{financial sector} under \gls{SDG}~10). Neither \gls{SDG}~7 nor \glspl{SDG}~10--12 is a substantive focus of the report; adding \gls{SDG}~8 alongside \gls{SDG}~13 (\enquote{8, 13}) best reflects the study's core scope.
+    \item \textbf{Parenthetical Example Amplification (\gls{SDG}~7: \num{4}~hits vs.\ \gls{SDG}~12: \num{1}~hit):} Both OSDG and the classifier elevate \gls{SDG}~7 to third place even though \enquote{renewable energy} appears only once inside a parenthetical list of illustrative green investments (\enquote{green projects (such as recycling and renewable energy)}). Because a single occurrence of \enquote{renewable energy} satisfies multiple overlapping lexical and \textsc{strings} co-occurrence rules (\enquote{renewable energy}, \enquote{renewable}, and two boolean rules), it accumulates \num{4}~hits, whereas its companion example \enquote{recycling} registers only \num{1}~hit under \gls{SDG}~12 (alongside a \num{2}-hit contextual trace on \enquote{financial sector} under \gls{SDG}~10). Neither \gls{SDG}~7 nor \glspl{SDG}~10 and 12 is a substantive focus of the report; adding \gls{SDG}~8 alongside \gls{SDG}~13 (\texttt{"8, 13"}) best reflects the study's core scope.
     
-    \item \textbf{Policy-Density vs.\ Length in OSDG:} Comparing this 152-word text with \Cref{cs:TooShortForOSDG} (176 words) and \Cref{cs:ProjectTitleBleedAndMissingVocab} (151 words) demonstrates that OSDG's abstention on short engineering abstracts is governed primarily by semantic confidence on \gls{UN} policy phrasing rather than a strict word-count threshold alone.
+    \item \textbf{Policy-Density vs.\ Length in OSDG:} Comparing this \num{152}-word text with \Cref{cs:TooShortForOSDG} (\num{176}~words) and \Cref{cs:ProjectTitleBleedAndMissingVocab} (\num{151}~words) demonstrates that OSDG's abstention on short engineering abstracts is governed primarily by semantic confidence on \gls{UN} policy phrasing rather than a strict word-count threshold alone.
 \end{itemize}
 \end{casestudySection}
 
@@ -3527,39 +3531,39 @@ Consider the following:
 \end{lstlisting}
 
 \begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
-    postbreak=\usebox{\lstbreakbox}, caption={Program's output (prior to adding Swedish urban heat-island vocabulary)}, label=lst:t_1873Output]
+    postbreak=\usebox{\lstbreakbox}, caption={Program's output (after adding Swedish urban heat-island vocabulary)}, label=lst:t_1873Output]
 ./sdg_classifier_dual_language.py --verbose /tmp/SDGs/t_1873.json
 =================================================================
 ==> Dual-Language SDG Classification Report: t_1873.json
 Match Vector (SDG 1 - 17):
-[0, 0, 1, 0, 0, 2, 3, 0, 8, 0, 33, 0, 4, 0, 1, 0, 0]
+[0, 0, 1, 0, 0, 1, 3, 0, 8, 0, 43, 0, 11, 0, 1, 0, 0]
 
 Assigned value in JSON: "3, 11, 13"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 11 :   33 hit(s)
+  [ 1] SDG 11 :   43 hit(s)
        * "urban heat": 5
        * "urban heat island": 3
        * "urban morphology": 3
        * "heat island": 3
-       * "bebyggelse": 3
-  [ 2] SDG  9 :    8 hit(s)
+       * "urban form": 3
+  [ 2] SDG 13 :   11 hit(s)
+       * "urban heat island": 3
+       * "urbana värmeöeffekter": 2
+       * "climate": 2
+       * "climate resilience": 1
+       * "klimatanpassning": 1
+  [ 3] SDG  9 :    8 hit(s)
        * "machine learning": 4
        * "maskininlärning": 4
-  [ 3] SDG 13 :    4 hit(s)
-       * "climate resilience": 1
-       * "klimatförändring": 1
-       * "klimatanpassning": 1
-       * "climate change": 1
   [ 4] SDG  7 :    3 hit(s)
        * "electric vehicles": 1
        * "energianvändning": 1
        * "sustainab* AND ("energy" OR "electricity")": 1
-  [ 5] SDG  6 :    2 hit(s)
-       * "water bodies": 1
-       * "vatten": 1
-  [ 6] SDG  3 :    1 hit(s)
+  [ 5] SDG  3 :    1 hit(s)
        * "health": 1
+  [ 6] SDG  6 :    1 hit(s)
+       * "water bodies": 1
   [ 7] SDG 15 :    1 hit(s)
        * "land cover": 1
 -----------------------------------------------------------------
@@ -3568,13 +3572,13 @@ Suggested 'SDGs' value: "SDG 3, SDG 11, SDG 13"
 =================================================================
 \end{lstlisting}
 
-Here, OSDG identified \glspl{SDG}~11 and 13, whereas the author assigned \enquote{3, 11, 13} in \gls{DiVA}. Comparing this licentiate thesis with \Cref{cs:MultigoalUrbanHealthAndEquity} (\texttt{diva2:1991886}) highlights an important distinction between \emph{substantive health modeling} and \emph{motivating-premise tagging}:
+Here, OSDG identified \glspl{SDG}~11 and 13, whereas the author assigned \texttt{"SDGs": "3, 11, 13"} in \gls{DiVA}. Comparing this licentiate thesis with \Cref{cs:MultigoalUrbanHealthAndEquity} (\texttt{diva2:1991886}) highlights an important distinction between \emph{substantive health modeling} and \emph{motivating-premise tagging}:
 \begin{itemize}
-    \item \textbf{Substantive Goals (\gls{SDG}~11: 33 hits \& \gls{SDG}~13: 4 hits):} Both OSDG and \Cref{lst:t_1873Output} confirm \gls{SDG}~11 (urban heat islands, urban morphology, and evidence-based urban planning; Targets~11.6 and 11.b) and \gls{SDG}~13 (climate resilience and climate adaptation via urban greening; Target~13.1), alongside \gls{SDG}~9 (8 hits) reflecting the spatial machine-learning methodology (\texttt{XGBoost}, \texttt{GPBoost}).
+    \item \textbf{Substantive Goals (\gls{SDG}~11: \num{43}~hits \& \gls{SDG}~13: \num{11}~hits):} Both OSDG and \Cref{lst:t_1873Output} confirm \gls{SDG}~11 (\enquote{urban heat}: 5, \enquote{urban heat island}: 3, \enquote{urban morphology}: 3, \enquote{heat island}: 3, \enquote{urban form}: 3; Targets~11.6 and 11.b) and \gls{SDG}~13 (\enquote{urban heat island}: 3, \enquote{\foreignlanguage{swedish}{urbana värmeöeffekter}}: 2, \enquote{climate}: 2, \enquote{climate resilience}: 1, \enquote{\foreignlanguage{swedish}{klimatanpassning}}: 1; Target~13.1), alongside \gls{SDG}~9 (\num{8}~hits via \enquote{machine learning}: 4 and \enquote{\foreignlanguage{swedish}{maskininlärning}}: 4) reflecting the spatial machine-learning methodology (\texttt{XGBoost}, \texttt{GPBoost}).
 
-    \item \textbf{Motivating-Premise Tagging of \gls{SDG}~3 (1 hit):} Unlike \Cref{cs:MultigoalUrbanHealthAndEquity} --- which explicitly evaluated sleep disturbance and burden of disease --- this thesis measures street-level surface and air temperatures via infrared imagery. Human health is mentioned only once as a broad motivating risk in the opening sentence (\enquote{posing increasing risks to human health, energy demand, and environmental sustainability} / \enquote{\foreignlanguage{swedish}{medför ökade risker för hälsa, energianvändning och urban hållbarhet}}), yielding just 1 hit on \enquote{health}. Notably, the author elevated that single introductory health motivation to a full \gls{SDG}~3 tag while ignoring the parallel mention of \enquote{energy demand} in the same clause.
+    \item \textbf{Motivating-Premise Tagging of \gls{SDG}~3 (\num{1}~hit):} Unlike \Cref{cs:MultigoalUrbanHealthAndEquity} --- which explicitly evaluated sleep disturbance and burden of disease --- this thesis measures street-level surface and air temperatures via infrared imagery. Human health is mentioned only once as a broad motivating risk in the opening sentence (\enquote{posing increasing risks to human health, energy demand, and environmental sustainability} / \enquote{\foreignlanguage{swedish}{medför ökade risker för hälsa, energianvändning och urban hållbarhet}}), yielding just \num{1}~hit on \enquote{health}. Notably, the author elevated that single introductory health motivation to a full \gls{SDG}~3 tag while ignoring the parallel mention of \enquote{energy demand} in the same clause.
 
-    \item \textbf{Incidental Platform \& Covariate Noise (\glspl{SDG}~7, 6, and 15):} Mounting sensors on electric vehicles (\enquote{electric vehicles}: 1) and incorporating water-body and land-cover \gls{GIS} layers (\enquote{water bodies}: 1, \enquote{\foreignlanguage{swedish}{vatten}}: 1, \enquote{land cover}: 1) generated low-count contextual traces under \gls{SDG}~7 (3 hits), \gls{SDG}~6 (2 hits), and \gls{SDG}~15 (1 hit) without constituting energy, water, or terrestrial-ecosystem contributions.
+    \item \textbf{Incidental Platform \& Covariate Noise (\glspl{SDG}~7, 6, and 15):} Mounting sensors on electric vehicles (\enquote{electric vehicles}: 1) and incorporating water-body and land-cover \gls{GIS} layers (\enquote{water bodies}: 1, \enquote{land cover}: 1) generated low-count contextual traces under \gls{SDG}~7 (\num{3}~hits), \gls{SDG}~6 (\num{1}~hit), and \gls{SDG}~15 (\num{1}~hit) without constituting energy, water, or terrestrial-ecosystem contributions, while all remaining \num{10} goals registered \num{0}~hits.
 \end{itemize}
 \end{casestudySection}
 
