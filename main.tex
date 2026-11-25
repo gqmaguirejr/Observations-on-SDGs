@@ -2364,17 +2364,17 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_15302.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 27, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 0, 0, 49, 0, 27, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "11"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   46 hit(s)
+  [ 1] SDG  9 :   49 hit(s)
        * "tunnelprojekt": 11
        * "tunnel projects": 10
        * "georisker": 9
        * "georisks": 8
-       * "transport infrastructure": 1
+       * "industry": 2
   [ 2] SDG 11 :   27 hit(s)
        * "tunnelprojekt": 11
        * "tunnel projects": 10
@@ -2387,13 +2387,13 @@ Suggested 'SDGs' value: "SDG 11"
 =================================================================
 \end{lstlisting}
 
-OSDG identified \gls{SDG}~11 and did not include \gls{SDG}~9. In contrast, \Cref{lst:t_15302Output} shows \gls{SDG}~9 with 46 hits and \gls{SDG}~11 with 27 hits.
+OSDG identified \gls{SDG}~11 and did not include \gls{SDG}~9. In contrast, \Cref{lst:t_15302Output} shows \gls{SDG}~9 with \num{49}~hits and \gls{SDG}~11 with \num{27}~hits (and \num{0}~hits across all remaining \num{15} goals).
 
 The reason for including \gls{SDG}~9 is that the text focuses on civil-infrastructure engineering governance and geotechnical risk registers rather than urban communities:
 \begin{itemize}
-    \item \textbf{\gls{SDG}~9 (46 hits --- Primary Infrastructure Goal):} While both goals share generic tunnel terms (\enquote{\foreignlanguage{swedish}{tunnelprojekt}}: 11, \enquote{tunnel projects}: 10), \gls{SDG}~9 pulls decisively ahead via geotechnical risk management nomenclature (\enquote{\foreignlanguage{swedish}{georisker}}: 9, \enquote{\foreignlanguage{swedish}{georisks}}: 8). The report examines how risk managers (\enquote{\foreignlanguage{swedish}{risksamordnare}}), clients (\enquote{\foreignlanguage{swedish}{beställare}}), and design consultants (\enquote{\foreignlanguage{swedish}{projekterande konsulter}}) coordinate using risk registers (\enquote{\foreignlanguage{swedish}{risklistan}}) during the planning and design of large rock tunnel projects---mapping directly to Target~9.1 (\emph{develop quality, reliable, sustainable and resilient infrastructure}).
+    \item \textbf{\gls{SDG}~9 (\num{49}~hits --- Primary Infrastructure Goal):} While both goals share generic tunnel terms (\enquote{\foreignlanguage{swedish}{tunnelprojekt}}: 11, \enquote{tunnel projects}: 10), \gls{SDG}~9 pulls decisively ahead via geotechnical risk management nomenclature (\enquote{\foreignlanguage{swedish}{georisker}}: 9, \enquote{georisks}: 8, plus \enquote{industry}: 2). The report examines how risk managers (\enquote{\foreignlanguage{swedish}{risksamordnare}}), clients (\enquote{\foreignlanguage{swedish}{beställare}}), and design consultants (\enquote{\foreignlanguage{swedish}{projekterande konsulter}}) coordinate using risk registers (\enquote{\foreignlanguage{swedish}{risklistan}}) during the planning and design of large rock tunnel projects --- mapping directly to Target~9.1 (\emph{develop quality, reliable, sustainable and resilient infrastructure}).
     
-    \item \textbf{\gls{SDG}~11 (27 hits --- Secondary / Over-Attributed):} Beyond shared tunnel and transport terms, \gls{SDG}~11 registers virtually no independent urban policy vocabulary; the abstract never mentions cities, urban areas, public transit, commuters, or settlements. Both the author and OSDG appear to have conflated generic \enquote{transport infrastructure} with \gls{SDG}~11 while overlooking the primary civil-engineering infrastructure goal (\gls{SDG}~9).
+    \item \textbf{\gls{SDG}~11 (\num{27}~hits --- Secondary / Over-Attributed):} Beyond shared tunnel and transport terms, \gls{SDG}~11 registers virtually no independent urban policy vocabulary; the abstract never mentions cities, urban areas, public transit, commuters, or settlements. Both the author and OSDG appear to have conflated generic \enquote{transport infrastructure} with \gls{SDG}~11 while overlooking the primary civil-engineering infrastructure goal (\gls{SDG}~9).
 \end{itemize}
 \end{casestudySection}
 
@@ -2430,29 +2430,29 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_15611.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 23, 9, 49, 1, 9, 0, 0]
+[0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 45, 13, 59, 1, 9, 0, 0]
 
 Assigned value in JSON: "11"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 13 :   49 hit(s)
+  [ 1] SDG 13 :   59 hit(s)
        * "klimatpåverkan": 16
+       * "climate": 12
        * "climate impact": 5
        * "inbyggd klimatpåverkan": 4
        * "klimatdeklaration": 4
-       * "embodied greenhouse gas emissions": 2
-  [ 2] SDG 11 :   23 hit(s)
+  [ 2] SDG 11 :   45 hit(s)
+       * "building": 9
+       * "byggnad": 8
        * "byggnader": 6
+       * "buildings": 5
        * "renovation projects": 3
-       * "renoveringsprojekt": 3
-       * "greenhouse gas emissions": 2
-       * "nybyggnad": 2
-  [ 3] SDG 12 :    9 hit(s)
+  [ 3] SDG 12 :   13 hit(s)
        * "livscykel": 5
-       * "environmental impacts": 1
+       * "life cycle": 3
        * "life cycle assessment": 1
+       * "environmental impacts": 1
        * "cycle assessment": 1
-       * "life-cycle": 1
   [ 4] SDG 15 :    9 hit(s)
        * "biodivers": 2
        * "environmental impacts": 1
@@ -2473,9 +2473,9 @@ Suggested 'SDGs' value: "SDG 11"
 =================================================================
 \end{lstlisting}
 
-OSDG identifies \gls{SDG}~13, and \Cref{lst:t_15611Output} decisively confirms \gls{SDG}~13 as the top match (49 hits), driven by embodied greenhouse gas emissions and Swedish climate declarations for buildings (\enquote{\foreignlanguage{swedish}{klimatpåverkan}}: 16, \enquote{climate impact}: 5, \enquote{\foreignlanguage{swedish}{inbyggd klimatpåverkan}}: 4, \enquote{\foreignlanguage{swedish}{klimatdeklaration}}: 4, \enquote{embodied greenhouse gas emissions}: 2).
+OSDG identifies \gls{SDG}~13, and \Cref{lst:t_15611Output} decisively confirms \gls{SDG}~13 as the top match (\num{59}~hits), driven by embodied greenhouse gas emissions and Swedish climate declarations for buildings (\enquote{\foreignlanguage{swedish}{klimatpåverkan}}: 16, \enquote{climate}: 12, \enquote{climate impact}: 5, \enquote{\foreignlanguage{swedish}{inbyggd klimatpåverkan}}: 4, \enquote{\foreignlanguage{swedish}{klimatdeklaration}}: 4).
 
-The author tagged only \enquote{11} in \gls{DiVA} (\enquote{SDGs}: \enquote{11}) because the study examines new construction and renovation of the Swedish building stock (\enquote{\foreignlanguage{swedish}{byggnader}}: 6, \enquote{renovation projects}: 3, \enquote{\foreignlanguage{swedish}{renoveringsprojekt}}: 3, \enquote{\foreignlanguage{swedish}{nybyggnad}}: 2) --- corresponding to Target~11.c (sustainable and resilient buildings). In addition, the classifier detects secondary contextual signals for \gls{SDG}~12 (9 hits via \enquote{\foreignlanguage{swedish}{livscykel}} and \enquote{life cycle assessment}) and \gls{SDG}~15 (9 hits via \enquote{\foreignlanguage{swedish}{biodiversitet}} and \enquote{biodiversity loss}), alongside minor trace overlap on \glspl{SDG}~7, 9, and 14 (1--2 hits). Because \gls{SDG}~13 (climate mitigation and statutory climate declarations in construction) is at least as central to the explicit policy scope of the work as \gls{SDG}~11, adding \gls{SDG}~13 produces a far more faithful metadata record than \gls{SDG}~11 alone.
+The author tagged only \enquote{11} in \gls{DiVA} (\texttt{\enquote{SDGs}: \enquote{11}}) because the study examines new construction and renovation of the Swedish building stock (\num{45}~hits for \gls{SDG}~11 via \enquote{building}: 9, \enquote{\foreignlanguage{swedish}{byggnad}}: 8, \enquote{\foreignlanguage{swedish}{byggnader}}: 6, \enquote{buildings}: 5, \enquote{renovation projects}: 3) --- corresponding to Target~11.c (sustainable and resilient buildings). In addition, the classifier detects secondary contextual signals for \gls{SDG}~12 (\num{13}~hits via \enquote{\foreignlanguage{swedish}{livscykel}} and \enquote{life cycle assessment}) and \gls{SDG}~15 (\num{9}~hits via \enquote{\foreignlanguage{swedish}{biodiversitet}} and \enquote{biodiversity loss}), alongside minor trace overlap on \glspl{SDG}~7, 9, and 14 (\num{1}--\num{2}~hits). Because \gls{SDG}~13 (climate mitigation and statutory climate declarations in construction) is at least as central to the explicit policy scope of the work as \gls{SDG}~11, adding \gls{SDG}~13 produces a far more faithful metadata record than \gls{SDG}~11 alone.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -2518,21 +2518,21 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_15766.json
 Match Vector (SDG 1 - 17):
-[6, 31, 0, 0, 0, 0, 4, 1, 0, 0, 6, 0, 0, 0, 1, 0, 2]
+[6, 47, 0, 0, 0, 0, 4, 2, 0, 0, 6, 0, 0, 0, 1, 3, 2]
 
 Assigned value in JSON: "1, 2"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  2 :   31 hit(s)
+  [ 1] SDG  2 :   47 hit(s)
+       * "jordbruk": 9
+       * "agricultural": 6
        * "jordbruksmark": 5
        * "smallholder": 5
        * "småbrukare": 5
-       * "jordbruksinvesteringar": 4
-       * "smallholders": 4
   [ 2] SDG  1 :    6 hit(s)
        * "laglig tillgång till marken": 1
-       * "employment opportunities": 1
        * "legal access to the land": 1
+       * "employment opportunities": 1
        * "laglig rätt till marken": 1
        * "adverse possession": 1
   [ 3] SDG 11 :    6 hit(s)
@@ -2542,12 +2542,15 @@ Top Keyword Matching Goals:
        * "förnybar energi": 1
        * "renewable": 1
        * "renewable AND ("energy" OR "electricity")": 1
-  [ 5] SDG 17 :    2 hit(s)
+  [ 5] SDG 16 :    3 hit(s)
+       * "legal": 3
+  [ 6] SDG  8 :    2 hit(s)
+       * "employment opportunities": 1
+       * "sysselsättning": 1
+  [ 7] SDG 17 :    2 hit(s)
        * "developing countries": 1
        * "utvecklingsländer": 1
-  [ 6] SDG  8 :    1 hit(s)
-       * "employment opportunities": 1
-  [ 7] SDG 15 :    1 hit(s)
+  [ 8] SDG 15 :    1 hit(s)
        * "land management": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -2555,15 +2558,15 @@ Suggested 'SDGs' value: "SDG 1, SDG 2"
 =================================================================
 \end{lstlisting}
 
-The author's \gls{DiVA} assignment of \enquote{1, 2} is genuinely warranted by the \gls{UN} target definitions: Target~1.4 (equal rights to economic resources, ownership, and control over land for the poor and vulnerable) and Target~2.3 / 2.a (small-scale food producers, secure and equal access to land, and agricultural investment in developing countries).
+The author's \gls{DiVA} assignment of \texttt{"SDGs": "1, 2"} is genuinely warranted by the \gls{UN} target definitions: Target~1.4 (equal rights to economic resources, ownership, and control over land for the poor and vulnerable) and Targets~2.3 and 2.a (small-scale food producers, secure and equal access to land, and agricultural investment in developing countries).
 
 OSDG identified only \gls{SDG}~1 because its semantic representation keys heavily on socio-legal deprivation and land-rights language (\enquote{deprivation}, \enquote{squatters}, \enquote{legal access to the land}, \enquote{developing countries}) while missing \gls{SDG}~2 due to the absence of explicit nutrition, hunger, or crop-yield terms (\enquote{food prices} appears only once as a macro driver).
 
-In contrast, \Cref{lst:t_15766Output} shows that the dual-language target-mapped lexicons decisively recover \gls{SDG}~2 (31 hits, led by \enquote{\foreignlanguage{swedish}{jordbruksmark}}: 5, \enquote{smallholder}: 5, \enquote{\foreignlanguage{swedish}{småbrukare}}: 5, \enquote{\foreignlanguage{swedish}{jordbruksinvesteringar}}: 4, and \enquote{smallholders}: 4) alongside \gls{SDG}~1 (6 hits across Target~1.4 land-tenure and livelihood terms: \enquote{\foreignlanguage{swedish}{laglig tillgång till marken}}, \enquote{legal access to the land}, \enquote{\foreignlanguage{swedish}{laglig rätt till marken}}, \enquote{adverse possession}, and \enquote{employment opportunities}).
+In contrast, \Cref{lst:t_15766Output} shows that the dual-language target-mapped lexicons decisively recover \gls{SDG}~2 (\num{47} hits, led by \enquote{\foreignlanguage{swedish}{jordbruk}}: 9, \enquote{agricultural}: 6, \enquote{\foreignlanguage{swedish}{jordbruksmark}}: 5, \enquote{smallholder}: 5, \enquote{\foreignlanguage{swedish}{småbrukare}}: 5), alongside \gls{SDG}~1 (\num{6} hits across Target~1.4 land-tenure and livelihood terms: \enquote{\foreignlanguage{swedish}{laglig tillgång till marken}}, \enquote{legal access to the land}, \enquote{\foreignlanguage{swedish}{laglig rätt till marken}}, \enquote{adverse possession}, and \enquote{employment opportunities}).
 
-This case study also illustrates a domain-context nuance for the term \enquote{squatter} (6 hits under \gls{SDG}~11). Standard bibliometric dictionaries (here, Elsevier~V4) map \enquote{squatter} to urban informal settlements (\gls{SDG}~11) even when the study concerns \textit{rural agricultural land encroachment} --- reinforcing why author judgment and explicit scope (\Cref{rec:explicitScope}) remain essential alongside automated scoring.
+This case study also illustrates a domain-context nuance for the term \enquote{squatter} (\num{6} hits under \gls{SDG}~11). Standard bibliometric dictionaries (here, Elsevier~V4) map \enquote{squatter} to urban informal settlements (\gls{SDG}~11) even when the study concerns \textit{rural agricultural land encroachment} --- reinforcing why author judgment and explicit scope (\Cref{rec:explicitScope}) remain essential alongside automated scoring.
 
-\textbf{NB:} The minor background hits on \gls{SDG}~7 (4 hits on \enquote{renewable energy}/\enquote{\foreignlanguage{swedish}{förnybar energi}}), \gls{SDG}~17 (2 hits on \enquote{developing countries}), \gls{SDG}~8 (1 hit), and \gls{SDG}~15 (1 hit) reflect macro-economic drivers mentioned in the opening paragraph rather than core research contributions.
+\textbf{NB:} The minor background hits on \gls{SDG}~7 (\num{4} hits on \enquote{renewable energy}/\enquote{\foreignlanguage{swedish}{förnybar energi}}), \gls{SDG}~16 (\num{3} hits on \enquote{legal}), \gls{SDG}~8 (\num{2} hits), \gls{SDG}~17 (\num{2} hits on \enquote{developing countries}/\enquote{\foreignlanguage{swedish}{utvecklingsländer}}), and \gls{SDG}~15 (\num{1} hit) reflect macro-economic drivers and legal-access framing rather than separate core policy contributions.
 \end{casestudySection}
 
 \begin{takeaway}
