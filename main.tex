@@ -831,62 +831,69 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_123456.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 4, 0, 0, 0, 0, 26, 0, 0, 24, 0, 0, 0, 0, 0]
+[0, 0, 0, 2, 0, 0, 0, 0, 15, 0, 18, 12, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "9, 12"
 
 Explicit In-Text Goal Declarations:
   [*] SDG  7 (keyword occurrences: 0)
-  [*] SDG  9 (keyword occurrences: 26)
-  [*] SDG 12 (keyword occurrences: 24)
+  [*] SDG  9 (keyword occurrences: 15)
+  [*] SDG 12 (keyword occurrences: 12)
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   26 hit(s) [Explicitly cited]
-       * "design for assembly": 7
-       * "reconfigurable manufacturing systems": 4
-       * "manufacturing systems": 4
-       * "modular product architecture": 3
-       * "omkonfigurerbara tillverkningssystem": 2
-  [ 2] SDG 12 :   24 hit(s) [Explicitly cited]
-       * "lifecycle": 4
-       * "livscykel": 4
-       * "resource investments": 2
-       * "lifecycle-resilient": 2
-       * "livscykelresistenta": 2
-  [ 3] SDG  4 :    4 hit(s)
-       * "engineering education": 2
-       * "ingenjörsutbildning": 2
+  [ 1] SDG 11 :   18 hit(s)
+       * "architecture": 9
+       * "arkitektur": 5
+       * "architectural": 2
+       * "arkitektonisk": 2
+  [ 2] SDG  9 :   15 hit(s) [Explicitly cited]
+       * "design for assembly": 5
+       * "reconfigurable manufacturing systems": 2
+       * "modular product architecture": 2
+       * "manufacturing systems": 2
+       * "omkonfigurerbara tillverkningssystem": 1
+  [ 3] SDG 12 :   12 hit(s) [Explicitly cited]
+       * "lifecycle": 2
+       * "livscykel": 2
+       * "resource investments": 1
+       * "resursinvesteringar": 1
+       * "livscykelresistenta": 1
+  [ 4] SDG  4 :    2 hit(s)
+       * "engineering education": 1
+       * "ingenjörsutbildning": 1
 -----------------------------------------------------------------
 Note: Scoped to author's explicit in-text declarations.
 Suggested 'SDGs' value: "SDG 7, SDG 9, SDG 12"
 =================================================================
 \end{lstlisting}
 
-In this case, OSDG identified only \gls{SDG}~9. By contrast, the author explicitly cited \enquote{SDG 7, SDG 9, SDG 12} in the abstract text, \gls{DiVA} metadata recorded \enquote{SDG 9, SDG 12}, and \Cref{lst:123456Output} shows that the program detected keyword matches for \gls{SDG}~9 (26 hits), \gls{SDG}~12 (24 hits), and \gls{SDG}~4 (4 hits), alongside explicit in-text declarations for \glspl{SDG}~7, 9, and 12:
+In this case, OSDG identified only \gls{SDG}~9. By contrast, the author explicitly cited \enquote{SDG 7, SDG 9, SDG 12} in the abstract text, \gls{DiVA} metadata recorded \enquote{SDG 9, SDG 12}, and \Cref{lst:123456Output} shows that the program detected keyword matches for \gls{SDG}~11 (18 hits), \gls{SDG}~9 (15 hits), \gls{SDG}~12 (12 hits), and \gls{SDG}~4 (2 hits), alongside explicit in-text declarations for \glspl{SDG}~7, 9, and 12:
 
 \begin{itemize}
-    \item \textbf{\gls{SDG}~9 (26 hits) \& \gls{SDG}~12 (24 hits):} Both goals recorded in \gls{DiVA} (\enquote{9, 12}) are strongly substantiated by dual-language keyword evidence:
+    \item \textbf{\gls{SDG}~9 (15 hits) \& \gls{SDG}~12 (12 hits):} Both goals recorded in \gls{DiVA} (\enquote{9, 12}) are strongly substantiated by dual-language keyword evidence:
     \begin{itemize}
-        \item \emph{\gls{SDG}~9:} Driven by \texttt{design for assembly} (7), \texttt{reconfigurable manufacturing systems} (4), \texttt{manufacturing systems} (4), \texttt{modular product architecture} (3), and \texttt{\foreignlanguage{swedish}{omkonfigurerbara tillverkningssystem}} (2), aligning with Targets~9.2 and 9.4 (sustainable industrialization and manufacturing resilience).
-        \item \emph{\gls{SDG}~12:} Driven by \texttt{lifecycle} (4), \texttt{\foreignlanguage{swedish}{livscykel}} (4), \texttt{resource investments} (2), \texttt{lifecycle-resilient} (2), and \texttt{\foreignlanguage{swedish}{livscykelresistenta}} (2), aligning with Target~12.2 (efficient resource use across the product lifecycle).
+        \item \emph{\gls{SDG}~9:} Driven by \texttt{design for assembly} (5), \texttt{reconfigurable manufacturing systems} (2), \texttt{modular product architecture} (2), \texttt{manufacturing systems} (2), and \texttt{\foreignlanguage{swedish}{omkonfigurerbara tillverkningssystem}} (1), aligning with Targets~9.2 and 9.4 (sustainable industrialization and manufacturing resilience).
+        \item \emph{\gls{SDG}~12:} Driven by \texttt{lifecycle} (2), \texttt{\foreignlanguage{swedish}{livscykel}} (2), \texttt{resource investments} (1), \texttt{\foreignlanguage{swedish}{resursinvesteringar}} (1), and \texttt{\foreignlanguage{swedish}{livscykelresistenta}} (1), aligning with Target~12.2 (efficient resource use across the product lifecycle).
     \end{itemize}
 
-    \item \textbf{Explicit In-Text Declarations Override \gls{DiVA} Metadata (\enquote{SDG 7, SDG 9, SDG 12}):} In the closing sentence of both abstracts, the author explicitly states: \enquote{connects to United Nations’ Sustainable Development Goals (SDGs) 7, 9, and 12} / \enquote{\foreignlanguage{swedish}{knyter an till Förenta Nationernas globala mål 7, 9 och 12}}. Because the classifier parses explicit goal declarations, it surfaces \gls{SDG}~7 despite zero keyword hits.
+    \item \textbf{Explicit In-Text Declarations Override Both \gls{DiVA} Metadata and Domain Polysemy (\enquote{SDG 7, SDG 9, SDG 12}):} In the closing sentence of both abstracts, the author explicitly states: \enquote{connects to United Nations’ Sustainable Development Goals (SDGs) 7, 9, and 12} / \enquote{\foreignlanguage{swedish}{knyter an till Förenta Nationernas globala mål 7, 9 och 12}}. Because the classifier parses explicit goal declarations at the top of its precedence hierarchy (\Cref{sec:threeTierSuggestionPrecedence}), it simultaneously surfaces \gls{SDG}~7 despite zero keyword hits and prevents \gls{SDG}~11 (18 hits) --- a domain false friend triggered by mechanical \emph{product architecture} (\texttt{architecture}: 9, \texttt{\foreignlanguage{swedish}{arkitektur}}: 5, \texttt{architectural}: 2, \texttt{\foreignlanguage{swedish}{arkitektonisk}}: 2) rather than urban buildings --- from displacing \gls{SDG}~9 and \gls{SDG}~12.
 
-    \item \textbf{\gls{SDG}~4 (4 hits):} Accurately picked up \texttt{engineering education} (2) and \texttt{\foreignlanguage{swedish}{ingenjörsutbildning}} (2) from the methodology section (\enquote{applications in graduate-level engineering education} / \enquote{\foreignlanguage{swedish}{tillämpningar i högre ingenjörsutbildning}}), representing secondary pedagogical context rather than a core sustainability claim.
+    \item \textbf{\gls{SDG}~4 (2 hits):} Accurately picked up \texttt{engineering education} (1) and \texttt{\foreignlanguage{swedish}{ingenjörsutbildning}} (1) from the methodology section (\enquote{applications in graduate-level engineering education} / \enquote{\foreignlanguage{swedish}{tillämpningar i högre ingenjörsutbildning}}), representing secondary pedagogical context rather than a core sustainability claim.
 \end{itemize}
+
 
 Why did the author claim \gls{SDG}~7 despite zero energy-related keywords in the abstract? This illustrates the gap between domain-specific engineering reasoning and surface text. Within \gls{KTH}'s production engineering research environment, Reconfigurable Manufacturing Systems (RMS) and automation-ready modular architectures are routinely justified as enablers of energy-efficient manufacturing (Target~7.3) and industrial electrification (Target~7.b):
 \begin{itemize}
     \item Reconfigurable production lines avoid full factory tear-downs and idle energy overhead by scaling capacity dynamically to match demand.
+    
     \item Modular product architectures facilitate disassembly, component upgrades (\eg swapping powertrains or battery modules), and retrofitting legacy brownfield equipment rather than scrapping entire systems.
 \end{itemize}
-However, the author never used terms such as \enquote{energy}, \enquote{power}, \enquote{electricity}, or \enquote{emissions} anywhere in either abstract. The energy benefit is an implicit second-order consequence of \enquote{long term manufacturing resilience} that resides in the author's disciplinary framing (and likely the thesis \textit{kappa}), rather than in the abstract's explicit vocabulary.
 
+However, the author never used terms such as \enquote{energy}, \enquote{power}, \enquote{electricity}, or \enquote{emissions} anywhere in either abstract. The energy benefit is an implicit second-order consequence of \enquote{long term manufacturing resilience} that resides in the author's disciplinary framing (and likely the thesis \textit{kappa}), rather than in the abstract's explicit vocabulary.
 \end{casestudySection}
 
 \begin{takeaway}
-OSDG identified \gls{SDG}~9, but missed both the co-primary \gls{SDG}~12 and the secondary pedagogical \gls{SDG}~4. Neither OSDG nor keyword matching detected \gls{SDG}~7, because its justification relies on implicit domain knowledge within \gls{KTH}'s production engineering environment rather than surface vocabulary --- demonstrating why parsing explicit in-text \gls{SDG} declarations is essential for complete metadata recovery.
+OSDG identified \gls{SDG}~9, but missed both the co-primary \gls{SDG}~12 and the secondary pedagogical \gls{SDG}~4. Meanwhile, neither OSDG nor keyword matching detected \gls{SDG}~7 --- because its justification relies on implicit domain knowledge within \gls{KTH}'s production engineering environment rather than surface vocabulary --- and unscoped keyword matching ranked \gls{SDG}~11 first due to polysemous \emph{product architecture} terms. Parsing explicit in-text \gls{SDG} declarations at the top of the precedence hierarchy both recovers implicit goals (\gls{SDG}~7) and prevents domain false friends (\gls{SDG}~11) from displacing substantiated goals.
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
@@ -927,48 +934,47 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_141830.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 82, 0, 17, 2, 121, 0, 2, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 43, 1, 9, 0, 77, 0, 1, 0, 0, 0, 0]
 
 Assigned value in JSON: "11"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 11 :  121 hit(s)
-       * "BEV": 16
-       * "transportation": 18
-       * "urban road": 9
-       * "electric vehicle": 8
-       * "urban road networks": 6
-  [ 2] SDG  7 :   82 hit(s)
-       * "BEV": 16
-       * "energiförbrukning": 13
-       * "energy consumption": 11
-       * "electric vehicle": 8
-       * "battery-electric": 6
-  [ 3] SDG  9 :   17 hit(s)
-       * "BEV": 16
+  [ 1] SDG 11 :   77 hit(s)
+       * "BEV": 8
+       * "transportation": 10
+       * "urban road": 5
+       * "electric vehicle": 4
+       * "urban road networks": 3
+  [ 2] SDG  7 :   43 hit(s)
+       * "BEV": 8
+       * "energiförbrukning": 7
+       * "energy consumption": 6
+       * "electric vehicle": 4
+       * "battery-electric": 3
+  [ 3] SDG  9 :    9 hit(s)
+       * "BEV": 8
        * "autonomous vehicles": 1
-  [ 4] SDG 10 :    2 hit(s)
-       * "tillgänglighet": 2
-  [ 5] SDG 13 :    2 hit(s)
-       * "business-as-usual": 2
+  [ 4] SDG  8 :    1 hit(s)
+       * "labor": 1
+  [ 5] SDG 13 :    1 hit(s)
+       * "business-as-usual": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 11"
 =================================================================
 \end{lstlisting}
 
-OSDG says \glspl{SDG} 7 \& 11, the \gls{DiVA} record said 11, and the program found terms in \glspl{SDG} 11, 7, 9, 10, and 13.
+OSDG says \glspl{SDG} 7 \& 11, the \gls{DiVA} record said 11, and the program found terms in \glspl{SDG} 11, 7, 9, 8, and 13.
 
 \begin{itemize}
-    \item \gls{SDG}~11 (121 hits): Dominates as the primary urban mobility and transit infrastructure goal, validating the JSON assignment (\enquote{11}).
+    \item \gls{SDG}~11 (77 hits): Dominates as the primary urban mobility and transit infrastructure goal, validating the JSON assignment (\enquote{11}).
     
-    \item \gls{SDG}~7 (82 hits): Captures the fleet electrification and energy estimation components.
+    \item \gls{SDG}~7 (43 hits): Captures the fleet electrification and energy estimation components.
     
-    \item \gls{SDG}~9 (17 hits): Captures the electric vehicle and autonomous systems engineering. However, almost all of this is from the acronym \enquote{BEV}.
+    \item \gls{SDG}~9 (9 hits): Captures the electric vehicle and autonomous systems engineering. However, almost all of this is from the acronym \enquote{BEV}.
     
-    \item Minimal Background Noise: Only 2 trace hits each on \gls{SDG}~10 (\enquote{\foreignlanguage{swedish}{tillgänglighet}}) and \gls{SDG}~13 (\enquote{business-as-usual}), with 0 hits across the remaining 12 goals.  
+    \item Minimal Background Noise: Only \num{1} trace hit each on \gls{SDG}~8 (\enquote{labor}, from \enquote{driver labor}) and \gls{SDG}~13 (\enquote{business-as-usual}), with \num{0} hits across the remaining \num{12} goals.
 \end{itemize}
-
 \end{casestudySection}
 
 \begin{takeaway}
@@ -1002,23 +1008,23 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_142021.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 0, 0, 17, 0, 12, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 6, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "9"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   17 hit(s)
-       * "passenger demand": 4
-       * "railway": 3
-       * "investments in the railway network": 2
-       * "rail passenger demand": 2
-       * "guided transport": 2
-  [ 2] SDG 11 :   12 hit(s)
-       * "passenger demand": 4
-       * "frequency of service": 2
-       * "guided transport": 2
-       * "urban transport": 2
-       * "bus service": 2
+  [ 1] SDG  9 :   10 hit(s)
+       * "passenger demand": 2
+       * "railway": 2
+       * "investments in the railway network": 1
+       * "rail passenger demand": 1
+       * "guided transport": 1
+  [ 2] SDG 11 :    6 hit(s)
+       * "passenger demand": 2
+       * "frequency of service": 1
+       * "guided transport": 1
+       * "urban transport": 1
+       * "bus service": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 9"
@@ -1027,9 +1033,9 @@ Suggested 'SDGs' value: "SDG 9"
 
 OSDG says \gls{SDG}~11. In contrast, the dual-language classifier evaluates the full set of domain terms, finding:
 \begin{itemize}
-    \item \gls{SDG}~9 (17 hits): Takes a clear lead driven by railway infrastructure investment and network demand modeling (\enquote{passenger demand}, \enquote{railway}, \enquote{investments in the railway network}, \enquote{rail passenger demand}), confirming the assigned \enquote{9} in the metadata.
+    \item \gls{SDG}~9 (10 hits): Takes a clear lead driven by railway infrastructure investment and network demand modeling (\enquote{passenger demand}, \enquote{railway}, \enquote{investments in the railway network}, \enquote{rail passenger demand}), confirming the assigned \enquote{9} in the metadata.
 
-    \item \gls{SDG}~11 (12 hits): Captures the secondary public-transit service and urban modal-competition context (\enquote{frequency of service}, \enquote{guided transport}, \enquote{urban transport}, \enquote{bus service}).
+    \item \gls{SDG}~11 (6 hits): Captures the secondary public-transit service and urban modal-competition context (\enquote{passenger demand}, \enquote{frequency of service}, \enquote{guided transport}, \enquote{urban transport}, \enquote{bus service}).
 
     \item Zero Bleed: All remaining 15 goals sit cleanly at 0.
 \end{itemize}
@@ -1038,16 +1044,16 @@ Why did OSDG and the author diverge in their assignment of \glspl{SDG}?
 \begin{itemize}
     \item Author's perspective (\gls{SDG}~9): The report focuses on preventing \enquote{incorrect or undersized investments in the railway network} over multi-decade horizons --- which maps directly to Target 9.1 (develop quality, reliable, sustainable and resilient infrastructure).
 
-    \item OSDG's perspective (\gls{SDG}~11): OSDG latched onto public-transit and modal-shift terminology (\enquote{urban transport}, \enquote{bus service}, \enquote{frequency of service}, \enquote{passenger demand}), which maps to Target 11.2 (sustainable transport systems).
+    \item OSDG's perspective (\gls{SDG}~11): OSDG latched onto public-transit and modal-shift terminology (\enquote{passenger demand}, \enquote{urban transport}, \enquote{bus service}, \enquote{frequency of service}, \enquote{guided transport}), which maps to Target~11.2 (sustainable transport systems).
 \end{itemize}
 
 Because long-term railway network investment (\gls{SDG}~9) and passenger transit service modeling (\gls{SDG}~11) are two sides of the same coin, both goals are genuinely warranted.
 
-\textbf{NB:} As in the earlier cases, there is overlap: \enquote{passenger demand} (4 hits) and \enquote{guided transport} (2 hits) are shared across both \gls{SDG}~9 and \gls{SDG}~11, while \enquote{rail passenger demand} (2) is a superstring of \enquote{passenger demand} (4). Even accounting for that overlap, \gls{SDG}~9 retains distinct infrastructure-investment terms (\enquote{investments in the railway network}: 2, \enquote{railway}: 3) and \gls{SDG}~11 retains distinct transit-service terms (\enquote{frequency of service}: 2, \enquote{urban transport}: 2, \enquote{bus service}: 2)
+\textbf{NB:} As in the earlier cases, there is overlap: \enquote{passenger demand} (2~hits) and \enquote{guided transport} (1~hit) are shared across both \gls{SDG}~9 and \gls{SDG}~11, while \enquote{rail passenger demand} (1~hit) is a superstring of \enquote{passenger demand} (2~hits). Even accounting for that overlap, \gls{SDG}~9 retains distinct infrastructure-investment terms (\enquote{investments in the railway network}: 1, \enquote{railway}: 2) and \gls{SDG}~11 retains distinct transit-service terms (\enquote{frequency of service}: 1, \enquote{urban transport}: 1, \enquote{bus service}: 1).
 \end{casestudySection}
 
 \begin{takeaway}
-Adding \gls{SDG}~11 to \gls{SDG}~9 would improve this entry's discoverability for both \glspl{SDG}. Moreover, this case illustrates that the dominant \gls{SDG} was \textbf{not} the one identified by OSDG.
+Adding \gls{SDG}~11 to \gls{SDG}~9 would improve this entry's discoverability for both \glspl{SDG}. Moreover, this case shows that the dominant \gls{SDG} was \textbf{not} the one identified by OSDG.
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
@@ -1087,23 +1093,23 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_143470.json
 Match Vector (SDG 1 - 17):
-[0, 0, 4, 0, 0, 0, 0, 0, 79, 0, 4, 0, 0, 0, 0, 0, 0]
+[0, 0, 2, 0, 0, 0, 0, 0, 43, 0, 2, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "9"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   79 hit(s)
-       * "transfer impedance": 19
-       * "transferimpedans": 14
-       * "perforerade plattor": 8
-       * "perforated plates": 7
-       * "aircraft liners": 4
-  [ 2] SDG  3 :    4 hit(s)
-       * "noise reduction systems": 2
-       * "ljuddämpningssystem": 2
-  [ 3] SDG 11 :    4 hit(s)
-       * "noise reduction systems": 2
-       * "ljuddämpningssystem": 2
+  [ 1] SDG  9 :   43 hit(s)
+       * "transfer impedance": 10
+       * "transferimpedans": 7
+       * "perforerade plattor": 4
+       * "perforated plates": 4
+       * "scattering matrix": 2
+  [ 2] SDG  3 :    2 hit(s)
+       * "noise reduction systems": 1
+       * "ljuddämpningssystem": 1
+  [ 3] SDG 11 :    2 hit(s)
+       * "noise reduction systems": 1
+       * "ljuddämpningssystem": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 9"
@@ -1112,10 +1118,13 @@ Suggested 'SDGs' value: "SDG 9"
 
 In this case, OSDG could not handle the abstract, while the program found a clear dominant \gls{SDG} along with two secondary \glspl{SDG}.
 
-\begin{itemize}
-    \item \gls{SDG}~9 (79 hits): Driven by specialized aeroacoustic and manufacturing characterization terms (\enquote{transfer impedance}, \enquote{\foreignlanguage{swedish}{transferimpedans}}, \enquote{perforated plates}, \enquote{\foreignlanguage{swedish}{perforerade plattor}}, \enquote{aircraft liners}), validating the author's "9" assignment under Target 9.4 / 9.5 (upgrading industrial/aviation technology and applied engineering R\&D).
 
-    \item OSDG's Failure: Just as in the case study of \texttt{diva2:2007234}, general-purpose \gls{ML} classifiers fail when an abstract is written in dense physical-acoustics nomenclature (\enquote{multi-port scattering matrix}, \enquote{Strouhal number}, \enquote{grazing flow}) without high-level sustainability phrasing.
+\begin{itemize}
+    \item \gls{SDG}~9 (\num{43} hits): Driven by specialized aeroacoustic and manufacturing characterization terms (\enquote{transfer impedance}, \enquote{\foreignlanguage{swedish}{transferimpedans}}, \enquote{perforated plates}, \enquote{\foreignlanguage{swedish}{perforerade plattor}}, \enquote{scattering matrix}), validating the author's \enquote{9} assignment under Targets~9.4 and 9.5 (upgrading industrial/aviation technology and applied engineering R\&D).
+
+    \item Secondary Goals --- \gls{SDG}~3 (\num{2} hits) and \gls{SDG}~11 (\num{2} hits): Both secondary matches are triggered by \enquote{noise reduction systems} (\num{1}) and \enquote{\foreignlanguage{swedish}{ljuddämpningssystem}} (\num{1}) in the opening sentence, capturing the secondary public-health (noise-exposure reduction) and urban-environment (aviation and transport noise mitigation) benefits of acoustic liner design.
+
+    \item OSDG's Failure: Just as in the case study of \Cref{cs:CorrectIdentificationOfNine}, general-purpose \gls{ML} classifiers fail when an abstract is written in dense physical-acoustics nomenclature (\enquote{multi-port scattering matrix}, \enquote{Strouhal number}, \enquote{grazing flow}) without high-level sustainability phrasing.
 \end{itemize}
 \end{casestudySection}
 
@@ -1157,7 +1166,7 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_144856.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 11, 0, 0, 0, 0, 1, 0]
+[0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 11, 0, 0, 1, 0, 1, 0]
 
 Assigned value in JSON: "9, 11"
 
@@ -1173,8 +1182,10 @@ Top Keyword Matching Goals:
        * "tågtrafik": 2
        * "transport planning": 1
        * "passenger demand": 1
-       * "passenger rail": 1
-  [ 3] SDG 16 :    1 hit(s)
+       * "tågtrafikutbud": 1
+  [ 3] SDG 14 :    1 hit(s)
+       * "coast": 1
+  [ 4] SDG 16 :    1 hit(s)
        * "rättvisa": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -1182,7 +1193,7 @@ Suggested 'SDGs' value: "SDG 9, SDG 11"
 =================================================================
 \end{lstlisting}
 
-OSDG failed to handle the abstract. In contrast, \Cref{lst:t_144856Output} shows that the program not only processed the text cleanly, but its top two match vector peaks (\gls{SDG}~9: 13 hits and \gls{SDG}~11: 11 hits) matched the exact two goals declared in DiVA (\enquote{9, 11}), with near-zero noise across the remaining 15 goals.
+OSDG failed to handle the abstract. In contrast, \Cref{lst:t_144856Output} shows that the program not only processed the text cleanly, but its top two match vector peaks (\gls{SDG}~9: \num{13} hits and \gls{SDG}~11: \num{11} hits) matched the exact two goals declared in \gls{DiVA} (\enquote{9, 11}), with near-zero noise across the remaining \num{15} goals.
 
 This case study demonstrates dual-language synergy across technical \& institutional vocabulary:
 \begin{itemize}
@@ -1192,7 +1203,7 @@ This case study demonstrates dual-language synergy across technical \& instituti
 \end{itemize}
 
 
-This case also illustrates lexical polysemy across domains via the single 1-hit trace on \gls{SDG}~16 (\enquote{\foreignlanguage{swedish}{rättvisa}}). Here, the stem \enquote{\foreignlanguage{swedish}{rättvisa}} matched inside \enquote{\foreignlanguage{swedish}{ett rättvisande planeringsunderlag}} (\enquote{\foreignlanguage{swedish}{rättvisande}} meaning fair, accurate, or representative in appraisal methodology, \ie an objective and impartial planning basis across competing rail projects) --- showing why \enquote{\foreignlanguage{swedish}{rättvisa}} in transport demand modeling reflects \textit{methodological impartiality and distributional/transport equity} (\gls{SDG}~10 / Target~11.2) rather than judicial institutions (\gls{SDG}~16).
+This case also illustrates how single-hit domain polysemy is cleanly suppressed by the \texttt{min-hits=2} threshold. Both background traces in \Cref{lst:t_144856Output} are false friends: \gls{SDG}~14 (\num{1}~hit on \enquote{coast}, triggered by the proper railway corridor name \enquote{East Coast line} / \enquote{\foreignlanguage{swedish}{Ostkustbanan}} rather than marine ecosystems) and \gls{SDG}~16 (\num{1}~hit on \enquote{\foreignlanguage{swedish}{rättvisa}}). In the latter, the stem \enquote{\foreignlanguage{swedish}{rättvisa}} matched inside \enquote{\foreignlanguage{swedish}{ett rättvisande planeringsunderlag}} (\enquote{\foreignlanguage{swedish}{rättvisande}} meaning fair, accurate, or representative in appraisal methodology, \ie an objective and impartial planning basis across competing rail projects) --- showing why \enquote{\foreignlanguage{swedish}{rättvisa}} in transport demand modeling reflects \textit{methodological impartiality and distributional/transport equity} (\gls{SDG}~10 / Target~11.2) rather than judicial institutions (\gls{SDG}~16).
 \end{casestudySection}
 
 \begin{takeaway}
@@ -1233,12 +1244,12 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_144936.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 1, 14, 0, 0, 0, 16, 0, 13, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 14, 0, 2, 0, 17, 0, 14, 0, 0, 0, 1]
 
 Assigned value in JSON: "11"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 11 :   16 hit(s)
+  [ 1] SDG 11 :   17 hit(s)
        * "public transport on water": 3
        * "public transport": 3
        * "kollektivtrafik på vatten": 1
@@ -1249,34 +1260,42 @@ Top Keyword Matching Goals:
        * "fossil-free alternatives": 2
        * "fossil-free operations": 1
        * "electric propulsion": 1
-       * "högmiljöprestanda": 1
-  [ 3] SDG 13 :   13 hit(s)
+       * "green electricity": 1
+  [ 3] SDG 13 :   14 hit(s)
        * "fossil-free": 5
        * "transition from fossil fuels": 1
        * "greenhouse gas emissions": 1
        * "climate targets": 1
-       * "greenhouse-gas": 1
-  [ 4] SDG  6 :    1 hit(s)
-       * "vatten": 1
+       * "greenhouse gas": 1
+  [ 4] SDG  9 :    2 hit(s)
+       * "infrastructure": 1
+       * "industry": 1
+  [ 5] SDG 17 :    1 hit(s)
+       * "cooperation": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 11"
 =================================================================
 \end{lstlisting}
 
-OSDG said \gls{SDG}~11 and \gls{SDG}~7. The program also included \gls{SDG}~13.
+OSDG said \gls{SDG}~11 and \gls{SDG}~7. The program also identified \gls{SDG}~13 (\num{14}~hits), along with minor background signals on \gls{SDG}~9 (\num{2}~hits) and \gls{SDG}~17 (\num{1}~hit).
 
-With \gls{SDG}~7 \& \gls{SDG}~11  --- there is exact alignment with OSDG and the program's top two goals --- as they converged on the feasibility study's core theme: electrifying maritime public transport.
+With \gls{SDG}~7 \& \gls{SDG}~11 --- there is exact alignment with OSDG and the program's top two goals --- as they converged on the feasibility study's core theme: electrifying maritime public transport.
 \begin{itemize}
-    \item \gls{SDG}~7 (Target 7.2 \& 7.3): Driven by propulsion electrification, charging infrastructure, and alternative maritime fuels.
+    \item \gls{SDG}~11 (\num{17}~hits; Targets~11.2 \& 11.6): Driven by urban/waterborne public transit (\enquote{public transport on water}: 3, \enquote{\foreignlanguage{swedish}{kollektivtrafik på vatten}}: 1, \enquote{electric hybrid ferry}: 1) and local air pollutant reduction, directly corroborating \gls{DiVA}'s assigned \texttt{"SDGs": "11"}.
 
-    \item \gls{SDG}~11 (Target 11.2 \& 11.6): Driven by urban/waterborne public transit and local air pollutant reduction, directly corroborating \gls{DiVA}'s assigned \enquote{SDGs}: \enquote{11}.
+    \item \gls{SDG}~7 (\num{14}~hits; Targets~7.2 \& 7.3): Driven by propulsion electrification (\enquote{electrification}: 3, \enquote{electric propulsion}: 1, \enquote{green electricity}: 1), charging infrastructure, and alternative maritime fuels (\enquote{fossil-free alternatives}: 2).
 \end{itemize}
 \textbf{NB:} In the \gls{DiVA} metadata record, the Swedish subtitle omits the space in \enquote{\foreignlanguage{swedish}{hög miljöprestanda}} (as printed on the report cover), recording it as the single compound \texttt{\foreignlanguage{swedish}{högmiljöprestanda}} --- which directly matched an \gls{SDG}~7 dictionary entry.
 
-Additionally, \gls{SDG}~13 registered 13 hits and should be included in the \glspl{SDG}. The study explicitly frames its objective around achieving national climate goals and eliminating fossil fuels in ferry traffic (\enquote{transition to fossil-free public transport on water}, \enquote{accelerate the transition from fossil fuels so that set climate targets are also reached for the ferry traffic}, \enquote{\foreignlanguage{swedish}{Fossilfri kollektivtrafik på vatten}}).   Under Target 13.2 (integrate climate change measures into national policies, strategies and planning), \enquote{climate targets} and \enquote{greenhouse gas emissions} are genuine climate-policy signals rather than false-positive bleed.
+Additionally, \gls{SDG}~13 registered \num{14}~hits and should be included in the \glspl{SDG}. The study explicitly frames its objective around achieving national climate goals and eliminating fossil fuels in ferry traffic (\enquote{transition to fossil-free public transport on water}, \enquote{accelerate the transition from fossil fuels so that set climate targets are also reached for the ferry traffic}, \enquote{\foreignlanguage{swedish}{Fossilfri kollektivtrafik på vatten}}). Under Target~13.2 (integrate climate change measures into national policies, strategies and planning), \enquote{climate targets} and \enquote{greenhouse gas emissions} are genuine climate-policy signals rather than false-positive bleed.
 
-There is a trace hit on \gls{SDG}~6 (\enquote{\foreignlanguage{swedish}{vatten}}: 1), which is triggered by the Swedish title \enquote{\foreignlanguage{swedish}{Fossilfri kollektivtrafik på vatten}} (Fossil-free public transport on water), where \enquote{\foreignlanguage{swedish}{vatten}} denotes a maritime/waterway transit route rather than water sanitation or resource management. Therefore, \gls{SDG}~6 should not be included in the \glspl{SDG} for this publication.
+Finally, the remaining two non-zero entries in the match vector illustrate how the classifier's \texttt{--top-k 3} and \texttt{--min-hits 2} thresholds filter out generic background vocabulary:
+\begin{itemize}
+    \item \gls{SDG}~9 (\num{2}~hits): Triggered by single occurrences of \enquote{infrastructure} (\num{1}, from \enquote{access to quays and infrastructure}) and \enquote{industry} (\num{1}, from \enquote{shipping companies and industry organizations}). Although this crosses \texttt{--min-hits 2}, \gls{SDG}~9 ranks fourth behind \glspl{SDG}~11, 7, and 13 and is therefore excluded by \texttt{--top-k 3}.
+
+    \item \gls{SDG}~17 (\num{1}~hit): Triggered by a single occurrence of \enquote{cooperation} (\num{1}, from \enquote{emphasized cooperation as a key factor}), which falls below \texttt{--min-hits 2} and ranks fifth, suppressing generic multi-stakeholder phrasing.
+\end{itemize}
 \end{casestudySection}
 
 \begin{takeaway}
@@ -1360,29 +1379,29 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_145010.json
 Match Vector (SDG 1 - 17):
-[0, 0, 3, 0, 0, 0, 8, 0, 96, 0, 29, 0, 1, 0, 0, 0, 0]
+[0, 0, 3, 0, 0, 0, 9, 0, 100, 0, 31, 0, 1, 0, 0, 0, 0]
 
 Assigned value in JSON: "9"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   96 hit(s)
+  [ 1] SDG  9 :  100 hit(s)
        * "järnväg": 27
        * "railway": 19
        * "godståg": 8
        * "freight trains": 7
        * "railways": 7
-  [ 2] SDG 11 :   29 hit(s)
+  [ 2] SDG 11 :   31 hit(s)
        * "godståg": 8
        * "freight transport": 4
        * "rail freight": 3
        * "transport policy": 2
        * "godstransport": 2
-  [ 3] SDG  7 :    8 hit(s)
+  [ 3] SDG  7 :    9 hit(s)
        * "energy consumption": 2
        * "energiförbrukning": 2
        * "electric railway": 1
+       * "energy-efficient": 1
        * "electric trucks": 1
-       * "energisnåla": 1
   [ 4] SDG  3 :    3 hit(s)
        * "particulate emissions": 1
        * "partikelutsläpp": 1
@@ -1395,29 +1414,29 @@ Suggested 'SDGs' value: "SDG 9"
 =================================================================
 \end{lstlisting}
 
-OSDG failed to handle this abstract, which is an exceptionally long, policy-and-operations-heavy dual-language text (over 800 words per language) analyzing railway deregulation, axle/train lengths, and rolling resistance, without relying on high-level UN agenda slogans. The program output is shown in \Cref{lst:t_145010Output} and it shows:
+OSDG failed to handle this abstract, which is an exceptionally long, policy-and-operations-heavy dual-language text (over \num{800} words per language) analyzing railway deregulation, axle/train lengths, and rolling resistance, without relying on high-level UN agenda slogans. The program output is shown in \Cref{lst:t_145010Output} and it shows:
 \begin{itemize}
-    \item \gls{SDG}~9 (96 hits --- Overwhelming Primary Signal): The program cleanly isolated \gls{SDG}~9 with 96 hits --- more than triple the second-ranked goal --- directly confirming the \gls{DiVA} \gls{JSON} metadata (\enquote{SDGs}: \enquote{9}).   The score was driven by the dual-language railway infrastructure and freight terminology.  
+    \item \gls{SDG}~9 (\num{100} hits --- Overwhelming Primary Signal): The program cleanly isolated \gls{SDG}~9 with \num{100} hits --- more than triple the second-ranked goal --- directly confirming the \gls{DiVA} \gls{JSON} metadata (\texttt{"SDGs": "9"}). The score was driven by the dual-language railway infrastructure and freight terminology.
     
     \item Secondary Contextual Signals (\gls{SDG}~11, \gls{SDG}~7, \gls{SDG}~3, \gls{SDG}~13):
     \begin{itemize}
-    \item \gls{SDG}~11 (29 hits): Captures modal shift and freight logistics policy (\enquote{\foreignlanguage{swedish}{godståg}}: 8, \enquote{freight transport}: 4, \enquote{rail freight}: 3, \enquote{transport policy}: 2, \enquote{\foreignlanguage{swedish}{godstransport}}: 2).
-    
-    \item \gls{SDG}~7 (8 hits): Picks up rail's comparative energy efficiency over road trucking (\enquote{energy consumption}: 2, \enquote{\foreignlanguage{swedish}{energiförbrukning}}: 2, \enquote{electric railway}: 1, \enquote{electric trucks}: 1, \enquote{\foreignlanguage{swedish}{energisnåla}}: 1).
-    
-    \item \gls{SDG}~3 (3 hits): Accurately flags the health comparison regarding road-traffic particulate pollution (\enquote{particulate emissions}: 1, \enquote{\foreignlanguage{swedish}{partikelutsläpp}}: 1, \enquote{health}: 1).
-    
-    \item \gls{SDG}~13 (1 hit): Trace hit on \enquote{fossil-fuel}.
+        \item \gls{SDG}~11 (\num{31} hits): Captures modal shift and freight logistics policy (\enquote{\foreignlanguage{swedish}{godståg}}: 8, \enquote{freight transport}: 4, \enquote{rail freight}: 3, \enquote{transport policy}: 2, \enquote{\foreignlanguage{swedish}{godstransport}}: 2).
+        
+        \item \gls{SDG}~7 (\num{9} hits): Picks up rail's comparative energy efficiency over road trucking (\enquote{energy consumption}: 2, \enquote{\foreignlanguage{swedish}{energiförbrukning}}: 2, \enquote{electric railway}: 1, \enquote{energy-efficient}: 1, \enquote{electric trucks}: 1).
+        
+        \item \gls{SDG}~3 (\num{3} hits): Accurately flags the health comparison regarding road-traffic particulate pollution (\enquote{particulate emissions}: 1, \enquote{\foreignlanguage{swedish}{partikelutsläpp}}: 1, \enquote{health}: 1).
+        
+        \item \gls{SDG}~13 (\num{1} hit): Trace hit on \enquote{fossil-fuel}.
     \end{itemize}
     
-    \item Zero False-Positive Bleed: The remaining 12 \glspl{SDG} sit cleanly at 0.
+    \item Zero False-Positive Bleed: The remaining \num{12} \glspl{SDG} sit cleanly at \num{0}.
 \end{itemize}
 
 Look closely at the hierarchy of the four secondary signals; we can distinguish actionable metadata additions from contextual signals:
 \begin{itemize}
-    \item \gls{SDG}~11 (29 hits): With 29 hits across modal-shift and transport-policy terms (freight transport, rail freight, transport policy), \gls{SDG}~11 is substantial enough to warrant adding to the \gls{DiVA} metadata alongside \gls{SDG}~9 (under Target 11.2, sustainable transport systems).
+    \item \gls{SDG}~11 (\num{31} hits): With \num{31} hits across modal-shift and transport-policy terms (freight transport, rail freight, transport policy), \gls{SDG}~11 is substantial enough to warrant adding to the \gls{DiVA} metadata alongside \gls{SDG}~9 (under Target~11.2, sustainable transport systems).
 
-    \item \gls{SDG}~7 (8 hits), \gls{SDG}~3 (3 hits), and \gls{SDG}~13 (1 hit): By contrast, these represent genuine but secondary comparative arguments used in the abstract to justify shifting freight from road to rail (comparative rolling resistance and energy efficiency under Target 7.3; avoiding road-traffic particulate pollution under Target 3.9; replacing fossil-fuelled trucks under Target 13.2) --- rather than core research contributions that require separate DiVA tags.
+    \item \gls{SDG}~7 (\num{9} hits), \gls{SDG}~3 (\num{3} hits), and \gls{SDG}~13 (\num{1} hit): By contrast, these represent genuine but secondary comparative arguments used in the abstract to justify shifting freight from road to rail (comparative rolling resistance and energy efficiency under Target~7.3; avoiding road-traffic particulate pollution under Target~3.9; replacing fossil-fuelled trucks under Target~13.2) --- rather than core research contributions that require separate \gls{DiVA} tags.
 \end{itemize}
 \end{casestudySection}
 
@@ -1427,6 +1446,7 @@ This case confirms \gls{SDG}~9 as the dominant classification while demonstratin
 
 This case study also clarifies that not every non-zero match vector entry should be blindly added to \gls{DiVA}'s \glspl{SDG}.
 \end{takeaway}
+
 
 \Needspace*{8\baselineskip}
 \begin{casestudySection}[Confirming SDG 9, Adding SDG 11, and Filtering Trace False Positives]
@@ -1504,12 +1524,12 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_12808.json
 Match Vector (SDG 1 - 17):
-[0, 0, 4, 0, 0, 0, 0, 0, 77, 0, 27, 0, 0, 0, 1, 1, 0]
+[1, 0, 0, 0, 0, 0, 0, 0, 82, 0, 27, 0, 0, 0, 0, 1, 0]
 
 Assigned value in JSON: "9"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   77 hit(s)
+  [ 1] SDG  9 :   82 hit(s)
        * "järnväg": 20
        * "railway": 7
        * "banavgifter": 5
@@ -1521,12 +1541,9 @@ Top Keyword Matching Goals:
        * "järnvägsnätet": 3
        * "godståg": 3
        * "transport systems": 2
-  [ 3] SDG  3 :   4 hit(s)
-       * "störningar": 3
-       * "disturbances": 1
-  [ 4] SDG 15 :   1 hit(s)
-       * "natura": 1
-  [ 5] SDG 16 :   1 hit(s)
+  [ 3] SDG  1 :    1 hit(s)
+       * "poorer": 1
+  [ 4] SDG 16 :    1 hit(s)
        * "rättvisa": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -1534,18 +1551,18 @@ Suggested 'SDGs' value: "SDG 9"
 =================================================================
 \end{lstlisting}
 
-As in the previous case study, OSDG could not handle this lengthy (English) abstract, whereas \Cref{lst:t_12808Output} shows that the dual-language classifier program cleanly separated two substantive goals from three low-count false-positive signals:
+As in the previous case study, OSDG could not handle this lengthy (English) abstract, whereas \Cref{lst:t_12808Output} shows that the dual-language classifier program cleanly separated two substantive goals from two single-hit false-positive signals:
 \begin{itemize}
-    \item \textbf{\gls{SDG}~9 (77 hits --- Primary Confirmation):} Driven by specialized Swedish and English railway-infrastructure vocabulary (\enquote{\foreignlanguage{swedish}{järnväg}}: 20, \enquote{railway}: 7, \enquote{\foreignlanguage{swedish}{banavgifter}} [track access charges]: 5, and \enquote{\foreignlanguage{swedish}{triangelspår}} [triangular junction tracks for network redundancy]: 4), confirming \gls{DiVA}'s assignment (\enquote{9}) under Target~9.1 (\emph{reliable, sustainable and resilient infrastructure}).
+    \item \textbf{\gls{SDG}~9 (\num{82} hits --- Primary Confirmation):} Driven by specialized Swedish and English railway-infrastructure vocabulary (\enquote{\foreignlanguage{swedish}{järnväg}}: 20, \enquote{railway}: 7, \enquote{\foreignlanguage{swedish}{banavgifter}} [track access charges]: 5, and \enquote{\foreignlanguage{swedish}{triangelspår}} [triangular junction tracks for network redundancy]: 4), confirming \gls{DiVA}'s assignment (\enquote{9}) under Target~9.1 (\emph{reliable, sustainable and resilient infrastructure}).
 
-    \item \textbf{\gls{SDG}~11 (27 hits --- Actionable Secondary Addition):} Driven by freight modal-shift and transport-system terminology (\enquote{\foreignlanguage{swedish}{godstransport}}: 4 [shared with \gls{SDG}~9], \enquote{freight transport}: 3, \enquote{\foreignlanguage{swedish}{järnvägsnätet}}: 3, \enquote{\foreignlanguage{swedish}{godståg}}: 3, \enquote{transport systems}: 2), aligning with Target~11.2 and warranting inclusion alongside \gls{SDG}~9 in \gls{DiVA}.
+    \item \textbf{\gls{SDG}~11 (\num{27} hits --- Actionable Secondary Addition):} Driven by freight modal-shift and transport-system terminology (\enquote{\foreignlanguage{swedish}{godstransport}}: 4 [shared with \gls{SDG}~9], \enquote{freight transport}: 3, \enquote{\foreignlanguage{swedish}{järnvägsnätet}}: 3, \enquote{\foreignlanguage{swedish}{godståg}}: 3, \enquote{transport systems}: 2), aligning with Target~11.2 and warranting inclusion alongside \gls{SDG}~9 in \gls{DiVA}.
 
-    \item \textbf{Lexical False-Positive Trace Hits (\gls{SDG}~3, \gls{SDG}~15, \gls{SDG}~16):} Unlike the genuine secondary arguments seen in the previous case, all three trace signals here are lexical false friends that should be ignored: \enquote{\foreignlanguage{swedish}{störningar}}/\enquote{disturbances} (4 hits under \gls{SDG}~3) refers to railway traffic disruptions rather than medical disorders; \enquote{\foreignlanguage{swedish}{natura}} (1 hit under \gls{SDG}~15) matched as a substring inside the English word \enquote{natural}; and \enquote{\foreignlanguage{swedish}{rättvisa}} (1 hit under \gls{SDG}~16) refers to fair track-access pricing (\enquote{\foreignlanguage{swedish}{rättvisa banavgifter}}) rather than judicial justice.
+    \item \textbf{Lexical False-Positive Trace Hits (\gls{SDG}~1 and \gls{SDG}~16):} Unlike the genuine secondary arguments seen in the previous case, both single-hit trace signals here are lexical false friends that fall below \texttt{--min-hits 2} and should be ignored: \enquote{poorer} (\num{1}~hit under \gls{SDG}~1) refers to lower-quality railway timetable slots (\enquote{poorer train paths}) rather than economic poverty, and \enquote{\foreignlanguage{swedish}{rättvisa}} (\num{1}~hit under \gls{SDG}~16) refers to fair track-access pricing (\enquote{\foreignlanguage{swedish}{rättvisa banavgifter}}) rather than judicial justice.
 \end{itemize}
 \end{casestudySection}
 
 \begin{takeaway}
-This companion report reinforces the value of adding \gls{SDG}~11 alongside \gls{SDG}~9 for modal-shift freight research, while demonstrating why low-count trace hits (\glspl{SDG}~3, 15, and 16) must be audited for domain polysemy and substring collisions (such as \enquote{\foreignlanguage{swedish}{natura}} matching inside \enquote{natural}) before updating repository metadata.
+This companion report reinforces the value of adding \gls{SDG}~11 alongside \gls{SDG}~9 for modal-shift freight research, while demonstrating why low-count trace hits (\glspl{SDG}~1 and 16) must be filtered by a minimum-hit threshold and audited for domain polysemy (such as \enquote{poorer train paths} and \enquote{\foreignlanguage{swedish}{rättvisa banavgifter}}) before updating repository metadata.
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
@@ -1586,23 +1603,25 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_147969.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 16, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 18, 0, 17, 0, 0, 0, 0, 0, 1, 0, 0]
 
 Assigned value in JSON: "7, 9, 12, 13, 15"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   17 hit(s)
+  [ 1] SDG  7 :   18 hit(s)
+       * "Gen-IV": 2
+       * "uranium mononitride": 3
+       * "small modular reactors": 1
+       * "små modulära reaktorer": 1
+       * "nuclear energy systems": 1
+  [ 2] SDG  9 :   17 hit(s)
        * "uranium mononitride": 3
        * "strålskador": 3
        * "irradiation damage": 2
        * "ion implantation": 2
        * "jonimplantering": 2
-  [ 2] SDG  7 :   16 hit(s)
-       * "Gen-IV": 2
-       * "uranium mononitride": 3
-       * "nuclear energy systems": 1
-       * "small modular reactors": 1
-       * "små modulära reaktorer": 1
+  [ 3] SDG 15 :    1 hit(s)
+       * "species": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 7, SDG 9, SDG 12, SDG 13, SDG 15"
@@ -1610,12 +1629,12 @@ Suggested 'SDGs' value: "SDG 7, SDG 9, SDG 12, SDG 13, SDG 15"
 \end{lstlisting}
 OSDG could not handle the (English) abstract. In contrast, \Cref{lst:t_147969Output} shows that the dual-language classifier cleanly separated the substantiated nuclear-materials research from unsupported downstream tags:
 \begin{itemize}
-    \item \gls{SDG}~9 (17 hits) \& \gls{SDG}~7 (16 hits): Both core engineering and clean-energy dimensions are strongly substantiated in the match vector --- capturing the materials characterization and irradiation testing under \gls{SDG}~9 (\enquote{uranium mononitride}, \enquote{\foreignlanguage{swedish}{strålskador}}, \enquote{irradiation damage}, \enquote{ion implantation}, \enquote{\foreignlanguage{swedish}{jonimplantering}}; Target~9.5) alongside the advanced reactor and nuclear fuel technology under \gls{SDG}~7 (\enquote{Gen-IV}, \enquote{uranium mononitride}, \enquote{nuclear energy systems}, \enquote{small modular reactors}, \enquote{\foreignlanguage{swedish}{små modulära reaktorer}}; Target~7.a). 
+    \item \gls{SDG}~7 (\num{18} hits) \& \gls{SDG}~9 (\num{17} hits): Both core clean-energy and engineering dimensions are strongly substantiated in the match vector --- capturing advanced reactor and nuclear fuel technology under \gls{SDG}~7 (\enquote{Gen-IV}, \enquote{uranium mononitride}, \enquote{small modular reactors}, \enquote{\foreignlanguage{swedish}{små modulära reaktorer}}, \enquote{nuclear energy systems}; Target~7.a) alongside materials characterization and irradiation testing under \gls{SDG}~9 (\enquote{uranium mononitride}, \enquote{\foreignlanguage{swedish}{strålskador}}, \enquote{irradiation damage}, \enquote{ion implantation}, \enquote{\foreignlanguage{swedish}{jonimplantering}}; Target~9.5).
 
-    \item Zero False-Positive Drift: \glspl{SDG}~12, 13, and 15 remain at 0 in the match vector, preserving the audit trail that those three tags in \gls{DiVA} (\enquote{7, 9, 12, 13, 15}) stem from author metadata over-tagging rather than textual evidence in the abstract.
+    \item Domain Polysemy Trace Hit on \gls{SDG}~15 (\num{1} hit): The single trace match on \enquote{species} was triggered by \enquote{implanted species} (referring to implanted chemical/ion species --- Zr, Ba, Kr, and Xe --- in ion-beam physics rather than biological species in biodiversity conservation), confirming that \gls{SDG}~15 should be excluded from the \glspl{SDG}.
+
+    \item Zero False-Positive Drift: \glspl{SDG}~12 and 13 remain at \num{0} in the match vector, preserving the audit trail that those two zero-hit tags in \gls{DiVA} (\texttt{\enquote{SDGs}: \enquote{7, 9, 12, 13, 15}}) stem from author metadata over-tagging rather than textual evidence in the abstract.
 \end{itemize}
-
-Because the script preserves pre-assigned metadata rather than pruning unsupported tags, a human review is needed to trim \glspl{SDG}~12, 13, and 15, leaving only \glspl{SDG}~7 and 9.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -1672,25 +1691,25 @@ Suggested 'SDGs' value: "SDG 12, SDG 13, SDG 15"
 =================================================================
 \end{lstlisting}
 
-At 118 words (English only), this concise project report fell below OSDG's reporting threshold, while \Cref{lst:t_20802Output} exposes a complex mismatch between the author's metadata (\enquote{12, 13, 15}) and the textual evidence (\gls{SDG}~11: 5 hits, \gls{SDG}~15: 4 hits, \gls{SDG}~7: 3 hits):
+At \num{118} words (English only), this concise project report fell below OSDG's reporting threshold, while \Cref{lst:t_20802Output} exposes a complex mismatch between the author's metadata (\texttt{\enquote{SDGs}: \enquote{12, 13, 15}}) and the textual evidence (\gls{SDG}~11: \num{5} hits, \gls{SDG}~15: \num{4} hits, \gls{SDG}~7: \num{3} hits):
 \begin{itemize}
-    \item \textbf{Partial Over-Tagging (\glspl{SDG}~12 and 13: 0 hits) vs.\ Validated Ecological Scope (\gls{SDG}~15: 4 hits):} The author's assignment of \gls{SDG}~15 is substantiated by the study's explicit focus on minimizing \enquote{light pollution} and \enquote{harm to wildlife} in \enquote{dark natural areas} (Target~15.5). Conversely, \gls{SDG}~12 (0 hits) and \gls{SDG}~13 (0 hits) lack any textual basis --- no lifecycle waste, material circularity, or greenhouse-gas mitigation is analyzed, suggesting the author loosely equated \enquote{energy-efficient lighting} with climate action (\gls{SDG}~13) and sustainable design with \gls{SDG}~12.
+    \item \textbf{Partial Over-Tagging (\glspl{SDG}~12 and 13: \num{0} hits) vs.\ Validated Ecological Scope (\gls{SDG}~15: \num{4} hits):} The author's assignment of \gls{SDG}~15 is substantiated by the study's explicit focus on minimizing \enquote{light pollution} and \enquote{harm to wildlife} in \enquote{dark natural areas} (Target~15.5). Conversely, \gls{SDG}~12 (\num{0} hits) and \gls{SDG}~13 (\num{0} hits) lack any textual basis --- no lifecycle waste, material circularity, or greenhouse-gas mitigation is analyzed, suggesting the author loosely equated \enquote{energy-efficient lighting} with climate action (\gls{SDG}~13) and sustainable design with \gls{SDG}~12.
     
-    \item \textbf{Omission of Co-Primary Pedestrian Safety (\gls{SDG}~11: 5 hits) and Lighting Efficiency (\gls{SDG}~7: 3 hits):} While over-tagging \glspl{SDG}~12 and 13, the author omitted \gls{SDG}~11 (safe pedestrian mobility and reducing semi-urban light pollution; Targets~11.2 and 11.6) and \gls{SDG}~7 (energy-efficient lighting alternatives; Target~7.3).
+    \item \textbf{Omission of Co-Primary Pedestrian Safety (\gls{SDG}~11: \num{5} hits) and Lighting Efficiency (\gls{SDG}~7: \num{3} hits):} While over-tagging \glspl{SDG}~12 and 13, the author omitted \gls{SDG}~11 (safe pedestrian mobility and reducing semi-urban light pollution; Targets~11.2 and 11.6) and \gls{SDG}~7 (energy-efficient lighting alternatives; Target~7.3).
     
-    \item \textbf{STRINGS Substring Co-Occurrence and Nested Phrase Matching:} In \Cref{lst:t_20802Output}, two of the five hits for \gls{SDG}~11 fired because the compiled STRINGS regex matched \texttt{urban} inside the hyphenated compound \enquote{semi-urban} alongside \enquote{sustainable} and \enquote{safe}, while nested phrase and root terms (\enquote{pollution} inside \enquote{light pollution}; \enquote{energy-efficient} inside \enquote{energy-efficient lighting}) amplified single domain mentions. Combined with explicit domain compounds (\enquote{outdoor lighting}, \enquote{harm to wildlife}), these rules elevate all three substantiated goals (\glspl{SDG}~11, 15, and 7) cleanly above the \texttt{--min-hits 2} inference threshold.
+    \item \textbf{STRINGS Substring Co-Occurrence and Nested Phrase Matching:} In \Cref{lst:t_20802Output}, two of the five hits for \gls{SDG}~11 fired because the compiled STRINGS regex matched \texttt{urban} inside the hyphenated compound \enquote{semi-urban} (where the hyphen acts as a word boundary) alongside \enquote{sustainable} and \enquote{safe}, while nested phrase and root terms (\enquote{pollution} inside \enquote{light pollution}; \enquote{energy-efficient} inside \enquote{energy-efficient lighting}) amplified single domain mentions. Combined with explicit domain compounds (\enquote{outdoor lighting}, \enquote{harm to wildlife}), these rules elevate all three substantiated goals (\glspl{SDG}~11, 15, and 7) cleanly above the \texttt{--min-hits 2} inference threshold.
 \end{itemize}
 
 \textbf{NB:} The \gls{DiVA} record title contains a mojibake character artifact (\enquote{\texttt{Å…lesund}} for \enquote{Ålesund}), whereas the abstract text preserves the clean UTF-8 character (cf.\ \Cref{rec:divaQualityControl}).
 \end{casestudySection}
 
 \begin{takeaway}
-Authors can simultaneously over-tag unsupported macro-goals (\glspl{SDG}~12 and 13) while omitting the direct sectoral goals (\glspl{SDG}~11 and 7) that describe their study's actual outcomes. Auditing both the match vector and the underlying STRINGS co-occurrence rules helps prune unsubstantiated metadata tags while recovering omitted co-primary goals (here, replacing \enquote{12, 13, 15} with \enquote{7, 11, 15}).
+Authors can simultaneously over-tag unsupported macro-goals (\glspl{SDG}~12 and 13) while omitting the direct sectoral goals (\glspl{SDG}~11 and 7) that describe their study's actual outcomes. Auditing both the match vector and the underlying STRINGS co-occurrence rules helps prune unsubstantiated metadata tags while recovering omitted co-primary goals (here, replacing \texttt{\enquote{12, 13, 15}} with \texttt{\enquote{7, 11, 15}}).
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
-\begin{casestudySection}[Three-Way False Positive on SDG 6: Fluid Mechanics vs.\ Water Policy]
-\label{cs:ThreeWayError}
+\begin{casestudySection}[Two-Way False Positive on SDG 6: Fluid Mechanics vs.\ Water Policy]
+\label{cs:TwoWayError}
 Consider the following:
 \begin{lstlisting}[language={json}, caption={t\_152511.json (manually reformatted to keep only one abstract for each language and adding new lines after paragraphs; additionally, there is some \LaTeX{} cleanup of the abstracts)}, label=lst:t_152511.json]
 {
@@ -1733,7 +1752,7 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_152511.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 1, 0, 0, 17, 0, 0, 1, 0, 0, 0, 0, 0]
+[0, 2, 0, 0, 0, 0, 0, 0, 17, 4, 1, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "6, 9"
 
@@ -1744,32 +1763,33 @@ Top Keyword Matching Goals:
        * "flerfasflöden": 2
        * "industriella processer": 1
        * "paper pulp processing": 1
-  [ 2] SDG  6 :    1 hit(s)
-       * "vatten": 1
-  [ 3] SDG 12 :    1 hit(s)
-       * "viscosity": 1
+  [ 2] SDG 10 :    4 hit(s)
+       * "migration": 4
+  [ 3] SDG  2 :    2 hit(s)
+       * "livsmedel": 1
+       * "food": 1
+  [ 4] SDG 11 :    1 hit(s)
+       * "building": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 6, SDG 9"
 =================================================================
 \end{lstlisting}
 
-What makes this case study interesting is the three-way false-positive convergence on \gls{SDG}~6 driven by a superficial physical-substance association (\enquote{fluids/water} $\rightarrow$ Clean Water and Sanitation):
+What makes this case study instructive is the two-way false-positive convergence by the author and OSDG on \gls{SDG}~6 driven by a superficial physical-substance association (\enquote{fluids/water} $\rightarrow$ Clean Water and Sanitation), contrasted with the dual-language classifier's \num{0}-hit audit result in \Cref{lst:t_152511Output}:
 \begin{itemize}
-    \item The author assigned \glspl{SDG} \enquote{6, 9} --- likely because the thesis studies fluid flows and mentions water, mudslides, and paper pulp processing, but here occurring as a secondary tag alongside a valid \gls{SDG}~9.
+    \item \textbf{Two-Way False Positive on \gls{SDG}~6 (Author \& OSDG) vs.\ \num{0} Classifier Hits:} The author assigned \texttt{\enquote{SDGs}: \enquote{6, 9}} --- likely because the thesis studies fluid flows and mentions water, mudslides, and paper pulp processing --- and OSDG likewise inferred \gls{SDG}~6 from the fluid-mechanics vocabulary. By contrast, the dual-language classifier registered \num{0} hits for \gls{SDG}~6 (retaining \enquote{SDG 6} in its suggested output solely because pre-assigned \gls{DiVA} metadata is preserved for human audit rather than automatically deleted).
 
-    \item OSDG also hallucinated \gls{SDG}~6 from the fluid-mechanics vocabulary.
+    \item \textbf{Substantiated Industrial Research Signal (\gls{SDG}~9: \num{17} hits):} The classifier strongly confirmed \gls{SDG}~9 via computational and industrial process terms (\enquote{computer simulations}: 3, \enquote{multiphase flows}: 3, \enquote{\foreignlanguage{swedish}{flerfasflöden}}: 2, \enquote{\foreignlanguage{swedish}{industriella processer}}: 1, \enquote{paper pulp processing}: 1), validating \gls{SDG}~9 under Target~9.5.
 
-    \item The classifier program recorded a 1-hit trace on \enquote{\foreignlanguage{swedish}{vatten}} (and \enquote{viscosity} under \gls{SDG}~12), which—because \enquote{6} was pre-assigned in \gls{DiVA} --- got echoed into Suggested \enquote{\glspl{SDG}} value: \enquote{SDG 6, SDG 9}.
+    \item \textbf{Domain Polysemy and Incidental Examples in Unscoped Inference (\glspl{SDG}~10, 2, and 11):} Unscoped keyword matching produced three instructive false-positive signals: \gls{SDG}~10 (\num{4} hits on \enquote{migration}, referring to hydrodynamic droplet migration across a channel rather than human migration); \gls{SDG}~2 (\num{2} hits on \enquote{food} / \enquote{\foreignlanguage{swedish}{livsmedel}} from a passing list of industrial yield-stress fluids); and \gls{SDG}~11 (\num{1} trace hit on \enquote{building} from the discourse connector \enquote{Building on the studies...}).
 \end{itemize}
 
-Both OSDG and the program identify \gls{SDG}~6 and \gls{SDG}~9. However, in this case, water (\enquote{\foreignlanguage{swedish}{vatten}}) is mentioned once solely as an introductory Newtonian baseline to contrast with yield-stress fluids (\enquote{differs qualitatively from water and other simple fluids} / \enquote{\foreignlanguage{swedish}{skiljer sig markant från flödet av vatten och andra enkla vätskor}}).
-
-Neither the English nor the Swedish abstract evaluates water quality, wastewater treatment, water-use efficiency, or water-related ecosystems (UN Targets 6.1–6.6).  Moreover, treating general fluid dynamics, droplet coalescence, or an incidental mention of \enquote{water} and \enquote{mudslides} as \gls{SDG}~6 turns a universal policy goal into a loose technical descriptor for any liquid-phase simulation.
+Neither the English nor the Swedish abstract evaluates water quality, wastewater treatment, water-use efficiency, or water-related ecosystems (UN Targets~6.1--6.6). Treating general fluid dynamics, droplet coalescence, or an incidental mention of \enquote{water} and \enquote{mudslides} as \gls{SDG}~6 turns a universal policy goal into a loose technical descriptor for any liquid-phase simulation.
 \end{casestudySection}
 
 \begin{takeaway}
-Use only \gls{SDG} tags that reflect a policy objective or societal outcome that the publication explicitly supports. Because \enquote{water} appears here merely as a physical baseline in a computational fluid-dynamics study, \gls{SDG}~6 should be pruned from the \gls{DiVA} metadata, leaving only \gls{SDG}~9.
+Use only \gls{SDG} tags that reflect a policy objective or societal outcome that the publication explicitly supports. Unlike OSDG, the dual-language classifier avoided hallucinating \gls{SDG}~6 (\num{0} hits), providing clear audit evidence to prune \gls{SDG}~6 from the \gls{DiVA} metadata and retain only \gls{SDG}~9.
 \end{takeaway}
 
 
@@ -1819,77 +1839,76 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_1482.json
 Match Vector (SDG 1 - 17):
-[22, 8, 0, 0, 0, 0, 22, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0]
+[28, 18, 0, 0, 0, 0, 22, 0, 0, 1, 7, 8, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "1, 2, 7, 11, 12"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  1 :   22 hit(s)
+  [ 1] SDG  1 :   28 hit(s)
        * "poverty": 5
+       * "income": 4
        * "food insecurity": 3
        * "energy poverty": 3
        * "insecurity": 3
-       * "hushållsfattigdom": 2
   [ 2] SDG  7 :   22 hit(s)
        * "renewable energy": 4
        * "renewable": 4
        * "energy communities": 3
        * "energy poverty": 3
        * "energigemenskaper": 2
-  [ 3] SDG  2 :    8 hit(s)
+  [ 3] SDG  2 :   18 hit(s)
+       * "food": 7
        * "food insecurity": 3
        * "insecurity": 3
+       * "livsmedel": 3
        * "matsvinn": 2
-  [ 4] SDG 10 :    6 hit(s)
-       * "poverty": 5
-       * "poverty AND ("inequality" OR "unequal" OR "social mobility")": 1
-  [ 5] SDG 11 :    6 hit(s)
-       * "waste": 2
+  [ 4] SDG 12 :    8 hit(s)
+       * "environmental policy": 2
+       * "food waste": 2
+       * "matsvinn": 2
+       * "energy subsidies": 1
+       * "sustainability AND ("consumption" OR "production" OR "value chain")": 1
+  [ 5] SDG 11 :    7 hit(s)
+       * "city": 2
+       * "municipalities": 1
        * "city scale": 1
        * "city AND ("inclusiv*" OR "safe*" OR "resilien*" OR "sustainab*" OR "affordab*" OR "pollut*" OR "housing" OR "gentrification")": 1
        * "sustainable AND ("urban" OR "city" OR "cities" OR "municipal" OR "settlement" OR "slum" OR "town")": 1
-       * "urban AND ("inclusiv*" OR "safe*" OR "resilien*" OR "sustainab*" OR "affordab*" OR "pollut*" OR "housing" OR "gentrification")": 1
-  [ 6] SDG 12 :    6 hit(s)
-       * "environmental policy": 2
-       * "food waste": 2
-       * "energy subsidies": 1
-       * "sustainability AND ("consumption" OR "production" OR "value chain")": 1
+  [ 6] SDG 10 :    1 hit(s)
+       * "poverty AND ("inequality" OR "unequal" OR "social mobility")": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 1, SDG 2, SDG 7, SDG 11, SDG 12"
 =================================================================
 \end{lstlisting}
 
-OSDG identifies \glspl{SDG}~1 and 7. In contrast, \Cref{lst:t_1482Output} shows evidence for \glspl{SDG}: 1, 7, 2, 10, 11, and 12. 
+OSDG identifies \glspl{SDG}~1 and 7. In contrast, \Cref{lst:t_1482Output} shows evidence for \glspl{SDG}~1, 7, 2, 12, 11, and 10.
 
 This document is a textbook validation of the multi-track classifier against OSDG's coarse top-2 truncation. OSDG typically truncates or threshold-filters to the two highest-probability goals when an abstract spans five distinct policy papers. Here, \enquote{energy poverty}, \enquote{household poverty}, and \enquote{renewable energy communities} dominated OSDG's statistical weights, masking the food-waste, urban-neighborhood, and consumption-reduction papers in the second half of the abstract.
 
-The program correctly identified the 5 \gls{DiVA} goals \enquote{1, 2, 7, 11, 12} + \gls{SDG}~10:
+The program correctly identified all five \gls{DiVA} goals (\texttt{"1, 2, 7, 11, 12"}) plus a trace signal on \gls{SDG}~10:
 \begin{itemize}
-    \item \gls{SDG}~1 (22 hits): Driven by \enquote{poverty} (5), \enquote{food insecurity} (3), \enquote{energy poverty} (3), and \enquote{\foreignlanguage{swedish}{hushållsfattigdom}} (2) from Papers 3–5.
+    \item \gls{SDG}~1 (\num{28} hits): Driven by \enquote{poverty} (5), \enquote{income} (4), \enquote{food insecurity} (3), \enquote{energy poverty} (3), and \enquote{insecurity} (3) from Papers~3--5.
     
-    \item \gls{SDG}~7 (22 hits): Driven by \enquote{renewable energy} (4), \enquote{energy communities} (3), \enquote{energy poverty} (3), and \enquote{\foreignlanguage{swedish}{energigemenskaper}} (2) from Papers 1–3.
+    \item \gls{SDG}~7 (\num{22} hits): Driven by \enquote{renewable energy} (4), \enquote{renewable} (4), \enquote{energy communities} (3), \enquote{energy poverty} (3), and \enquote{\foreignlanguage{swedish}{energigemenskaper}} (2) from Papers~1--3.
 
-    \item \gls{SDG}~2 (8 hits): Driven by \enquote{food insecurity} (3) and \enquote{\foreignlanguage{swedish}{matsvinn}} (2) from the community smart-fridge pilot in Paper 4.
+    \item \gls{SDG}~2 (\num{18} hits): Driven by \enquote{food} (7), \enquote{food insecurity} (3), \enquote{insecurity} (3), \enquote{\foreignlanguage{swedish}{livsmedel}} (3), and \enquote{\foreignlanguage{swedish}{matsvinn}} (2) from the community smart-fridge pilot in Paper~4.
 
+    \item \gls{SDG}~12 (\num{8} hits): Driven by \enquote{environmental policy} (2), \enquote{food waste} (2), \enquote{\foreignlanguage{swedish}{matsvinn}} (2), \enquote{energy subsidies} (1), and STRINGS co-occurrence (\enquote{sustainability} + \enquote{consumption}), directly aligning with Target~12.3 (halving retail/consumer food waste) and Target~12.c (rationalizing inefficient fossil-fuel/energy subsidies).
+    
+    \item \gls{SDG}~11 (\num{7} hits): Fired both on direct terms (\enquote{city}: 2, \enquote{municipalities}: 1, \enquote{city scale}: 1) and on \textit{STRINGS co-occurrence rules} pairing \enquote{city} / \enquote{urban} / \enquote{sustainable} with \enquote{inclusiv*}, \enquote{safe*}, \enquote{resilien*}, \enquote{sustainab*}, and \enquote{affordab*} across the Stockholm and Amsterdam neighborhood studies.
 
-    \item \gls{SDG}~11 (6 hits): Fired both on direct terms (\enquote{waste}, \enquote{city scale}) and on \textit{STRINGS co-occurrence rules} pairing \enquote{city} / \enquote{urban} / \enquote{sustainable} with \enquote{inclusiv*}, \enquote{safe*}, \enquote{resilien*}, \enquote{sustainab*}, and \enquote{affordab*} across the Stockholm and Amsterdam neighborhood studies.
-
-
-    \item \gls{SDG}~12 (6 hits): Driven by \enquote{food waste} (2), \enquote{environmental policy} (2), \enquote{energy subsidies} (1), and STRINGS co-occurrence (\enquote{sustainability} + \enquote{consumption}), directly aligning with Target 12.3 (halving retail/consumer food waste) and Target 12.c (rationalizing inefficient fossil-fuel/energy subsidies).
-
-
-    \item \gls{SDG}~10 (6 hits --- Substantiated Secondary Signal): Driven by \enquote{poverty} (5) and the STRINGS rule \enquote{poverty} AND (\enquote{inequality} OR \enquote{unequal} OR \enquote{social mobility}) (1), directly reflecting the abstract's analysis of \enquote{a wide distribution of unintended, unjust and unequal effects} across \enquote{high income to low-income homes} (\enquote{\foreignlanguage{swedish}{ojämlika effekter}}, \enquote{\foreignlanguage{swedish}{hög- till låginkomsthushåll}}).
+    \item \gls{SDG}~10 (\num{1} hit --- Substantiated Secondary Signal): Driven by the STRINGS rule \enquote{poverty} AND (\enquote{inequality} OR \enquote{unequal} OR \enquote{social mobility}) (1), directly reflecting the abstract's analysis of \enquote{a wide distribution of unintended, unjust and unequal effects} across \enquote{high income to low-income homes} (\enquote{\foreignlanguage{swedish}{ojämlika effekter}}, \enquote{\foreignlanguage{swedish}{hög- till låginkomsthushåll}}).
 \end{itemize}
 
+Note that there was zero \textit{False-Positive Bleed}: all remaining \num{11} goals sit cleanly at \num{0}.
 
-Note that there was zero \textit{False-Positive Bleed}:  All remaining 11 goals sit cleanly at \enquote{0}.
-
-\textbf{This case study demonstrates why compilation theses (\foreignlanguage{swedish}{sammanläggningsavhandlinga}) spanning multiple socio-technical interventions require multi-goal classification} --- showing how the dual-language dictionary plus STRINGS co-occurrence rules recover the full five-goal \gls{DiVA} assignment (\enquote{1, 2, 7, 11, 12}) while OSDG stopped at two.
+\textbf{This case study demonstrates why compilation theses (\foreignlanguage{swedish}{sammanläggningsavhandlingar}) spanning multiple socio-technical interventions require multi-goal classification} --- showing how the dual-language dictionary plus STRINGS co-occurrence rules recover the full five-goal \gls{DiVA} assignment (\texttt{\enquote{1, 2, 7, 11, 12}}) while OSDG stopped at two.
 \end{casestudySection}
 
 \begin{takeaway}
-Compilation theses are likely to span multiple domains across their constituent publications and therefore legitimately contribute toward several \glspl{SDG}---requiring multi-track lexical and co-occurrence classification rather than top-2 \gls{ML} truncation to capture their full scope.
+Compilation theses are likely to span multiple domains across their constituent publications and
+therefore legitimately contribute toward several \glspl{SDG} --- requiring multi-track lexical and co-occurrence classification rather than top-2 \gls{ML} truncation to capture their full scope
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
@@ -2605,7 +2624,7 @@ Suggested 'SDGs' value: "SDG 9, SDG 12"
 
 In this case study, the author over-tagged due to implicit engineering extrapolation, whereas both OSDG and the dual-language classifier converge on \gls{SDG}~9 (20 hits across dual-language rail-vehicle and finite-element terms) and reject \gls{SDG}~12. This is the exact inverse failure mode of an author under-tagging by omitting an implicit goal (see \Cref{cs:AuthorMissedMajorSDG}), and closely parallels the reliance on implicit disciplinary knowledge seen in \Cref{cs:ImplicitVersusExplicitSDGs}.
 
-The author tagged \enquote{9, 12} in \gls{DiVA}, apparently inferring \gls{SDG}~12 (\emph{Responsible Consumption and Production}) from mechanical brake wear (\enquote{\foreignlanguage{swedish}{slitage}}), composite brake blocks, or reducing costly physical experiments via simulation. However, neither abstract evaluates material lifecycle waste, recycling, or circular resource consumption --- making \gls{SDG}~12 an \textit{implicit downstream extrapolation} rather than part of the thesis's explicit policy scope (a pattern also seen in \Cref{cs:ThreeWayError} and earlier nuclear-fuel metadata). Meanwhile, the minor 3-hit signal under \gls{SDG}~11 (\enquote{freight transport}, \enquote{\foreignlanguage{swedish}{godstransport}}, \enquote{\foreignlanguage{swedish}{godståg}}) reflects the freight-rail operating context rather than urban sustainability.
+The author tagged \enquote{9, 12} in \gls{DiVA}, apparently inferring \gls{SDG}~12 (\emph{Responsible Consumption and Production}) from mechanical brake wear (\enquote{\foreignlanguage{swedish}{slitage}}), composite brake blocks, or reducing costly physical experiments via simulation. However, neither abstract evaluates material lifecycle waste, recycling, or circular resource consumption --- making \gls{SDG}~12 an \textit{implicit downstream extrapolation} rather than part of the thesis's explicit policy scope (a pattern also seen in \Cref{cs:TwoWayError} and earlier nuclear-fuel metadata). Meanwhile, the minor 3-hit signal under \gls{SDG}~11 (\enquote{freight transport}, \enquote{\foreignlanguage{swedish}{godstransport}}, \enquote{\foreignlanguage{swedish}{godståg}}) reflects the freight-rail operating context rather than urban sustainability.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -3608,7 +3627,7 @@ Suggested 'SDGs' value: "SDG 7, SDG 9"
 =================================================================
 \end{lstlisting}
 
-Whereas \Cref{cs:ThreeWayError} illustrated three-way convergence on a false positive, this hydraulic-engineering thesis demonstrates \emph{competing false friends} across the author (\enquote{7, 9}), OSDG (\gls{SDG}~6), and the dual-language classifier (\gls{SDG}~9: 42 hits, \gls{SDG}~6: 1 hit, \gls{SDG}~7: 0 hits):
+Whereas \Cref{cs:TwoWayError} illustrated three-way convergence on a false positive, this hydraulic-engineering thesis demonstrates \emph{competing false friends} across the author (\enquote{7, 9}), OSDG (\gls{SDG}~6), and the dual-language classifier (\gls{SDG}~9: 42 hits, \gls{SDG}~6: 1 hit, \gls{SDG}~7: 0 hits):
 \begin{itemize}
     \item \textbf{True Primary Goal (\gls{SDG}~9: 42 hits):} Driven by hydraulic civil-infrastructure and computational-fluid-dynamics terminology (\enquote{spillway}: 14, \enquote{\foreignlanguage{swedish}{utskov}}: 9, \enquote{CFD}: 4, \enquote{RANS}: 2, \enquote{LES}: 2), the thesis investigates stepped dam spillways to prevent cavitation damage and ensure dam safety under modern flood standards --- mapping squarely to Target~9.1 (\emph{develop quality, reliable, sustainable and resilient infrastructure}).
     
