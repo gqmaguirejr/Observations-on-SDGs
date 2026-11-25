@@ -723,17 +723,15 @@ Suggested 'SDGs' value: "SDG 7"
 =================================================================
 \end{lstlisting}
 
-Doctoral candidates perceive that they are required or strongly encouraged to select at least one \gls{SDG} when submitting their thesis metadata. In this case, the author assigned \glspl{SDG}: "7", perhaps thinking that \enquote{Affordable and Clean Energy} was an appropriate \gls{SDG}. High-energy physics frequently triggers false positives for \gls{SDG} 7 in both human annotators and naive keyword classifiers because the word \enquote{energy} appears repeatedly in particle physics contexts (\eg \enquote{center-of-mass energy of 13 TeV}, \enquote{missing transverse energy}).
+Doctoral candidates perceive that they are required or strongly encouraged to select at least one \gls{SDG} when submitting their thesis metadata. In this case, the author assigned \glspl{SDG}: \enquote{7}, perhaps thinking that \enquote{Affordable and Clean Energy} was an appropriate \gls{SDG}. High-energy physics frequently triggers false positives for \gls{SDG}~7 in both human annotators and naive keyword classifiers because the word \enquote{energy} appears repeatedly in particle physics contexts (\eg \enquote{center-of-mass energy of 13 TeV}, \enquote{missing transverse energy}).
 
-In this case, OSDG failed to report any \glspl{SDG} when given the English abstract, and the program's Match Vector is nearly all zeros, with the only match being \gls{SDG} 9. \Cref{lst:t_141736Output}, in \texttt{verbose} mode, shows the list of matches for \gls{SDG} 9. Hence, the actual assignment might have been \enquote{SDG 9 (Industry, Innovation and Infrastructure)}: \enquote{Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation} --- with CERN's LHC being a clear example of a large-scale scientific research infrastructure.
+In this case, OSDG failed to report any \glspl{SDG} when given the English abstract, and the program's Match Vector is nearly all zeros, with the only match being \gls{SDG} 9. \Cref{lst:t_141736Output}, in \texttt{verbose} mode, shows the list of matches for \gls{SDG} 9. Hence, the actual assignment might have been \enquote{SDG 9 (Industry, Innovation and Infrastructure)}: \enquote{Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation} --- with \gls{CERN}'s \gls{LHC} being a clear example of a large-scale scientific research infrastructure.
 
-The thesis is purely experimental high-energy particle physics and concerns \textit{data analysis} from an LHC run, rather than building a large-scale scientific research infrastructure. But according to the \gls{SDG}~9.5 indicator description on the webpage \url{https://www.uis.unesco.org/en/methods-and-tools/sdg95-indicators}: \enquote{In particular, Target 9.5 calls upon them to encourage innovation and substantially increase the number of researchers, as well as public and private spending on research and experimental development (R\&D).} One can view this as a taxonomic boundary problem: fundamental science relies on mega-infrastructures (CERN/LHC) that sit under \gls{SDG}~9, creating ambiguity over whether downstream data analysis inherits the \gls{SDG} of the facility. I would argue that assuming producing another doctoral thesis in basic science automatically satisfies Target 9.5 simply because it adds to researcher output would mean that 100\% of all doctoral theses across every discipline would qualify for \gls{SDG}~9, rendering the classification meaningless. Therefore, this publication should not list any \gls{SDG} as being relevant.
+The thesis is purely experimental high-energy particle physics and concerns \textit{data analysis} from an \gls{LHC} run, rather than building a large-scale scientific research infrastructure. But according to the \gls{SDG}~9.5 indicator description on the webpage \url{https://www.uis.unesco.org/en/methods-and-tools/sdg95-indicators}: \enquote{In particular, Target 9.5 calls upon them to encourage innovation and substantially increase the number of researchers, as well as public and private spending on research and experimental development (R\&D).} One can view this as a taxonomic boundary problem: fundamental science relies on mega-infrastructures (\gls{CERN}/\gls{LHC}) that sit under \gls{SDG}~9, creating ambiguity over whether downstream data analysis inherits the \gls{SDG} of the facility. I would argue that assuming producing another doctoral thesis in basic science automatically satisfies Target 9.5 simply because it adds to researcher output would mean that 100\% of all doctoral theses across every discipline would qualify for \gls{SDG}~9, rendering the classification meaningless. Therefore, this publication should \textbf{not} list any \gls{SDG} as being relevant.
 \medskip
 
-\textbf{NB:} The program's output is scoped to use the author's pre-assigned \glspl{SDG} rather than recommend new \glspl{SDG}.
+\textbf{NB:} As per \Cref{{sec:threeTierSuggestionPrecedence}}, the program's output is scoped to use the author's pre-assigned \glspl{SDG} rather than recommend a new \glspl{SDG}.
 \end{casestudySection}
-
-
 
 \begin{takeaway}
 This case illustrates how mandatory or strongly nudged \gls{SDG} fields can produce false positives in fundamental science: lexical false friends (\enquote{energy}) lead authors to assign aspirational or tangentially related goals to purely theoretical or experimental work.
@@ -768,17 +766,17 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_141404.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0]
-
 Assigned value in JSON: "9"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  9 :   44 hit(s)
-       * "TAC": 9
-       * "D-TAC": 8
-       * "TRV": 2
-       * "track access charges": 4
-       * "average axle load": 4
+  [ 1] SDG  9 :   25 hit(s)
+       * "TAC": 5
+       * "D-TAC": 4
+       * "TRV": 1
+       * "track access charges": 3
+       * "differentiated track access charges": 2
+  [ 2] SDG 10 :    1 hit(s)
+       * "inclusion": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 9"
@@ -4610,7 +4608,7 @@ Stratifying the \num{10773} matched publications by Swemetrics' \texttt{source} 
   \centering
   \caption{Multi-label agreement between the dual-language classifier (\texttt{top-k=3}, \texttt{min-hits=2}) and Swemetrics \glspl{SDG}, overall and stratified by Swemetrics \texttt{source}.}
   \label{tab:swemetrics_source_metrics}
-  \small
+  \footnotesize
   \begingroup
   \sisetup{group-minimum-digits=0}
   \begin{tabular}{l S[table-format=6.0] *{5}{S[table-format=2.1]} S[table-format=1.4] S[table-format=2.1]}
@@ -4801,7 +4799,7 @@ One can now re-run \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py}, \
 
 \subsection{Results of the improvements}
 
-The new \fname{mined\_terms.json} shows a massive drop in \texttt{0-Hit} false negatives across almost every single goal—for example, Swemetrics zero-hit FN counts fell from \textbf{33 → 2} (SDG 1), \textbf{16 → 2} (SDG 2), \textbf{17 → 2} (SDG 5), \textbf{411 → 83} (SDG 9), \textbf{106 → 42} (SDG 10), \textbf{551 → 283} (SDG 11), \textbf{39 → 16} (SDG 12), \textbf{71 → 21} (SDG 13), \textbf{140 → 82} (SDG 14), \textbf{121 → 54} (SDG 15), and \textbf{82 → 41} (SDG 17), while AlmaSDG zero-hit FNs dropped to \textbf{0–2 docs} across almost every goal.
+The new \fname{mined\_terms.json} shows a massive drop in \texttt{0-Hit} false negatives across almost every single goal --- for example, Swemetrics zero-hit FN counts fell from \textbf{33 → 2} (SDG 1), \textbf{16 → 2} (SDG 2), \textbf{17 → 2} (SDG 5), \textbf{411 → 83} (SDG 9), \textbf{106 → 42} (SDG 10), \textbf{551 → 283} (SDG 11), \textbf{39 → 16} (SDG 12), \textbf{71 → 21} (SDG 13), \textbf{140 → 82} (SDG 14), \textbf{121 → 54} (SDG 15), and \textbf{82 → 41} (SDG 17), while AlmaSDG zero-hit FNs dropped to \textbf{0–2 docs} across almost every goal.
 
 At the same time, \fname{mined\_terms.json} cleanly surfaces two remaining precision vs. recall refinements we should make so the new broad unigrams do not over-fire:
 \begin{itemize}
@@ -4866,7 +4864,441 @@ At the same time, \fname{mined\_terms.json} cleanly surfaces two remaining preci
 \end{comment}
 
 
-One can now re-run \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py} and \fname{compare\_dual\_language\_classifier\_to\_AlmaSDG.py} to compare the updated precision, recall, and F1 scores against your earlier baseline.
+One can now re-run \fname{compare\_DiVA\_extracts\_with\_Swemetrics\_SDGs.py} and\linebreak[4] \fname{compare\_dual\_language\_classifier\_to\_AlmaSDG.py} to compare the updated precision, recall, and F1 scores against your earlier baseline.
+
+\subsection{Results of the next round of improvements}
+After the changes, the new results show:
+\begin{itemize}
+    \item \gls{SDG}~11: Removing bare \enquote{bridge} and \enquote{bridges} eliminated all 169 false-positive bridge documents (104 + 65 in the previous \fname{mined\_terms.json}), while keeping \enquote{concrete}, \enquote{betong}, \enquote{broar}, and \enquote{railway bridge(s)} kept \gls{SDG}~11 zero-hit FNs low at 212 (down from 551 originally).
+    
+    \item \gls{SDG}~15: Restoring \enquote{soil} dropped \gls{SDG}~15 zero-hit FNs back down from 70 to 54 (42 TP vs. 53 FP, \qty{44.2}{\percent} TP share), while keeping polysemous Swedish \enquote{mark} out of the noisy FP list.   Remaining Zero-Hit FNs Across All Goals: Every remaining high-count zero-hit cluster in \fname{mined\_terms.json} is now an Aurora hallucination rather than a lexicon gap --- specifically speech / language / prosody under \gls{SDG}~4 (380 docs), water reactors / BWR under \gls{SDG}~6 (350 docs), optical / cosmic rays / GHz / laser under \gls{SDG}~7 (1,156 docs), indoor climate under \gls{SDG}~13 (21 docs), conservation laws / random forest / natural killer cells under \gls{SDG}~15 (54 docs), and degrees of freedom / Markov Decision Processes / reinforcement learning under \gls{SDG}~16 (278 docs)
+\end{itemize}
+
+In the latest Swemetrics audit, \enquote{mdps} (10 documents) and \enquote{markov decision processes} (10 documents) showed up as top zero-hit false negatives under S\gls{SDG}~16 (Peace, Justice and Strong Institutions). Because MDPs are fundamental to sequential decision-making and reinforcement learning, Aurora's keyword queries --- which match terms like \enquote{decision} and \enquote{decision making} for institutional governance—misclassified \gls{KTH} computer-science and control-theory papers on Markov Decision Processes as \gls{SDG}~16.
+
+This leads to the additions shown in \Cref{lst:ExcludeMDPFromSDGa,lst:ExcludeMDPFromSDGb}.
+\begin{lstlisting}[language=Python, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Python code for keeping natural killer cells out of \gls{SDG}~15 and Markov Decision Process and related out of \gls{SDG}~16}, label=lst:ExcludeMDPFromSDGa]
+SDG15_EXCLUDED_TERMS = {
+    "natural convection",
+    "natural killer",
+    "natural killer cell",
+    "natural killer cells",
+    "killer cell",
+    "killer cells",
+}
+SDG16_EXCLUDED_TERMS = {
+    "institution",
+    "institutionell",
+    "markov decision",
+    "markov decision process",
+    "markov decision processes",
+}
+\end{lstlisting}
+
+And in \texttt{CUSTOM\_TERM\_REGEX}:
+\begin{lstlisting}[language=Python, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Additional, Python code for keeping  natural killer cells out of \gls{SDG}~15 and Markov Decision Process and related out of \gls{SDG}~16}, label=lst:ExcludeMDPFromSDGb]
+(15, "natural"): r"\textbackslash bnatural\textbackslash b(?!\textbackslash s+(?:convection|killer)\textbackslash b)",
+(16, "decision making"): r"(?<!markov\textbackslash s)\textbackslash bdecision[- ]making\textbackslash b",
+(16, "decision-making"): r"(?<!markov\textbackslash s)\textbackslash bdecision[- ]making\textbackslash b",
+(16, "decision"): r"(?<!markov\textbackslash s)\textbackslash bdecision\textbackslash b",
+\end{lstlisting}
+
+With several similar changes, the results are:
+\begin{itemize}
+    \item The Zero-Hit False Negatives Stabilized at True Aurora Hallucination Floor:
+    \begin{itemize}
+    \item AlmaSDG: 0–2 zero-hit FN documents on 14 of the 17 goals (0 on \glspl{SDG}~6, 7, 13, 14, 15; 1 on \glspl{SDG}~1, 2, 3, 5, 12, 16; 2 on \glspl{SDG}~4, 9, 11).
+    
+    \item Swemetrics: 2 zero-hit FNs each on \glspl{SDG}~1, 2, and 5; 16 on \gls{SDG}~12; 19 on \gls{SDG}~3; 21 on \gls{SDG}~13; 45 on \gls{SDG}~17; 54 on \gls{SDG}~15; 57 on \gls{SDG}~8; 72 on \gls{SDG}~14; and 104 on \gls{SDG}~9.
+    \end{itemize}
+    
+    \item Remaining High-Count Zero-Hit Clusters Are Purely Aurora Domain Errors:
+    \begin{itemize}
+    \item \gls{SDG}~4 (380 docs): speech (102), language (122), prosodic (32), speakers (40), spoken (42), corpus (34), prosody (27), intonation (20).
+    
+    \item \gls{SDG}~6 (350 docs): water (226), water reactors (44), reactor (67), boiling (42), bwr (39), light water (28).
+    
+    \item \gls{SDG}~7 (1,156 docs): optical (147), rays (74), cosmic (70), energy (341), ghz (71), detector (74), laser (82), grating (37). 
+    
+    \item \gls{SDG}~13 (21 docs): indoor climate (6), indoor (7).
+    
+    \item \gls{SDG}~15 (54 docs): conservation laws (5), random forest (6), natural killer cells (3).
+    
+    \gls{SDG}~16 (278 docs): decision (89), freedom (33), degrees freedom (20), reinforcement learning (23), mdps (10), markov decision processes (10).
+    \end{itemize}
+\end{itemize}
+
+\subsection{Post-Refinement Benchmarking}
+\label{sec:benchmarkPostRefinement}
+
+\subsubsection{Benchmarking Against Swemetrics SDG Assignments (Post-Refinement)}
+\label{sec:swemetrics_benchmarkPostRefinement}
+
+To evaluate the dual-language classifier (\fname{sdg\_classifier\_dual\_language.py}) at institutional scale following the five passes of iterative lexicon refinement and defensive regex guarding, we cross-referenced its inferred goal sets (\texttt{--top-k 3}, \texttt{--min-hits 2}, including explicit in-text goal mentions) against the \gls{KTH} subset of the Swedish national bibliometric database Swemetrics (\fname{/tmp/kth\_sdg\_duck.csv}). As summarized in \Cref{tab:swemetrics_coveragePostRefinement}, Swemetrics contains \num{14849} valid \gls{SDG} assignment rows spanning \num{14308} unique publications, of which \num{10773} matched unique \gls{DiVA} records in our 7~November 2026 extract (\num{3535} Swemetrics identifiers fell outside the exported publication types or cutoff window, and \num{10} matched records lacked abstract/title text).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Summary of dataset linkage and evaluation parameters between Swemetrics (\gls{KTH} extract) and \gls{DiVA} metadata.}
+  \label{tab:swemetrics_coveragePostRefinement}
+  \begin{tabular}{lr}
+    \toprule
+    \textbf{Metric / Parameter} & \textbf{Value} \\
+    \midrule
+    Swemetrics valid rows (\texttt{malformed = 0}) & \num{14849} \\
+    Swemetrics unique publications & \num{14308} \\
+    \gls{DiVA} unique publications extracted (\num{5400} duplicates skipped) & \num{158115} \\
+    Matched publications evaluated & \num{10773} \\
+    Swemetrics IDs absent from \gls{DiVA} \gls{JSON} extract & \num{3535} \\
+    Matched publications with empty text & \num{10} \\
+    Inference settings & \texttt{top\_k = 3}, \texttt{min\_hits = 2} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Stratifying the \num{10773} evaluated publications by Swemetrics label provenance (\Cref{tab:swemetrics_by_sourcePostRefinement}) reveals a sharp divergence between automated algorithmic assignments (\texttt{aurora}, $N = \num{10449}$, \qty{97.0}{\percent}) and author-declared repository tags (\texttt{native}, $N = \num{324}$, \qty{3.0}{\percent}):
+\begin{itemize}
+  \item \textbf{High Agreement on Author-Assigned Labels (\texttt{native}):} On the \num{324} publications carrying native \gls{DiVA} \gls{SDG} metadata, the classifier's top-ranked goal matches an assigned \gls{SDG} in \qty{84.26}{\percent} of records, achieves at least one overlapping goal in \qty{93.83}{\percent} of records, abstains on only \qty{3.09}{\percent}, and attains a micro-$F_1$ of \num{0.6582} (macro-$F_1 = \num{0.5438}$).
+  
+  \item \textbf{Substantial Gains Against Algorithmic Labels (\texttt{aurora}) via Lexicon Refinement:} Compared to the pre-refinement baseline, pruning high-false-positive unigrams and adding domain-specific compounds raised overall any-overlap agreement from \qty{38.31}{\percent} to \qty{50.09}{\percent} (\qty{48.73}{\percent} on \texttt{aurora}), lifted Top-1 agreement from \qty{30.44}{\percent} to \qty{39.64}{\percent}, reduced classifier abstention from \qty{38.48}{\percent} to \qty{29.68}{\percent}, and increased overall micro-$F_1$ from \num{0.3877} to \num{0.4625} (macro-$F_1$ from \num{0.3355} to \num{0.4097}).
+\end{itemize}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Agreement between dual-language classifier and Swemetrics stratified by label provenance (\texttt{aurora} algorithmic vs.\ \texttt{native} author-assigned).}
+  \label{tab:swemetrics_by_sourcePostRefinement}
+  \begin{tabular}{lrrr}
+    \toprule
+    \textbf{Evaluation Metric} & \textbf{Overall} & \textbf{\texttt{aurora}} & \textbf{\texttt{native}} \\
+    \midrule
+    Evaluated publications ($N$) & \num{10773} & \num{10449} & \num{324} \\
+    Top-1 predicted \gls{SDG} in Swemetrics (\unit{\percent}) & \qty{39.64}{\percent} & \qty{38.25}{\percent} & \qty{84.26}{\percent} \\
+    Any-overlap rate ($\ge 1$ shared \gls{SDG}, \unit{\percent}) & \qty{50.09}{\percent} & \qty{48.73}{\percent} & \qty{93.83}{\percent} \\
+    Full-recall rate (all Swemetrics \glspl{SDG} recovered, \unit{\percent}) & \qty{48.65}{\percent} & \qty{48.20}{\percent} & \qty{63.27}{\percent} \\
+    Exact set-match rate (\unit{\percent}) & \qty{21.35}{\percent} & \qty{21.29}{\percent} & \qty{23.15}{\percent} \\
+    Classifier abstention rate (\unit{\percent}) & \qty{29.68}{\percent} & \qty{30.50}{\percent} & \qty{3.09}{\percent} \\
+    Mean Jaccard similarity & \num{0.3360} & \num{0.3294} & \num{0.5505} \\
+    Micro-Precision & \num{0.4325} & \num{0.4204} & \num{0.6332} \\
+    Micro-Recall & \num{0.4969} & \num{0.4848} & \num{0.6853} \\
+    Micro-$F_1$ & \num{0.4625} & \num{0.4503} & \num{0.6582} \\
+    Macro-$F_1$ (active \glspl{SDG}) & \num{0.4097} & \num{0.3998} & \num{0.5438} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\Cref{tab:swemetrics_per_sdgPostRefinement} details the per-goal contingency counts and classification metrics across all \num{17} \glspl{SDG}. For each goal $g \in \{1, \dots, 17\}$, \textbf{TP} denotes publications assigned goal $g$ in both Swemetrics and the classifier's Top-3 predictions ($\ge 2$ hits), \textbf{FP} denotes classifier predictions absent from Swemetrics, \textbf{FN} denotes Swemetrics assignments missed by the classifier's Top-3 output, and \textbf{0-Hit} counts Swemetrics-assigned records that registered zero lexical matches in our dictionary.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Per-\gls{SDG} comparison between Swemetrics assignments (\textbf{Swe $N$}), dual-language classifier predictions (\textbf{Pred $N$}), and \gls{DiVA} native assignments (\textbf{DiVA $N$}) across \num{10773} matched \gls{KTH} publications.}
+  \label{tab:swemetrics_per_sdgPostRefinement}
+  \begingroup
+  \sisetup{group-minimum-digits=0}
+  \begin{tabular}{r S[table-format=5.0] S[table-format=5.0] S[table-format=3.0] *{4}{S[table-format=4.0]} *{3}{S[table-format=1.4]} S[table-format=4.0]}
+    \toprule
+    \textbf{SDG} & {\textbf{Swe $N$}} & {\textbf{Pred $N$}} & {\textbf{DiVA $N$}} & {\textbf{TP}} & {\textbf{FP}} & {\textbf{FN}} & {\textbf{Top-1}} & {\textbf{Prec.}} & {\textbf{Rec.}} & {\textbf{$F_1$}} & {\textbf{0-Hit}} \\
+    \midrule
+     1 &   70 &   189 &    3 &    35 &   154 &    35 &    16 &  0.1852 &  0.5000 &  0.2703 &     2\\
+     \rowcolor{rowtint}
+     2 &   75 &   204 &    9 &    54 &   150 &    21 &    29 &  0.2647 &  0.7200 &  0.3871 &     6\\
+     3 &  364 &   814 &   80 &   304 &   510 &    60 &   276 &  0.3735 &  0.8352 &  0.5161 &    40\\
+     \rowcolor{rowtint}
+     4 &  766 &   410 &   15 &   216 &   194 &   550 &   190 &  0.5268 &  0.2820 &  0.3673 &   488\\
+     5 &  106 &   160 &   16 &    81 &    79 &    25 &    58 &  0.5062 &  0.7642 &  0.6090 &     9\\
+     \rowcolor{rowtint}
+     6 &  687 &   259 &   12 &   190 &    69 &   497 &   150 &  0.7336 &  0.2766 &  0.4017 &   475\\
+     7 & 2294 &  1161 &   58 &   721 &   440 &  1573 &   548 &  0.6210 &  0.3143 &  0.4174 &  1390\\
+     \rowcolor{rowtint}
+     8 &  392 &   457 &   17 &   152 &   305 &   240 &    95 &  0.3326 &  0.3878 &  0.3581 &   150\\
+     9 & 2027 &  3727 &  127 &  1415 &  2312 &   612 &  1111 &  0.3797 &  0.6981 &  0.4918 &   282\\
+     \rowcolor{rowtint}
+    10 &  226 &   276 &   19 &    75 &   201 &   151 &    34 &  0.2717 &  0.3319 &  0.2988 &    99\\
+    11 & 1862 &  2718 &  125 &  1373 &  1345 &   489 &  1177 &  0.5052 &  0.7374 &  0.5996 &   339\\
+    \rowcolor{rowtint}
+    12 &  616 &   889 &   77 &   392 &   497 &   224 &   233 &  0.4409 &  0.6364 &  0.5209 &   131\\
+    13 &  291 &   564 &   78 &   174 &   390 &   117 &   105 &  0.3085 &  0.5979 &  0.4070 &    54\\
+    \rowcolor{rowtint}
+    14 &  312 &   225 &   11 &   129 &    96 &   183 &    81 &  0.5733 &  0.4135 &  0.4804 &   128\\
+    15 &  341 &   443 &   15 &   135 &   308 &   206 &    89 &  0.3047 &  0.3959 &  0.3444 &   140\\
+    \rowcolor{rowtint}
+    16 &  505 &   322 &    9 &    81 &   241 &   424 &    48 &  0.2516 &  0.1604 &  0.1959 &   377\\
+    17 &  315 &   107 &   13 &    63 &    44 &   252 &    30 &  0.5888 &  0.2000 &  0.2986 &   209\\
+    \bottomrule
+  \end{tabular}
+\endgroup
+\end{table}
+
+Examining the per-goal shifts in \Cref{tab:swemetrics_per_sdgPostRefinement} highlights two structural patterns:
+\begin{enumerate}
+  \item \textbf{Substantial Recall and $F_1$ Gains on Core Engineering, Built-Environment, and Policy Goals:}\\
+  Adding domain-specific Swedish and English compounds while pruning cross-goal false friends boosted $F_1$ across nearly every goal --- most notably \gls{SDG}~11 ($F_1$ rising from \num{0.4868} to \num{0.5996}, recall from \num{0.4769} to \num{0.7374}), \gls{SDG}~9 ($F_1$ from \num{0.3934} to \num{0.4918}, recall from \num{0.5022} to \num{0.6981}), \gls{SDG}~12 ($F_1$ from \num{0.4610} to \num{0.5209}), \gls{SDG}~3 ($F_1$ from \num{0.4574} to \num{0.5161}, precision rising from \num{0.3153} to \num{0.3735} after pruning bare \enquote{treatment} and \enquote{disturbances}/\enquote{\foreignlanguage{swedish}{störningar}}), \gls{SDG}~14 ($F_1$ from \num{0.3034} to \num{0.4804}), and \gls{SDG}~17 ($F_1$ from \num{0.1033} to \num{0.2986}, precision \num{0.5888}).
+  
+  \item \textbf{Persistent \texttt{0-Hit} Clusters Reflect Aurora Domain Hallucinations:}\\
+  Even after lexicon enrichment, large \texttt{0-Hit} counts remain concentrated in \gls{SDG}~7 (\num{1390}), \gls{SDG}~4 (\num{488}), \gls{SDG}~6 (\num{475}), and \gls{SDG}~16 (\num{377}). Diagnostic $n$-gram mining of these \texttt{0-Hit} records confirms that they stem primarily from systematic false positives in Aurora's algorithmic queries on \gls{KTH} technical abstracts—specifically particle physics, cosmic rays, and photonics (\enquote{optical}, \enquote{laser}, \enquote{GHz}) misclassified as \gls{SDG}~7; speech technology and prosody (\enquote{speech}, \enquote{language}, \enquote{prosodic}) misclassified as \gls{SDG}~4; boiling-water nuclear reactor thermal-hydraulics (\enquote{BWR}, \enquote{water reactors}) misclassified as \gls{SDG}~6; and mechanical \enquote{degrees of freedom} or reinforcement-learning \enquote{Markov decision processes} (MDPs) misclassified as \gls{SDG}~16. Intentionally excluding these false-friend terms preserves precision on genuine sustainability publications.
+\end{enumerate}
+
+\subsubsection{Benchmarking Against AlmaSDG SDG Assignments (Post-Refinement)}
+\subsubsection{Comparison of Pre-Refinement and Post-Refinement AlmaSDG Results}
+\label{sec:almasdg_pre_post_comparison}
+
+Comparing the pre-refinement and post-refinement runs of \fname{compare\_dual\_language\_classifier\_to\_AlmaSDG.py} across the \num{139} publications in \fname{/tmp/alma\_sdg.csv} (\num{126} with $\ge 1$ assigned \gls{SDG} and \num{13} with \num{0} assigned \glspl{SDG}) demonstrates consistent improvements across every aggregate multi-label agreement metric (\Cref{tab:almasdg_summary_comparison}) as well as substantial $F_1$ gains across individual goals (\Cref{tab:almasdg_per_sdg_PostRefinement}).
+
+\begin{table}[!ht]
+  \centering
+  \caption{Aggregate multi-label agreement between \fname{sdg\_classifier\_dual\_language.py} and AlmaSDG ($N = \num{126}$ publications with $\ge 1$ assigned \gls{SDG}) before and after lexicon refinement.}
+  \label{tab:almasdg_summary_comparison}
+  \begin{tabular}{
+    l
+    S[table-format=3.1]
+    S[table-format=3.1]
+    S[table-format=+2.1]
+  }
+    \toprule
+    \textbf{Multi-Label Evaluation Metric} & {\textbf{Pre-Refinement}} & {\textbf{Post-Refinement}} & {\textbf{Delta}} \\
+    \midrule
+    Top-1 prediction in assigned set (\unit{\percent}) & 73.8 & 81.7 & +7.9 \\
+    \rowcolor{rowtint}
+    Any-overlap rate ($\ge 1$ shared \gls{SDG}, \unit{\percent}) & 88.1 & 92.9 & +4.8 \\
+    Full-recall rate (all assigned \glspl{SDG} found, \unit{\percent}) & 52.4 & 61.1 & +8.7 \\
+    \rowcolor{rowtint}
+    Exact set-match rate (\texttt{Pred == Assigned}, \unit{\percent}) & 23.0 & 24.6 & +1.6 \\
+    Classifier abstention rate ($0$ goals $\ge 2$ hits, \unit{\percent}) & 4.0 & 0.0 & -4.0 \\
+    \rowcolor{rowtint}
+    Rows with $\ge 1$ zero-hit assigned \gls{SDG} (\unit{\percent}) & 24.6 & 22.2 & -2.4 \\
+    Mean Jaccard similarity (\unit{\percent}) & 53.0 & 57.5 & +4.5 \\
+    \rowcolor{rowtint}
+    Micro-Precision (\unit{\percent}) & 59.2 & 61.1 & +1.9 \\
+    Micro-Recall (\unit{\percent}) & 67.8 & 74.8 & +7.0 \\
+    \rowcolor{rowtint}
+    Micro-$F_1$ (\unit{\percent}) & 63.2 & 67.3 & +4.1 \\
+    Macro-$F_1$ across active \glspl{SDG} (\unit{\percent}) & 58.6 & 64.2 & +5.6 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Aggregate Agreement Improvements}
+As shown in \Cref{lst:AlmaSDGOutputPostRefinement}, the five-pass lexicon refinement improved both recall and precision simultaneously on AlmaSDG:
+\begin{itemize}
+  \item \textbf{Elimination of Abstentions and Higher Top-1 Accuracy:} Classifier abstention fell from \qty{4.0}{\percent} (\num{5}/\num{126}) to \qty{0.0}{\percent} (\num{0}/\num{126}), while Top-1 agreement rose by \qty{+7.9}{\percent} (from \qty{73.8}{\percent} to \qty{81.7}{\percent}) and any-overlap coverage reached \qty{92.9}{\percent} (\num{117}/\num{126} publications).
+  \item \textbf{Complete Set Recovery and Balanced $F_1$ Gains:} Full-recall recovery of all assigned \glspl{SDG} increased by \qty{+8.7}{\percent} (from \qty{52.4}{\percent} to \qty{61.1}{\percent}), lifting micro-recall from \qty{67.8}{\percent} to \qty{74.8}{\percent} alongside a \qty{+1.9}{\percent} gain in micro-precision (\qty{59.2}{\percent} to \qty{61.1}{\percent}). Overall micro-$F_1$ rose from \qty{63.2}{\percent} to \qty{67.3}{\percent} (\qty{+4.1}{\percent}) and macro-$F_1$ rose from \qty{58.6}{\percent} to \qty{64.2}{\percent} (\qty{+5.6}{\percent}).
+\end{itemize}
+
+\paragraph{Per-Goal Shifts on AlmaSDG}
+Examining the per-goal results (\Cref{tab:almasdg_per_sdg_PostRefinement} versus the pre-refinement baseline \Cref{tab:almasdg_per_sdg}) shows that the largest gains occurred on previously under-covered governance, partnership, and urban-built-environment goals:
+\begin{itemize}
+  \item \textbf{Governance and Global Partnerships (\glspl{SDG}~16 and 17):} Adding explicit statutory, rights, and justice vocabulary (\enquote{law}, \enquote{legal}, \enquote{justice}, \enquote{rights}, \enquote{reforms}) while pruning bare \enquote{institution} raised \gls{SDG}~16 recall from \qty{36.4}{\percent} to \qty{90.9}{\percent} and precision from \qty{26.7}{\percent} to \qty{45.5}{\percent} ($F_1$ doubling from \qty{30.8}{\percent} to \qty{60.6}{\percent}). Similarly, adding partnership compounds (\enquote{cooperation}, \enquote{partnership}, \enquote{partnerships}, \enquote{international cooperation}) lifted \gls{SDG}~17 recall from \qty{14.3}{\percent} to \qty{42.9}{\percent} at \qty{100.0}{\percent} precision ($F_1$ rising from \qty{25.0}{\percent} to \qty{60.0}{\percent}).
+  
+  \item \textbf{Urban Built Environment, Circularity, and Ecosystems (\glspl{SDG}~11, 12, 14, and 15):} Adding architectural and civil-structure terms (\enquote{architecture}, \enquote{building}, \enquote{city}, \enquote{concrete}) while removing bare \enquote{waste} and \enquote{recycling} raised \gls{SDG}~11 precision from \qty{47.4}{\percent} to \qty{58.8}{\percent} and recall from \qty{78.3}{\percent} to \qty{87.0}{\percent} ($F_1$ increasing from \qty{59.0}{\percent} to \qty{70.2}{\percent}). Relocating \enquote{life cycle} and \texttt{LCA} into \gls{SDG}~12 raised its $F_1$ from \qty{69.2}{\percent} to \qty{74.1}{\percent}, while adding marine and terrestrial vocabulary (\enquote{sea}, \enquote{ocean}, \enquote{coast}, \enquote{soil}, \enquote{forest}, \enquote{species}) lifted \gls{SDG}~14 $F_1$ from \qty{52.6}{\percent} to \qty{60.0}{\percent} and \gls{SDG}~15 recall to \qty{100.0}{\percent} ($F_1$ from \qty{56.0}{\percent} to \qty{60.0}{\percent}).
+  
+  \item \textbf{High Precision on Health and Gender (\glspl{SDG}~3 and 5):} Pruning bare \enquote{treatment} and \enquote{disturbances} increased \gls{SDG}~3 precision from \qty{88.0}{\percent} to \qty{95.5}{\percent} ($F_1 = \qty{89.4}{\percent}$), while adding core gender terms (\enquote{women}, \enquote{gender}, \enquote{female}) with demographic-cohort guards increased \gls{SDG}~5 recall from \qty{69.2}{\percent} to \qty{84.6}{\percent} ($F_1$ from \qty{81.8}{\percent} to \qty{88.0}{\percent}).
+\end{itemize}
+
+\Needspace*{45\baselineskip}
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Comparing dual-language classifier with AlmaSDG (post-refinement)}, label=lst:AlmaSDGOutputPostRefinement]
+./compare_dual_language_classifier_to_AlmaSDG.py /tmp/alma_sdg.csv
+========================================================================================
+==> Dual-Language Classifier vs. Alma SDG Assignments (/tmp/alma_sdg.csv)
+Dataset          : /tmp/alma_sdg.csv
+Parameters       : top_k=3, min_hits=2, workers=12
+Elapsed Time     : 6.01s
+----------------------------------------------------------------------------------------
+Total Publications Processed            : 139
+Publications with >=1 Assigned SDG      : 126
+Publications with 0 Assigned SDGs       : 13
+----------------------------------------------------------------------------------------
+1. Multi-Label Agreement Summary (Publications with >=1 Assigned SDG):
+   * Top-1 Prediction in Assigned Set   :    103 / 126 ( 81.7%)
+   * Any Overlap (>=1 SDG Shared)       :    117 / 126 ( 92.9%)
+   * Full Recall (All Assigned Found)   :     77 / 126 ( 61.1%)
+   * Exact Set Match (Pred == Assigned) :     31 / 126 ( 24.6%)
+   * Classifier Abstention (0 goals>=2) :      0 / 126 (  0.0%)
+   * Rows w/ >=1 Zero-Hit Assigned SDG  :     28 / 126 ( 22.2%)
+   * Mean Jaccard Similarity            : 0.5746
+   * Micro Precision / Recall / F1      :  61.1% /  74.8% /  67.3%
+   * Macro F1 (across active SDGs)      :  64.2%
+\end{lstlisting}
+
+2. Per-SDG Multi-Label Breakdown:
+\begin{table}[!ht]
+  \centering
+  \caption{Per-SDG Multi-Label Breakdown on the AlmaSDG Dataset (Post-Refinement)}
+  \label{tab:almasdg_per_sdg_PostRefinement}
+  \begin{tabular}{
+    S[table-format=2.0]
+    S[table-format=2.0]
+    S[table-format=2.0]
+    S[table-format=2.0]
+    S[table-format=2.0]
+    S[table-format=2.0]
+    S[table-format=3.1]
+    S[table-format=3.1]
+    S[table-format=3.1]
+    S[table-format=1.0]
+  }
+    \toprule
+    {\textbf{SDG}} & {\textbf{Alma N}} & {\textbf{Pred N}} & {\textbf{TP}} & {\textbf{FP}} & {\textbf{FN}} & {\textbf{Prec (\unit{\percent})}} & {\textbf{Rec (\unit{\percent})}} & {\textbf{F1 (\unit{\percent})}} & {\textbf{0-Hit}} \\
+    \midrule
+     1 &  5 & 21 &  4 & 17 &  1 &  19.1 &  80.0 & 30.8 & 1 \\
+    \rowcolor{rowtint}
+     2 & 12 & 20 & 10 & 10 &  2 &  50.0 &  83.3 & 62.5 & 1 \\
+     3 & 25 & 22 & 21 &  1 &  4 &  95.5 &  84.0 & 89.4 & 1 \\
+    \rowcolor{rowtint}
+     4 & 10 & 10 &  6 &  4 &  4 &  60.0 &  60.0 & 60.0 & 2 \\
+     5 & 13 & 12 & 11 &  1 &  2 &  91.7 &  84.6 & 88.0 & 1 \\
+    \rowcolor{rowtint}
+     6 &  8 &  7 &  6 &  1 &  2 &  85.7 &  75.0 & 80.0 & 0 \\
+     7 & 10 & 14 & 10 &  4 &  0 &  71.4 & 100.0 & 83.3 & 0 \\
+    \rowcolor{rowtint}
+     8 & 15 & 21 &  7 & 14 &  8 &  33.3 &  46.7 & 38.9 & 6 \\
+     9 & 13 & 22 &  7 & 15 &  6 &  31.8 &  53.8 & 40.0 & 2 \\
+    \rowcolor{rowtint}
+    10 & 32 & 25 & 17 &  8 & 15 &  68.0 &  53.1 & 59.7 & 9 \\
+    11 & 23 & 34 & 20 & 14 &  3 &  58.8 &  87.0 & 70.2 & 2 \\
+    \rowcolor{rowtint}
+    12 & 25 & 29 & 20 &  9 &  5 &  69.0 &  80.0 & 74.1 & 1 \\
+    13 & 17 & 21 & 14 &  7 &  3 &  66.7 &  82.3 & 73.7 & 0 \\
+    \rowcolor{rowtint}
+    14 &  7 & 13 &  6 &  7 &  1 &  46.2 &  85.7 & 60.0 & 0 \\
+    15 &  9 & 21 &  9 & 12 &  0 &  42.9 & 100.0 & 60.0 & 0 \\
+    \rowcolor{rowtint}
+    16 & 11 & 22 & 10 & 12 &  1 &  45.5 &  90.9 & 60.6 & 1 \\
+    17 &  7 &  3 &  3 &  0 &  4 & 100.0 &  42.9 & 60.0 & 3 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\subsubsection{Benchmarking Against OSDGC SDG Assignments (Post-Refinement)}
+
+\begin{lstlisting}[language={bash}, basicstyle=\footnotesize, escapechar=|, breaklines=true,
+    postbreak=\usebox{\lstbreakbox}, caption={Comparing dual-language classifier with OSDG Community Dataset (OSDG-CD)}, label=lst:OSDGCDOutputPostRefinement]
+./compare_dual_language_classifier_to_OSDG_CD_parallel_edition_v3.py
+[progress] 5000 rows processed in 115.1s...
+[progress] 10000 rows processed in 115.1s...
+[progress] 15000 rows processed in 115.1s...
+[progress] 20000 rows processed in 115.1s...
+[progress] 25000 rows processed in 115.1s...
+[progress] 30000 rows processed in 115.1s...
+[progress] 35000 rows processed in 115.1s...
+[progress] 40000 rows processed in 115.1s...
+==============================================================================
+==> Dual-Language Classifier vs. OSDG Community Dataset (OSDG-CD)
+Dataset          : /tmp/osdg-community-data-v2024-04-01.csv
+Parameters       : top_k=3, min_hits=2, min_agreement>=0.00, workers=12
+Elapsed Time     : 115.10s
+------------------------------------------------------------------------------
+Positive-Consensus Excerpts (labels_positive > labels_negative) : 35626
+Negative-Consensus Excerpts (labels_negative > labels_positive) : 6120
+Tied Excerpts               (labels_positive == labels_negative): 1279
+------------------------------------------------------------------------------
+1. Positive-Consensus Agreement (Validated OSDG Label Present):
+   * Top-1 Exact Match          :  18900 / 35626 ( 53.1%)
+   * Top-3 Match (hits>=2)      :  23291 / 35626 ( 65.4%)
+   * Any Lexical Hit (hits>=1)  :  28268 / 35626 ( 79.3%)
+   * Abstention (no goal >=2)   :   6578 / 35626 ( 18.5%)
+
+2. Negative-Consensus Specificity (Volunteer-Rejected OSDG Label):
+   * Cleanly Rejected (not in Top-3) :   5096 / 6120 ( 83.3%)
+   * False Positive (in Top-3)       :   1024 / 6120 ( 16.7%)
+\end{lstlisting}
+
+3. Per-SDG Breakdown:
+\begin{table}[!ht]
+  \centering
+  \caption{Per-SDG Breakdown on the OSDG Community Dataset (OSDG-CD, Post-Refinement)}
+  \label{tab:osdg_cd_per_sdg_PostRefinement}
+  \begin{tabular}{
+    S[table-format=2.0]
+    S[table-format=4.0]
+    S[table-format=3.1]
+    S[table-format=3.1]
+    S[table-format=3.1]
+    S[table-format=3.1]
+    S[table-format=3.0]
+    S[table-format=3.1]
+  }
+    \toprule
+    {\textbf{SDG}} & {\textbf{Pos N}} & {\textbf{Top-1 (\unit{\percent})}} & {\textbf{Top-3 (\unit{\percent})}} & {\textbf{Prec* (\unit{\percent})}} & {\textbf{F1* (\unit{\percent})}} & {\textbf{Neg N}} & {\textbf{Neg FP (\unit{\percent})}} \\
+    \midrule
+     1 & 2131 & 75.3 & 83.4 & 26.7 & 40.5 & 536 & 33.8 \\
+    \rowcolor{rowtint}
+     2 & 1751 & 62.8 & 74.0 & 47.6 & 58.0 & 590 & 29.1 \\
+     3 & 2431 & 69.8 & 77.0 & 57.1 & 65.6 & 216 & 13.9 \\
+    \rowcolor{rowtint}
+     4 & 3212 & 47.2 & 51.8 & 70.3 & 59.6 & 476 &  6.1 \\
+     5 & 3379 & 59.2 & 81.5 & 76.2 & 78.8 & 904 & 12.8 \\
+    \rowcolor{rowtint}
+     6 & 2117 & 43.4 & 56.3 & 83.0 & 67.1 & 598 &  6.9 \\
+     7 & 2632 & 35.6 & 43.1 & 73.2 & 54.2 & 366 &  1.4 \\
+    \rowcolor{rowtint}
+     8 & 1333 & 35.8 & 55.3 & 15.1 & 23.7 & 127 & 16.5 \\
+     9 & 2494 & 31.6 & 39.7 & 42.9 & 41.2 & 165 &  4.2 \\
+    \rowcolor{rowtint}
+    10 & 1873 & 10.7 & 47.3 & 18.6 & 26.7 & 380 & 16.6 \\
+    11 & 2004 & 46.8 & 56.5 & 36.3 & 44.2 & 204 & 17.6 \\
+    \rowcolor{rowtint}
+    12 &  977 & 37.6 & 50.5 & 42.2 & 46.0 & 122 & 13.9 \\
+    13 & 1787 & 58.5 & 69.3 & 47.5 & 56.3 & 274 &  5.1 \\
+    \rowcolor{rowtint}
+    14 &  995 & 74.5 & 84.4 & 57.6 & 68.5 & 128 & 13.3 \\
+    15 & 2166 & 70.6 & 82.4 & 63.6 & 71.8 & 328 & 13.4 \\
+    \rowcolor{rowtint}
+    16 & 4344 & 70.1 & 80.6 & 65.4 & 72.2 & 706 & 32.7 \\
+    17 &    0 &  0.0 &  0.0 &  0.0 &  0.0 &   0 &  0.0 \\
+    \bottomrule
+    \multicolumn{8}{l}{\footnotesize *Note: Because each OSDG-CD row validates a single candidate SDG rather than an exhaustive multi-label set,} \\
+    \multicolumn{8}{l}{\footnotesize \enquote{Prec*} treats valid co-occurring SDGs in Top-3 as non-target hits and is therefore a conservative lower bound.} \\
+  \end{tabular}
+\end{table}
+
+\paragraph{Comparison of Pre-Refinement and Post-Refinement OSDG-CD Results}
+\label{sec:osdg_cd_pre_post_comparison}
+
+Comparing the pre-refinement and post-refinement breakdowns on the OSDG Community Dataset (\Cref{tab:osdg_cd_per_sdg} and \Cref{tab:osdg_cd_per_sdg_PostRefinement}) shows that the sample counts \textbf{Pos~$N$} (\num{35626} positive-consensus excerpts) and \textbf{Neg~$N$} (\num{6120} negative-consensus excerpts) are identical across both runs, whereas \textbf{Top-1}, \textbf{Top-3}, \textbf{Prec*}, \textbf{F1*}, and \textbf{Neg~FP} shift in response to the updated lexicon and regular-expression context guards.
+
+\paragraph{Invariance of \textbf{Pos~\textit{N}} and \textbf{Neg~\textit{N}}}
+
+Every row in \fname{osdg-community-data-v2024-04-01.csv} is partitioned solely by its volunteer vote counts (\texttt{labels\_positive > labels\_negative} $\rightarrow$ \textbf{Pos~$N$}; \texttt{labels\_negative > labels\_positive} $\rightarrow$ \textbf{Neg~$N$}) prior to text scanning. Because the underlying benchmark file was unchanged, the per-goal sample counts remain invariant.
+
+\paragraph{Key Post-Refinement Metric Shifts}
+\begin{itemize}
+  \item \textbf{Substantial Recall and $F_1^*$ Gains on Previously Under-Covered Technical and Policy Goals:}
+  \begin{itemize}
+    \item \textbf{\gls{SDG}~9 (\textbf{Top-3} = \qty{39.7}{\percent}, \textbf{F1*} = \qty{41.2}{\percent}):} Driven by adding core industrial, software, and infrastructure terms (\enquote{industry}, \enquote{industrialization}, \enquote{manufacturing industry}, \enquote{software}, \enquote{infrastructure}, \enquote{innovation}) mined from false negatives.
+    
+    \item \textbf{\gls{SDG}~10 (\textbf{Top-3} = \qty{47.3}{\percent}, \textbf{F1*} = \qty{26.7}{\percent}):} Driven by adding explicit social-inclusion and anti-discrimination vocabulary (\enquote{inclusion}, \enquote{exclusion}, \enquote{discrimination}, \enquote{discriminate}, \enquote{migration}), while pruning bare \enquote{equity} kept \textbf{Neg~FP} controlled at \qty{16.6}{\percent}.
+    
+    \item \textbf{\gls{SDG}~11 (\textbf{Top-3} = \qty{56.5}{\percent}, \textbf{F1*} = \qty{44.2}{\percent}):} Driven by adding core urban-environment and architecture nouns (\enquote{city}, \enquote{building}, \enquote{buildings}, \enquote{architecture}, \enquote{architectural}), while removing bare \enquote{waste}, \enquote{recycling}, and \enquote{bridge} prevented cross-goal spillover.
+    
+    \item \textbf{\gls{SDG}~12 (\textbf{Top-3} = \qty{50.5}{\percent}, \textbf{F1*} = \qty{46.0}{\percent}):} Driven by relocating \enquote{life cycle}, \enquote{life cycle assessment}, and \texttt{LCA} out of \glspl{SDG}~9 and 13 into \gls{SDG}~12, and removing energy-efficiency terms (\enquote{energy efficiency}, \enquote{energy savings}) that belong under \gls{SDG}~7.
+    
+    \item \textbf{\gls{SDG}~14 (\textbf{Top-3} = \qty{84.4}{\percent}, \textbf{F1*} = \qty{68.5}{\percent}) and \gls{SDG}~15 (\textbf{Top-3} = \qty{82.4}{\percent}, \textbf{F1*} = \qty{71.8}{\percent}):} Driven by adding core marine and coastal terms (\enquote{sea}, \enquote{ocean}, \enquote{waters}, \enquote{coast}, \enquote{coastal}, \enquote{fish}) and terrestrial ecology terms (\enquote{soil}, \enquote{soils}, \enquote{forest}, \enquote{forests}, \enquote{species}, \enquote{conservation}).
+  \end{itemize}
+
+  \item \textbf{Precision Gains from Pruning Polysemous and Cross-Goal False Friends:}
+  \begin{itemize}
+    \item \textbf{\gls{SDG}~3 (\textbf{Prec*} = \qty{57.1}{\percent}, \textbf{F1*} = \qty{65.6}{\percent}, \textbf{Neg~FP} = \qty{13.9}{\percent}):} Pruning bare \enquote{treatment} and \enquote{disturbances} eliminated false triggers on non-medical excerpts (\eg water or wastewater treatment and ecological disturbances).
+
+
+    \item \textbf{\gls{SDG}~7 (\textbf{Prec*} = \qty{73.2}{\percent}, \textbf{Neg~FP} = \qty{1.4}{\percent}):} Relocating boiling-water and light-water reactor terms (\texttt{BWR}, \texttt{LWR}) to \gls{SDG}~9 and excluding generic \gls{ICT} tokens (\eg \texttt{IoT}) eliminated false positives on non-energy excerpts.
+    
+    \item \textbf{\gls{SDG}~16 (\textbf{Prec*} = \qty{65.4}{\percent}, \textbf{F1*} = \qty{72.2}{\percent}):} Pruning bare \enquote{institution} and guarding \enquote{decision} and \enquote{freedom} against Markov decision processes and mechanical degrees of freedom removed non-governance false positives, while adding \enquote{law}, \enquote{legal}, \enquote{justice}, and \enquote{rights} preserved \qty{80.6}{\percent} \textbf{Top-3} recall.
+  \end{itemize}
+
+  \item \textbf{Precision--Recall Trade-Off on Broad Socio-Economic Goals (\glspl{SDG}~1, 2, 5, and 8):}
+  Adding high-recall unigrams such as \enquote{poor} and \enquote{income} (\gls{SDG}~1), \enquote{food} and \enquote{agriculture} (\gls{SDG}~2), \enquote{women} and \enquote{gender} (\gls{SDG}~5), and \enquote{labor} and \enquote{productivity} (\gls{SDG}~8) substantially increased positive recall (\textbf{Top-3} reaching \qty{83.4}{\percent} on \gls{SDG}~1, \qty{74.0}{\percent} on \gls{SDG}~2, and \qty{81.5}{\percent} on \gls{SDG}~5), while modestly raising \textbf{Neg~FP} (\qty{33.8}{\percent} on \gls{SDG}~1 and \qty{29.1}{\percent} on \gls{SDG}~2) on OSDG-CD negative-consensus rows, which frequently mention those exact topical words in a volunteer-rejected context. Furthermore, because each OSDG-CD excerpt validates only a single candidate goal rather than an exhaustive multi-label set, recovering valid co-occurring goals in \textbf{Top-3} (\eg both \gls{SDG}~1 and \gls{SDG}~2 on food-poverty excerpts) is penalized under \textbf{Prec*}, making \textbf{Prec*} a conservative \textbf{lower bound}.
+\end{itemize}
+
+\paragraph{Notation Note: Standard F₁ versus Conservative Proxy F₁\texorpdfstring{$^{*}$}{*}}
+The distinction between $F_1$ and $F_1^*$ reflects whether a benchmark dataset provides an exhaustive multi-label set of \glspl{SDG} or validates only a single candidate \gls{SDG} per text excerpt:
+\begin{itemize}
+  \item \textbf{Standard Multi-Label $F_1$ (Swemetrics and AlmaSDG):} Both Swemetrics and AlmaSDG associate each publication with a complete set of assigned \glspl{SDG} ($S_{\text{ref}}$). Comparing $S_{\text{ref}}$ against the classifier's predicted set ($S_{\text{pred}}$) yields standard multi-label precision ($P$), recall ($R$), and harmonic mean $F_1 = 2PR / (P + R)$.
+  
+  \item \textbf{Conservative Proxy $F_1^*$ (OSDG-CD):} Each row in the OSDG Community Dataset validates only a single candidate goal rather than an exhaustive multi-label assignment. Consequently, whenever the classifier identifies a second, legitimately co-occurring \gls{SDG} among its top-$k$ predictions (\eg predicting both \gls{SDG}~1 and \gls{SDG}~2 for an excerpt addressing food poverty), that additional goal is counted as a non-target hit under \textbf{Prec*}. Because \textbf{Prec*} represents a conservative \textbf{lower bound} on precision, its corresponding harmonic mean is denoted $F_1^*$ (labeled \texttt{F1*} in table headers) to distinguish it from true multi-label $F_1$.
+\end{itemize}
 
 \clearpage
 

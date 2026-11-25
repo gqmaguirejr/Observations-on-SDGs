@@ -1,4 +1,5 @@
 \makeatletter
+\begin{comment} % older version
 \newcommand{\DeclareLatinAbbrev}[2]{%
   \DeclareRobustCommand{#1}{%
   \@ifnextchar\cite{\textit{#2.\,}}{%  if next is a \cite then insert a period and a thin space
@@ -9,6 +10,24 @@
             \@ifnextchar{)}{\textit{#2.}}{%
               {\textit{#2.,\ }}}}}}}}}%
 }
+\end{comment}
+
+\newcommand{\DeclareLatinAbbrev}[2]{%
+  \DeclareRobustCommand{#1}{%
+    \textit{#2}%
+    \@ifnextchar{.}{}{%
+      \@ifnextchar{,}{.}{%
+        \@ifnextchar{!}{.}{%
+          \@ifnextchar{?}{.}{%
+            \@ifnextchar{)}{.}{%
+              \@ifnextchar{\cite}{.\,}{.\@\xspace}%
+            }%
+          }%
+        }%
+      }%
+    }%
+  }%
+}
 \makeatother
 \DeclareLatinAbbrev{\eg}{e.g}
 \DeclareLatinAbbrev{\Eg}{E.g}
@@ -16,6 +35,17 @@
 \DeclareLatinAbbrev{\Ie}{I.e}
 \DeclareLatinAbbrev{\etc}{etc}
 \DeclareLatinAbbrev{\etal}{et~al}
+
+% For Latin words and phrases that are not followed by a period
+\newcommand{\DeclareLatinPhrase}[2]{%
+  \DeclareRobustCommand{#1}{\textit{#2}\xspace}%
+}
+
+\DeclareLatinPhrase{\posthoc}{post hoc}
+\DeclareLatinPhrase{\invivo}{in vivo}
+\DeclareLatinPhrase{\invitro}{in vitro}
+\DeclareLatinPhrase{\apriori}{a priori}
+\DeclareLatinPhrase{\aposteriori}{a posteriori}
 
 
 \def\first {(\textit{i})\xspace}
@@ -73,7 +103,7 @@
 %\DeclareUnicodeCharacter{2003}{\quad}
 
 % Use grouping for numbers that are 4 or more digits long
-\sisetup{group-minimum-digits=4}
+\sisetup{group-minimum-digits=4, range-phrase=--, range-units=single}
 
 \definecolor{kth-blue}{RGB/cmyk}{25,84,166/0.849,0.494,0,0.349}
 \colorlet{kth-blue80}{kth-blue!80!}
