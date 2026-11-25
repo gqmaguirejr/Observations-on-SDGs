@@ -1960,22 +1960,22 @@ Suggested 'SDGs' value: "SDG 7"
 
 This case study provides an excellent example of cross-disciplinary intersection --- specifically where computational methods (Machine Learning) meet a clean-energy application domain (nuclear reactor physics).
 
-OSDG could not handle the abstract. In contrast, \Cref{lst:t_149108Output} shows that the program could find both the \gls{SDG}~7 and \gls{SDG}~9 terms.
+OSDG could not handle the abstract. In contrast, \Cref{lst:t_149108Output} shows that the program cleanly detected both the \gls{SDG}~7 (\num{7} hits) and \gls{SDG}~9 (\num{13} hits) terms.
 
-This case study illustrates the split between method (\gls{SDG}~9) vs. application domain (\gls{SDG}~7):
+This case study illustrates the split between method (\gls{SDG}~9) and application domain (\gls{SDG}~7):
 \begin{itemize}
-    \item Methodological layer (\gls{SDG}~9): Terms like \enquote{ML} (5), \enquote{machine learning} (2), \enquote{neural networks} (2), and \enquote{recurrent neural networks} (1) capture the computational/AI methodology (Target 9.5: fostering innovation and technological capabilities).
+    \item Methodological layer (\gls{SDG}~9: \num{13} hits): Terms like \enquote{ML} (5), \enquote{machine learning} (2), \enquote{neural networks} (2), \enquote{uncertainty quantification} (1), and \enquote{recurrent neural networks} (1) capture the computational/AI methodology (Target~9.5: fostering innovation and technological capabilities).
 
-    \item Application domain layer (\gls{SDG}~7): Because the abstract never uses generic phrases like \enquote{clean energy} or \enquote{electricity generation}, a standard classifier would completely miss the energy connection. Instead, the domain-enriched lexicon captures nuclear reactor physics nomenclature --- \enquote{PWRs} (1), \enquote{pressurized water reactors} (1), \enquote{nodal calculations} (2), \enquote{reactor physics} (1), and \enquote{fuel depletion} (1) --- which directly substantiates the author's \gls{SDG}~7 assignment under Target 7.2 / 7.a (clean-energy technology research).
+    \item Application domain layer (\gls{SDG}~7: \num{7} hits): Because the abstract never uses generic phrases like \enquote{clean energy} or \enquote{electricity generation}, a standard classifier would completely miss the energy connection. Instead, the domain-enriched lexicon captures nuclear reactor physics nomenclature --- \enquote{PWRs} (1), \enquote{nodal calculations} (2), \enquote{pressurized water reactors} (1), \enquote{reactor physics} (1), and \enquote{fuel depletion} (1) --- which directly substantiates the author's \texttt{"SDGs": "7"} assignment under Targets~7.2 and 7.a (clean-energy technology research).
 \end{itemize}
 
-Although \gls{SDG}~9 has a higher raw count simply because general AI/ML acronyms (\enquote{ML}: 5) repeat throughout the methodology description --- whereas \gls{SDG}~7 captures the core physical domain, this explains both why \gls{SDG}~7 is well-founded and why adding \gls{SDG}~9 would also be reasonable if the author wished to highlight the AI/surrogate-modeling contribution.
+Although \gls{SDG}~9 has a higher raw count simply because general AI/ML acronyms (\enquote{ML}: 5) repeat throughout the methodology description, \gls{SDG}~7 captures the core physical domain --- explaining both why \gls{SDG}~7 is well-founded and why adding \gls{SDG}~9 would also be reasonable if the author wished to highlight the AI/surrogate-modeling contribution.
 
-Note that there is zero bleed, \ie the remaining 15 \glspl{SDG} sit cleanly at 0, which reinforces the precision of the nuclear-engineering dictionary entries.
+Note that there is zero bleed, \ie the remaining \num{15} \glspl{SDG} sit cleanly at \num{0}, which reinforces the precision of the nuclear-engineering dictionary entries.
 \end{casestudySection}
 
 \begin{takeaway}
-This case study illustrates the critical importance of domain-specific technical terms: without specialized reactor-physics vocabulary (such as \enquote{PWRs}, \enquote{nodal calculations}, and \enquote{fuel depletion}), an automated classifier would either miss \gls{SDG}~7 entirely or classify a nuclear engineering thesis solely as a generic machine-learning paper (\gls{SDG}~9). 
+This case study illustrates the critical importance of domain-specific technical terms: without specialized reactor-physics vocabulary (such as \enquote{PWRs}, \enquote{nodal calculations}, and \enquote{fuel depletion}), an automated classifier would either miss \gls{SDG}~7 entirely or classify a nuclear engineering thesis solely as a generic machine-learning paper (\gls{SDG}~9).
 \end{takeaway}
 
 \Needspace*{8\baselineskip}
@@ -2016,7 +2016,7 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_21258.json
 Match Vector (SDG 1 - 17):
-[0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 8, 14, 0, 0, 0, 0, 0]
+[0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 13, 14, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "9, 11, 12"
 
@@ -2027,28 +2027,29 @@ Top Keyword Matching Goals:
        * "reusability": 2
        * "designed for disassembly": 1
        * "salvaged elements": 1
-  [ 2] SDG  9 :   12 hit(s)
+  [ 2] SDG 11 :   13 hit(s)
+       * "deconstruction": 5
+       * "concrete": 5
+       * "circular construction": 1
+       * "reclaimed concrete": 1
+       * "transportation": 1
+  [ 3] SDG  9 :   12 hit(s)
        * "precast concrete": 4
        * "full-scale testing": 2
        * "semi-destructive testing": 1
        * "non-destructive testing": 1
        * "technical standards": 1
-  [ 3] SDG 11 :    8 hit(s)
-       * "deconstruction": 5
-       * "circular construction": 1
-       * "reclaimed concrete": 1
-       * "transportation": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 9, SDG 11, SDG 12"
 =================================================================
 \end{lstlisting}
 
-OSDG failed to classify this technical report, whereas \Cref{lst:t_21258Output} confirms all three goals assigned by the author (\enquote{9, 11, 12}) with zero bleed across the remaining 14 goals:
+OSDG failed to classify this technical report, whereas \Cref{lst:t_21258Output} confirms all three goals assigned by the author (\texttt{"SDGs": "9, 11, 12"}) with zero bleed across the remaining \num{14} goals:
 \begin{itemize}
-    \item \textbf{Substantiated \gls{SDG}~9 (12 hits) vs.\ Over-Tagging:} Prior to adding civil-engineering testing terms, \gls{SDG}~9 registered 0 hits in the match vector. Unlike \Cref{cs:overtagging} --- where 0-hit metadata tags reflected unsupported author extrapolation --- here \gls{SDG}~9 is genuinely warranted by the report's core structural-engineering and testing methodology: non-destructive and semi-destructive structural surveys, full-scale load testing of structural capacity, retrofit connection engineering, and compliance with Eurocodes and technical standards (\enquote{precast concrete}: 4, \enquote{full-scale testing}: 2, \enquote{semi-destructive testing}: 1, \enquote{non-destructive testing}: 1, \enquote{technical standards}: 1; Targets~9.4 and 9.5).
+    \item \textbf{Substantiated \gls{SDG}~9 (\num{12} hits) vs.\ Over-Tagging:} Prior to adding civil-engineering testing terms, \gls{SDG}~9 registered \num{0} hits in the match vector. Unlike \Cref{cs:overtagging} --- where \num{0}-hit metadata tags reflected unsupported author extrapolation --- here \gls{SDG}~9 is genuinely warranted by the report's core structural-engineering and testing methodology: non-destructive and semi-destructive structural surveys, full-scale load testing of structural capacity, retrofit connection engineering, and compliance with Eurocodes and technical standards (\enquote{precast concrete}: 4, \enquote{full-scale testing}: 2, \enquote{semi-destructive testing}: 1, \enquote{non-destructive testing}: 1, \enquote{technical standards}: 1; Targets~9.4 and 9.5).
     
-    \item \textbf{Circular Construction \& Resource Reuse (\gls{SDG}~12: 14 hits \& \gls{SDG}~11: 8 hits):} Enriching \gls{SDG}~12 with disassembly and salvage vocabulary (\enquote{deconstruction}: 5, \enquote{reclaimed elements}: 4, \enquote{reusability}: 2, \enquote{designed for disassembly}: 1, \enquote{salvaged elements}: 1; Target~12.5) alongside \gls{SDG}~11 (\enquote{deconstruction}: 5, \enquote{circular construction}: 1, \enquote{reclaimed concrete}: 1, plus \enquote{transportation}: 1; Target~11.c) aligns the classifier's top three goals cleanly with the author's metadata.
+    \item \textbf{Circular Construction \& Resource Reuse (\gls{SDG}~12: \num{14} hits \& \gls{SDG}~11: \num{13} hits):} Enriching \gls{SDG}~12 with disassembly and salvage vocabulary (\enquote{deconstruction}: 5, \enquote{reclaimed elements}: 4, \enquote{reusability}: 2, \enquote{designed for disassembly}: 1, \enquote{salvaged elements}: 1; Target~12.5) alongside \gls{SDG}~11 (\enquote{deconstruction}: 5, \enquote{concrete}: 5, \enquote{circular construction}: 1, \enquote{reclaimed concrete}: 1, \enquote{transportation}: 1; Target~11.c) aligns the classifier's top three goals cleanly with the author's metadata.
 \end{itemize}
 \end{casestudySection}
 
@@ -2082,30 +2083,28 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_150476.json
 Match Vector (SDG 1 - 17):
-[0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "3"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  3 :   38 hit(s)
+  [ 1] SDG  3 :   35 hit(s)
        * "patient": 6
        * "tumor": 5
        * "radiation therapy": 3
-       * "treatment": 3
        * "riskorgan": 3
+       * "therapy": 3
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 3"
 =================================================================
 \end{lstlisting}
 
-OSDG could not handle the abstract. In contrast, \Cref{lst:t_150476Output} shows that the program could readily identify \gls{SDG}~3 via
-the hits anchored by clinical oncology and radiotherapy vocabulary across both English and Swedish (\enquote{patient}: 6, \enquote{tumor}: 5, \enquote{radiation therapy}: 3, \enquote{treatment}: 3, \enquote{\foreignlanguage{swedish}{riskorgan}}: 3), mapping squarely to Target 3.4 (reduce premature mortality from non-communicable diseases, including cancer).
+OSDG could not handle the abstract. In contrast, \Cref{lst:t_150476Output} shows that the program could readily identify \gls{SDG}~3 (\num{35} hits), anchored by clinical oncology and radiotherapy vocabulary across both English and Swedish (\enquote{patient}: 6, \enquote{tumor}: 5, \enquote{radiation therapy}: 3, \enquote{\foreignlanguage{swedish}{riskorgan}}: 3, and \enquote{therapy}: 3), mapping squarely to Target~3.4 (reduce premature mortality from non-communicable diseases, including cancer).
 
 Although the medical context is clear to a human reader, the abstract is heavily mathematical and optimization-driven (objective function, contour scenarios, non-isotropic uncertainty model, dosimetric benefits, temporal resolution, scenario reduction), which caused OSDG's pipeline to fail on the text.
 
-Note that there is zero false-positive bleed, \ie all other 16 \glspl{SDG} registered 0 hits --- even generic optimization terms did not trigger false positives under \gls{SDG}~9 or \gls{SDG}~11.
-
+Note that there is zero false-positive bleed, \ie all other \num{16} \glspl{SDG} registered \num{0} hits --- even generic optimization terms did not trigger false positives under \gls{SDG}~9 or \gls{SDG}~11.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -2145,27 +2144,29 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_150695.json
 Match Vector (SDG 1 - 17):
-[0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[0, 0, 26, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
 
 Assigned value in JSON: "3"
 
 Top Keyword Matching Goals:
-  [ 1] SDG  3 :   20 hit(s)
+  [ 1] SDG  3 :   26 hit(s)
        * "joint loading": 5
+       * "in vivo": 4
        * "ledbelastning": 3
        * "biomekanisk": 3
        * "musculoskeletal": 2
-       * "injury mechanisms": 1
+  [ 2] SDG  9 :    1 hit(s)
+       * "open-source": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
 Suggested 'SDGs' value: "SDG 3"
 =================================================================
 \end{lstlisting}
 
-Both OSDG and the program's sole match vector peak converged exclusively on \gls{SDG}~3, corroborating the \gls{DiVA} metadata (\enquote{SDGs}: \enquote{3}).
-Unlike the previous case study, the abstract uses recognizable clinical, ergonomic, and injury-prevention terminology (injury mechanisms, musculoskeletal, sitting posture, ligament lengthening) --- rather than dense mathematical optimization formulations. The bilingual terms hits  (\enquote{joint loading}: 5, \enquote{\foreignlanguage{swedish}{ledbelastning}}: 3, \enquote{\foreignlanguage{swedish}{biomekanisk}}: 3, \enquote{\foreignlanguage{swedish}{musculoskeletal}}: 2, \enquote{injury mechanisms}: 1) directly link to Target 3.4 / 3.d (prevention and management of musculoskeletal injury and non-communicable health conditions).
+Both OSDG and the program's sole substantive match-vector peak converged exclusively on \gls{SDG}~3, corroborating the \gls{DiVA} metadata (\texttt{\enquote{SDGs}: \enquote{3}}).
+Unlike the previous case study, the abstract uses recognizable clinical, ergonomic, and injury-prevention terminology (injury mechanisms, musculoskeletal, sitting posture, ligament lengthening) --- rather than dense mathematical optimization formulations. The \num{26} bilingual hits (\enquote{joint loading}: 5, \enquote{in vivo}: 4, \enquote{\foreignlanguage{swedish}{ledbelastning}}: 3, \enquote{\foreignlanguage{swedish}{biomekanisk}}: 3, and \enquote{musculoskeletal}: 2) directly link to Targets~3.4 and 3.d (prevention and management of musculoskeletal injury and non-communicable health conditions).
 
-Again, there were zero false-positive bleeds, \ie all other 16 \glspl{SDG} registered 0 hits --- confirming that anatomical and kinematic terms do not trigger false positives in engineering or transport categories.
+There is \num{1} trace hit on \gls{SDG}~9 from \enquote{open-source} (1), which falls below the \texttt{--min-hits 2} inference threshold, while all other \num{15} \glspl{SDG} registered \num{0} hits --- confirming that anatomical and kinematic terms do not trigger false positives in engineering or transport categories.
 \end{casestudySection}
 
 \begin{takeaway}
@@ -2209,18 +2210,18 @@ Consider the following:
 =================================================================
 ==> Dual-Language SDG Classification Report: t_150949.json
 Match Vector (SDG 1 - 17):
-[0, 0, 39, 0, 0, 0, 5, 0, 6, 3, 43, 0, 0, 0, 0, 1, 0]
+[0, 0, 38, 0, 0, 0, 5, 0, 6, 3, 44, 0, 0, 0, 0, 1, 0]
 
 Assigned value in JSON: "3, 10, 11"
 
 Top Keyword Matching Goals:
-  [ 1] SDG 11 :   43 hit(s)
+  [ 1] SDG 11 :   44 hit(s)
        * "CNOSSOS-EU": 2
        * "CNOSSOS": 2
        * "road traffic noise": 5
        * "traffic noise": 5
        * "noise pollution": 3
-  [ 2] SDG  3 :   39 hit(s)
+  [ 2] SDG  3 :   38 hit(s)
        * "road traffic noise": 5
        * "traffic noise": 5
        * "noise exposure": 4
@@ -2249,14 +2250,16 @@ Suggested 'SDGs' value: "SDG 3, SDG 10, SDG 11"
 
 OSDG identified \gls{SDG}~11 and \gls{SDG}~13. In contrast, \Cref{lst:t_150949Output} shows matching terms for \gls{SDG}~11, \gls{SDG}~3, \gls{SDG}~9, \gls{SDG}~7, \gls{SDG}~10, and a trace hit for \gls{SDG}~16.
 
-While OSDG classified the abstract as \gls{SDG}~11 and misclassified it as \gls{SDG}~13, it missed both public health and environmental equity. In contrast, the program's match vector substantiates \gls{SDG}~11 (43), \gls{SDG}~3 (39), and \gls{SDG}~10 (3), while keeping \gls{SDG}~13 cleanly at 0. Note that \gls{SDG}~10 is substantiated by \enquote{population-centric} (1), \enquote{\foreignlanguage{swedish}{befolkningscentrerad}} (1), and \enquote{\foreignlanguage{swedish}{rättvisare}} [\emph{fairer}] (1).
+While OSDG classified the abstract as \gls{SDG}~11 and misclassified it as \gls{SDG}~13, it missed both public health and environmental equity. In contrast, the program's match vector substantiates \gls{SDG}~11 (\num{44}), \gls{SDG}~3 (\num{38}), and \gls{SDG}~10 (\num{3}), while keeping \gls{SDG}~13 cleanly at \num{0}. Note that \gls{SDG}~10 is substantiated by \enquote{\foreignlanguage{swedish}{befolkningscentrerad}} (1), \enquote{population-centric} (1), and \enquote{\foreignlanguage{swedish}{rättvisare}} [\emph{fairer}] (1).
 \begin{itemize}
-    \item \gls{SDG}~3 (39 hits) and \gls{SDG}~11 (43 hits) are co-primary, since road traffic noise sits squarely at the intersection of urban environmental quality (Target 11.6: reducing adverse per capita environmental impact of cities) and public health (Target 3.9 / 3.4: reducing illness from environmental pollution, sleep disturbance, and burden of disease).
+    \item \gls{SDG}~3 (\num{38} hits) and \gls{SDG}~11 (\num{44} hits) are co-primary, since road traffic noise sits squarely at the intersection of urban environmental quality (Target~11.6: reducing adverse per capita environmental impact of cities) and public health (Targets~3.9 and 3.4: reducing illness from environmental pollution, sleep disturbance, and burden of disease).
+
+    \item Secondary Modeling Context (\gls{SDG}~9: \num{6} hits \& \gls{SDG}~7: \num{5} hits): The match vector also captures the simulation standards (\enquote{CNOSSOS-EU}: 2, \enquote{CNOSSOS}: 2, \enquote{environmental acoustics}: 2) under \gls{SDG}~9 and fleet-electrification acoustics (\enquote{electric vehicles}: 2, \enquote{electrification}: 1, \enquote{\foreignlanguage{swedish}{elektrifiering}}: 1, \enquote{electric cars}: 1) under \gls{SDG}~7 --- supporting methodological context that the author appropriately left untagged in favor of the three core societal outcomes (\texttt{\enquote{SDGs}: \enquote{3, 10, 11}}).
 
     \item OSDG triggered \gls{SDG}~13 likely by conflating general environmental/emissions vocabulary (environmental, noise pollution, electric vehicles, \gls{EU}'s Environmental Noise Directive) with climate change (\gls{SDG}~13), even though the thesis never mentions greenhouse gases or climate targets.
 \end{itemize}
 
-The trace hit for \gls{SDG}~16 is a problem of the isolated use of \enquote{\foreignlanguage{swedish}{rättvisa}} matching as a prefix inside \enquote{\foreignlanguage{swedish}{rättvisare}} --- as described in earlier case studies.
+The trace hit for \gls{SDG}~16 (\num{1} hit) is a problem of the isolated use of \enquote{\foreignlanguage{swedish}{rättvisa}} matching as a prefix inside \enquote{\foreignlanguage{swedish}{rättvisare}} --- as described in earlier case studies.
 
 \textbf{NB:} In the final sentence of the Swedish abstract, \enquote{\foreignlanguage{swedish}{akus- tik}} has an artifact hyphen/space that occurs in the source \gls{DiVA} record.
 \end{casestudySection}
@@ -2301,8 +2304,8 @@ Top Keyword Matching Goals:
   [ 1] SDG  9 :    9 hit(s)
        * "finita elementmodeller": 1
        * "numeriska simuleringar": 1
-       * "finite element models": 1
        * "numerical simulations": 1
+       * "finite element models": 1
        * "structural dynamics": 1
 -----------------------------------------------------------------
 Note: Scoped to pre-assigned SDGs in metadata.
@@ -2310,11 +2313,11 @@ Suggested 'SDGs' value: "SDG 9, SDG 16"
 =================================================================
 \end{lstlisting}
 
-OSDG identified \gls{SDG}~9 in agreement with the output of the program shown in  \Cref{lst:t_152070Output}.
+OSDG identified \gls{SDG}~9 in agreement with the program output shown in \Cref{lst:t_152070Output}, which registered \num{9} hits for \gls{SDG}~9 across English and Swedish aeroelasticity and simulation terms (\enquote{\foreignlanguage{swedish}{finita elementmodeller}}: 1, \enquote{\foreignlanguage{swedish}{numeriska simuleringar}}: 1, \enquote{numerical simulations}: 1, \enquote{finite element models}: 1, and \enquote{structural dynamics}: 1) and \num{0} hits across all other \num{16} goals.
 
-The author also included \gls{SDG}~16, despite no terms in the abstracts suggesting this. This stems from extratextual domain knowledge: the thesis investigates fuel sloshing in external stores on composite wings (\enquote{\foreignlanguage{swedish}{bränsleskvalp i externa laster}}), a classic military aerospace application (wing-mounted external fuel tanks on fighter aircraft). The research was funded by Vinnova (Sweden's civilian innovation agency) rather than a defense ministry. However, authors working on defense-related aerospace projects at \gls{KTH} appear to routinely tag \gls{SDG}~16 (Peace, Justice and Strong Institutions / national defense and security) in \gls{DiVA} even when the abstract uses neutral engineering phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}) without explicit security or defense keywords. In fact, the word \enquote{defense} only appears as \enquote{D. of Defense} in the author portion of references 4 and 22.
+The author also included \gls{SDG}~16, despite no terms in the abstracts suggesting this. This stems from extratextual domain knowledge: the thesis investigates fuel sloshing in external stores on composite wings (\enquote{\foreignlanguage{swedish}{bränsleskvalp i externa laster}}), a classic military aerospace application (wing-mounted external fuel tanks on fighter aircraft). The research was funded by Vinnova (Sweden's civilian innovation agency) rather than a defense ministry. However, authors working on defense-related aerospace projects at \gls{KTH} appear to routinely tag \gls{SDG}~16 (Peace, Justice and Strong Institutions / national defense and security) in \gls{DiVA} even when the abstract uses neutral engineering phrasing (\enquote{external stores}, \enquote{composite wings}, \enquote{flutter performance}) without explicit security or defense keywords. In fact, the word \enquote{defense} only appears as \enquote{D. of Defense} in the author portion of references~4 and~22.
 
-Because the program is scoped to preserve pre-assigned metadata (Suggested '\enquote{SDGs} value: \enquote{\gls{SDG}~9, \gls{SDG}~16}), automated keyword auditing flags the 0 match count for \gls{SDG}~16 so a human reviewer can decide whether extratextual sponsorship justifies keeping it or whether metadata should reflect only what is substantiated in the abstract (\gls{SDG}~9).
+Because the program is scoped to preserve pre-assigned metadata (\texttt{Suggested 'SDGs' value: \enquote{SDG 9, SDG 16}}), automated keyword auditing flags the \num{0} match count for \gls{SDG}~16 so a human reviewer can decide whether extratextual sponsorship justifies keeping it or whether metadata should reflect only what is substantiated in the abstract (\gls{SDG}~9).
 \end{casestudySection}
 
 \begin{takeaway}
