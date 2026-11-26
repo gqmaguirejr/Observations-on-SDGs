@@ -3093,7 +3093,7 @@ On short abstracts, boilerplate references to overarching funding-program names 
 \begin{casestudySection}[Author Misclassification via Lexical Polysemy (\enquote{Land}) and Glued Source Tokens]
 \label{cs:CadastralGovernanceAndTextGluing}
 Consider the following:
-\begin{lstlisting}[language={json}, caption={t\_17904.json (manually reformatted to keep only one abstract per language while preserving the missing-space artifacts present in the DiVA record; additionally, newlines were added at the end of paragraphs)}, label=lst:t_17904.json]
+\begin{lstlisting}[language={json}, caption={t\_17904.json (manually reformatted to keep only one abstract per language while preserving the missing-space artifacts present in the \gls{DiVA} record; additionally, newlines were added at the end of paragraphs)}, label=lst:t_17904.json]
 {
   "divaID": "diva2:2060639",
   "Title": {
@@ -4087,8 +4087,30 @@ The \gls{DiVA} record \texttt{diva2:2107472} (\textit{Hear Here: Perception and 
 \begin{takeaway}
 Not all scholarly research maps meaningfully onto the \gls{UN} \glspl{SDG}, nor does every publication need to claim \gls{SDG} alignment. An all-zero match vector across both languages acts as an essential negative control, demonstrating that lexical restraint prevents overfitting and avoids inflating institutional \gls{SDG} metrics across foundational and non-applied disciplines.
 \end{takeaway}
+\clearpage
+\section{Use of AI}
+\label{sec:UseofAI}
 
+Google's Gemini was used\footnote{Via my own personal subscription.} throughout this study to assist in drafting, revising, and critiquing the case studies. Specifically, it was used to verify numerical consistency between the written analyses and the updated outputs of the dual-language classifier, catch editing discrepancies when re-running the case studies, and enforce consistent usage of \LaTeX{} macros.
 
+Note that \textbf{no} \gls{LLM} was trained or fine-tuned on the \gls{DiVA} corpus; rather, Gemini assisted in refining the lexicon and rule-based Python classifier (\texttt{sdg\_classifier\_dual\_language.py}) and identifying missing English and Swedish domain terms surfaced by the corpus-audit scripts. The author reviewed and verified all code modifications, lexicon additions, and textual revisions.
+
+\clearpage
+\section{Limitations}
+\label{sec:Limitations}
+
+A primary limitation of this study is the scarcity of scholarly metadata \textit{reliably} labeled with \glspl{SDG} at the target level. Author-supplied tags in \gls{DiVA} frequently reflect disciplinary self-identification, broad motivating premises, or occasional deposit errors rather than a standardized ground truth.
+
+A preliminary per-\gls{SDG} comparison of the dual-language classifier --- evaluated on the OSDG Community Dataset (OSDG-CD; see \Cref{tab:osdg_cd_per_sdg_PostRefinement}) and the AlmaSDG dataset (see \Cref{tab:almasdg_per_sdg_PostRefinement}) --- against the OpenAlex per-\gls{SDG} benchmark (\url{https://github.com/ourresearch/openalex-sdgs}) indicates that our rule-based approach achieves comparable accuracy to the OpenAlex classifier on its random sample of \num{2000} works\footnote{For which OpenAlex reports that \enquote{the new SDG tags are right \qty{68}{\percent} of the time and find \qty{72}{\percent} of the goals the works address.}}. Evaluating the dual-language classifier directly on that same \num{2000}-work OpenAlex benchmark remains a natural direction for future work.
+
+Three additional methodological constraints apply:
+\begin{itemize}
+  \item \textbf{Lexical Context Boundaries:} Unlike neural models, a curated bilingual lexicon cannot resolve novel semantic context without explicit rules; single parenthetical examples, boilerplate funding-program titles, or cross-domain homonyms can still generate trace noise unless constrained by negative lookarounds or human verification.
+  
+  \item \textbf{Upstream Repository Noise:} Automated recall and precision remain sensitive to upstream \gls{DiVA} record quality, including missing bilingual abstracts, non-standard Unicode characters, and PDF copy-paste word-fusion artifacts.
+  
+  \item \textbf{Unexplored Ensemble Tooling:} The R \texttt{text2sdg} package --- which aggregates multiple English-language query sets --- was not evaluated in this study, as my focus was on building an auditable, bilingual (English and Swedish) target-mapped classifier tailored to \gls{KTH}'s institutional repository (\ie \gls{DiVA}).
+\end{itemize}
 \clearpage
 \section{Conclusions}
 \label{sec:Conclusions}
@@ -4106,6 +4128,8 @@ Regarding classification tooling and metadata quality, two broader conclusions e
 
     \item \textbf{Repository Text Hygiene:} Real-world \gls{DiVA} records exhibit line-break whitespace stripping, PDF-paste word fusion, mojibake, non-NFC encoded characters, and homoglyph substitutions (\Cref{cs:CadastralGovernanceAndTextGluing,cs:LightPollutionAndPartialOverTagging,cs:SwedishGenderSafetyAndCrimeSDG5_16}), underscoring the need for automated ingestion normalization alongside transparent lexical auditing (\Cref{rec:divaQualityControl}).
 \end{itemize}
+
+
 
 \clearpage
 \section{Recommendations}
@@ -4126,6 +4150,21 @@ UN \glspl{SDG} are defined as universal policy objectives and outcomes rather th
 
 For example, if the defense or security relevance is \textbf{not} explicitly articulated in the thesis's problem framing, assigning \gls{SDG}~16 blurs the line between what the research actually investigates and what an external stakeholder might eventually use it for.
 \end{recommendation}
+
+\begin{recommendation}[Ensuring Accurate \gls{SDG} Association for Your Publication]
+\label{rec:EnsureSpecificSDGs}
+To ensure that both repository metadata and automated classifiers associate your publication with the appropriate \glspl{SDG}:
+\begin{enumerate}
+  \item \textbf{Select the relevant \glspl{SDG} directly in \gls{DiVA}} during deposit, restricting your choices to goals and targets that your work substantively addresses (rather than broad motivating premises or tangential examples).
+  
+  \item \textbf{State the primary \gls{SDG} alignment explicitly in your abstract} (for example, in a brief concluding sentence naming the relevant goals or targets), so both human readers and automated tools capture your intended scope.
+  
+  \item \textbf{Use official \gls{UN} \gls{SDG} goal and target terminology} in your abstract and author-supplied keywords --- ideally in both English and Swedish --- alongside your domain-specific technical nomenclature.
+\end{enumerate}
+\end{recommendation}
+
+Based upon this study's findings, providing bilingual abstracts (English and Swedish) substantially improves automated recall across both semantic and lexical classifiers (see \Cref{cs:ZeroHitSwedishLaborPolicy,cs:ZeroHitCulturalHeritageSDG11}). Similarly, author-supplied keywords (\enquote{keywords} in \gls{DiVA}) are routinely evaluated alongside the abstract(s) and often carry high-signal disciplinary terms. Finally, cross-linguistic differences in how concepts are lexicalized across English and Swedish help disambiguate polysemous terms that might otherwise trigger false positives in a single language (cf.\ \Cref{cs:CompetingPhysicalFalseFriends,cs:diva2_2078980}).
+
 
 \Needspace*{14\baselineskip}
 \subsection{For Supervisors, Repository Managers, and KTH Library}
@@ -4157,13 +4196,15 @@ Note that the program \fname{audit\_SDGs\_from\_JSON.py} is designed for auditin
 \begin{recommendation}[Mining Constituent Publications via OpenAlex for Compilation Theses]
 \label{rec:openAlexCompilationTheses}
 Because so few records in \gls{DiVA} currently contain \gls{SDG} notes (\num{330} unique records out of \num{163515} extracted publications; see \Cref{sec:Methodology}), mining existing \gls{DiVA} \gls{SDG} fields across the constituent papers of a compilation thesis (\foreignlanguage{swedish}{sammanläggningsavhandling}) is impractical in practice. However, because the constituent journal articles and conference papers of a compilation thesis are typically published prior to the defense, existing bibliography-checking workflows that already parse \glspl{DOI} and persistent identifiers from the thesis's \fname{references.bib} file can be extended in future work to query the OpenAlex \gls{API} (\texttt{sustainable\_development\_goals}) for each published constituent paper.
+\medskip
 
-Because OpenAlex's current \gls{SDG} pipeline relies on a closed-weights model without an open audit trail (\Cref{sec:context}), retrieved OpenAlex \glspl{SDG} should be treated strictly as candidate priors rather than authoritative labels. A helper utility can aggregate these OpenAlex candidates alongside local dual-language classifier match vectors computed over the constituent abstracts and the thesis \foreignlanguage{swedish}{kappa}, presenting an auditable summary table so that a doctoral candidate can verify which goals are genuinely substantiated across the thesis before entering metadata into \gls{DiVA}.
+Because OpenAlex's \gls{SDG} pipeline relies on a \gls{LLM} model, there is no open audit trail (\Cref{sec:context}); therefore, retrieved OpenAlex \glspl{SDG} should be treated strictly as candidate priors rather than authoritative labels. A helper utility can aggregate these OpenAlex candidates alongside local dual-language classifier match vectors computed over the constituent abstracts and the thesis \foreignlanguage{swedish}{kappa}, presenting an auditable summary table so that a doctoral candidate can verify which goals are genuinely substantiated across the thesis before entering metadata into \gls{DiVA}.
 \end{recommendation}
 
 \begin{recommendation}[Full-Text Classification of the Author's Source Document]
 \label{rec:fullTextAuthorSource}
 Unlike external bibliometric harvesters or retrospective repository audits that are restricted to titles, subtitles, keywords, and abstracts (\Cref{sec:scope_boundaries}), the author of a publication generally has direct access to the complete source manuscript. While \fname{sdg\_classifier\_dual\_language.py} already supports full-text \gls{PDF} input (including typographic ligature normalization, as shown in \Cref{lst:diva2:1914592-FULLTEXT04.pdf,lst:diva2:1922004-FULLTEXT01.pdf}), extending it as future work to parse raw \LaTeX{} source files directly would provide clean structural boundaries that are difficult to recover reliably from compiled \glspl{PDF}.
+\medskip
 
 Full-text classification recovers substantive \gls{SDG} contributions that are compressed or omitted in concise abstracts (\eg \Cref{cs:ImplicitVersusExplicitSDGs,cs:CompilationTheseWithDIverseSDGs}) and handles the \qty{5.5}{\percent} of \gls{DiVA} records lacking an abstract (\Cref{sec:scope_boundaries}). Comparing the full-text \gls{PDF} output for \texttt{diva2:1922004} (\Cref{lst:diva2:1922004-FULLTEXT01.pdf}) against its metadata-only \gls{JSON} record (\Cref{lst:t_11913}) illustrates this gain: \gls{SDG}~11 increases from \num{6} to \num{15} hits and \gls{SDG}~9 increases from \num{3} to \num{8} hits, surfacing \gls{SDG}~9 alongside the author's pre-assigned \gls{SDG}~11. At the same time, full-text evaluation of a complete dissertation (\Cref{lst:diva2:1914592-FULLTEXT04.pdf}) demonstrates that longer documents activate trace hits across many unrelated goals (\eg \num{14} of \num{17} goals firing from passing examples, proper nouns such as \enquote{World Bank}, or bibliography entries). Because reliably segmenting sections and stripping reference lists from arbitrary \gls{PDF} layouts is brittle due to running headers, page numbering, and varying multilingual section titles, \gls{PDF} mode should rely on scaling the minimum hit threshold (\texttt{--min-hits}) relative to document length, whereas parsing raw \LaTeX{} source files can cleanly exclude \texttt{\textbackslash printbibliography} and \texttt{\textbackslash bibliography} blocks and weight explicit structural sections (\eg abstracts, introductions, and conclusions).
 \end{recommendation}
@@ -4357,7 +4398,7 @@ Sample diva IDs per category:
 
 \item \textbf{classifier\_no\_goal\_ge2:} diva2:2082395 (assigned=[12]), diva2:1959347 (assigned=[11, 15, 17]), diva2:2058009 (assigned=[11]), diva2:1949475 (assigned=[11]), diva2:490040 (assigned=[11]), diva2:1938521 (assigned=[11]), diva2:2108430 (assigned=[11]), diva2:2013940 (assigned=[3, 7, 9, 12, 13])
 \end{enumerate}
-\clearpage
+
 The meaning of the different categories:
 \begin{enumerate}
 \item \textbf{no\_abstract:} There was or were not abstract(s).
@@ -4417,6 +4458,7 @@ On the \num{35626} positive-consensus excerpts, the dual-language classifier ach
 
 Equally important for metadata auditing is how the classifier treats false or tenuous goal associations. On the \num{6120} negative-consensus excerpts where human volunteers rejected the candidate \gls{SDG}, the dual-language classifier also rejected the candidate goal ($\text{not in Top-3}$) in \textbf{\num{5290} / \num{6120} (\SI{86.4}{\percent})} of cases, yielding an overall false-positive rate of only \SI{13.6}{\percent} (\num{830} / \num{6120}).
 
+\Needspace*{26\baselineskip}
 \subsection{Per-SDG Performance and Domain Complementarity}
 
 \Cref{tab:osdg_cd_per_sdg} reports the per-goal breakdown across all 17~\glspl{SDG}.
@@ -4575,7 +4617,7 @@ Publications with 0 Assigned SDGs       : 13
 
     \item \textbf{Precision vs.\ Recall Trade-Off on Broad Goals (\gls{SDG}~1 and \gls{SDG}~11):} Broad socio-economic and urban terms cause higher false-positive counts on \gls{SDG}~1 (\num{16} FP, driven by generic terms such as \enquote{poverty} or \enquote{inequality}) and \gls{SDG}~11 (\num{20} FP), whereas \gls{SDG}~17 (\qty{100}{\percent} precision, \qty{14.3}{\percent} recall) is under-predicted because partnership concepts are rarely captured by narrow keyword rules.
 
-    \item \textbf{Negative Control Behavior (\num{13} Zero-SDG Articles):} On the \num{13} AlmaSDG articles (\qty{9.4}{\percent} of the \num{139} articles) annotated with \num{0} \glspl{SDG}, the classifier abstained cleanly on \num{3} records (\qty{23.1}{\percent}: \texttt{11585/968220} with all zeros, plus \texttt{11585/966816} and \texttt{11585/950107} with single trace hits below \texttt{min\_hits=2}), paralleling the negative-control behavior in \Cref{cs:diva2_2107472}. On the remaining \num{10} records (\qty{76.9}{\percent}), the classifier emitted \num{17} false-positive goal predictions (\num{6} single-goal, \num{1} two-goal, and \num{3} three-goal outputs): \num{3} were borderline threshold hits (\eg \texttt{11585/965314} with \num{2} hits on \enquote{daylight} under \gls{SDG}~11 and \texttt{11585/964185} with \num{2} nested hits on \enquote{open-source software} under \gls{SDG}~9), whereas \num{7} contained dense sectoral vocabulary that human annotators nevertheless judged not to constitute a direct \gls{SDG} contribution (\eg \texttt{11585/951446} with \num{13} hits on \enquote{organic certification}/\enquote{smallholder} under \gls{SDG}~2, \texttt{11585/841898} with \num{13} hits on \enquote{forest owners} under \gls{SDG}~15, and \texttt{11585/114241} with \num{12} hits on \enquote{wage}/\enquote{labour supply} under \gls{SDG}~8). This confirms that lexical matching cannot distinguish topical domain vocabulary from genuine policy alignment on its own, reinforcing the need for human author review (\Cref{rec:explicitScope,rec:blankValidAndAudit}).
+    \item \textbf{Negative Control Behavior (\num{13} Zero-SDG Articles):} On the \num{13} AlmaSDG articles (\qty{9.4}{\percent} of the \num{139} articles) annotated with \num{0} \glspl{SDG}, the classifier abstained cleanly on \num{3} records (\qty{23.1}{\percent}: \qty{1.196}{\percent} with all zeros, plus \qty{1.198}{\percent} and \qty{1.22}{\percent} with single trace hits below \texttt{min\_hits=2}), paralleling the negative-control behavior in \Cref{cs:diva2_2107472}. On the remaining \num{10} records (\qty{76.9}{\percent}), the classifier emitted \num{17} false-positive goal predictions (\num{6} single-goal, \num{1} two-goal, and \num{3} three-goal outputs): \num{3} were borderline threshold hits (\eg \qty{1.20}{\percent} with \num{2} hits on \enquote{daylight} under \gls{SDG}~11 and \qty{1.20}{\percent} with \num{2} nested hits on \enquote{open-source software} under \gls{SDG}~9), whereas \num{7} contained dense sectoral vocabulary that human annotators nevertheless judged not to constitute a direct \gls{SDG} contribution (\eg \qty{1.22}{\percent} with \num{13} hits on \enquote{organic certification}/\enquote{smallholder} under \gls{SDG}~2, \qty{1.38}{\percent} with \num{13} hits on \enquote{forest owners} under \gls{SDG}~15, and \qty{10.141}{\percent} with \num{12} hits on \enquote{wage}/\enquote{labour supply} under \gls{SDG}~8). This confirms that lexical matching cannot distinguish topical domain vocabulary from genuine policy alignment on its own, reinforcing the need for human author review (\Cref{rec:explicitScope,rec:blankValidAndAudit}).
 \end{itemize}
 \clearpage
 	
@@ -4593,7 +4635,7 @@ LIMIT
   100000
 \end{verbatim}
 
-The records have the fields shown in \Cref{tab:sdgRecordFields}. The \texttt{record\_id} when prefixed by \texttt{"diva2:"} gives a DiVA ID. There is one row per SDG, with the \texttt{record\_id} repeated if there are multiple SDGs for a given publication. In the data extracted on 2026-11-23, there are \num{14849} rows.
+The records have the fields shown in \Cref{tab:sdgRecordFields}. The \texttt{record\_id} when prefixed by \texttt{"diva2:"} gives a \gls{DiVA} ID. There is one row per \gls{SDG}, with the \texttt{record\_id} repeated if there are multiple SDGs for a given publication. In the data extracted on 2026-11-23, there are \num{14849} rows.
 
 \begin{table}[!ht]
   \centering
@@ -4603,9 +4645,9 @@ The records have the fields shown in \Cref{tab:sdgRecordFields}. The \texttt{rec
     \toprule
     \textbf{Field} & \textbf{Type} & \textbf{Nullable} & \textbf{Description} \\
     \midrule
-    \texttt{record\_id}     & VARCHAR   & YES & DiVA publication identifier (without \enquote{diva2}) \\
-    \texttt{sdg\_id}        & INTEGER   & YES & UN SDG number 1--17 \\
-    \texttt{display\_name}  & VARCHAR   & YES & English SDG title \\
+    \texttt{record\_id}     & VARCHAR   & YES & \gls{DiVA} publication identifier (without \enquote{diva2}) \\
+    \texttt{sdg\_id}        & INTEGER   & YES & \gls{UN} \gls{SDG} number 1--17 \\
+    \texttt{display\_name}  & VARCHAR   & YES & English \gls{SDG} title \\
     \texttt{score}          & DOUBLE    & YES & Aurora classifier confidence score or \num{0} for native entries \\
     \texttt{source}         & VARCHAR   & YES & upstream classification source \\
     \texttt{classified\_at} & TIMESTAMP & YES & UTC timestamp of classification \\
@@ -4628,6 +4670,7 @@ For each matched publication $i$, let $S_i \subseteq \{1,\dots,17\}$ denote the 
 
 \Cref{tab:swemetrics_coverage} summarizes record linkage between the Swemetrics extract and the \gls{DiVA} \gls{JSON} repository dump. The \num{14849} valid Swemetrics rows collapse into \num{14308} unique publications (\num{1.038} \glspl{SDG} per publication on average), of which \num{10773} (\qty{75.3}{\percent}) are present in \texttt{combined\_JSON\_output.json}. The remaining \num{3535} Swemetrics records represent publications outside the JSON export window or document types absent from the extract.
 
+\Needspace*{14\baselineskip}
 \begin{table}[!ht]
   \centering
   \caption{Dataset coverage and record-linkage summary between the Swemetrics SQL extract (\num{14849} rows) and \texttt{/tmp/combined\_JSON\_output.json}.}
@@ -4642,11 +4685,11 @@ For each matched publication $i$, let $S_i \subseteq \{1,\dots,17\}$ denote the 
     Swemetrics malformed rows & \num{0} \\
     Swemetrics unique publications (\texttt{record\_id}) & \num{14308} \\
     \rowcolor{rowtint}
-    DiVA JSON unique publications (\texttt{diva2:*}) & \num{158115} \\
-    DiVA JSON duplicate entries skipped & \num{5400} \\
+    \gls{DiVA} \gls{JSON} unique publications (\texttt{diva2:*}) & \num{158115} \\
+    \gls{DiVA} \gls{JSON} duplicate entries skipped & \num{5400} \\
     \rowcolor{rowtint}
     Matched publications evaluated ($N$) & \num{10773} \\
-    Swemetrics publications missing from DiVA JSON & \num{3535} \\
+    Swemetrics publications missing from \gls{DiVA} \gls{JSON} & \num{3535} \\
     \rowcolor{rowtint}
     Matched publications with empty text fields & \num{10} \\
     \bottomrule
@@ -4679,7 +4722,7 @@ Stratifying the \num{10773} matched publications by Swemetrics' \texttt{source} 
 
 Key findings from the provenance stratification in \Cref{tab:swemetrics_source_metrics}:
 \begin{itemize}
-  \item \textbf{Strong concordance on \texttt{native} DiVA declarations ($N = \num{324}$):} Where authors or librarians explicitly declared \glspl{SDG} in \gls{DiVA}, the dual-language classifier places a validated goal at Rank~1 in \qty{84.6}{\percent} of publications, achieves at least one overlapping SDG in \qty{93.5}{\percent} (\num{303} / \num{324}\footnote{Representing \num{324} of the \num{330} unique \gls{DiVA} records with \glspl{SDG} extracted in \Cref{sec:Methodology}, the remaining \num{6} having been deposited or updated after Swemetrics' harvest)}), recovers the complete declared SDG set in \qty{62.7}{\percent}, and abstains in only \qty{3.1}{\percent} (\num{10} / \num{324}), yielding a micro-F1 of \qty{66.7}{\percent} (micro-precision \qty{65.3}{\percent}, micro-recall \qty{68.2}{\percent}) and a mean Jaccard similarity of
+  \item \textbf{Strong concordance on \texttt{native} \gls{DiVA} declarations ($N = \num{324}$):} Where authors or librarians explicitly declared \glspl{SDG} in \gls{DiVA}, the dual-language classifier places a validated goal at Rank~1 in \qty{84.6}{\percent} of publications, achieves at least one overlapping SDG in \qty{93.5}{\percent} (\num{303} / \num{324}\footnote{Representing \num{324} of the \num{330} unique \gls{DiVA} records with \glspl{SDG} extracted in \Cref{sec:Methodology}, the remaining \num{6} having been deposited or updated after Swemetrics' harvest)}), recovers the complete declared SDG set in \qty{62.7}{\percent}, and abstains in only \qty{3.1}{\percent} (\num{10} / \num{324}), yielding a micro-F1 of \qty{66.7}{\percent} (micro-precision \qty{65.3}{\percent}, micro-recall \qty{68.2}{\percent}) and a mean Jaccard similarity of
   \num[group-minimum-digits=0]{0.5650}.
   
   \item \textbf{Substantial divergence from \texttt{aurora} automated labels ($N = \num{10449}$):} Over \qty{97}{\percent} of Swemetrics records originate from the automated Aurora model, which frequently assigns \glspl{SDG} to short journal articles, conference papers, or abstracts lacking sufficient domain-specific lexical density to cross our strict $\text{min-hits} \ge 2$ threshold (resulting in a \qty{39.6}{\percent} abstention rate and \qty{36.6}{\percent} set overlap).
@@ -4687,7 +4730,7 @@ Key findings from the provenance stratification in \Cref{tab:swemetrics_source_m
 
 \subsubsection{Per-SDG Comparative Distribution and Lexical Grounding}
 
-\Cref{tab:swemetrics_per_sdg} contrasts per-goal assignment counts across Swemetrics (\texttt{Swe N}), the dual-language classifier (\texttt{Pred N}), and native DiVA metadata (\texttt{DiVA N}) across all \num{10773} matched publications, together with true positives ($\text{TP}$), false positives ($\text{FP}$), false negatives ($\text{FN}$), precision, recall, $\text{F1}$, and the number of Swemetrics assignments registering zero lexical hits (\texttt{0-Hit}) in the publication's title, keywords, and abstracts.
+\Cref{tab:swemetrics_per_sdg} contrasts per-goal assignment counts across Swemetrics (\texttt{Swe N}), the dual-language classifier (\texttt{Pred N}), and native \gls{DiVA} metadata (\texttt{DiVA N}) across all \num{10773} matched publications, together with true positives ($\text{TP}$), false positives ($\text{FP}$), false negatives ($\text{FN}$), precision, recall, $\text{F1}$, and the number of Swemetrics assignments registering zero lexical hits (\texttt{0-Hit}) in the publication's title, keywords, and abstracts.
 
 \begin{table}[!ht]
   \centering
@@ -4763,7 +4806,7 @@ $$\text{Precision}_g = \frac{\text{TP}_g}{\text{TP}_g + \text{FP}_g}, \qquad \te
 
 Three diagnostic patterns stand out in \Cref{tab:swemetrics_per_sdg}:
 \begin{enumerate}
-  \item \textbf{Consistent \gls{KTH} disciplinary concentration across all three systems:} Swemetrics, the dual-language classifier, and native DiVA declarations all identify the same core institutional pillars --- \gls{SDG}~7 (\num{2294} Swemetrics / \num{1214} classifier), \gls{SDG}~9 (\num{2027} / \num{3149}), \gls{SDG}~11 (\num{1862} / \num{1786}), \gls{SDG}~12 (\num{616} / \num{985}), and \gls{SDG}~3 (\num{364} / \num{961}) --- whereas native DiVA metadata covers only \num{724} goal assignments across \num{324} publications in this cohort.
+  \item \textbf{Consistent \gls{KTH} disciplinary concentration across all three systems:} Swemetrics, the dual-language classifier, and native \gls{DiVA} declarations all identify the same core institutional pillars --- \gls{SDG}~7 (\num{2294} Swemetrics / \num{1214} classifier), \gls{SDG}~9 (\num{2027} / \num{3149}), \gls{SDG}~11 (\num{1862} / \num{1786}), \gls{SDG}~12 (\num{616} / \num{985}), and \gls{SDG}~3 (\num{364} / \num{961}) --- whereas native \gls{DiVA} metadata covers only \num{724} goal assignments across \num{324} publications in this cohort.
   
   \item \textbf{High recall on health, circularity, gender, and industrial infrastructure:} The dual-language classifier recovers \qty{83.2}{\percent} of Swemetrics \gls{SDG}~3 assignments (\num{303} / \num{364}), \qty{59.9}{\percent} of \gls{SDG}~12 (\num{369} / \num{616}), \qty{56.6}{\percent} of \gls{SDG}~5 (\num{60} / \num{106}), \qty{50.7}{\percent} of \gls{SDG}~2 (\num{38} / \num{75}), and \qty{50.2}{\percent} of \gls{SDG}~9 (\num{1018} / \num{2027}), while capturing \num{2131} additional \gls{SDG}~9 and \num{898} additional \gls{SDG}~11 publications where Aurora omitted technical infrastructure tags.
   
@@ -5091,7 +5134,6 @@ Examining the per-goal shifts in \Cref{tab:swemetrics_per_sdgPostRefinement} hig
   Even after lexicon enrichment, large \texttt{0-Hit} counts remain concentrated in \gls{SDG}~7 (\num{1390}), \gls{SDG}~4 (\num{488}), \gls{SDG}~6 (\num{475}), and \gls{SDG}~16 (\num{377}). Diagnostic $n$-gram mining of these \texttt{0-Hit} records confirms that they stem primarily from systematic false positives in Aurora's algorithmic queries on \gls{KTH} technical abstracts—specifically particle physics, cosmic rays, and photonics (\enquote{optical}, \enquote{laser}, \enquote{GHz}) misclassified as \gls{SDG}~7; speech technology and prosody (\enquote{speech}, \enquote{language}, \enquote{prosodic}) misclassified as \gls{SDG}~4; boiling-water nuclear reactor thermal-hydraulics (\enquote{BWR}, \enquote{water reactors}) misclassified as \gls{SDG}~6; and mechanical \enquote{degrees of freedom} or reinforcement-learning \enquote{Markov decision processes} (MDPs) misclassified as \gls{SDG}~16. Intentionally excluding these false-friend terms preserves precision on genuine sustainability publications.
 \end{enumerate}
 
-\subsubsection{Benchmarking Against AlmaSDG SDG Assignments (Post-Refinement)}
 \subsubsection{Comparison of Pre-Refinement and Post-Refinement AlmaSDG Results}
 \label{sec:almasdg_pre_post_comparison}
 
