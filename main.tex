@@ -4101,7 +4101,7 @@ Note that \textbf{no} \gls{LLM} was trained or fine-tuned on the \gls{DiVA} corp
 
 A primary limitation of this study is the scarcity of scholarly metadata \textit{reliably} labeled with \glspl{SDG} at the target level. Author-supplied tags in \gls{DiVA} frequently reflect disciplinary self-identification, broad motivating premises, or occasional deposit errors rather than a standardized ground truth
 
-Note that the daul-language classifier worked well on the AlmaSDG dataset (see \Cref{tab:almasdg_per_sdg_PostRefinement}).
+Note that the dual-language classifier worked well on the AlmaSDG dataset (see \Cref{tab:almasdg_per_sdg_PostRefinement}).
 
 A preliminary per-\gls{SDG} comparison of the dual-language classifier --- evaluated on the OSDG Community Dataset (OSDG-CD; see \Cref{tab:osdg_cd_per_sdg_PostRefinement}) --- against the OpenAlex per-\gls{SDG} benchmark (\url{https://github.com/ourresearch/openalex-sdgs}) indicates that our rule-based approach achieves comparable accuracy to the OpenAlex classifier on its random sample of \num{2000} works\footnote{For which OpenAlex reports that \enquote{the new SDG tags are right \qty{68}{\percent} of the time and find \qty{72}{\percent} of the goals the works address.}}. Evaluating the dual-language classifier directly on that same \num{2000}-work OpenAlex benchmark remains a natural direction for future work.
 
